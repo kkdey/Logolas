@@ -3,28 +3,39 @@
 grid.newpage()
 pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,
                       clip=TRUE))
-grid.rect(gp=gpar(col="grey"))
 
 
-x <- c( 0.25, 0, 0.15, 0.30, 0.5, 0.70, 0.85, 1, 0.75, 0.5)
-y <- c( 0, 1, 1, 0.3, 0.7, 0.3, 1, 1, 0, 0.4)
-#x <- 0.1*x
-#y <- 0.1*y
+Wletter <- function(fill_symbol = TRUE,
+                    colfill="green",
+                    lwd =10){
+      x <- c( 0.25, 0, 0.15, 0.30, 0.5, 0.70, 0.85, 1, 0.75, 0.5)
+      y <- c( 0, 1, 1, 0.3, 0.7, 0.3, 1, 1, 0, 0.4)
 
-id <- rep(1,10)
 
-fill_symbol <- TRUE
+      id <- rep(1,length(x))
 
-if(fill_symbol){
-  grid.polygon(x, y,
-               default.unit="native",
-               id=id,
-               gp=gpar(fill="green", 
-                       lwd=1))
-}else{
-  grid.polygon(x, y,
-               default.unit="native",
-               id=id,
-               gp=gpar(col="green", 
-                       lwd=10))
+      fill <- colfill
+      
+      if(fill_symbol){
+              grid.polygon(x, y,
+                           default.unit="native",
+                           id=id,
+                           gp=gpar(fill=fill, 
+                                   lwd=lwd))
+      }else{
+             grid.polygon(x, y,
+                          default.unit="native",
+                          id=id,
+                          gp=gpar(col=colfill, 
+                                  lwd=lwd))
+      }
+      
+      ll <- list("x"= x, 
+                 "y"= y,
+                 "id" = id,
+                 "fill" = fill)
+      return(ll)
 }
+
+out <- Wletter()
+
