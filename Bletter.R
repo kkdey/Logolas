@@ -54,8 +54,6 @@ Bletter <- function(fill_symbol = TRUE,
 
     id <- c(rep(1, length(x)-length(inner_x1) - length(inner_x2)), 
             rep(2, (length(inner_x1))), rep(3, length(inner_x2)))
-
-    fill_symbol <- TRUE
     fill <- c(colfill, "white", "white")
 
     if(fill_symbol){

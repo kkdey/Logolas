@@ -6,37 +6,49 @@
 grid.newpage()
 pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,
                       clip=TRUE))
-grid.rect(gp=gpar(col="grey"))
+
+Oletter <- function(fill_symbol = TRUE,
+                    colfill="green",
+                    lwd =10){
+  
+      angle <- c(seq(0, 2*pi, length.out=100))
+
+      y.l1 <- 0.5 + 0.45*sin(angle)
+      x.l1 <- 0.5 + 0.45*cos(angle)
 
 
-angle <- c(seq(0, 2*pi, length.out=100))
+      y.l2 <- 0.5 + 0.3*sin(angle)
+      x.l2 <- 0.5 + 0.3*cos(angle)
 
-y.l1 <- 0.5 + 0.45*sin(angle)
-x.l1 <- 0.5 + 0.45*cos(angle)
+      id <- c(rep(1, length(x.l1)), rep(2, length(x.l2)))
 
+      x <- c(x.l1, x.l2)
+      y <- c(y.l1, y.l2)
+      
+      fill <- c(colfill,"white")
 
-y.l2 <- 0.5 + 0.3*sin(angle)
-x.l2 <- 0.5 + 0.3*cos(angle)
-
-id <- c(rep(1, length(x.l1)), rep(2, length(x.l2)))
-
-x <- c(x.l1, x.l2)
-y <- c(y.l1, y.l2)
-
-fill_symbol <- TRUE
-
-if(fill_symbol){
-  grid.polygon(x, y,
-               default.unit="native",
-               id=id,
-               gp=gpar(fill=c("green","white"), 
-                       lwd=10))
-}else{
-  grid.polygon(x, y,
-               default.unit="native",
-               id=id,
-               gp=gpar(col="green", 
-                       lwd=10))
+      if(fill_symbol){
+              grid.polygon(x, y,
+                        default.unit="native",
+                        id=id,
+                        gp=gpar(fill=fill, 
+                                lwd=lwd))
+          }else{
+              grid.polygon(x, y,
+                        default.unit="native",
+                        id=id,
+                        gp=gpar(col=colfill, 
+                                lwd=lwd))
+          }
+      
+      ll <- list("x"= x, 
+                 "y"= y,
+                 "id" = id,
+                 "fill" = fill)
+      return(ll)
 }
+
+out <- Oletter()
+
 
 

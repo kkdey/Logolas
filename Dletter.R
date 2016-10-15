@@ -24,12 +24,11 @@ Dletter <- function(fill_symbol = TRUE,
     x_in <- c(0.2, 0.5, rev(x.l2), 0.2, 0.2)
     y_in <- c(0.2, 0.2, rev(y.l2), 0.8, 0.2)
 
-    id <- c(rep(1, length(x_out)), rep(2, length(x_in)))
 
     x <- c(x_out, x_in)
     y <- c(y_out, y_in)
 
-    fill_symbol <- TRUE
+    id <- c(rep(1, length(x_out)), rep(2, length(x_in)))
     fill <- c(colfill, "white")
     
 
