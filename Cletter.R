@@ -41,8 +41,6 @@ Cletter <- function(fill_symbol = TRUE,
     y <- c(y,rev(y1))
 
     id <- rep(1, length(x))
-
-    fill_symbol <- TRUE
     fill <- colfill
 
     if(fill_symbol){

@@ -17,8 +17,6 @@ Eletter <- function(fill_symbol = TRUE,
     y <- c(0,1,1,0.85,0.85,0.575,0.575,0.425,0.425,0.15,0.15,0)
 
     id <- rep(1,12)
-
-    fill_symbol <- TRUE
     fill <- colfill
 
     if(fill_symbol){

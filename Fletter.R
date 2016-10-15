@@ -16,8 +16,6 @@ Fletter <- function(fill_symbol = TRUE,
       id <- rep(1,10)
       fill <- colfill
 
-      fill_symbol <- TRUE
-
       if(fill_symbol){
             grid.polygon(x, y,
                          default.unit="native",
