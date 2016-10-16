@@ -1,13 +1,13 @@
 
 
 #############   Letter  C   ###########################
-rm(list=ls())
 grid.newpage()
 pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,
                       clip=TRUE))
 
 Cletter <- function(fill_symbol = TRUE,
-                    colfill="green"){
+                    colfill="green",
+                    lwd=10){
   
     angle1 <- seq(0.3+pi/2,pi,length=100)
     angle2 <- seq(pi,1.5*pi,length=100)
@@ -47,14 +47,14 @@ Cletter <- function(fill_symbol = TRUE,
         grid.polygon(x, y,
                      default.unit="native",
                      id=id,
-                     gp=gpar(fill=colfill, 
-                              lwd=10))
+                     gp=gpar(fill=fill, 
+                              lwd=lwd))
       }else{
         grid.polygon(x, y,
                      default.unit="native",
                      id=id,
-                     gp=gpar(col="green", 
-                       lwd=10))
+                     gp=gpar(col=colfill, 
+                       lwd=lwd))
       }
     
     ll <- list("x"= x, 
