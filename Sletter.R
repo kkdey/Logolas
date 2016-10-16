@@ -36,7 +36,7 @@ Sletter <- function(fill_symbol = TRUE,
 
       id <- c(rep(1, length(x)))
 
-      fill <- c(colfill, "white")
+      fill <- colfill
       
       if(fill_symbol){
             grid.polygon(x, y,

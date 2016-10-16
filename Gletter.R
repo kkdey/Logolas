@@ -49,11 +49,11 @@ Gletter <- function(fill_symbol = TRUE,
       x.add <- c(r1,0.5,0.5,r1-0.2,r1-0.2,r1,r1)
       y.add <- c(h1,h1,h1-0.1,h1-0.1,0,0,h1)
 
-
+      id <- c(rep(1,length(x)),rep(2,length(x.add)))
+      
       x <- c(rev(x),x.add)
       y <- c(rev(y),y.add)
       
-      id <- c(rep(1,length(x)),rep(2,length(x.add)))
       fill <- c(colfill, colfill)
       
 
@@ -68,7 +68,7 @@ Gletter <- function(fill_symbol = TRUE,
                         default.unit="native",
                         id=id,
                         gp=gpar(col=colfill, 
-                                lwd=10))
+                                lwd=lwd))
         }
       
       ll <- list("x"= x, 
