@@ -190,10 +190,11 @@ counts_mat <- rbind(c(0, 10, 100, 60, 20),
 )
 
 colnames(counts_mat) <- c("2012", "2013", "2014", "2015", "2016")
-rownames(counts_mat) <- c("Politics", "Science", "Religion",
-                          "Literature")
+rownames(counts_mat) <- c("Kushal", "Gao", "Hussein",
+                          "Joyce")
 
 logomaker(counts_mat, 
           cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],name = "Spectral"),
-          frame_width = 1)
+          frame_width = 1,
+          ic.scale = FALSE)
 
