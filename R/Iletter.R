@@ -2,41 +2,42 @@
 
 #############   Letter  I   ###########################
 
-
-grid.newpage()
-pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,
-                      clip=TRUE))
-
-
-Iletter <- function(fill_symbol = TRUE,
+Iletter <- function(plot = FALSE,
+                    fill_symbol = TRUE,
                     colfill="green",
                     lwd =10){
-  
+
     x <- c(0, 0, 0.4, 0.4, 0, 0, 1, 1, 0.6, 0.6, 1, 1)
     y <- c(0, 0.15, 0.15, 0.85, 0.85, 1, 1, 0.85, 0.85, 0.15, 0.15, 0)
 
     id <- rep(1,length(x))
     fill <- colfill
 
-    if(fill_symbol){
+    if(plot){
+      grid.newpage()
+      pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,
+                            clip=TRUE))
+      if(fill_symbol){
         grid.polygon(x, y,
                      default.unit="native",
                      id=id,
-                     gp=gpar(fill=fill, 
-                            lwd=lwd))
+                     gp=gpar(fill=fill,
+                             lwd=lwd))
       }else{
         grid.polygon(x, y,
                      default.unit="native",
                      id=id,
-                     gp=gpar(col=colfill, 
-                           lwd=lwd))
+                     gp=gpar(col=colfill,
+                             lwd=lwd))
       }
-    
-    ll <- list("x"= x, 
+    }
+
+
+    ll <- list("x"= x,
                "y"= y,
                "id" = id,
                "fill" = fill)
     return(ll)
 }
 
-out <- Iletter()
+## out <- Iletter(plot = TRUE)
