@@ -6,7 +6,16 @@ sapply(list.files(pattern="letter", full.names = TRUE), source)
 
 makemylogo <- function(name, colfill="orange"){
   
-  chars <- paste0(strsplit(name, "")[[1]], "letter")
+  split_string <- strsplit(name, "")[[1]]
+  split_string[grep("[-]", split_string)] <- "dash"
+  split_string[grep("[.]", split_string)] <- "dot"
+  split_string[grep("[>]", split_string)] <- "rightarrow"
+  split_string[grep("[<]", split_string)] <- "leftarrow"
+  split_string[grep("[,]", split_string)] <- "comma"
+  split_string[grep("[:]", split_string)] <- "colon"
+  split_string[grep("[;]", split_string)] <- "semicolon"
+  
+  chars <- paste0(split_string, "letter")
   xpool <- numeric()
   ypool <- numeric()
   idpool <- numeric()
@@ -44,4 +53,5 @@ makemylogo <- function(name, colfill="orange"){
 makemylogo("KUSHAL")
 makemylogo("MATTHEW", colfill="red")
 makemylogo("PURABI", colfill="blue")
+makemylogo("Q-BIO.QM;A,DD>R::C")
 
