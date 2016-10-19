@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n\n\n###########   dash letter  ######################\n\ndashletter <- function(plot = FALSE,\n                       fill_symbol = TRUE,\n                       colfill=\"green\",\n                       lwd =10){\n\n  x <- c(0.25, 0.25, 0.75, 0.75)\n  y <- c(0.45, 0.6, 0.6, 0.45)\n\n  id <- rep(1, length(x))\n\n  fill <- colfill\n\n  if(plot){\n    grid.newpage()\n    pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,\n                          clip=TRUE))\n    if(fill_symbol){\n      grid.polygon(x, y,\n                   default.unit=\"native\",\n                   id=id,\n                   gp=gpar(fill=fill,\n                           lwd=lwd))\n    }else{\n      grid.polygon(x, y,\n                   default.unit=\"native\",\n                   id=id,\n                   gp=gpar(col=colfill,\n                           lwd=lwd))\n    }\n  }\n\n\n\n  ll <- list(\"x\"= x,\n             \"y\"= y,\n             \"id\" = id,\n             \"fill\" = fill)\n  return(ll)\n}\n\n## out <- dashletter(plot = TRUE)\n\n\n\n",
+    "created" : 1476915030167.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2160482771",
+    "id" : "D417F429",
+    "lastKnownWriteTime" : 1476915078,
+    "last_content_update" : 1476915078541,
+    "path" : "~/Documents/Logolas/R/dashletter.R",
+    "project_path" : "R/dashletter.R",
+    "properties" : {
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

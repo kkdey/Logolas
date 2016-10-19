@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n\n###############  Z  letter   ###########################\n\nZletter <- function(plot = FALSE,\n                    fill_symbol = TRUE,\n                    colfill=\"green\",\n                    lwd =10){\n\n      x <- c(0, 1, 1, 0.25, 1, 1, 0, 0, 0.75, 0)\n      y <- c(1, 1, 0.8, 0.2, 0.2, 0, 0, 0.25, 0.8, 0.8)\n\n      id <- c(rep(1, length(x)))\n\n      fill <- colfill\n\n      if(plot){\n        grid.newpage()\n        pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,\n                              clip=TRUE))\n        if(fill_symbol){\n          grid.polygon(x, y,\n                       default.unit=\"native\",\n                       id=id,\n                       gp=gpar(fill=fill,\n                               lwd=lwd))\n        }else{\n          grid.polygon(x, y,\n                       default.unit=\"native\",\n                       id=id,\n                       gp=gpar(col=colfill,\n                               lwd=lwd))\n        }\n      }\n\n\n      ll <- list(\"x\"= x,\n                 \"y\"= y,\n                 \"id\" = id,\n                 \"fill\" = fill)\n      return(ll)\n}\n\n## out <- Zletter(plot = TRUE)\n\n\n",
+    "created" : 1476914854546.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "945705824",
+    "id" : "9145E4A1",
+    "lastKnownWriteTime" : 1476914898,
+    "last_content_update" : 1476914898662,
+    "path" : "~/Documents/Logolas/R/Zletter.R",
+    "project_path" : "R/Zletter.R",
+    "properties" : {
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

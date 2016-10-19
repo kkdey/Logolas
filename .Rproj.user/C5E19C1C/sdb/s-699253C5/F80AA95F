@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#############   Letter  Y   ###########################\n\nYletter <- function(plot = FALSE,\n                    fill_symbol = TRUE,\n                    colfill=\"green\",\n                    lwd =10){\n\n      x <- c(  0.4, 0.4, 0, 0.2, 0.5, 0.8, 1, 0.6, 0.6)\n      y <- c(  0, 0.5, 1, 1, 0.6, 1, 1, 0.5, 0)\n\n\n      id <- rep(1,length(x))\n\n      fill <- colfill\n\n      if(plot){\n        grid.newpage()\n        pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,\n                              clip=TRUE))\n        if(fill_symbol){\n          grid.polygon(x, y,\n                       default.unit=\"native\",\n                       id=id,\n                       gp=gpar(fill=fill,\n                               lwd=lwd))\n        }else{\n          grid.polygon(x, y,\n                       default.unit=\"native\",\n                       id=id,\n                       gp=gpar(col=colfill,\n                               lwd=lwd))\n        }\n      }\n\n      ll <- list(\"x\"= x,\n                 \"y\"= y,\n                 \"id\" = id,\n                 \"fill\" = fill)\n      return(ll)\n}\n\n## out <- Yletter(plot = TRUE)\n\n",
+    "created" : 1476914801784.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3977454551",
+    "id" : "F80AA95F",
+    "lastKnownWriteTime" : 1476914847,
+    "last_content_update" : 1476914847597,
+    "path" : "~/Documents/Logolas/R/Yletter.R",
+    "project_path" : "R/Yletter.R",
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

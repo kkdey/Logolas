@@ -2,15 +2,11 @@
 
 ################   G letter  ################################
 
-#rm(list=ls())
-grid.newpage()
-pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,
-                      clip=TRUE))
-
-Gletter <- function(fill_symbol = TRUE,
+Gletter <- function(plot = FALSE,
+                    fill_symbol = TRUE,
                     colfill="green",
                     lwd =10){
-  
+
       angle1 <- seq(0.3+pi/2,pi,length=100)
       angle2 <- seq(pi,1.5*pi,length=100)
       x.l1 <- 0.5 + 0.5*sin(angle1)
@@ -50,33 +46,39 @@ Gletter <- function(fill_symbol = TRUE,
       y.add <- c(h1,h1,h1-0.1,h1-0.1,0,0,h1)
 
       id <- c(rep(1,length(x)),rep(2,length(x.add)))
-      
+
       x <- c(rev(x),x.add)
       y <- c(rev(y),y.add)
-      
-      fill <- c(colfill, colfill)
-      
 
-      if(fill_symbol){
-            grid.polygon(x, y,
-                        default.unit="native",
-                        id=id,
-                        gp=gpar(fill=fill, 
-                                lwd=lwd))
+      fill <- c(colfill, colfill)
+
+
+      if(plot){
+        grid.newpage()
+        pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,
+                              clip=TRUE))
+        if(fill_symbol){
+          grid.polygon(x, y,
+                       default.unit="native",
+                       id=id,
+                       gp=gpar(fill=fill,
+                               lwd=lwd))
         }else{
-            grid.polygon(x, y,
-                        default.unit="native",
-                        id=id,
-                        gp=gpar(col=colfill, 
-                                lwd=lwd))
+          grid.polygon(x, y,
+                       default.unit="native",
+                       id=id,
+                       gp=gpar(col=colfill,
+                               lwd=lwd))
         }
-      
-      ll <- list("x"= x, 
+      }
+
+
+      ll <- list("x"= x,
                  "y"= y,
                  "id" = id,
                  "fill" = fill)
       return(ll)
 }
 
-out <- Gletter()
+## out <- Gletter(plot=TRUE)
 
