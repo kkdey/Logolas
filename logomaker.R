@@ -49,7 +49,9 @@ logomaker <- function( table,
                        y_fontsize=15,
                        start=0.0001,
                        yscale_change=TRUE,
-                       pop_name = NULL ){
+                       pop_name = NULL,
+                       xlab = "X",
+                       ylab = "Information content"){
   
   if(length(cols) != dim(table)[1]){
     stop("the number of colors must match the number of symbols")
@@ -94,7 +96,7 @@ logomaker <- function( table,
       ylim <- 2
       facs <- ic
     }
-    ylab <- "Information content"
+    ylab <- ylab
   }else{
     ylim <- 1
     ylab <- "Probability"
@@ -152,10 +154,10 @@ logomaker <- function( table,
   }
   
   if(is.null(pop_name)){
-    grid.text("Damage logo plot", y = unit(1, "npc") + unit(1.5, "lines"),
+    grid.text("Logo plot", y = unit(1, "npc") + unit(1.5, "lines"),
               gp = gpar(fontsize = 16))
   }else{
-    grid.text(paste0("Damage logo plot for ", pop_name), y = unit(1, "npc") + unit(1.5, "lines"),
+    grid.text(paste0("Logo plot of ", pop_name), y = unit(1, "npc") + unit(1.5, "lines"),
               gp = gpar(fontsize = 16))
   }
   
@@ -163,7 +165,7 @@ logomaker <- function( table,
     grid.xaxis(at=wt*seq(0.5,ncol(table_mat_norm)-0.5),
                label=colnames(table_mat_norm), 
                gp=gpar(fontsize=xaxis_fontsize))
-    grid.text("Position",y=unit(-3,"lines"), gp=gpar(fontsize=xaxis_fontsize))
+    grid.text(xlab, y=unit(-3,"lines"), gp=gpar(fontsize=xaxis_fontsize))
   }
   if (yaxis){
     if(yscale_change==TRUE){

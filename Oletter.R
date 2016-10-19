@@ -13,12 +13,12 @@ Oletter <- function(fill_symbol = TRUE,
   
       angle <- c(seq(0, 2*pi, length.out=100))
 
-      y.l1 <- 0.5 + 0.45*sin(angle)
-      x.l1 <- 0.5 + 0.45*cos(angle)
+      y.l1 <- 0.5 + 0.5*sin(angle)
+      x.l1 <- 0.5 + 0.5*cos(angle)
 
 
-      y.l2 <- 0.5 + 0.3*sin(angle)
-      x.l2 <- 0.5 + 0.3*cos(angle)
+      y.l2 <- 0.5 + 0.35*sin(angle)
+      x.l2 <- 0.5 + 0.35*cos(angle)
 
       id <- c(rep(1, length(x.l1)), rep(2, length(x.l2)))
 

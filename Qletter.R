@@ -12,12 +12,12 @@ Qletter <- function(fill_symbol = TRUE,
   
       angle <- c(seq(0, 2*pi, length.out=100))
 
-      y.l1 <- 0.5 + 0.45*sin(angle)
-      x.l1 <- 0.5 + 0.45*cos(angle)
+      y.l1 <- 0.5 + 0.5*sin(angle)
+      x.l1 <- 0.5 + 0.5*cos(angle)
 
 
-      y.l2 <- 0.5 + 0.3*sin(angle)
-      x.l2 <- 0.5 + 0.3*cos(angle)
+      y.l2 <- 0.5 + 0.35*sin(angle)
+      x.l2 <- 0.5 + 0.35*cos(angle)
 
       x.l3 <- c(0.6, 0.8, 1, 0.8)
       y.l3 <- c(0.3, 0.3, 0, 0)
