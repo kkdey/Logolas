@@ -23,6 +23,7 @@ Dletter <- function(plot=FALSE,
 
 
     x <- c(x_out, x_in)
+    x <- 0.05 + 0.90*x
     y <- c(y_out, y_in)
 
     id <- c(rep(1, length(x_out)), rep(2, length(x_in)))

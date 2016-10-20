@@ -22,6 +22,7 @@ Qletter <- function(plot = FALSE,
 
 
       x <- c(x.l1, x.l2, x.l3)
+      x <- 0.05 + 0.90*x
       y <- c(y.l1, y.l2, y.l3)
 
       id <- c(rep(1, length(x.l1)), rep(2, length(x.l2)), rep(3, length(x.l3)))

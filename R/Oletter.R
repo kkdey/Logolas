@@ -2,7 +2,7 @@
 
 #############   Letter  O  ###########################
 
-Oletter <- function(plot = TRUE,
+Oletter <- function(plot = FALSE,
                     fill_symbol = TRUE,
                     colfill="green",
                     lwd =10){
@@ -19,6 +19,7 @@ Oletter <- function(plot = TRUE,
       id <- c(rep(1, length(x.l1)), rep(2, length(x.l2)))
 
       x <- c(x.l1, x.l2)
+      x <- 0.05 + 0.90*x
       y <- c(y.l1, y.l2)
 
       fill <- c(colfill,"white")
@@ -50,7 +51,7 @@ Oletter <- function(plot = TRUE,
       return(ll)
 }
 
-out <- Oletter(plot = TRUE)
+## out <- Oletter(plot = TRUE)
 
 
 

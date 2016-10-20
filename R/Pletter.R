@@ -3,7 +3,7 @@
 ##################   P letter  #############################
 
 
-Pletter <- function(plot = TRUE,
+Pletter <- function(plot = FALSE,
                     fill_symbol = TRUE,
                     colfill="green",
                     lwd =10){
@@ -20,6 +20,7 @@ Pletter <- function(plot = TRUE,
 
 
       x <- 0.2+c(0, 0, 0.5, x.l1, 0.25, 0.25, inner_x)
+      x <- 0.05 + 0.90*x
       y <- c(0, 1,  1,  y.l1, 0.5, 0, inner_y)
 
       id <- c(rep(1, length(x)-length(inner_x)), rep(2, length(inner_x)))

@@ -8,6 +8,7 @@ Tletter <- function(plot = FALSE,
                     lwd =10){
 
       x <- c( 0.4, 0.4, 0, 0, 1, 1, 0.6, 0.6)
+      x <- 0.05 + 0.90*x
       y <- c( 0, 0.85, 0.85, 1, 1, 0.85, 0.85, 0)
 
       id <- rep(1,length(x))
@@ -40,4 +41,4 @@ Tletter <- function(plot = FALSE,
       return(ll)
 }
 
-out <- Tletter(plot = TRUE)
+## out <- Tletter(plot = TRUE)
