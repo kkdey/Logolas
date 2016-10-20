@@ -47,6 +47,7 @@ Bletter <- function(plot=FALSE,
 
 
     x <- c(0, 0, 0.5, x.l1, x.l2, inner_x1, inner_x2)
+    x <- 0.05 + 0.90*x
     y <- c(0, 1, 1, y.l1, y.l2, inner_y1, inner_y2)
 
     id <- c(rep(1, length(x)-length(inner_x1) - length(inner_x2)),

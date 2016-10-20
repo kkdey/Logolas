@@ -19,7 +19,8 @@ Rletter <- function(plot = FALSE,
       inner_y <- c(0.90, 0.90, y.l2, 0.60)
 
 
-      x <- c(0, 0, 0.5, x.l1, 0.3, 0.9, 0.7, 0.2, 0.2, inner_x)
+      x <- c(0, 0, 0.5, x.l1, 0.3, 0.9, 0.6, 0.2, 0.2, inner_x)
+      x <- 0.05 + 0.90*x
       y <- c(0, 1,  1,  y.l1, 0.5, 0,  0,  0.4,  0, inner_y)
 
       id <- c(rep(1, length(x)-length(inner_x)), rep(2, length(inner_x)))

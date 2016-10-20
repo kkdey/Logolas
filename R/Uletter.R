@@ -17,6 +17,7 @@ Uletter <- function(plot = FALSE,
 
 
       x <- c(0, x.l1, 1, 0.8, rev(x.l2), 0.2)
+      x <- 0.05 + 0.90*x
       y <- c(1, y.l1, 1, 1, rev(y.l2), 1)
 
       id <- c(rep(1, length(x)))

@@ -37,6 +37,7 @@ Cletter <- function(plot=FALSE,
     y1 <- c(y.i,1-rev(y.i))
 
     x <- c(x,rev(x1))
+    x <- 0.05 + 0.90*x
     y <- c(y,rev(y1))
 
     id <- rep(1, length(x))

@@ -48,6 +48,7 @@ Gletter <- function(plot = FALSE,
       id <- c(rep(1,length(x)),rep(2,length(x.add)))
 
       x <- c(rev(x),x.add)
+      x <- 0.05 + 0.90*x
       y <- c(rev(y),y.add)
 
       fill <- c(colfill, colfill)
