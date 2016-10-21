@@ -1,16 +1,17 @@
 
-#############  Letter  1   ##################################
 
+###############   7 letter   ##############################
 
-oneletter <- function(plot = FALSE,
-                    fill_symbol = TRUE,
-                    colfill="green",
-                    lwd =10){
-  x <- c(0.1, 0.1, 0.4, 0.4, 0.3, 0.10, 0.4, 0.6, 0.6, 0.9, 0.9)
-  y <- c(0, 0.2, 0.2, 0.70, 0.60, 0.60, 1, 1, 0.2, 0.2, 0)
+sevenletter <- function(plot = FALSE,
+                        fill_symbol = TRUE,
+                        colfill="green",
+                        lwd =10){
 
-  id <- rep(1, length(x))
+  x <- c(0.35, 0.65, 0.90, 0.90, 0.70, 0.9, 0.1, 0.1, 0.67, 0.55, 0.30, 0.30, 0.50, 0.2)
+  y <- c(0, 0.5, 0.5, 0.6, 0.6, 1, 1, 0.85, 0.85, 0.6, 0.6, 0.5, 0.5, 0)
+
   fill <- colfill
+  id <- rep(1, length(x))
 
   if(plot){
     grid.newpage()
@@ -39,5 +40,5 @@ oneletter <- function(plot = FALSE,
   return(ll)
 }
 
-## out <- oneletter(plot=TRUE)
+## out <- sevenletter(plot=TRUE)
 

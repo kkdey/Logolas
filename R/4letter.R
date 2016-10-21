@@ -1,13 +1,15 @@
 
-#############  Letter  1   ##################################
 
+##################   letter 4    ###########################################
 
-oneletter <- function(plot = FALSE,
-                    fill_symbol = TRUE,
-                    colfill="green",
-                    lwd =10){
-  x <- c(0.1, 0.1, 0.4, 0.4, 0.3, 0.10, 0.4, 0.6, 0.6, 0.9, 0.9)
-  y <- c(0, 0.2, 0.2, 0.70, 0.60, 0.60, 1, 1, 0.2, 0.2, 0)
+fourletter <- function(plot = FALSE,
+                         fill_symbol = TRUE,
+                         colfill="green",
+                         lwd =10){
+
+  x <- c(0.3, 0.15, 0.6, 0.6, 0.75, 0.75, 0.85, 0.85, 0.75, 0.75, 0.6, 0.6, 0.33, 0.45)
+  y <- c(1, 0.25, 0.25, 0, 0, 0.25, 0.25, 0.40, 0.40, 0.55, 0.55, 0.40, 0.40, 1)
+
 
   id <- rep(1, length(x))
   fill <- colfill
@@ -39,5 +41,5 @@ oneletter <- function(plot = FALSE,
   return(ll)
 }
 
-## out <- oneletter(plot=TRUE)
+out <- fourletter(plot=TRUE)
 
