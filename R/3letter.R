@@ -1,6 +1,7 @@
 
+##################   letter 3    ###########################################
 
-three_letter <- function(plot = FALSE,
+threeletter <- function(plot = FALSE,
                          fill_symbol = TRUE,
                          colfill="green",
                          lwd =10){
@@ -76,4 +77,4 @@ three_letter <- function(plot = FALSE,
 
 }
 
- out <- three_letter(plot=TRUE)
+## out <- threeletter(plot=TRUE)

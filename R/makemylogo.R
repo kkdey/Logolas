@@ -14,6 +14,16 @@ makemylogo <- function(name, colfill="orange", plot=FALSE){
   split_string[grep("[,]", split_string)] <- "comma"
   split_string[grep("[:]", split_string)] <- "colon"
   split_string[grep("[;]", split_string)] <- "semicolon"
+  split_string[grep("[0]", split_string)] <- "zero"
+  split_string[grep("[1]", split_string)] <- "one"
+  split_string[grep("[2]", split_string)] <- "two"
+  split_string[grep("[3]", split_string)] <- "three"
+  split_string[grep("[4]", split_string)] <- "four"
+  split_string[grep("[5]", split_string)] <- "five"
+  split_string[grep("[6]", split_string)] <- "six"
+  split_string[grep("[7]", split_string)] <- "seven"
+  split_string[grep("[8]", split_string)] <- "eight"
+  split_string[grep("[9]", split_string)] <- "nine"
 
   chars <- paste0(split_string, "letter")
   xpool <- numeric()
@@ -56,5 +66,5 @@ makemylogo <- function(name, colfill="orange", plot=FALSE){
 ## makemylogo("KUSHAL")
 ## makemylogo("MATTHEW", colfill="red")
 ## makemylogo("PURABI", colfill="blue")
-## makemylogo("Q-BIO.QM;A,DD>R::C", plot=TRUE)
+makemylogo("Q-BIO.QM;A,DD>R::C,123456789:D0O", plot=TRUE)
 

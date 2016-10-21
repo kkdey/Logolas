@@ -1,16 +1,25 @@
 
-#############  Letter  1   ##################################
 
+############  letter 0   #############################
 
-oneletter <- function(plot = FALSE,
-                    fill_symbol = TRUE,
-                    colfill="green",
-                    lwd =10){
-  x <- c(0.1, 0.1, 0.4, 0.4, 0.3, 0.10, 0.4, 0.6, 0.6, 0.9, 0.9)
-  y <- c(0, 0.2, 0.2, 0.70, 0.60, 0.60, 1, 1, 0.2, 0.2, 0)
+zeroletter <- function(plot = FALSE,
+                        fill_symbol = TRUE,
+                        colfill="green",
+                        lwd =10){
 
-  id <- rep(1, length(x))
-  fill <- colfill
+  angle2 <- c(seq(pi/2, 0, length.out=100), seq(0, -(3*pi/2), length.out=100))
+
+  x1 <- 0.5 + 0.3*cos(angle2)
+  y1 <- 0.5 + 0.5*sin(angle2)
+
+  x2 <- 0.5 + 0.15*cos(angle2)
+  y2 <- 0.5 + 0.35*sin(angle2)
+
+  x <- c(x1, x2)
+  y <- c(y1, y2)
+
+  id <- c(rep(1, length(x1)), rep(2, length(x2)))
+  fill <- c(colfill, "white")
 
   if(plot){
     grid.newpage()
@@ -39,5 +48,7 @@ oneletter <- function(plot = FALSE,
   return(ll)
 }
 
-## out <- oneletter(plot=TRUE)
+## out <- zeroletter(plot=TRUE)
+
+
 

@@ -1,7 +1,7 @@
 
 #############  Letter  2  ##################################
 
-two_letter <- function(plot = FALSE,
+twoletter <- function(plot = FALSE,
                        fill_symbol = TRUE,
                        colfill="green",
                        lwd =10){
@@ -39,5 +39,5 @@ two_letter <- function(plot = FALSE,
   return(ll)
 }
 
-## out <- two_letter(plot=TRUE)
+## out <- twoletter(plot=TRUE)
 
