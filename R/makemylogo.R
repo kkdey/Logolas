@@ -1,10 +1,38 @@
-
-library(grid)
-files <- list.files(pattern="letter")
-sapply(list.files(pattern="letter", full.names = TRUE), source)
+#' @title Logo maker for a given English alphanumeric with common punctuations
+#'
+#' @description Plots logo for a given english symbol or name that contains
+#' English alphabets, numbers or punctuations like dots, dashes, etc. This is
+#' the skeleton used by the \Rcode{logomaker} function of the package to create
+#' distinct logos for distinct alphanumeric symbols.
+#'
+#'
+#' @param name A English name, or alphanumeric, containing English alphabets,
+#' numbers, dots, dashes, arroww, colons, semicolons, comma among punctuations.
+#' @param colfill The color used for the symbol
+#' @param plot  binary, if FALSE, returns only the co-ordinates of the symbol in the
+#' [0,1] X [0,1] grid, along with block id labels and their corresponding colors.
+#' If TRUE, plots the symbol with specified color in a new grid window.
+#'
+#' @return Along with symbol plot, if plot is TRUE, returns a list with the following items.
+#'         \item{x}{X co-ordinates of the logo in the [0,1] X [0,1] grid window}
+#'         \item{y}{Y co-ordinates of the logo in the [0,1] X [0,1] grid window}
+#'         \item{id}{id vector representing blocks in the logo co-ordinates}
+#'         \item{fill}{a vector equal to the number of distinct ids or blocks in
+#'                    the logo, whose elements correspond to colors of these blocks}
+#'
+#'
+#' @examples
+#'
+#' makemylogo("KUSHAL")
+#' makemylogo("MATTHEW", colfill="red")
+#' makemylogo("Q-BIO.QM;A,DD>R::C,123456789:D0O", plot=TRUE)
+#'
+#' @export
 
 
 makemylogo <- function(name, colfill="orange", plot=FALSE){
+
+  sapply(list.files(pattern="letter.R", full.names = TRUE), source)
 
   split_string <- strsplit(name, "")[[1]]
   split_string[grep("[-]", split_string)] <- "dash"
@@ -63,8 +91,4 @@ makemylogo <- function(name, colfill="orange", plot=FALSE){
   return(ll)
 }
 
-## makemylogo("KUSHAL")
-## makemylogo("MATTHEW", colfill="red")
-## makemylogo("PURABI", colfill="blue")
-makemylogo("Q-BIO.QM;A,DD>R::C,123456789:D0O", plot=TRUE)
 
