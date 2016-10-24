@@ -1,41 +1,50 @@
-
-
-########################  Logo maker in R  ###########################
-
-source("makemylogo.R")
-
-addLetter <- function(letters, letter, col, x.pos, y.pos,ht,wt){
-  letter <- as.character(toupper(letter))
-  out <- makemylogo(letter, colfill = col)
-  x <- x.pos + out$x * wt
-  y <- y.pos + out$y * ht
-
-  letter <- list("x"=x,
-                 "y"=y,
-                 "id"=out$id,
-                 "fill"=out$fill)
-
-  letters$x <- c(letters$x,letter$x)
-  letters$y <- c(letters$y,letter$y)
-
-  lastID <- ifelse(is.null(letters$id),0,max(letters$id))
-  letters$id <- c(letters$id,lastID+letter$id)
-  letters$fill <- c(letters$fill,letter$fill)
-  letters
-}
-
-pwm2ic<-function(pwm) {
-  npos<-ncol(pwm)
-  ic<-numeric(length=npos)
-  for (i in 1:npos) {
-    ic[i]<- log(nrow(pwm), base=2) + sum(sapply(pwm[, i], function(x) {
-      if (x > 0) { x*log2(x) } else { 0 }
-    }))
-  }
-  return(ic)
-}
-
-
+#' @title Main workhorse function that builds the logo plots
+#'
+#' @description stacks logos created by the \Rcode{makemylogo} function on top of
+#' each other to build the logo plot.
+#'
+#' @param table The input table (data frame or matrix) of counts across different
+#' logos or symbols (specified along the rows) ans across different sites or positions or
+#' groups (specified along the columns).
+#'
+#' @param ic A vector of same length as the number of columns in the \Rcode{table},
+#' repesenting the heights of the logo stacked bars for each position/site/block.
+#' It defaults to NULL, in which case, the function computes the ic vector using
+#' the \Rcode{ic_computer} functionality.
+#'
+#' @param cols A vector of colors for the different logos or symbols stacked in the
+#' logo plot. The length of this vector should match with number of symbols or
+#' logos used in the plot, which is again ame as the number of rows in the input
+#' table.
+#'
+#' @param frame_width The width of the frames for individual site/postion/column
+#' in the logo plot. As default, all the columns have same width, equal to 1.
+#'
+#' @param ic.scale if TRUE, the height of the bars in the stacked logo chart for
+#' each column is determined based on the \item{ic}  input. Otherwise, the bars
+#' are normalized so that the height of each bar is $1$. Defaults to TRUE.
+#'
+#' @param xaxis Binary specifying if there should be a X axis in the logo plot
+#' or not. Defaults to TRUE.
+#'
+#' @param yaxis Binary specifying if there should be a Y axis in the logo plot
+#' or not. Defaults to TRUE.
+#'
+#' @param xaxis_fontsize The size of the X-axis axis ticks.
+#'
+#' @param xlab_fontsize The size of the X-axis label.
+#'
+#' @param y_fontsize The size of the Y-axis font.
+#'
+#' @param yscale_change If TRUE, adjusts the Y axis scale based on the size of the
+#' bars, else keeps it to the maximum value possible, which is $2$ under
+#' \Rcode{ic_computer} defined IC criteria.
+#'
+#'
+#'
+#'
+#'
+#'
 
 logomaker <- function( table,
                        ic=NULL,
@@ -79,7 +88,7 @@ logomaker <- function( table,
   chars <- as.character(rownames(table_mat_norm))
 
   if(is.null(ic)){
-    ic <- pwm2ic(table_mat_norm)
+    ic <- ic_computer(table_mat_norm)
   }
 
   letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL)
@@ -182,6 +191,27 @@ logomaker <- function( table,
   popViewport()
   par(ask=FALSE)
 }
+
+addLetter <- function(letters, letter, col, x.pos, y.pos,ht,wt){
+  letter <- as.character(toupper(letter))
+  out <- makemylogo(letter, colfill = col)
+  x <- x.pos + out$x * wt
+  y <- y.pos + out$y * ht
+
+  letter <- list("x"=x,
+                 "y"=y,
+                 "id"=out$id,
+                 "fill"=out$fill)
+
+  letters$x <- c(letters$x,letter$x)
+  letters$y <- c(letters$y,letter$y)
+
+  lastID <- ifelse(is.null(letters$id),0,max(letters$id))
+  letters$id <- c(letters$id,lastID+letter$id)
+  letters$fill <- c(letters$fill,letter$fill)
+  letters
+}
+
 
 ################   examples   ##########################
 
