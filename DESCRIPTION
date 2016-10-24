@@ -13,7 +13,7 @@ LazyData: TRUE
 Depends:
     R (>= 3.2),
     ggplot2 (>= 2.1.0),
-Imports: seqLogo, grid, gridExtra, RColorBrewer
+Imports: seqLogo, grid, gridExtra, RColorBrewer, aRxiv
 Suggests: knitr, BiocStyle, Biobase, roxygen2, RColorBrewer, devtools, xtable
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1

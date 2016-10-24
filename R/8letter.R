@@ -18,6 +18,7 @@
 #'         \item{fill}{a vector equal to the number of distinct ids or blocks in
 #'                    the logo, whose elements correspond to colors of these blocks}
 #'
+#' @keywords internal
 #' @export
 #' @examples
 #' out <- eightletter(plot=TRUE)

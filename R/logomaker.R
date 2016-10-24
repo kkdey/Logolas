@@ -40,9 +40,38 @@
 #' bars, else keeps it to the maximum value possible, which is $2$ under
 #' \Rcode{ic_computer} defined IC criteria.
 #'
+#' @param start The starting point in Y axis for the first logo. Default is 0.0001
+#' which is very close to 0.
 #'
+#' @param pop_name User can mention a name of the population for which the logo
+#' plot is created. Defaults to NULL when no population name is mentioned.
 #'
+#' @param xlab X axis label
+#' @param ylab Y axis label
 #'
+#' @return Plots the logo plot for the table data, with column names representing
+#' the sites/blocks and the row names denoting the symbols for which logos are
+#' plotted
+#'
+#' @examples
+#'
+#' counts_mat <- rbind(c(0, 10, 100, 60, 20),
+#'                     c(40, 30, 30, 35, 20),
+#'                     c(100, 0, 15, 25, 75),
+#'                     c(10, 30, 20, 50, 70))
+#'
+#' colnames(counts_mat) <- c("2012", "2013", "2014", "2015", "2016")
+#' rownames(counts_mat) <- c("M", "U", "T", "D")
+#' logomaker(counts_mat,
+#'           cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],name = "Spectral"),
+#'           frame_width = 1,
+#'           ic.scale = FALSE)
+#'
+#' logomaker(counts_mat,
+#'          cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],name = "Spectral"),
+#'          frame_width = 1)
+#'
+#' @export
 #'
 #'
 
@@ -192,7 +221,8 @@ logomaker <- function( table,
   par(ask=FALSE)
 }
 
-addLetter <- function(letters, letter, col, x.pos, y.pos,ht,wt){
+addLetter <- function(letters, letter,
+                      col, x.pos, y.pos,ht,wt){
   letter <- as.character(toupper(letter))
   out <- makemylogo(letter, colfill = col)
   x <- x.pos + out$x * wt
@@ -211,22 +241,3 @@ addLetter <- function(letters, letter, col, x.pos, y.pos,ht,wt){
   letters$fill <- c(letters$fill,letter$fill)
   letters
 }
-
-
-################   examples   ##########################
-
-#counts_mat <- rbind(c(0, 10, 100, 60, 20),
-#                    c(40, 30, 30, 35, 20),
-#                    c(100, 0, 15, 25, 75),
-#                    c(10, 30, 20, 50, 70)
-#)
-
-#colnames(counts_mat) <- c("2012", "2013", "2014", "2015", "2016")
-#rownames(counts_mat) <- c("Kushal", "Gao", "Hussein",
-#                          "Joyce")
-
-#logomaker(counts_mat,
-#          cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],name = "Spectral"),
-#          frame_width = 1,
-#          ic.scale = FALSE)
-
