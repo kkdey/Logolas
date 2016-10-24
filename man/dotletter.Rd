@@ -36,4 +36,5 @@ Plots the symbol or logo for dot punctuation
 \examples{
 out <- dotletter(plot=TRUE)
 }
+\keyword{internal}
 

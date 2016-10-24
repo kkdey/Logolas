@@ -1,6 +1,6 @@
 Package: Logolas
 Type: Package
-Title: Generates Flexible Logo Plots for wide variety of English alphanumerics.
+Title: Generates Flexible Logo Plots for wide variety of English alphanumerics
 Version: 0.1.0
 Date: 10.23.2016.
 Author: c(
@@ -11,10 +11,9 @@ Description: Produces logo plots of a variety of symbols and names comprising En
 License: GPL (>= 2)
 LazyData: TRUE
 Depends:
-    R (>= 3.2),
-    ggplot2 (>= 2.1.0),
+    R (>= 3.2)
 Imports: seqLogo, grid, gridExtra, RColorBrewer, aRxiv
-Suggests: knitr, BiocStyle, Biobase, roxygen2, RColorBrewer, devtools, xtable
+Suggests: knitr, BiocStyle, Biobase, roxygen2, devtools, xtable
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
 

@@ -6,8 +6,8 @@
 #'        along with color labels. If TRUE, also plots the logo in a new grid
 #'        window. Defaults to FALSE.
 #' @param fill_symbol A binary. If TRUE, the function would fill the symbol by
-#'        the color represented in \Rcode{colfill}, else colors the boundary
-#'        of the symbol by \Rcode{colfill}. Defaults to TRUE.
+#'        the color represented in \code{colfill}, else colors the boundary
+#'        of the symbol by \code{colfill}. Defaults to TRUE.
 #' @param colfill  The color used to highlight the symbol.  Defaults to "green".
 #' @param lwd Specifies the border width of the symbol. Defaults to 10.
 #'
@@ -17,7 +17,8 @@
 #'         \item{id}{id vector representing blocks in the logo co-ordinates}
 #'         \item{fill}{a vector equal to the number of distinct ids or blocks in
 #'                    the logo, whose elements correspond to colors of these blocks}
-#'
+#' @keywords internal
+#' @import grid
 #' @export
 #' @examples
 #' out <- Wletter(plot=TRUE)
@@ -36,21 +37,21 @@ Wletter <- function(plot = FALSE,
       fill <- colfill
 
       if(plot){
-        grid.newpage()
-        pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,
-                              clip=TRUE))
+        grid::grid.newpage()
+        grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
+                                          clip=TRUE))
         if(fill_symbol){
-          grid.polygon(x, y,
-                       default.unit="native",
-                       id=id,
-                       gp=gpar(fill=fill,
-                               lwd=lwd))
+          grid::grid.polygon(x, y,
+                             default.unit="native",
+                             id=id,
+                             gp=grid::gpar(fill=fill,
+                                           lwd=lwd))
         }else{
-          grid.polygon(x, y,
-                       default.unit="native",
-                       id=id,
-                       gp=gpar(col=colfill,
-                               lwd=lwd))
+          grid::grid.polygon(x, y,
+                             default.unit="native",
+                             id=id,
+                             gp=grid::gpar(col=colfill,
+                                           lwd=lwd))
         }
       }
 

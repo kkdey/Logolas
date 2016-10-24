@@ -13,8 +13,8 @@ along with color labels. If TRUE, also plots the logo in a new grid
 window. Defaults to FALSE.}
 
 \item{fill_symbol}{A binary. If TRUE, the function would fill the symbol by
-the color represented in \Rcode{colfill}, else colors the boundary
-of the symbol by \Rcode{colfill}. Defaults to TRUE.}
+the color represented in \code{colfill}, else colors the boundary
+of the symbol by \code{colfill}. Defaults to TRUE.}
 
 \item{colfill}{The color used to highlight the symbol.  Defaults to "green".}
 
@@ -34,4 +34,5 @@ Plots the symbol or logo for numeric 0.
 \examples{
 out <- zeroletter(plot=TRUE)
 }
+\keyword{internal}
 

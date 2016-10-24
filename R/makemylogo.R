@@ -2,7 +2,7 @@
 #'
 #' @description Plots logo for a given english symbol or name that contains
 #' English alphabets, numbers or punctuations like dots, dashes, etc. This is
-#' the skeleton used by the \Rcode{logomaker} function of the package to create
+#' the skeleton used by the \code{logomaker} function of the package to create
 #' distinct logos for distinct alphanumeric symbols.
 #'
 #'
@@ -20,6 +20,7 @@
 #'         \item{fill}{a vector equal to the number of distinct ids or blocks in
 #'                    the logo, whose elements correspond to colors of these blocks}
 #'
+#' @import grid
 #'
 #' @examples
 #'
@@ -73,15 +74,15 @@ makemylogo <- function(name, colfill="orange", plot=FALSE){
 
   if(plot){
 
-    grid.newpage()
-    pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,
+    grid::grid.newpage()
+    grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
                           clip=TRUE))
     lwd <- 10
-    grid.polygon(xpool, ypool,
+    grid::grid.polygon(xpool, ypool,
                  default.unit="native",
                  id=idpool,
-                 gp=gpar(fill=fillpool,
-                         lwd=lwd))
+                 gp=grid::gpar(fill=fillpool,
+                               lwd=lwd))
     }
 
   ll <- list("x"=xpool,
