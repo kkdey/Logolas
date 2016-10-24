@@ -18,7 +18,8 @@
 #'         \item{id}{id vector representing blocks in the logo co-ordinates}
 #'         \item{fill}{a vector equal to the number of distinct ids or blocks in
 #'                    the logo, whose elements correspond to colors of these blocks}
-#'
+#' @keywords internal
+#' @import grid
 #' @export
 #' @examples
 #' out <- commaletter(plot=TRUE)
@@ -36,14 +37,14 @@ commaletter <- function(plot = FALSE,
   fill <- c(colfill)
 
   if(plot){
-    grid.newpage()
-    pushViewport(viewport(x=0.5,y=0.5,width=1, height=1,
+    grid::grid.newpage()
+    grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
                           clip=TRUE))
-    grid.polygon(x, y,
+    grid::grid.polygon(x, y,
                  default.unit="native",
                  id=id,
-                 gp=gpar(fill=fill,
-                         lwd=lwd))
+                 gp=grid::gpar(fill=fill,
+                               lwd=lwd))
   }
   ll <- list("x"= x,
              "y"= y,

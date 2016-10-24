@@ -27,7 +27,7 @@ Along with symbol plot, if plot is TRUE, returns a list with the following items
 \description{
 Plots logo for a given english symbol or name that contains
 English alphabets, numbers or punctuations like dots, dashes, etc. This is
-the skeleton used by the \Rcode{logomaker} function of the package to create
+the skeleton used by the \code{logomaker} function of the package to create
 distinct logos for distinct alphanumeric symbols.
 }
 \examples{

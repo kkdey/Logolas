@@ -17,7 +17,7 @@ window. Defaults to FALSE.}
 \item{y_pos_1}{The y-position of the center of the lower dot in [0,1] X [0,1]
 window. Defaults to 0.1.}
 
-\item{y_pos_2}{The y-position of the center of the dot in [0,1] X [0,1] window.
+\item{y_pos_2}{The y-position of the center of the upper dot in [0,1] X [0,1] window.
 Defaults to 0.7.}
 
 \item{x_pos}{The x-postition of the center of the dot in [0,1] X [0,1] window.
@@ -26,13 +26,6 @@ Defaults to 0.5.}
 \item{rad}{The radius of the indivudual symbols in the semicolon.}
 
 \item{lwd}{Specifies the border width of the symbol. Defaults to 10.}
-
-\item{fill_symbol}{A binary. If TRUE, the function would fill the symbol by
-the color represented in \Rcode{colfill}, else colors the boundary
-of the symbol by \Rcode{colfill}. Defaults to TRUE.}
-
-\item{y_pos_1}{The y-position of the center of the dot in [0,1] X [0,1] window.
-Defaults to 0.1.}
 }
 \value{
 Returns a list with the following items.
@@ -48,4 +41,5 @@ Plots the symbol or logo for a colon.
 \examples{
 out <- colonletter(plot=TRUE)
 }
+\keyword{internal}
 

@@ -14,10 +14,10 @@ logomaker(table, ic = NULL, cols, frame_width = NULL, ic.scale = TRUE,
 logos or symbols (specified along the rows) ans across different sites or positions or
 groups (specified along the columns).}
 
-\item{ic}{A vector of same length as the number of columns in the \Rcode{table},
+\item{ic}{A vector of same length as the number of columns in the \code{table},
 repesenting the heights of the logo stacked bars for each position/site/block.
 It defaults to NULL, in which case, the function computes the ic vector using
-the \Rcode{ic_computer} functionality.}
+the \code{ic_computer} functionality.}
 
 \item{cols}{A vector of colors for the different logos or symbols stacked in the
 logo plot. The length of this vector should match with number of symbols or
@@ -28,7 +28,7 @@ table.}
 in the logo plot. As default, all the columns have same width, equal to 1.}
 
 \item{ic.scale}{if TRUE, the height of the bars in the stacked logo chart for
-each column is determined based on the \item{ic}  input. Otherwise, the bars
+each column is determined based on the information criterion  input. Otherwise, the bars
 are normalized so that the height of each bar is $1$. Defaults to TRUE.}
 
 \item{xaxis}{Binary specifying if there should be a X axis in the logo plot
@@ -48,7 +48,7 @@ which is very close to 0.}
 
 \item{yscale_change}{If TRUE, adjusts the Y axis scale based on the size of the
 bars, else keeps it to the maximum value possible, which is $2$ under
-\Rcode{ic_computer} defined IC criteria.}
+\code{ic_computer} defined IC criteria.}
 
 \item{pop_name}{User can mention a name of the population for which the logo
 plot is created. Defaults to NULL when no population name is mentioned.}
@@ -63,7 +63,7 @@ the sites/blocks and the row names denoting the symbols for which logos are
 plotted
 }
 \description{
-stacks logos created by the \Rcode{makemylogo} function on top of
+stacks logos created by the \code{makemylogo} function on top of
 each other to build the logo plot.
 }
 \examples{

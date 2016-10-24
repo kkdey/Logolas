@@ -1,16 +1,16 @@
 #' @title Main workhorse function that builds the logo plots
 #'
-#' @description stacks logos created by the \Rcode{makemylogo} function on top of
+#' @description stacks logos created by the \code{makemylogo} function on top of
 #' each other to build the logo plot.
 #'
 #' @param table The input table (data frame or matrix) of counts across different
 #' logos or symbols (specified along the rows) ans across different sites or positions or
 #' groups (specified along the columns).
 #'
-#' @param ic A vector of same length as the number of columns in the \Rcode{table},
+#' @param ic A vector of same length as the number of columns in the \code{table},
 #' repesenting the heights of the logo stacked bars for each position/site/block.
 #' It defaults to NULL, in which case, the function computes the ic vector using
-#' the \Rcode{ic_computer} functionality.
+#' the \code{ic_computer} functionality.
 #'
 #' @param cols A vector of colors for the different logos or symbols stacked in the
 #' logo plot. The length of this vector should match with number of symbols or
@@ -21,7 +21,7 @@
 #' in the logo plot. As default, all the columns have same width, equal to 1.
 #'
 #' @param ic.scale if TRUE, the height of the bars in the stacked logo chart for
-#' each column is determined based on the \item{ic}  input. Otherwise, the bars
+#' each column is determined based on the information criterion  input. Otherwise, the bars
 #' are normalized so that the height of each bar is $1$. Defaults to TRUE.
 #'
 #' @param xaxis Binary specifying if there should be a X axis in the logo plot
@@ -38,7 +38,7 @@
 #'
 #' @param yscale_change If TRUE, adjusts the Y axis scale based on the size of the
 #' bars, else keeps it to the maximum value possible, which is $2$ under
-#' \Rcode{ic_computer} defined IC criteria.
+#' \code{ic_computer} defined IC criteria.
 #'
 #' @param start The starting point in Y axis for the first logo. Default is 0.0001
 #' which is very close to 0.
@@ -53,6 +53,8 @@
 #' the sites/blocks and the row names denoting the symbols for which logos are
 #' plotted
 #'
+#' @import grid
+#' @importFrom graphics par
 #' @examples
 #'
 #' counts_mat <- rbind(c(0, 10, 100, 60, 20),
@@ -168,56 +170,56 @@ logomaker <- function( table,
   ic_lim_scale <- seq(0, max(ic), length.out=6)
 
 
-  grid.newpage()
+  grid::grid.newpage()
   bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
   leftMargin = ifelse(yaxis, 0.1 + y_fontsize/3.5, 3)
-  pushViewport(plotViewport(c(bottomMargin,leftMargin,max(ylim)+0.5,max(xlim)*wt+0.5)))
+  grid::pushViewport(grid::plotViewport(c(bottomMargin,leftMargin,max(ylim)+0.5,max(xlim)*wt+0.5)))
   # pushViewport(viewport(layout = grid.layout(2, 2),
   #              x = bottomMargin,
   #              y = leftMargin,
   #              width = max(xlim/2)+0.5,
   #              height = max(ylim/2)+0.5))
-  pushViewport(dataViewport(0:ncol(table_mat_norm),0:ylim,name="vp1"))
-  grid.polygon(x=unit(letters$x,"native"), y=unit(letters$y,"native"),
-               id=letters$id, gp=gpar(fill=letters$fill,col="transparent"))
-  grid.polygon(x=unit(letters$x,"native"), y=unit(letters$y,"native"),
+  grid::pushViewport(grid::dataViewport(0:ncol(table_mat_norm),0:ylim,name="vp1"))
+  grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+               id=letters$id, gp=grid::gpar(fill=letters$fill,col="transparent"))
+  grid::grid.polygon(x=unit(letters$x,"native"), y=unit(letters$y,"native"),
                id=letters$id,
-               gp=gpar(fill=letters$fill,col="transparent"))
+               gp=grid::gpar(fill=letters$fill,col="transparent"))
 
 
   for(n in 1:length(xlim)){
-    grid.lines(x = unit(low_xlim[n], "native"),
-               y = unit(c(0, ylim), "native"),
-               gp=gpar(col="grey80"))
+    grid::grid.lines(x = grid::unit(low_xlim[n], "native"),
+               y = grid::unit(c(0, ylim), "native"),
+               gp=grid::gpar(col="grey80"))
   }
 
   if(is.null(pop_name)){
-    grid.text("Logo plot", y = unit(1, "npc") + unit(1.5, "lines"),
-              gp = gpar(fontsize = 16))
+    grid::grid.text("Logo plot", y = grid::unit(1, "npc") + grid::unit(1.5, "lines"),
+              gp = grid::gpar(fontsize = 16))
   }else{
-    grid.text(paste0("Logo plot of ", pop_name), y = unit(1, "npc") + unit(1.5, "lines"),
-              gp = gpar(fontsize = 16))
+    grid::grid.text(paste0("Logo plot of ", pop_name), y = grid::unit(1, "npc") + grid::unit(1.5, "lines"),
+              gp = grid::gpar(fontsize = 16))
   }
 
   if (xaxis){
-    grid.xaxis(at=wt*seq(0.5,ncol(table_mat_norm)-0.5),
+    grid::grid.xaxis(at=wt*seq(0.5,ncol(table_mat_norm)-0.5),
                label=colnames(table_mat_norm),
-               gp=gpar(fontsize=xaxis_fontsize))
-    grid.text(xlab, y=unit(-3,"lines"), gp=gpar(fontsize=xaxis_fontsize))
+               gp=grid::gpar(fontsize=xaxis_fontsize))
+    grid::grid.text(xlab, y=unit(-3,"lines"), gp=grid::gpar(fontsize=xaxis_fontsize))
   }
   if (yaxis){
     if(yscale_change==TRUE){
-      grid.yaxis(at = ylim_scale,
+      grid::grid.yaxis(at = ylim_scale,
                  label = round(ic_lim_scale,1),
-                 gp=gpar(fontsize=y_fontsize))
+                 gp=grid::gpar(fontsize=y_fontsize))
     }else{
-      grid.yaxis(gp=gpar(fontsize=y_fontsize))
+      grid::grid.yaxis(gp=grid::gpar(fontsize=y_fontsize))
     }
-    grid.text(ylab,x=unit(-3,"lines"),rot=90,
-              gp=gpar(fontsize=y_fontsize))
+    grid::grid.text(ylab,x=grid::unit(-3,"lines"),rot=90,
+              gp=grid::gpar(fontsize=y_fontsize))
   }
-  popViewport()
-  popViewport()
+  grid::popViewport()
+  grid::popViewport()
   par(ask=FALSE)
 }
 
