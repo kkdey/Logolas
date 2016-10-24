@@ -54,7 +54,7 @@ logomaker(counts_mat,
           ic.scale = FALSE)
 ```
 
-<img src="figures/logolas_acgt_1.png" alt="Structure Plot" height="700" width="400">
+<img src="figures/logolas_acgt_1.png" alt="Logo Plot" height="300" width="700">
 
 The logo plot with un-normalized heights
 
@@ -79,7 +79,7 @@ logomaker(counts_mat,
           frame_width = 1)
 ```
 
-<img src="figures/logolas_acgt_2.png" alt="Structure Plot" height="700" width="400">
+<img src="figures/logolas_acgt_2.png" alt="Logo Plot" height="300" width="700">
 
 ## Application of Logolas - protein motif example
 
@@ -134,7 +134,7 @@ logomaker(counts_mat,
           yscale_change = TRUE)
 ```
 
-<img src="figures/logolas_protein_1.png" alt="Structure Plot" height="700" width="400">
+<img src="figures/logolas_protein_1.png" alt="Logo Plot" height="300" width="700">
 
 ## Application of Logolas - extension
 
@@ -193,7 +193,7 @@ logomaker(tab_data,
 
 ```
 
-<img src="figures/logolas_arxiv_1.png" alt="Structure Plot" height="700" width="400">
+<img src="figures/logolas_arxiv_1.png" alt="Logo Plot" height="300" width="700">
 
 ```
 logomaker(tab_data,
@@ -207,12 +207,12 @@ logomaker(tab_data,
 
 ```
 
-<img src="figures/logolas_arxiv_2.png" alt="Structure Plot" height="700" width="400">
+<img src="figures/logolas_arxiv_2.png" alt="Logo Plot" height="300" width="700">
 
 
 ## Licenses
 
-The CountClust package is distributed under [GPL - General Public License (>= 2)]
+The Logolas package is distributed under [GPL - General Public License (>= 2)]
 
 ## Contact
 
