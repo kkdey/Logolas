@@ -4,7 +4,8 @@
 \alias{makemylogo}
 \title{Logo maker for a given English alphanumeric with common punctuations}
 \usage{
-makemylogo(name, colfill = "orange", plot = FALSE)
+makemylogo(name, colfill = "orange", plot = FALSE, addlogos = NULL,
+  addlogos_text = NULL)
 }
 \arguments{
 \item{name}{A English name, or alphanumeric, containing English alphabets,
@@ -15,6 +16,10 @@ numbers, dots, dashes, arroww, colons, semicolons, comma among punctuations.}
 \item{plot}{binary, if FALSE, returns only the co-ordinates of the symbol in the
 [0,1] X [0,1] grid, along with block id labels and their corresponding colors.
 If TRUE, plots the symbol with specified color in a new grid window.}
+
+\item{addlogos}{Vector of additional logos/symbols defined by user}
+
+\item{addlogos_text}{Vector of the names given to the additional logos/symbols defined by user.}
 }
 \value{
 Along with symbol plot, if plot is TRUE, returns a list with the following items.
@@ -35,6 +40,18 @@ distinct logos for distinct alphanumeric symbols.
 makemylogo("KUSHAL")
 makemylogo("MATTHEW", colfill="red")
 makemylogo("Q-BIO.QM;A,DD>R::C,123456789:D0O", plot=TRUE)
+lambdaletter <- function(colfill="green"){
 
+    x <- c(0.15, 0.5, 0.85, 0.75, 0.5, 0.25)
+    y <- c(0, 1, 0, 0, 0.8, 0)
+
+    fill <- colfill
+    id <- rep(1, length(x))
+    ll <- list("x"= x,
+          "y"= y,
+          "id" = id,
+          "fill" = fill)
+           return(ll)}
+makemylogo("AC>EF/lambda/W35", addlogos="lambda", addlogos_text="lambda", plot=TRUE)
 }
 

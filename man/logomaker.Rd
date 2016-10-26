@@ -7,7 +7,8 @@
 logomaker(table, ic = NULL, cols, frame_width = NULL, ic.scale = TRUE,
   xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
   y_fontsize = 15, start = 1e-04, yscale_change = TRUE, pop_name = NULL,
-  xlab = "X", ylab = "Information content")
+  xlab = "X", ylab = "Information content", addlogos = NULL,
+  addlogos_text = NULL)
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
@@ -56,6 +57,10 @@ plot is created. Defaults to NULL when no population name is mentioned.}
 \item{xlab}{X axis label}
 
 \item{ylab}{Y axis label}
+
+\item{addlogos}{Vector of additional logos/symbols defined by user}
+
+\item{addlogos_text}{Vector of the names given to the additional logos/symbols defined by user.}
 }
 \value{
 Plots the logo plot for the table data, with column names representing
