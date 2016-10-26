@@ -138,7 +138,7 @@ logomaker(counts_mat,
 
 <img src="vignettes/figures/logolas_protein_1.png" alt="Logo Plot" height="300" width="700">
 
-## Application of Logolas - extension
+## Application of Logolas - arXiv category logo 
 
 Suppose we want to build a logo plot of the field categories of manuscipts submitted by authors on aRxiv. Here is a demo example on 4 Professors from
 Statistics department, University of Chicago.
@@ -210,6 +210,42 @@ logomaker(tab_data,
 ```
 
 <img src="vignettes/figures/logolas_arxiv_2.png" alt="Logo Plot" height="300" width="700">
+
+## Application of Logolas - mutational profile
+
+We build a mutational profile matrix with mutation at the center and the flanking bases on the either sides. 
+
+```
+library(seqLogo)
+mFile <- system.file("Exfiles/pwm1", package="seqLogo")
+m <- read.table(mFile)
+p <- makePWM(m)
+mat1 <- cbind(p@pwm[,c(3,4)], rep(0,4), p@pwm[,c(5,6)]);
+colnames(mat1) <- c("-2", "-1", "0", "1", "2")
+mat2 <- cbind(rep(0,6), rep(0,6), 
+              c(0.5, 0.2, 0.2, 0.05, 0.05, 0),
+              rep(0,6), rep(0,6))
+rownames(mat2) <- c("C>T", "C>A", "C>G", 
+                    "T>A", "T>C", "T>G")
+
+table <- rbind(mat1, mat2)
+```
+Now we apply Logolas to build the mutational logo plot.
+
+```
+logomaker(table,
+          cols= rev(RColorBrewer::brewer.pal(dim(table)[1],
+          name = "Spectral")),
+          frame_width = 1,
+          ic.scale = TRUE,
+          xlab = "Position",
+          ylab = "Information content")
+
+```
+
+<img src="vignettes/figures/mutational_profile_logolas.png" alt="Logo Plot" height="300" width="700">
+
+
 
 ## Make your own logo
 
