@@ -211,6 +211,89 @@ logomaker(tab_data,
 
 <img src="vignettes/figures/logolas_arxiv_2.png" alt="Logo Plot" height="300" width="700">
 
+## Make your own logo
+
+The biggest advantage of using this package is that an user can build
+his own atom logos (symbols, letters, punctuation, number) and add it to the set of logos already available in the default version of the package.
+
+For example, if one wants to have the symbol Lambda as part of his logo,
+he can create it as follows 
+
+```
+LAMBDAletter <- function(colfill="green"){
+  
+  x <- c(0.15, 0.5, 0.85, 0.75, 0.5, 0.25)
+  y <- c(0, 1, 0, 0, 0.8, 0)
+  
+  fill <- colfill
+  id <- rep(1, length(x))
+  
+  ll <- list("x"= x,
+             "y"= y,
+             "id" = id,
+             "fill" = fill)
+  return(ll)
+}
+```
+
+Do make sure, your function name is of the form `*letter"` where you can be creative with the `"*"` part. Also make sure the name you put must be in uppercase letters. You can check if the symbol plot looks like a
+lambda or not. 
+
+```
+lambda <- LAMBDAletter()
+grid::grid.newpage()
+grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
+                                  clip=TRUE))
+grid::grid.polygon(lambda$x, lambda$y,
+                     default.unit="native",
+                     id=lambda$id,
+                     gp=grid::gpar(fill=lambda$fill,
+                                   lwd=10))
+  
+```
+<img src="vignettes/figures/lambda_plot.png" alt="Logo Plot" height="200" width="200">
+
+Okay, once you are happy with the shape of the symbol, you can add it to
+the mix of all other symbols using the following command.
+
+```
+makemylogo("AC>EF/LAMBDA/W35", 
+            addlogos="LAMBDA", 
+            addlogos_text="LAMBDA", 
+            plot=TRUE)
+```
+<img src="vignettes/figures/makemylogo_with_lambda.png" alt="Logo Plot" height="300" width="700">
+
+Note that e put `lambda` inside "/.../" to make sure that the function reads it as a new symbol and not general English alphabets or numbers. Once you run this, you should see the symbol as follows 
+
+This confirms that the symbol has been read into the mix, and now it can be used for stacking logo symbols under the `logomaker()` functionality.
+
+
+```
+counts_mat <- rbind(c(0, 10, 100, 60, 20),
+                    c(40, 30, 30, 35, 20),
+                    c(100, 0, 15, 25, 75),
+                    c(10, 30, 20, 50, 70)
+)
+
+colnames(counts_mat) <- c("Pos 1", "Pos 2", "Pos 3", "Pos 4", "Pos 5")
+rownames(counts_mat) <- c("R/LAMBDA/Q", "A", "X", "Y")
+counts_mat
+```
+
+LAMBDA symbol is added under `addlogos` and `addlogos_text` options for the `logomaker` mix of symbols.
+
+```
+logomaker(counts_mat,
+          cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],
+          name = "Spectral"),
+          frame_width = 1,
+          addlogos="LAMBDA",
+          addlogos_text="LAMBDA")
+          
+```
+
+<img src="vignettes/figures/lambda_logomaker.png" alt="Logo Plot" height="300" width="700">
 
 ## Licenses
 

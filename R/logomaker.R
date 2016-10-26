@@ -49,6 +49,9 @@
 #' @param xlab X axis label
 #' @param ylab Y axis label
 #'
+#' @param addlogos Vector of additional logos/symbols defined by user
+#' @param addlogos_text Vector of the names given to the additional logos/symbols defined by user.
+#'
 #' @return Plots the logo plot for the table data, with column names representing
 #' the sites/blocks and the row names denoting the symbols for which logos are
 #' plotted
@@ -91,7 +94,9 @@ logomaker <- function( table,
                        yscale_change=TRUE,
                        pop_name = NULL,
                        xlab = "X",
-                       ylab = "Information content"){
+                       ylab = "Information content",
+                       addlogos = NULL,
+                       addlogos_text = NULL){
 
   if(length(cols) != dim(table)[1]){
     stop("the number of colors must match the number of symbols")
@@ -144,11 +149,12 @@ logomaker <- function( table,
   }
 
   x.pos <- 0
+  slash_inds <- grep("/", chars)
 
   for (j in 1:npos){
 
     column <- table_mat_norm[,j]
-    hts <- 0.99*column*facs[j]
+    hts <- as.numeric(0.99*column*facs[j])
     letterOrder <- order(hts)
 
     y.pos <- 0
@@ -156,7 +162,11 @@ logomaker <- function( table,
       letter <- chars[letterOrder[i]]
       col <- cols[letterOrder[i]]
       ht <- hts[letterOrder[i]]
-      if (ht>0) letters <- addLetter(letters, letter, col, x.pos,y.pos,ht,wt[j])
+      if(length(intersect(letterOrder[i], slash_inds))!=0){
+        if (ht>0) letters <- addLetter(letters,letter, col, x.pos, y.pos, ht, wt[j], addlogos = addlogos, addlogos_text = addlogos_text)
+      }else{
+        if (ht>0) letters <- addLetter(letters,letter, col, x.pos, y.pos, ht, wt[j], addlogos = NULL, addlogos_text = NULL)
+      }
       y.pos <- y.pos + ht + start
     }
     x.pos <- x.pos + wt[j]
@@ -224,9 +234,13 @@ logomaker <- function( table,
 }
 
 addLetter <- function(letters, letter,
-                      col, x.pos, y.pos,ht,wt){
+                      col, x.pos, y.pos,ht,wt,
+                      addlogos, addlogos_text){
   letter <- as.character(toupper(letter))
-  out <- makemylogo(letter, colfill = col)
+  out <- makemylogo(letter,
+                    colfill = col,
+                    addlogos=addlogos,
+                    addlogos_text = addlogos_text)
   x <- x.pos + out$x * wt
   y <- y.pos + out$y * ht
 
@@ -241,5 +255,5 @@ addLetter <- function(letters, letter,
   lastID <- ifelse(is.null(letters$id),0,max(letters$id))
   letters$id <- c(letters$id,lastID+letter$id)
   letters$fill <- c(letters$fill,letter$fill)
-  letters
+  return(letters)
 }
