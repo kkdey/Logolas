@@ -81,10 +81,12 @@ logomaker(mat,
           cols= RColorBrewer::brewer.pal(dim(mat)[1],
           name ="Spectral"),
           frame_width = 1,
-          ic.scale = FALSE,
+          ic.scale = TRUE,
           yscale_change=TRUE,
           xlab="position")
 ```
+
+<img src="vignettes/figures/logomaker_sequence_3.png" alt="Logo Plot" height="300" width="700">
 
 Besides, Logolas also lets you play with the colors of the symbols, choose your own `ic` function that can be used to determine the heights of the stacks, set titles, x-labels, y-labels and axis names as per the user choice and also choose the relative width of each column in the logo stack, the kind of flexibility one does not get with `seqLogo` package.
 
@@ -245,6 +247,7 @@ logomaker(table,
           name = "Spectral")),
           frame_width = 1,
           ic.scale = TRUE,
+          yscale_change=TRUE,
           xlab = "Position",
           ylab = "Information content")
 

@@ -179,11 +179,15 @@ logomaker <- function( table,
   ylim_scale <- seq(0, ylim, length.out=6);
   ic_lim_scale <- seq(0, max(ic), length.out=6)
 
+  if(yscale_change){
+       letters$y <- letters$y*(ylim/max(ic));
+  }
+
 
   grid::grid.newpage()
   bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
   leftMargin = ifelse(yaxis, 0.1 + y_fontsize/3.5, 3)
-  grid::pushViewport(grid::plotViewport(c(bottomMargin,leftMargin,max(ylim)+0.5,max(xlim)*wt+0.5)))
+  grid::pushViewport(grid::plotViewport(c(bottomMargin,leftMargin,max(xlim)+0.5,max(xlim)*wt+0.5)))
   # pushViewport(viewport(layout = grid.layout(2, 2),
   #              x = bottomMargin,
   #              y = leftMargin,
