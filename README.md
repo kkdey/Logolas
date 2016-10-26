@@ -29,85 +29,93 @@ library(Logolas)
 
 ## Application of Logolas - sequence motif example
 
-In Logolas, you would only need a data frame or a matrix of counts of
-the number of times each logo appeared in each block.
-
-We first use Logolas for a simple example of sequence motif logo plots, that mimics what `seqLogo` does, with the addition that now there is more flexibility in designing and playing around with the logo structure.
+For sequence motif design problems, `seqLogo` is a standard package that is used and it is very easy to use. Here is an example from the vignette of the `seqLogo` package.
 
 ```
-counts_mat <- rbind(c(0, 10, 100, 60, 20),
-                    c(40, 30, 30, 35, 20),
-                    c(100, 0, 15, 25, 75),
-                    c(10, 30, 20, 50, 70)
-)
-
-colnames(counts_mat) <- c("Pos 1", "Pos 2", "Pos 3", "Pos 4", "Pos 5")
-rownames(counts_mat) <- c("A", "C", "G", "T")
-counts_mat
+library(seqLogo)
+mFile <- system.file("Exfiles/pwm1", package="seqLogo")
+m <- read.table(mFile)
+p <- makePWM(m)
+seqLogo(p)
 ```
 
-The logo plots with normalized heights can be plotted as follows 
+<img src="vignettes/figures/seqLogo_sequence.png" alt="Logo Plot" height="300" width="700">
+
+`seqLogo` uses the `makePWM` function to convert the matrix into a class "pwm" object by assigning the base information to the rows. To use our package, the user on the other hand would just need to set the row names to the base letters and the column names to the position index as follows.
+This would be more flexible when the user wants to play around with the order of the row names and change the column names.
 
 ```
-logomaker(counts_mat,
-          cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],
+mat <- m
+rownames(mat) <- c("A", "C", "G", "T")
+colnames(mat) <- 1:8
+
+logomaker(mat,
+          cols= RColorBrewer::brewer.pal(dim(mat)[1],
           name ="Spectral"),
           frame_width = 1,
-          ic.scale = FALSE)
+          ic.scale = TRUE,
+          yscale_change=FALSE,
+          xlab="position")
 ```
 
-<img src="vignettes/figures/logolas_acgt_1.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figures/logomaker_sequence_1.png" alt="Logo Plot" height="300" width="700">
 
-The logo plot with un-normalized heights
+Just as in `seqLogo` , `Logolas` too has an  `ic.scale`  option to determine if the heights of the bars should be same or should be determined by the information criterion. 
 
 ```
-logomaker(counts_mat,
-          cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],
-          name = "Spectral"),
+logomaker(mat,
+          cols= RColorBrewer::brewer.pal(dim(mat)[1],
+          name ="Spectral"),
           frame_width = 1,
-          yscale_change = FALSE,
-          pop_name = "Pop A")
+          ic.scale = FALSE,
+          yscale_change=FALSE,
+          xlab="position")
 ```
 
-<img src="vignettes/figures/logolas_acgt_3.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figures/logomaker_sequence_2.png" alt="Logo Plot" height="300" width="700">
 
-
-Looks like the Y-axis does not adjust for the data, one can do that as follows (which is the default).
+In addition, the user can use the `yscale_change` option which adjusts for the scale of Y axis as per data and blows up the logo plot, making it easier to visualize.
 
 ```
-logomaker(counts_mat,
-          cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],
-          name = "Spectral"),
-          frame_width = 1)
+logomaker(mat,
+          cols= RColorBrewer::brewer.pal(dim(mat)[1],
+          name ="Spectral"),
+          frame_width = 1,
+          ic.scale = FALSE,
+          yscale_change=TRUE,
+          xlab="position")
 ```
 
-<img src="vignettes/figures/logolas_acgt_2.png" alt="Logo Plot" height="300" width="700">
+Besides, Logolas also lets you play with the colors of the symbols, choose your own `ic` function that can be used to determine the heights of the stacks, set titles, x-labels, y-labels and axis names as per the user choice and also choose the relative width of each column in the logo stack, the kind of flexibility one does not get with `seqLogo` package.
+
+`seqLogo` is constrained to only logos for $A$, $C$, $G$ and $T$, but `Logolas` has a much wider mix of symbols or logos, encompassing all English uppercase alphabets, numbers, punctuation marks and all combinations numbers, alphabets and punctuations. Additionally, it lets the user to set new symbols and add them to the mix. All this makes `Logolas` a pretty generic logo building tool that can be applied in many applications. A few of those applications are provided below. 
+
 
 ## Application of Logolas - protein motif example
 
-Our package is flexible to use on protein motif data as well. 
+Our package is flexible to use on protein motif data as well. For protein motifs, insead of base symbols, we have symbols for $20$ amino acids, each of which is assigned one English alphabet. A demo example of that is provided below.
 
 ```
-counts_mat <- rbind(c(0, 10, 100, 60, 20),
-                    c(40, 30, 30, 35, 20),
-                    c(100, 0, 15, 25, 75),
-                    c(10, 30, 20, 50, 70),
-                    c(4, 2, 3, 7, 10),
-                    c(12, 8, 0, 21, 3),
+counts_mat <- rbind(c(0, 0, 100, 1, 2),
+                    c(4, 3, 30, 35, 2),
+                    c(100, 0, 10, 2, 7),
+                    rep(0,5),
+                    c(4, 2, 3, 7, 70),
+                    c(1, 8, 0, 60, 3),
                     rep(0, 5),
-                    c(24, 21, 17, 14, 18),
+                    c(4, 2, 100, 1, 1),
                     c(12, 8, 16, 7, 20),
-                    c(55, 0, 1, 23, 12),
+                    c(55, 0, 1, 0, 12),
                     rep(0,5),
                     c(rep(0,3), 20, 0),
-                    c(43, 21, 23, 20, 26),
-                    c(12, 20, 3, 17, 22),
-                    c(4, 7, 12, 3, 10),
-                    c(32, 12, 8, 12, 9),
-                    c(5, 6, 3, 34, 1),
-                    c(23, 12, 11, 35, 14),
-                    c(14, 15, 8, 13, 22),
-                    c(10, 15, 4, 23, 23))
+                    rep(0,5),
+                    c(0, 0, 30, 0, 22),
+                    c(1, 0, 12, 3, 10),
+                    rep(0,5),
+                    c(0, 1, 0, 34, 1),
+                    c(0, 1, 12, 35, 1),
+                    c(0, 30, 1, 10, 2),
+                    c(0, 1, 4, 100, 2))
 
 
 
@@ -133,7 +141,7 @@ logomaker(counts_mat,
           cols= cols1,
           frame_width = 1,
           ic.scale  = FALSE,
-          yscale_change = TRUE)
+          yscale_change = FALSE)
 ```
 
 <img src="vignettes/figures/logolas_protein_1.png" alt="Logo Plot" height="300" width="700">
@@ -141,10 +149,9 @@ logomaker(counts_mat,
 ## Application of Logolas - arXiv category logo 
 
 Suppose we want to build a logo plot of the field categories of manuscipts submitted by authors on aRxiv. Here is a demo example on 4 Professors from
-Statistics department, University of Chicago.
+Statistics department, University of Chicago where I come from. Note here the field categories are a combination of numbers and alphabets and not just a single alphabet as in the examples above. `Logolas` can be easily used even in such cases, with the same syntax structure as before.
 
-We first the counts data of number of publications for each category and
-each of the 4 Professors (representing column blocks here).
+We generate the counts data of number of publications for each category for each of the 4 Professors (representing column blocks here).
 
 ```
 library(aRxiv)
@@ -213,7 +220,7 @@ logomaker(tab_data,
 
 ## Application of Logolas - mutational profile
 
-We build a mutational profile matrix with mutation at the center and the flanking bases on the either sides. 
+Sometimes a symbol or logo might be even more complex. For example, one may want to represent mutational profile as a logo plot, with the base substitution at the center and the flanking base information to the left and right of the substitution. For the substitution, one may want to use symbols like $ C -> T$ etc. `Logolas` is flexible enough to mix symbols with arrow signs (among other signs) and it is very easy to define the logo as $C>T$, $A>G$ etc and $>$ is interpreted as a right arrow (Similarly $<$ is interpreted as left arrow). Check the example below
 
 ```
 library(seqLogo)
@@ -341,6 +348,7 @@ For any questions or comments, please contact [kkdey@uchicago.edu](kkdey@uchicag
 
 ## Acknowledgements
 
+We would like to acknowledge Oliver Bembom, the author of `seqLogo` for acting as an inspiration and giving us the base through his awesome package, on which we developed this software.
 
 
 
