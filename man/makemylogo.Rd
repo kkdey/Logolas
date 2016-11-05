@@ -19,15 +19,18 @@ If TRUE, plots the symbol with specified color in a new grid window.}
 
 \item{addlogos}{Vector of additional logos/symbols defined by user}
 
-\item{addlogos_text}{Vector of the names given to the additional logos/symbols defined by user.}
+\item{addlogos_text}{Vector of the names given to the additional
+logos/symbols defined by user.}
 }
 \value{
-Along with symbol plot, if plot is TRUE, returns a list with the following items.
+Along with symbol plot, if plot is TRUE, returns a list with the
+following items.
         \item{x}{X co-ordinates of the logo in the [0,1] X [0,1] grid window}
         \item{y}{Y co-ordinates of the logo in the [0,1] X [0,1] grid window}
         \item{id}{id vector representing blocks in the logo co-ordinates}
         \item{fill}{a vector equal to the number of distinct ids or blocks in
-                   the logo, whose elements correspond to colors of these blocks}
+                   the logo, whose elements correspond to colors of these
+                   blocks}
 }
 \description{
 Plots logo for a given english symbol or name that contains
@@ -52,6 +55,9 @@ lambdaletter <- function(colfill="green"){
           "id" = id,
           "fill" = fill)
            return(ll)}
-makemylogo("AC>EF/lambda/W35", addlogos="lambda", addlogos_text="lambda", plot=TRUE)
+makemylogo("AC>EF/lambda/W35",
+           addlogos="lambda",
+           addlogos_text="lambda",
+           plot=TRUE)
 }
 
