@@ -4,8 +4,8 @@
 #' each other to build the logo plot.
 #'
 #' @param table The input table (data frame or matrix) of counts across different
-#' logos or symbols (specified along the rows) ans across different sites or positions or
-#' groups (specified along the columns).
+#' logos or symbols (specified along the rows) ans across different sites or
+#' positions or groups (specified along the columns).
 #'
 #' @param ic A vector of same length as the number of columns in the \code{table},
 #' repesenting the heights of the logo stacked bars for each position/site/block.
@@ -21,8 +21,9 @@
 #' in the logo plot. As default, all the columns have same width, equal to 1.
 #'
 #' @param ic.scale if TRUE, the height of the bars in the stacked logo chart for
-#' each column is determined based on the information criterion  input. Otherwise, the bars
-#' are normalized so that the height of each bar is $1$. Defaults to TRUE.
+#' each column is determined based on the information criterion  input.
+#' Otherwise, the bars are normalized so that the height of each bar is $1$.
+#' Defaults to TRUE.
 #'
 #' @param alpha The Renyi entropy tuning parameter which is used in case of
 #' scaling of the bar heights by information criterion. The default tuning
@@ -40,12 +41,12 @@
 #'
 #' @param y_fontsize The size of the Y-axis font.
 #'
-#' @param yscale_change If TRUE, adjusts the Y axis scale based on the size of the
-#' bars, else keeps it to the maximum value possible, which is \code{ceiling(max(ic)} under
-#' \code{ic_computer} defined IC criteria.
+#' @param yscale_change If TRUE, adjusts the Y axis scale based on the size of
+#' the bars, else keeps it to the maximum value possible, which is
+#' \code{ceiling(max(ic)} under \code{ic_computer} defined IC criteria.
 #'
-#' @param start The starting point in Y axis for the first logo. Default is 0.0001
-#' which is very close to 0.
+#' @param start The starting point in Y axis for the first logo. Default is
+#' 0.0001 which is very close to 0.
 #'
 #' @param pop_name User can mention a name of the population for which the logo
 #' plot is created. Defaults to NULL when no population name is mentioned.
@@ -226,7 +227,8 @@ logomaker <- function( table,
     grid::grid.text("Logo plot", y = grid::unit(1, "npc") + grid::unit(1, "lines"),
               gp = grid::gpar(fontsize = 16))
   }else{
-    grid::grid.text(paste0("Logo plot of ", pop_name), y = grid::unit(1, "npc") + grid::unit(1, "lines"),
+    grid::grid.text(paste0("Logo plot of ", pop_name),
+                    y = grid::unit(1, "npc") + grid::unit(1, "lines"),
               gp = grid::gpar(fontsize = 16))
   }
 
@@ -234,7 +236,8 @@ logomaker <- function( table,
     grid::grid.xaxis(at=wt*seq(0.5,ncol(table_mat_norm)-0.5),
                label=colnames(table_mat_norm),
                gp=grid::gpar(fontsize=xaxis_fontsize))
-    grid::grid.text(xlab, y=grid::unit(-3,"lines"), gp=grid::gpar(fontsize=xaxis_fontsize))
+    grid::grid.text(xlab, y=grid::unit(-3,"lines"),
+                    gp=grid::gpar(fontsize=xaxis_fontsize))
   }
   if (yaxis){
     if(yscale_change==TRUE){

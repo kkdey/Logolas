@@ -1,8 +1,8 @@
 Package: Logolas
 Type: Package
 Title: Flexible and Customized Logo Plots using symbols, alphabets, numbers and alphanumeric strings
-Version: 0.1.0
-Date: 10.23.2016.
+Version: 0.0.1
+Date: 11.5.2016.
 Author: c(
     person("Kushal", "Dey", email = "kkdey@uchicago.edu", role = c("aut","cre")),
     person("Matthew", "Stephens", email = "stephens999@gmail.com", role ="ctb"))
@@ -10,11 +10,13 @@ Maintainer: Kushal Dey <kkdey@uchicago.edu>
 Description: Produces logo plots of a variety of symbols and names comprising English alphabets, numerics and punctuations. Can be used for sequence motif generation, mutation pattern generation, protein amino acid geenration and symbol strength representation in any generic context.
 License: GPL (>= 2)
 LazyData: TRUE
-Depends:
-    R (>= 3.2)
-Imports: seqLogo, grid, gridExtra, RColorBrewer, aRxiv
-Suggests: knitr, BiocStyle, Biobase, roxygen2, devtools, xtable
+Depends: R (>= 3.3), grid
+URL: https://github.com/kkdey/Logolas
+Imports:
+    grid,
+    graphics
+Suggests:
+    knitr, BiocStyle, Biobase, roxygen2, devtools, xtable, gridExtra, RColorBrewer, aRxiv
 VignetteBuilder: knitr
+biocViews: SequenceMatching, Alignment, Software, Visualization
 RoxygenNote: 5.0.1
-
-

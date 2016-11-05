@@ -23,10 +23,8 @@
 #' @examples
 #' out <- threeletter(plot=TRUE)
 
-threeletter <- function(plot = FALSE,
-                         fill_symbol = TRUE,
-                         colfill="green",
-                         lwd =10){
+threeletter <- function(plot = FALSE, fill_symbol = TRUE,
+                         colfill="green", lwd =10){
 
 
 

@@ -13,8 +13,8 @@ logomaker(table, ic = NULL, cols, frame_width = NULL, ic.scale = TRUE,
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
-logos or symbols (specified along the rows) ans across different sites or positions or
-groups (specified along the columns).}
+logos or symbols (specified along the rows) ans across different sites or
+positions or groups (specified along the columns).}
 
 \item{ic}{A vector of same length as the number of columns in the \code{table},
 repesenting the heights of the logo stacked bars for each position/site/block.
@@ -30,8 +30,9 @@ table.}
 in the logo plot. As default, all the columns have same width, equal to 1.}
 
 \item{ic.scale}{if TRUE, the height of the bars in the stacked logo chart for
-each column is determined based on the information criterion  input. Otherwise, the bars
-are normalized so that the height of each bar is $1$. Defaults to TRUE.}
+each column is determined based on the information criterion  input.
+Otherwise, the bars are normalized so that the height of each bar is $1$.
+Defaults to TRUE.}
 
 \item{alpha}{The Renyi entropy tuning parameter which is used in case of
 scaling of the bar heights by information criterion. The default tuning
@@ -49,12 +50,12 @@ or not. Defaults to TRUE.}
 
 \item{y_fontsize}{The size of the Y-axis font.}
 
-\item{start}{The starting point in Y axis for the first logo. Default is 0.0001
-which is very close to 0.}
+\item{start}{The starting point in Y axis for the first logo. Default is
+0.0001 which is very close to 0.}
 
-\item{yscale_change}{If TRUE, adjusts the Y axis scale based on the size of the
-bars, else keeps it to the maximum value possible, which is \code{ceiling(max(ic)} under
-\code{ic_computer} defined IC criteria.}
+\item{yscale_change}{If TRUE, adjusts the Y axis scale based on the size of
+the bars, else keeps it to the maximum value possible, which is
+\code{ceiling(max(ic)} under \code{ic_computer} defined IC criteria.}
 
 \item{pop_name}{User can mention a name of the population for which the logo
 plot is created. Defaults to NULL when no population name is mentioned.}
