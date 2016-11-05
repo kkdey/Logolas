@@ -4,21 +4,28 @@
 \alias{ic_computer}
 \title{Information criterion computer}
 \usage{
-ic_computer(mat)
+ic_computer(mat, alpha)
 }
 \arguments{
 \item{mat}{A matrix with symbols or logo names along the rows and
 the sites/positions/groups along the columns.}
+
+\item{alpha}{The tuning parameter of the Renyi entropy used in computing
+the information criterion. Default is alpha=1, for which it uses Shannon
+entropy (in the limit).}
 }
 \value{
-A vector of same length as the number of columns in the data, with each
-        entry determining the height of the bar for the logo plot for that
+A vector of same length as the number of columns in the data, with
+        each entry representing information contained in that column,
+        which determines the height of the bar for the logo plot for that
         particular column (site/position/block).
 }
 \description{
-Computes information criterion required in determining the size
-of the logos in the logo plot. Similar to the pwm2ic() function in seqLogo
-package
+Computes information criterion based on Renyi entropy
+for determining the size of the logos in the logo plot. Similar but allows
+for more general entropy criteria to the pwm2ic() function in seqLogo package.
+By tuning the alpha parameter input, one can vary the entropy from Shannon
+(alpha=1) to collision (alpha=2) to min-entropy (alpha=infty)
 }
 \examples{
 
@@ -28,8 +35,7 @@ counts_mat <- rbind(c(0, 10, 100, 60, 20),
                    c(10, 30, 20, 50, 70)
               )
 colnames(counts_mat) <- c("2012", "2013", "2014", "2015", "2016")
-rownames(counts_mat) <- c("Kushal", "Gao", "Hussein",
-                         "Joyce")
-ic_computer(counts_mat)
+rownames(counts_mat) <- c("P1", "P2", "P3", "P4")
+ic_computer(counts_mat, alpha=2)
 }
 
