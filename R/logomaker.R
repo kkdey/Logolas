@@ -24,6 +24,10 @@
 #' each column is determined based on the information criterion  input. Otherwise, the bars
 #' are normalized so that the height of each bar is $1$. Defaults to TRUE.
 #'
+#' @param alpha The Renyi entropy tuning parameter which is used in case of
+#' scaling of the bar heights by information criterion. The default tuning
+#' parameter value is 1, which corresponds to Shannon entropy.
+#'
 #' @param xaxis Binary specifying if there should be a X axis in the logo plot
 #' or not. Defaults to TRUE.
 #'
@@ -88,6 +92,7 @@ logomaker <- function( table,
                        cols,
                        frame_width=NULL,
                        ic.scale=TRUE,
+                       alpha=1,
                        xaxis=TRUE,
                        yaxis=TRUE,
                        xaxis_fontsize=10,
@@ -128,7 +133,7 @@ logomaker <- function( table,
   chars <- as.character(rownames(table_mat_norm))
 
   if(is.null(ic)){
-    ic <- ic_computer(table_mat_norm)
+    ic <- ic_computer(table_mat_norm, alpha)
   }
 
   letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL)

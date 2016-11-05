@@ -5,9 +5,10 @@
 \title{Main workhorse function that builds the logo plots}
 \usage{
 logomaker(table, ic = NULL, cols, frame_width = NULL, ic.scale = TRUE,
-  xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
-  y_fontsize = 15, start = 1e-04, yscale_change = TRUE, pop_name = NULL,
-  xlab = "X", ylab = "Information content", col_line_split = "grey80",
+  alpha = 1, xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10,
+  xlab_fontsize = 15, y_fontsize = 15, start = 1e-04,
+  yscale_change = TRUE, pop_name = NULL, xlab = "X",
+  ylab = "Information content", col_line_split = "grey80",
   addlogos = NULL, addlogos_text = NULL)
 }
 \arguments{
@@ -31,6 +32,10 @@ in the logo plot. As default, all the columns have same width, equal to 1.}
 \item{ic.scale}{if TRUE, the height of the bars in the stacked logo chart for
 each column is determined based on the information criterion  input. Otherwise, the bars
 are normalized so that the height of each bar is $1$. Defaults to TRUE.}
+
+\item{alpha}{The Renyi entropy tuning parameter which is used in case of
+scaling of the bar heights by information criterion. The default tuning
+parameter value is 1, which corresponds to Shannon entropy.}
 
 \item{xaxis}{Binary specifying if there should be a X axis in the logo plot
 or not. Defaults to TRUE.}
