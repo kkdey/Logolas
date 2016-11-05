@@ -388,6 +388,9 @@ For any questions or comments, please contact [kkdey@uchicago.edu](kkdey@uchicag
 
 We would like to acknowledge Oliver Bembom, the author of `seqLogo` for acting as an inspiration and giving us the base through his awesome package, on which we developed this software.
 
+We would also like to thank Kevin Luo, Hussein -al Asadi, John Blischak and Alex White
+for helpful discussions.
+
 
 
 

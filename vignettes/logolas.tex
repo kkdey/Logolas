@@ -1,6 +1,6 @@
 %\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{Flexible Logo plots of symbols and alphanumeric strings using Logolas}
-%\VignettePackage{CountClust}
+%\VignettePackage{Logolas}
 
 % To compile this document
 % library('knitr'); rm(list=ls()); knit('Logolas/vignettes/logolas.Rnw')
@@ -71,7 +71,7 @@
 
 
 \author{Kushal K Dey \\[1em]
-\small{\textit{Stephens Lab}, The University of Chicago} \mbox{ }\\
+\small{\textit{Stephens Lab}, Dept. of Statistics, The University of Chicago} \mbox{ }\\
 \small{\texttt{$^*$Correspondending Email: kkdey@uchicago.edu}}}
 
 
@@ -82,15 +82,13 @@
 \maketitle
 
 \begin{abstract}
-  \vspace{1em}
+\vspace{1em}
 Logo plots are popular in genomic studies for sequence alignment and motif detection. However, logos have been pretty restrictive in its scope because of limited library of symbols it uses and the lack of flexibility in extending it to other applications. In this package, we provide an easy and more flexible interface for the user to plot logos and more importantly, we extend the library of logos from A, C, T, G (as in seqLogo) and English alphabets (RWebLogo) to include numbers and alpha-numeric strings with provision for punctuations and arrows. It also provides the user with a simple interface to create her own logo and add to her personal library.
 In this vignette, we discuss a number of applications beyond sequence alignment where such flexible logo plots can be used.
-\end{abstract}
 
 \vspace{1em}
 \textbf{\Logolas{} version:} 0.1.0 \footnote{This document used the vignette from \Bioconductor{} package \Biocpkg{CountClust, DESeq2} as \CRANpkg{knitr} template}
 \end{abstract}
-
 
 
 
@@ -100,7 +98,7 @@ In this vignette, we discuss a number of applications beyond sequence alignment 
 
 \section{Introduction}
 
-Logo plots are a popular tool in bioinformatics and regulatory genomics studies for representing sequence alignment patterns and also sequence and protein motif detection. One of the first logo plotting tools is \Biocpkg{seqLogo} by Oliver Bembom \cite{Bembom2016}, specifically targeted at DNA sequence alignment. However, it has a library of only 4 symbols - A, C, G and T- corresponding to the 4 nucleotides. The package \CRANpkg{RWebLogo} is an extension of WebLogo python package that plots custom sequence logos by extending it to all alphabets. Another package \Biocpkg{motifStack} works with both DNA/RNA sequence motif and amino acid sequence motif and customizes font size and colors.
+Logo plots are a popular tool in bioinformatics and regulatory genomics studies for representing sequence alignment patterns and also sequence and protein motif detection. One of the first logo plotting tools is \Biocpkg{seqLogo} by Oliver Bembom \cite{Bembom2016}, specifically targeted at DNA sequence alignment. However, it has a library of only 4 symbols - A, C, G and T- corresponding to the 4 nucleotides. The package \CRANpkg{RWebLogo} is an extension of WebLogo python package that plots custom sequence logos by extending it to all alphabets \cite{Wagih2014}. Another package \Biocpkg{motifStack} works with both DNA/RNA sequence motif and amino acid sequence motif and customizes font size and colors \cite{Ou2015}.
 
 \Logolas{} adds more flexibility by customizing logos and the graphical design of the logo plots. Also it extends the library of symbols beyond English alphabets to numbers, symbols (arrows, punctuations) and to alphanumeric strings. It allows the user to choose a range of information criteria to determine logo sizes and more importantly, a simple user interface to create new logos and add them to the library of logos already present and to strings. We show several applications in genomics, ecology and document mining, where such logo plots can be applied.
 
@@ -137,7 +135,7 @@ Then load the package with:
 \end{kframe}
 \end{knitrout}
 
-\section{Application}
+\section{Applications}
 
 We start with the most basic application of logo plots - for alignment of DNA sequence, comprising of logos A, C, T and G, corresponding to the four nucleotide. This is the typical application of \Biocpkg{seqLogo}. We start with a demo example and apply \Biocpkg{seqLogo} to it.
 
@@ -373,7 +371,7 @@ Then we apply \begin{verb} logomaker \end{verb} on that matrix.
 
 \subsection{String Logos:  Histone marks patterns}
 
-In studies relted to histone marks, one might be interested to see if certain histone marks are prominent than others in some cell lines or tissues or in some genomic regions. In this case, we apply Logolas on an example data from Koch et al (2007) [Supp Table 2 of that paper]. The authors recorded number of histone modification sites identified by the HMM which overlap with an intergenic sequence, intron, exon, gene start and gene end for the lymphoblastoid cell line, GM06990, in the ChIP-CHIP data. Logolas provides a handy visualization to see how the patterns of histone modification sites changes across genomic region types for that cell line.
+In studies relted to histone marks, one might be interested to see if certain histone marks are prominent than others in some cell lines or tissues or in some genomic regions. In this case, we apply Logolas on an example data from Koch et al (2007) [Supp Table 2 of that paper] \cite{Koch2007}. The authors recorded number of histone modification sites identified by the HMM which overlap with an intergenic sequence, intron, exon, gene start and gene end for the lymphoblastoid cell line, GM06990, in the ChIP-CHIP data. Logolas provides a handy visualization to see how the patterns of histone modification sites changes across genomic region types for that cell line.
 
 First we input the data from Supp Table 2 due to Koch et al (2007).
 
@@ -453,8 +451,7 @@ names then act as logos and the clusters of regions represent the stacks in the 
 \subsection{String Logos:  Document mining}
 
 So far we mainly focused on biology examples where \Logolas{} can be applied. But,
-it has application beyond the field of biology. In fact, \Logolas{} can be used as
-an alternative to divided bar charts and pie charts. One example application of \Logolas{} is in document mining and presenting keywords or tags as logos.
+it has application beyond the field of biology. One example application of \Logolas{} is in document mining and presenting keywords or tags as logos.
 
 Here we build a logo plot of the field categories of manuscipts submitted by 4
 professors from Dept. of Statistics, University of Chicago, on aRxiv.Note here the field categories are a combination of numbers and alphabets and dots and dashes.
@@ -581,9 +578,9 @@ lambda or not.
 Once you are happy with the shape of the symbol, you can add it to
 the mix of all other symbols using the following command.
 
-Note that we put `lambda` inside "/.../" to make sure that the function reads it as a new symbol and not general English alphabets or numbers.
+Note that we put \begin{verb} lambda \end{verb} inside "/.../" to make sure that the function reads it as a new symbol and not general English alphabets or numbers.
 
-This confirms that the symbol has been read into the mix, and now it can be used for stacking logo symbols under the `logomaker()` functionality.
+This confirms that the symbol has been read into the mix, and now it can be used for stacking logo symbols under the \begin{verb} logomaker() \end{verb} functionality.
 
 
 \begin{knitrout}
@@ -601,9 +598,9 @@ This confirms that the symbol has been read into the mix, and now it can be used
 \end{kframe}
 \end{knitrout}
 
-LAMBDA symbol is added under `addlogos` and `addlogos_text` options for the `logomaker` mix of symbols.
+LAMBDA symbol is added under \begin{verb} addlogos \end{verb} and  \begin{verb} addlogos_text \end{verb} options for the \begin{verb} logomaker \end{verb} mix of symbols.
 
-\begin{figure}
+\begin{figure}[h]
 \begin{center}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -622,8 +619,74 @@ LAMBDA symbol is added under `addlogos` and `addlogos_text` options for the `log
 \end{center}
 \end{figure}
 
+\newpage
 
+\section{Conclusion}
 
+\Logolas{} allows an user to use alphabets, numbers, punctuations, arrows and alpha-numeric strings as logos, which expands the horizon of applicability of logo plots in general. Logo plots can be used as a substitute for divided bar charts and pie charts which also aids in comparisons across multiple groups and deprecates the need for legends. It also can be used to see patterns of variation across time points or genomic positions or any sequential data on discrete categories. Finally, the flexibility of creating new logos, which can be different shapes or new symbols, expands the scope of logo plots even further.
 
+\section{Acknowledgements}
+
+We would like to acknowledge Oliver Bembom, the author of `seqLogo` for acting as an inspiration and providing the foundation on which this package is created. We would also like to thank Kevin Luo, Hussein -al Asadi, John Blischak and Alex White
+for helpful discussions.
+
+\section{Session Info}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{sessionInfo}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## R version 3.3.1 (2016-06-21)
+## Platform: x86_64-apple-darwin13.4.0 (64-bit)
+## Running under: OS X 10.12 (Sierra)
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+## [1] seqLogo_1.36.0 Logolas_0.1.0  knitr_1.13    
+## 
+## loaded via a namespace (and not attached):
+##  [1] BiocStyle_1.8.0    magrittr_1.5       formatR_1.4        tools_3.3.1       
+##  [5] RColorBrewer_1.1-2 stringi_1.1.2      highr_0.6          stringr_1.1.0     
+##  [9] stats4_3.3.1       evaluate_0.9
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{thebibliography}{1}
+
+\bibitem{Bembom2016}
+Bembom O (2016).
+\newblock seqLogo: Sequence logos for DNA sequence alignments.
+\newblock R package version 1.40.0.
+
+\bibitem{Wagih2014}
+Omar Wagih (2014).
+\newblock RWebLogo: plotting custom sequence logos.
+\newblock R package version 1.0.3. https://CRAN.R-project.org/package=RWebLogo
+
+\bibitem{Ou2015}
+Jianhong Ou Developer and Lihua Julie Zhu Developer (2015).
+\newblock  motifStack: Plot stacked logos for single or multiple DNA, RNA and amino acid sequence.
+\newblock  R package version 1.14.0.
+
+\bibitem{Shiraishi2015}
+Shiraishi Y, Tremmel G, Miyano S, Stephens M (2015)
+\newblock A Simple Model-Based Approach to Inferring and Visualizing Cancer Mutation Signatures.
+\newblock PLoS Genet 11(12): e1005657. doi: 10.1371/journal.pgen.1005657
+
+\bibitem{Koch2007}
+Koch CM, Andrews RM, Flicek P, et al (2007).
+\newblock The landscape of histone modifications across $1 \%$ of the human genome in five human cell lines.
+\newblock Genome Research. 2007;17(6):691-707. doi:10.1101/gr.5704207.
+
+\end{thebibliography}
 
 \end{document}
