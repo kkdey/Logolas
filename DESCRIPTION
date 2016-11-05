@@ -1,11 +1,11 @@
 Package: Logolas
 Type: Package
-Title: Generates Flexible Logo Plots for wide variety of English alphanumerics
+Title: Generates Flexible Logo Plots for symbols, alphabets, numbers and alphanumeric strings and allows users to customize the plots and create personalized logos.
 Version: 0.1.0
 Date: 10.23.2016.
 Author: c(
     person("Kushal", "Dey", email = "kkdey@uchicago.edu", role = c("aut","cre")),
-    person("Matthew", "Stephens", email = "stephens999@gmail.com", role ="aut"))
+    person("Matthew", "Stephens", email = "stephens999@gmail.com", role ="ctb"))
 Maintainer: Kushal Dey <kkdey@uchicago.edu>
 Description: Produces logo plots of a variety of symbols and names comprising English alphabets, numerics and punctuations. Can be used for sequence motif generation, mutation pattern generation, protein amino acid geenration and symbol strength representation in any generic context.
 License: GPL (>= 2)

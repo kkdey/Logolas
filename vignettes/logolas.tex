@@ -190,9 +190,21 @@ Now we apply \Logolas{} to build similar plot. We start with the same matrix as 
 
 \newpage
 
-As default, if \begin{verb} ic.scale = TRUE \end{verb}, the heights of the bars at each position are determined by the Shannon entropy. The size of logo in each stack is proportional to the relative abundance of that logo in that stack. To change to other orders of Renyi entropy, one can tune the input parameter \begin{verb} alpha \end{verb}.
+As default, if \begin{verb} ic.scale = TRUE \end{verb}, the heights of the bars at each position are determined by the Shannon entropy. The size of logo in each stack is proportional to the relative abundance of that logo in that stack.
 
-A higher value of  \begin{verb} alpha \end{verb} makes the logos more prominent, besides maintaining relative structure.
+To change to other orders of Renyi entropy, one can tune the input parameter \begin{verb} alpha \end{verb}. A higher value of  \begin{verb} alpha \end{verb} makes the logos more prominent, besides maintaining relative structure. One can set different infromation criteria using the \begin{verb} ic_computer \end{verb}
+function.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{ic_computer}\hlstd{(m,} \hlkwc{alpha}\hlstd{=}\hlnum{3}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 1.673 1.673 1.673 0.931 0.849 1.673 1.673 1.673
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 Also, the Y-axis can be adjusted by taking \begin{verb} yscale_change=TRUE \end{verb}
 
@@ -208,7 +220,7 @@ Also, the Y-axis can be adjusted by taking \begin{verb} yscale_change=TRUE \end{
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
           \hlkwc{alpha} \hlstd{=} \hlnum{2}\hlstd{,}
-          \hlkwc{yscale_change}\hlstd{=}\hlnum{FALSE}\hlstd{,}
+          \hlkwc{yscale_change}\hlstd{=}\hlnum{TRUE}\hlstd{,}
           \hlkwc{xlab}\hlstd{=}\hlstr{"position"}\hlstd{,}
           \hlkwc{col_line_split} \hlstd{=} \hlstr{"grey80"}\hlstd{)}
 \end{alltt}
@@ -237,7 +249,8 @@ One can also use normalized heights of the stacks of logos for each column by ch
           \hlkwc{ic.scale} \hlstd{=} \hlnum{FALSE}\hlstd{,}
           \hlkwc{alpha} \hlstd{=} \hlnum{2}\hlstd{,}
           \hlkwc{xlab}\hlstd{=}\hlstr{"position"}\hlstd{,}
-          \hlkwc{col_line_split} \hlstd{=} \hlstr{"grey80"}\hlstd{)}
+          \hlkwc{col_line_split} \hlstd{=} \hlstr{"grey80"}\hlstd{,}
+          \hlkwc{ylab} \hlstd{=} \hlstr{"Probability"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 \includegraphics[width=6in,height=5in]{figure/logolas_use_3-1} 
@@ -246,7 +259,368 @@ One can also use normalized heights of the stacks of logos for each column by ch
 \end{center}
 \end{figure}
 
+\newpage
 
+\Logolas{} lets you customize the colors of the logos, has option for user-defined information function under option \begin{verb} ic \end{verb},  beyond the different Renyi criteria that can be set. User can set titles, X-labels, Y-labels, axis ticks and also the relative width of each column of the logo stack, making it much more flexible than the standard packages for logo plotting.
+
+\subsection{Amino acid sequence motif}
+
+One can use \Logolas{} for amino acid sequence motif detection as well, as the logo library of the software includes all the English alphabets and the 20 amino acids have a 1-letter representation on English alphabets.
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{counts_mat} \hlkwb{<-} \hlkwd{rbind}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{100}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{2}\hlstd{),} \hlkwd{c}\hlstd{(}\hlnum{4}\hlstd{,} \hlnum{3}\hlstd{,} \hlnum{30}\hlstd{,} \hlnum{35}\hlstd{,} \hlnum{2}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlnum{100}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{10}\hlstd{,} \hlnum{2}\hlstd{,} \hlnum{7}\hlstd{),}\hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{5}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlnum{4}\hlstd{,} \hlnum{2}\hlstd{,} \hlnum{3}\hlstd{,} \hlnum{7}\hlstd{,} \hlnum{70}\hlstd{),} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{8}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{60}\hlstd{,} \hlnum{3}\hlstd{),}
+                    \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{5}\hlstd{),} \hlkwd{c}\hlstd{(}\hlnum{4}\hlstd{,} \hlnum{2}\hlstd{,} \hlnum{100}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlnum{12}\hlstd{,} \hlnum{8}\hlstd{,} \hlnum{16}\hlstd{,} \hlnum{7}\hlstd{,} \hlnum{20}\hlstd{),} \hlkwd{c}\hlstd{(}\hlnum{55}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{12}\hlstd{),}
+                    \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{5}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{3}\hlstd{),} \hlnum{20}\hlstd{,} \hlnum{0}\hlstd{),}
+                    \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{5}\hlstd{),} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{30}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{22}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{12}\hlstd{,} \hlnum{3}\hlstd{,} \hlnum{10}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{5}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{34}\hlstd{,} \hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{12}\hlstd{,} \hlnum{35}\hlstd{,} \hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{30}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{10}\hlstd{,} \hlnum{2}\hlstd{),} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{4}\hlstd{,} \hlnum{100}\hlstd{,} \hlnum{2}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\begin{figure}[htp]
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{rownames}\hlstd{(counts_mat)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"A"}\hlstd{,} \hlstr{"R"}\hlstd{,} \hlstr{"N"}\hlstd{,} \hlstr{"D"}\hlstd{,}\hlstr{"C"}\hlstd{,} \hlstr{"E"}\hlstd{,} \hlstr{"Q"}\hlstd{,} \hlstr{"G"}\hlstd{,}
+                          \hlstr{"H"}\hlstd{,} \hlstr{"I"}\hlstd{,} \hlstr{"L"}\hlstd{,} \hlstr{"K"}\hlstd{,} \hlstr{"M"}\hlstd{,} \hlstr{"F"}\hlstd{,} \hlstr{"P"}\hlstd{,} \hlstr{"S"}\hlstd{,}
+                          \hlstr{"T"}\hlstd{,} \hlstr{"W"}\hlstd{,} \hlstr{"Y"}\hlstd{,} \hlstr{"V"}\hlstd{)}
+
+\hlkwd{colnames}\hlstd{(counts_mat)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Pos 1"}\hlstd{,} \hlstr{"Pos 2"}\hlstd{,} \hlstr{"Pos 3"}\hlstd{,} \hlstr{"Pos 4"}\hlstd{,} \hlstr{"Pos 5"}\hlstd{)}
+
+\hlstd{cols1} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlkwd{rev}\hlstd{(RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{12}\hlstd{,} \hlstr{"Paired"}\hlstd{))[}\hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,}\hlnum{4}\hlstd{,}\hlnum{7}\hlstd{,}\hlnum{8}\hlstd{,}\hlnum{11}\hlstd{,}\hlnum{12}\hlstd{,}\hlnum{5}\hlstd{,}\hlnum{6}\hlstd{,}\hlnum{9}\hlstd{,}\hlnum{10}\hlstd{)],}
+           \hlstd{RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{12}\hlstd{,} \hlstr{"Set3"}\hlstd{)[}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{5}\hlstd{,}\hlnum{8}\hlstd{,}\hlnum{9}\hlstd{)],}
+           \hlstd{RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{9}\hlstd{,} \hlstr{"Set1"}\hlstd{)[}\hlkwd{c}\hlstd{(}\hlnum{9}\hlstd{,}\hlnum{7}\hlstd{)],}
+           \hlstd{RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{8}\hlstd{,} \hlstr{"Dark2"}\hlstd{)[}\hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,}\hlnum{4}\hlstd{,}\hlnum{8}\hlstd{)])}
+
+\hlkwd{logomaker}\hlstd{(counts_mat,}
+          \hlkwc{cols}\hlstd{= cols1,}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{ic.scale}  \hlstd{=} \hlnum{FALSE}\hlstd{,}
+          \hlkwc{yscale_change} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=6in,height=5in]{figure/logolas_use_5-1} 
+
+\end{knitrout}
+\end{center}
+\end{figure}
+
+Note that all we needed to do to get the logo plots is to say the row names and column names as per the the logos and the stack labels and then fix the colors for the logos.
+
+\newpage
+
+\subsection{String Logos: Mutation profiling}
+
+We now step beyond just alphabets as logos, and present the first example of how a string as logos. Suppose for a set of cell lines, we are provided data on the number of mutations (nucleotide substitions) and the corresponding nucleotides along the flanking bases of the nucleotide substitution. This is the kind of problem addressed by Shiraishi et al 2015 \cite{Shiraishi2015}. Shiraishi et al have a package \begin{verb} pmsignature \end{verb} for plotting the substitution and flanking bases profile, but here we use logos to profile them. We apply it on a demo example.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(seqLogo)}
+\hlstd{mFile} \hlkwb{<-} \hlkwd{system.file}\hlstd{(}\hlstr{"Exfiles/pwm1"}\hlstd{,} \hlkwc{package}\hlstd{=}\hlstr{"seqLogo"}\hlstd{)}
+\hlstd{m} \hlkwb{<-} \hlkwd{read.table}\hlstd{(mFile)}
+\hlstd{p} \hlkwb{<-} \hlkwd{makePWM}\hlstd{(m)}
+\hlstd{mat1} \hlkwb{<-} \hlkwd{cbind}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{[,}\hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,}\hlnum{4}\hlstd{)],} \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{4}\hlstd{), p}\hlopt{@}\hlkwc{pwm}\hlstd{[,}\hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,}\hlnum{6}\hlstd{)]);}
+\hlkwd{colnames}\hlstd{(mat1)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"-2"}\hlstd{,} \hlstr{"-1"}\hlstd{,} \hlstr{"0"}\hlstd{,} \hlstr{"1"}\hlstd{,} \hlstr{"2"}\hlstd{)}
+\hlstd{mat2} \hlkwb{<-} \hlkwd{cbind}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{6}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{6}\hlstd{),}
+              \hlkwd{c}\hlstd{(}\hlnum{0.5}\hlstd{,} \hlnum{0.2}\hlstd{,} \hlnum{0.2}\hlstd{,} \hlnum{0.05}\hlstd{,} \hlnum{0.05}\hlstd{,} \hlnum{0}\hlstd{),}
+              \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{6}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{6}\hlstd{))}
+\hlkwd{rownames}\hlstd{(mat2)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"C>T"}\hlstd{,} \hlstr{"C>A"}\hlstd{,} \hlstr{"C>G"}\hlstd{,}
+                    \hlstr{"T>A"}\hlstd{,} \hlstr{"T>C"}\hlstd{,} \hlstr{"T>G"}\hlstd{)}
+
+\hlstd{table} \hlkwb{<-} \hlkwd{rbind}\hlstd{(mat1, mat2)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Note that we use the symbols \begin{verb} X>Y \end{verb} to depict $X \rightarrow Y$ substitutions. The data contains proportion of logos in each position -  $-2$ left flanking, $-1$ left flanking, mutation, $1$ right flanking and $2$ right flanking. Note that \begin{verb} X>Y \end{verb} type symbols occur only in the middle stack as that is the mutation stack, while the nucleotides $A$, $C$, $T$ and $G$ occur only in the left two and right two flanking bases stacks.
+
+Then we apply \begin{verb} logomaker \end{verb} on that matrix.
+
+\begin{figure}[htp]
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{logomaker}\hlstd{(table,}
+          \hlkwc{cols}\hlstd{=} \hlkwd{rev}\hlstd{(RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(table)[}\hlnum{1}\hlstd{],}
+          \hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{)),}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
+          \hlkwc{yscale_change}\hlstd{=}\hlnum{TRUE}\hlstd{,}
+          \hlkwc{xlab} \hlstd{=} \hlstr{"Position"}\hlstd{,}
+          \hlkwc{ylab} \hlstd{=} \hlstr{"Information content"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=6in,height=5in]{figure/logolas_use_7-1} 
+
+\end{knitrout}
+\end{center}
+\end{figure}
+
+
+\newpage
+
+\subsection{String Logos:  Histone marks patterns}
+
+In studies relted to histone marks, one might be interested to see if certain histone marks are prominent than others in some cell lines or tissues or in some genomic regions. In this case, we apply Logolas on an example data from Koch et al (2007) [Supp Table 2 of that paper]. The authors recorded number of histone modification sites identified by the HMM which overlap with an intergenic sequence, intron, exon, gene start and gene end for the lymphoblastoid cell line, GM06990, in the ChIP-CHIP data. Logolas provides a handy visualization to see how the patterns of histone modification sites changes across genomic region types for that cell line.
+
+First we input the data from Supp Table 2 due to Koch et al (2007).
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mat} \hlkwb{<-} \hlkwd{rbind}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{326}\hlstd{,} \hlnum{296}\hlstd{,} \hlnum{81}\hlstd{,} \hlnum{245}\hlstd{,} \hlnum{71}\hlstd{),}
+             \hlkwd{c}\hlstd{(}\hlnum{258}\hlstd{,} \hlnum{228}\hlstd{,} \hlnum{55}\hlstd{,} \hlnum{273}\hlstd{,} \hlnum{90}\hlstd{),}
+             \hlkwd{c}\hlstd{(}\hlnum{145}\hlstd{,} \hlnum{121}\hlstd{,} \hlnum{29}\hlstd{,} \hlnum{253}\hlstd{,} \hlnum{85}\hlstd{),}
+             \hlkwd{c}\hlstd{(}\hlnum{60}\hlstd{,} \hlnum{52}\hlstd{,} \hlnum{23}\hlstd{,} \hlnum{180}\hlstd{,} \hlnum{53}\hlstd{),}
+             \hlkwd{c}\hlstd{(}\hlnum{150}\hlstd{,} \hlnum{191}\hlstd{,} \hlnum{63}\hlstd{,} \hlnum{178}\hlstd{,} \hlnum{63}\hlstd{))}
+
+\hlkwd{rownames}\hlstd{(mat)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"H3K4ME1"}\hlstd{,} \hlstr{"H3K4ME2"}\hlstd{,} \hlstr{"H3K4ME3"}\hlstd{,} \hlstr{"H3AC"}\hlstd{,} \hlstr{"H4AC"}\hlstd{)}
+\hlkwd{colnames}\hlstd{(mat)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Intergenic"}\hlstd{,}\hlstr{"Intron"}\hlstd{,}\hlstr{"Exon \textbackslash{}n 1000 KB window"}\hlstd{,}
+                   \hlstr{"Gene start \textbackslash{}n 1000 KB window"}\hlstd{,}\hlstr{"Gene end \textbackslash{}n 1000 KB window"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Note here that the histone mark symbols are alphanumeric, for example $H3K4ME1$.
+We now apply \Logolas{} on this data.
+
+\begin{figure}[h]
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{logomaker}\hlstd{(mat,}
+          \hlkwc{cols}\hlstd{=} \hlkwd{sample}\hlstd{(RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{10}\hlstd{,}\hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),} \hlkwd{dim}\hlstd{(mat)[}\hlnum{1}\hlstd{]),}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
+          \hlkwc{pop_name} \hlstd{=} \hlstr{"Histone marks in various genomic regions"}\hlstd{,}
+          \hlkwc{xlab} \hlstd{=} \hlstr{""}\hlstd{,}
+          \hlkwc{ylab} \hlstd{=} \hlstr{"Information content"}\hlstd{,}
+          \hlkwc{yscale_change} \hlstd{=} \hlnum{TRUE}\hlstd{,}
+          \hlkwc{col_line_split} \hlstd{=} \hlstr{"black"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=8.5in,height=4in]{figure/logolas_use_9-1} 
+
+\end{knitrout}
+\end{center}
+\end{figure}
+
+\newpage
+
+\subsection{String Logos:  Ecological Data}
+
+String logos can be used to represent how families or genus vary between sites for ecological or metagenomic data. In this case, we present an example of abundance patterns of different families of birds in three clusters of regions. The bird family
+names then act as logos and the clusters of regions represent the stacks in the logo plot.
+
+\begin{figure}[h]
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{set.seed}\hlstd{(}\hlnum{100}\hlstd{)}
+\hlkwd{data}\hlstd{(}\hlstr{"himalayan_fauna_3_clusters"}\hlstd{)}
+\hlkwd{logomaker}\hlstd{(himalayan_fauna_3_clusters,}
+          \hlkwc{cols}\hlstd{=} \hlkwd{sample}\hlstd{(RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{10}\hlstd{,}\hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),}
+                       \hlkwd{dim}\hlstd{(himalayan_fauna_3_clusters)[}\hlnum{1}\hlstd{],} \hlkwc{replace}\hlstd{=}\hlnum{TRUE}\hlstd{),}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
+          \hlkwc{pop_name} \hlstd{=} \hlstr{"Bird family abundance across clusters"}\hlstd{,}
+          \hlkwc{xlab} \hlstd{=} \hlstr{"Clusters"}\hlstd{,}
+          \hlkwc{ylab} \hlstd{=} \hlstr{"Information content"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=8in,height=5in]{figure/logolas_use_10-1} 
+
+\end{knitrout}
+\end{center}
+\end{figure}
+
+\newpage
+
+\subsection{String Logos:  Document mining}
+
+So far we mainly focused on biology examples where \Logolas{} can be applied. But,
+it has application beyond the field of biology. In fact, \Logolas{} can be used as
+an alternative to divided bar charts and pie charts. One example application of \Logolas{} is in document mining and presenting keywords or tags as logos.
+
+Here we build a logo plot of the field categories of manuscipts submitted by 4
+professors from Dept. of Statistics, University of Chicago, on aRxiv.Note here the field categories are a combination of numbers and alphabets and dots and dashes.
+
+We first generate the data
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(aRxiv)}
+\hlstd{rec1} \hlkwb{<-} \hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Matthew Stephens"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
+\hlstd{rec2} \hlkwb{<-} \hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"John Lafferty"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
+\hlstd{rec3} \hlkwb{<-} \hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Wei Biao Wu"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
+\hlstd{rec4} \hlkwb{<-} \hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Peter Mccullagh"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
+
+\hlstd{primary_categories_1} \hlkwb{<-} \hlkwd{toupper}\hlstd{(rec1}\hlopt{$}\hlstd{primary_category)}
+\hlstd{primary_categories_2} \hlkwb{<-} \hlkwd{toupper}\hlstd{(rec2}\hlopt{$}\hlstd{primary_category)}
+\hlstd{primary_categories_3} \hlkwb{<-} \hlkwd{toupper}\hlstd{(rec3}\hlopt{$}\hlstd{primary_category)}
+\hlstd{primary_categories_4} \hlkwb{<-} \hlkwd{toupper}\hlstd{(rec4}\hlopt{$}\hlstd{primary_category)}
+
+\hlstd{factor_levels} \hlkwb{<-} \hlkwd{unique}\hlstd{(}\hlkwd{c}\hlstd{(}\hlkwd{unique}\hlstd{(primary_categories_1),}
+                   \hlkwd{unique}\hlstd{(primary_categories_2),}
+                   \hlkwd{unique}\hlstd{(primary_categories_3),}
+                   \hlkwd{unique}\hlstd{(primary_categories_4)))}
+
+\hlstd{primary_categories_1} \hlkwb{<-} \hlkwd{factor}\hlstd{(primary_categories_1,} \hlkwc{levels}\hlstd{=factor_levels)}
+\hlstd{primary_categories_2} \hlkwb{<-} \hlkwd{factor}\hlstd{(primary_categories_2,} \hlkwc{levels}\hlstd{=factor_levels)}
+\hlstd{primary_categories_3} \hlkwb{<-} \hlkwd{factor}\hlstd{(primary_categories_3,} \hlkwc{levels}\hlstd{=factor_levels)}
+\hlstd{primary_categories_4} \hlkwb{<-} \hlkwd{factor}\hlstd{(primary_categories_4,} \hlkwc{levels}\hlstd{=factor_levels)}
+
+
+\hlstd{tab_data} \hlkwb{<-} \hlkwd{cbind}\hlstd{(}\hlkwd{table}\hlstd{(primary_categories_1),}
+                  \hlkwd{table}\hlstd{(primary_categories_2),}
+                  \hlkwd{table}\hlstd{(primary_categories_3),}
+                  \hlkwd{table}\hlstd{(primary_categories_4))}
+
+\hlkwd{colnames}\hlstd{(tab_data)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Matthew Stephens"}\hlstd{,}
+                        \hlstr{"John Lafferty"}\hlstd{,}
+                        \hlstr{"Wei Biao Wu"}\hlstd{,}
+                        \hlstr{"Peter McCullagh"}\hlstd{)}
+
+\hlstd{tab_data} \hlkwb{<-} \hlkwd{as.matrix}\hlstd{(tab_data)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+We apply \Logolas{} on the data
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{logomaker}\hlstd{(tab_data,}
+          \hlkwc{cols}\hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(tab_data)[}\hlnum{1}\hlstd{],}
+          \hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
+          \hlkwc{pop_name} \hlstd{=} \hlstr{"arXiv field categories of UChicago STAT professors"}\hlstd{,}
+          \hlkwc{xlab} \hlstd{=} \hlstr{"Professors"}\hlstd{,}
+          \hlkwc{ylab} \hlstd{=} \hlstr{"Information content"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{figure}[htp]
+\begin{center}
+\includegraphics[width=7in,height=4in]{figures/logolas_arxiv_1.png}
+\end{center}
+\end{figure}
+
+\section{Creating logos and adding to Library}
+
+An user can create her own logo and add to her personalized library and \Logolas{} provides a very simple interface for doing so.
+
+For example, if one wants to have the symbol Lambda as part of his logo,
+he can create it as follows
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{LAMBDAletter} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{colfill}\hlstd{=}\hlstr{"green"}\hlstd{)\{}
+
+  \hlstd{x} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{0.15}\hlstd{,} \hlnum{0.5}\hlstd{,} \hlnum{0.85}\hlstd{,} \hlnum{0.75}\hlstd{,} \hlnum{0.5}\hlstd{,} \hlnum{0.25}\hlstd{)}
+  \hlstd{y} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{0.8}\hlstd{,} \hlnum{0}\hlstd{)}
+
+  \hlstd{fill} \hlkwb{<-} \hlstd{colfill}
+  \hlstd{id} \hlkwb{<-} \hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwd{length}\hlstd{(x))}
+
+  \hlstd{ll} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"x"}\hlstd{= x,}
+             \hlstr{"y"}\hlstd{= y,}
+             \hlstr{"id"} \hlstd{= id,}
+             \hlstr{"fill"} \hlstd{= fill)}
+  \hlkwd{return}\hlstd{(ll)}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Do make sure, your function name is of the form `*letter"` where you can be creative with the `"*"` part. Also make sure the name you put must be in uppercase letters. You can check if the symbol plot looks like a
+lambda or not.
+
+\begin{figure}
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{lambda} \hlkwb{<-} \hlkwd{LAMBDAletter}\hlstd{()}
+\hlstd{grid}\hlopt{::}\hlkwd{grid.newpage}\hlstd{()}
+\hlstd{grid}\hlopt{::}\hlkwd{pushViewport}\hlstd{(grid}\hlopt{::}\hlkwd{viewport}\hlstd{(}\hlkwc{x}\hlstd{=}\hlnum{0.5}\hlstd{,}\hlkwc{y}\hlstd{=}\hlnum{0.5}\hlstd{,}\hlkwc{width}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{height}\hlstd{=}\hlnum{1}\hlstd{,}
+                                  \hlkwc{clip}\hlstd{=}\hlnum{TRUE}\hlstd{))}
+\hlstd{grid}\hlopt{::}\hlkwd{grid.polygon}\hlstd{(lambda}\hlopt{$}\hlstd{x, lambda}\hlopt{$}\hlstd{y,}
+                     \hlkwc{default.unit}\hlstd{=}\hlstr{"native"}\hlstd{,}
+                     \hlkwc{id}\hlstd{=lambda}\hlopt{$}\hlstd{id,}
+                     \hlkwc{gp}\hlstd{=grid}\hlopt{::}\hlkwd{gpar}\hlstd{(}\hlkwc{fill}\hlstd{=lambda}\hlopt{$}\hlstd{fill,}
+                                   \hlkwc{lwd}\hlstd{=}\hlnum{10}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=4in,height=4in]{figure/logolas_use_14-1} 
+
+\end{knitrout}
+\end{center}
+\end{figure}
+
+Once you are happy with the shape of the symbol, you can add it to
+the mix of all other symbols using the following command.
+
+Note that we put `lambda` inside "/.../" to make sure that the function reads it as a new symbol and not general English alphabets or numbers.
+
+This confirms that the symbol has been read into the mix, and now it can be used for stacking logo symbols under the `logomaker()` functionality.
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{counts_mat} \hlkwb{<-} \hlkwd{rbind}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{10}\hlstd{,} \hlnum{100}\hlstd{,} \hlnum{60}\hlstd{,} \hlnum{20}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlnum{40}\hlstd{,} \hlnum{30}\hlstd{,} \hlnum{30}\hlstd{,} \hlnum{35}\hlstd{,} \hlnum{20}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlnum{100}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{15}\hlstd{,} \hlnum{25}\hlstd{,} \hlnum{75}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlnum{10}\hlstd{,} \hlnum{30}\hlstd{,} \hlnum{20}\hlstd{,} \hlnum{50}\hlstd{,} \hlnum{70}\hlstd{)}
+\hlstd{)}
+
+\hlkwd{colnames}\hlstd{(counts_mat)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Pos 1"}\hlstd{,} \hlstr{"Pos 2"}\hlstd{,} \hlstr{"Pos 3"}\hlstd{,} \hlstr{"Pos 4"}\hlstd{,} \hlstr{"Pos 5"}\hlstd{)}
+\hlkwd{rownames}\hlstd{(counts_mat)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"R/LAMBDA/Q"}\hlstd{,} \hlstr{"A"}\hlstd{,} \hlstr{"X"}\hlstd{,} \hlstr{"Y"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+LAMBDA symbol is added under `addlogos` and `addlogos_text` options for the `logomaker` mix of symbols.
+
+\begin{figure}
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{logomaker}\hlstd{(counts_mat,}
+          \hlkwc{cols}\hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(counts_mat)[}\hlnum{1}\hlstd{],}
+          \hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{addlogos}\hlstd{=}\hlstr{"LAMBDA"}\hlstd{,}
+          \hlkwc{addlogos_text}\hlstd{=}\hlstr{"LAMBDA"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=8in,height=5in]{figure/logolas_use_17-1} 
+
+\end{knitrout}
+\end{center}
+\end{figure}
 
 
 

@@ -1,3 +1,9 @@
 \contentsline {section}{\numberline {1}Introduction}{2}{section.1}
 \contentsline {section}{\numberline {2}\textit {Logolas}{} Installation}{2}{section.2}
 \contentsline {section}{\numberline {3}Application}{2}{section.3}
+\contentsline {subsection}{\numberline {3.1}Amino acid sequence motif}{7}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}String Logos: Mutation profiling}{9}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}String Logos: Histone marks patterns}{10}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}String Logos: Ecological Data}{12}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}String Logos: Document mining}{13}{subsection.3.5}
+\contentsline {section}{\numberline {4}Creating logos and adding to Library}{14}{section.4}
