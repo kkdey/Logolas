@@ -26,6 +26,7 @@
 #' ic_computer(counts_mat)
 
 ic_computer <-function(mat) {
+  mat <- apply(mat, 2, function(x) return(x/sum(x)))
   npos<-ncol(mat)
   ic <-numeric(length=npos)
   for (i in 1:npos) {

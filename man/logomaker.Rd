@@ -7,8 +7,8 @@
 logomaker(table, ic = NULL, cols, frame_width = NULL, ic.scale = TRUE,
   xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
   y_fontsize = 15, start = 1e-04, yscale_change = TRUE, pop_name = NULL,
-  xlab = "X", ylab = "Information content", addlogos = NULL,
-  addlogos_text = NULL)
+  xlab = "X", ylab = "Information content", col_line_split = "grey80",
+  addlogos = NULL, addlogos_text = NULL)
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
@@ -48,7 +48,7 @@ or not. Defaults to TRUE.}
 which is very close to 0.}
 
 \item{yscale_change}{If TRUE, adjusts the Y axis scale based on the size of the
-bars, else keeps it to the maximum value possible, which is $2$ under
+bars, else keeps it to the maximum value possible, which is \code{ceiling(max(ic)} under
 \code{ic_computer} defined IC criteria.}
 
 \item{pop_name}{User can mention a name of the population for which the logo
@@ -57,6 +57,9 @@ plot is created. Defaults to NULL when no population name is mentioned.}
 \item{xlab}{X axis label}
 
 \item{ylab}{Y axis label}
+
+\item{col_line_split}{The color of the line split between the consecutive groups
+or blocks}
 
 \item{addlogos}{Vector of additional logos/symbols defined by user}
 
