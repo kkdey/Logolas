@@ -186,13 +186,17 @@ logomaker <- function( table,
   # xlim <- c(wt[1]/2, wt[1] + wt[2]/2, wt[1]+wt[2]+wt[3]/2, wt[1]+wt[2]+wt[3], 5.5)
   low_xlim <- c(xlim - 0.5*wt, xlim[length(xlim)]+0.5*wt[length(xlim)])
   ylim_scale <- seq(0, ylim, length.out=6);
-  ic_lim_scale <- seq(0, max(ic), length.out=6)
-
+  if(ic.scale){
+      ic_lim_scale <- seq(0, max(ic), length.out=6)
+  }else{
+      ic_lim_scale <- ylim_scale
+  }
+  if(ic.scale){
   if(yscale_change){
        if(ylim  > 1){
          letters$y <- letters$y*(ylim/max(ic));
        }
-  }
+  }}
 
 
   grid::grid.newpage()

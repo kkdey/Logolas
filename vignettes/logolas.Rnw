@@ -1,0 +1,182 @@
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Flexible Logo plots of symbols and alphanumeric strings using Logolas}
+%\VignettePackage{CountClust}
+
+% To compile this document
+% library('knitr'); rm(list=ls()); knit('Logolas/vignettes/logolas.Rnw')
+% library('knitr'); rm(list=ls()); knit2pdf('Logolas/vignettes/logolas.Rnw'); openPDF('logolas.pdf')
+% !Rnw weave = knitr
+
+\documentclass[12pt]{article}
+
+\newcommand{\Logolas}{\textit{Logolas}}
+\usepackage{dsfont}
+\usepackage{cite}
+
+<<knitr, echo=FALSE, results="hide">>=
+library("knitr")
+opts_chunk$set(tidy=FALSE,tidy.opts=list(width.cutoff=30),dev="png",fig.show="hide",
+               fig.width=4,fig.height=7,
+               message=FALSE)
+@
+
+<<style, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex()
+@
+
+
+\author{Kushal K Dey \\[1em]
+\small{\textit{Stephens Lab}, The University of Chicago} \mbox{ }\\
+\small{\texttt{$^*$Correspondending Email: kkdey@uchicago.edu}}}
+
+
+\bioctitle[ Flexible Logo plots of symbols and alphanumeric strings using \Logolas{}]{Flexible Logo plots of alphanumeric strings and symbols using \Logolas{}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  \vspace{1em}
+Logo plots are popular in genomic studies for sequence alignment and motif detection. However, logos have been pretty restrictive in its scope because of limited library of symbols it uses and the lack of flexibility in extending it to other applications. In this package, we provide an easy and more flexible interface for the user to plot logos and more importantly, we extend the library of logos from A, C, T, G (as in seqLogo) and English alphabets (RWebLogo) to include numbers and alpha-numeric strings with provision for punctuations and arrows. It also provides the user with a simple interface to create her own logo and add to her personal library.
+In this vignette, we discuss a number of applications beyond sequence alignment where such flexible logo plots can be used.
+\end{abstract}
+
+\vspace{1em}
+\textbf{\Logolas{} version:} \Sexpr{packageDescription("Logolas")$Version} \footnote{This document used the vignette from \Bioconductor{} package \Biocpkg{CountClust, DESeq2} as \CRANpkg{knitr} template}
+\end{abstract}
+
+<<options, results="hide", echo=FALSE>>=
+options(digits=3, width=80, prompt=" ", continue=" ")
+@
+
+
+\newpage
+
+\tableofcontents
+
+\section{Introduction}
+
+Logo plots are a popular tool in bioinformatics and regulatory genomics studies for representing sequence alignment patterns and also sequence and protein motif detection. One of the first logo plotting tools is \Biocpkg{seqLogo} by Oliver Bembom \cite{Bembom2016}, specifically targeted at DNA sequence alignment. However, it has a library of only 4 symbols - A, C, G and T- corresponding to the 4 nucleotides. The package \CRANpkg{RWebLogo} is an extension of WebLogo python package that plots custom sequence logos by extending it to all alphabets. Another package \Biocpkg{motifStack} works with both DNA/RNA sequence motif and amino acid sequence motif and customizes font size and colors.
+
+\Logolas{} adds more flexibility by customizing logos and the graphical design of the logo plots. Also it extends the library of symbols beyond English alphabets to numbers, symbols (arrows, punctuations) and to alphanumeric strings. It allows the user to choose a range of information criteria to determine logo sizes and more importantly, a simple user interface to create new logos and add them to the library of logos already present and to strings. We show several applications in genomics, ecology and document mining, where such logo plots can be applied.
+
+\section{\Logolas{} Installation}
+
+\Logolas{} requires the following CRAN-R package : \CRANpkg{grid}, \CRANpkg{gridExtra}, \CRANpkg{RColorBrewer}, \CRANpkg{devtools}.
+
+<<install_logolas_bio, eval=FALSE>>=
+source("http://bioconductor.org/biocLite.R")
+biocLite("Logolas")
+@ %def
+
+For the developmental version on Github, one can use
+
+<<install_logolas_github, eval=FALSE>>=
+install_github('kkdey/Logolas')
+@ %def
+
+Then load the package with:
+
+<<load_logolas, cache=FALSE, eval=TRUE,warning=FALSE>>=
+library(Logolas)
+@ %def
+
+\section{Application}
+
+We start with the most basic application of logo plots - for alignment of DNA sequence, comprising of logos A, C, T and G, corresponding to the four nucleotide. This is the typical application of \Biocpkg{seqLogo}. We start with a demo example and apply \Biocpkg{seqLogo} to it.
+
+\begin{figure}[h]
+\begin{center}
+<<seqlogo_use, eval=TRUE, warning=FALSE, fig.show="asis", dpi=144, fig.width=5, fig.height=5, out.width="5in", out.height="5in">>=
+library(seqLogo)
+mFile <- system.file("Exfiles/pwm1", package="seqLogo")
+m <- read.table(mFile)
+p <- makePWM(m)
+seqLogo(p)
+@ %def
+\end{center}
+\end{figure}
+
+
+The user first needs to make a position weight matrix from the matrix using the \begin{verb} makePWM() \end{verb} function. Then it uses the \begin{verb} seqLogo() \end{verb} function on the output to plot the logo plots.
+
+\newpage
+
+Now we apply \Logolas{} to build similar plot. We start with the same matrix as in \Biocpkg{seqLogo}, and assign row names and column names that will be used in the plot as symbols and block labels respectively.
+
+\begin{figure}[h]
+\begin{center}
+<<logolas_use, eval=TRUE, warning=FALSE, fig.show="asis", dpi=144, fig.width=6, fig.height=5, out.width="6in", out.height="5in">>=
+
+rownames(m) <- c("A", "C", "G", "T")
+colnames(m) <- 1:8
+logomaker(m,
+          cols= RColorBrewer::brewer.pal(dim(m)[1],name ="Spectral"),
+          frame_width = 1,
+          ic.scale = TRUE,
+          yscale_change=FALSE,
+          xlab="position",
+          col_line_split = "grey80")
+
+@ %def
+\end{center}
+\end{figure}
+
+\newpage
+
+As default, if \begin{verb} ic.scale = TRUE \end{verb}, the heights of the bars at each position are determined by the Shannon entropy. The size of logo in each stack is proportional to the relative abundance of that logo in that stack. To change to other orders of Renyi entropy, one can tune the input parameter \begin{verb} alpha \end{verb}.
+
+A higher value of  \begin{verb} alpha \end{verb} makes the logos more prominent, besides maintaining relative structure.
+
+Also, the Y-axis can be adjusted by taking \begin{verb} yscale_change=TRUE \end{verb}
+
+\begin{figure}[h]
+\begin{center}
+<<logolas_use_2, eval=TRUE, warning=FALSE, fig.show="asis", dpi=144, fig.width=6, fig.height=5, out.width="6in", out.height="5in">>=
+
+rownames(m) <- c("A", "C", "G", "T")
+colnames(m) <- 1:8
+logomaker(m,
+          cols= RColorBrewer::brewer.pal(dim(m)[1],name ="Spectral"),
+          frame_width = 1,
+          ic.scale = TRUE,
+          alpha = 2,
+          yscale_change=FALSE,
+          xlab="position",
+          col_line_split = "grey80")
+
+@ %def
+\end{center}
+\end{figure}
+
+
+\newpage
+
+One can also use normalized heights of the stacks of logos for each column by choosing \begin{verb} ic.scale = FALSE \end{verb}.
+
+\begin{figure}[h]
+\begin{center}
+<<logolas_use_3, eval=TRUE, warning=FALSE, fig.show="asis", dpi=144, fig.width=6, fig.height=5, out.width="6in", out.height="5in">>=
+
+rownames(m) <- c("A", "C", "G", "T")
+colnames(m) <- 1:8
+logomaker(m,
+          cols= RColorBrewer::brewer.pal(dim(m)[1],name ="Spectral"),
+          frame_width = 1,
+          ic.scale = FALSE,
+          alpha = 2,
+          xlab="position",
+          col_line_split = "grey80")
+
+@ %def
+\end{center}
+\end{figure}
+
+
+
+
+
+
+
+\end{document}
