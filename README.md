@@ -255,6 +255,41 @@ logomaker(table,
 
 <img src="vignettes/figures/mutational_profile_logolas.png" alt="Logo Plot" height="300" width="700">
 
+## Application of Logolas - histone marks
+
+In studies relted to histone marks, one might be interested to see if certain histone marks are prominent than others in some cell lines or tissues or in some genomic regions. In this case, we apply Logolas on an example data from Koch et al (2007) [Supp Table 2 of that paper]. The authors recorded number of histone modification sites identified by the HMM which overlap with an intergenic sequence, intron, exon, gene start and gene end for the lymphoblastoid cell line, GM06990, in the ChIP-CHIP data. Logolas provides a handy visualization to see how the patterns of histone modification sites changes across genomic region types for that cell line.
+
+First we input the data from Supp Table 2 due to Koch et al (2007).
+
+```
+mat <- rbind(c(326, 296, 81, 245, 71),
+             c(258, 228, 55, 273, 90),
+             c(145, 121, 29, 253, 85),
+             c(60, 52, 23, 180, 53),
+             c(150, 191, 63, 178, 63))
+
+rownames(mat) <- c("H3K4ME1", "H3K4ME2", "H3K4ME3", "H3AC", "H4AC")
+colnames(mat) <- c("Intergenic",
+                   "Intron",
+                   "Exon \n 1000 KB window",
+                   "Gene start \n 1000 KB window",
+                   "Gene end \n 1000 KB window")
+
+```
+Now we apply Logolas on this matrix.
+
+```
+logomaker(mat,
+          cols= sample(RColorBrewer::brewer.pal(10,name = "Spectral"), dim(mat)[1]),
+          frame_width = 1,
+          ic.scale = TRUE,
+          pop_name = "Histone marks prop. abundance in various genomic regions",
+          xlab = "",
+          ylab = "Information content",
+          yscale_change = TRUE,
+          col_line_split = "black")
+```
+<img src="vignettes/figures/histone_marks.png" alt="Logo Plot" height="300" width="700">
 
 
 ## Make your own logo

@@ -37,7 +37,7 @@
 #' @param y_fontsize The size of the Y-axis font.
 #'
 #' @param yscale_change If TRUE, adjusts the Y axis scale based on the size of the
-#' bars, else keeps it to the maximum value possible, which is $2$ under
+#' bars, else keeps it to the maximum value possible, which is \code{ceiling(max(ic)} under
 #' \code{ic_computer} defined IC criteria.
 #'
 #' @param start The starting point in Y axis for the first logo. Default is 0.0001
@@ -48,6 +48,9 @@
 #'
 #' @param xlab X axis label
 #' @param ylab Y axis label
+#'
+#' @param col_line_split The color of the line split between the consecutive groups
+#' or blocks
 #'
 #' @param addlogos Vector of additional logos/symbols defined by user
 #' @param addlogos_text Vector of the names given to the additional logos/symbols defined by user.
@@ -95,6 +98,7 @@ logomaker <- function( table,
                        pop_name = NULL,
                        xlab = "X",
                        ylab = "Information content",
+                       col_line_split="grey80",
                        addlogos = NULL,
                        addlogos_text = NULL){
 
@@ -135,10 +139,10 @@ logomaker <- function( table,
     if(yscale_change){
       if(max(ic)<1){ylim <- 1
       facs <- ic + 1 - max(ic)}
-      if(max(ic)>1){ylim <- 2
+      if(max(ic)>1){ylim <- ceiling(max(ic))
       facs <- ic}
     }else{
-      ylim <- 2
+      ylim <- ceiling(max(ic))
       facs <- ic
     }
     ylab <- ylab
@@ -180,7 +184,9 @@ logomaker <- function( table,
   ic_lim_scale <- seq(0, max(ic), length.out=6)
 
   if(yscale_change){
-       letters$y <- letters$y*(ylim/max(ic));
+       if(ylim  > 1){
+         letters$y <- letters$y*(ylim/max(ic));
+       }
   }
 
 
@@ -196,7 +202,7 @@ logomaker <- function( table,
   grid::pushViewport(grid::dataViewport(0:ncol(table_mat_norm),0:ylim,name="vp1"))
   grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
                id=letters$id, gp=grid::gpar(fill=letters$fill,col="transparent"))
-  grid::grid.polygon(x=unit(letters$x,"native"), y=unit(letters$y,"native"),
+  grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
                id=letters$id,
                gp=grid::gpar(fill=letters$fill,col="transparent"))
 
@@ -204,14 +210,14 @@ logomaker <- function( table,
   for(n in 1:length(xlim)){
     grid::grid.lines(x = grid::unit(low_xlim[n], "native"),
                y = grid::unit(c(0, ylim), "native"),
-               gp=grid::gpar(col="grey80"))
+               gp=grid::gpar(col=col_line_split))
   }
 
   if(is.null(pop_name)){
-    grid::grid.text("Logo plot", y = grid::unit(1, "npc") + grid::unit(1.5, "lines"),
+    grid::grid.text("Logo plot", y = grid::unit(1, "npc") + grid::unit(1, "lines"),
               gp = grid::gpar(fontsize = 16))
   }else{
-    grid::grid.text(paste0("Logo plot of ", pop_name), y = grid::unit(1, "npc") + grid::unit(1.5, "lines"),
+    grid::grid.text(paste0("Logo plot of ", pop_name), y = grid::unit(1, "npc") + grid::unit(1, "lines"),
               gp = grid::gpar(fontsize = 16))
   }
 
@@ -219,7 +225,7 @@ logomaker <- function( table,
     grid::grid.xaxis(at=wt*seq(0.5,ncol(table_mat_norm)-0.5),
                label=colnames(table_mat_norm),
                gp=grid::gpar(fontsize=xaxis_fontsize))
-    grid::grid.text(xlab, y=unit(-3,"lines"), gp=grid::gpar(fontsize=xaxis_fontsize))
+    grid::grid.text(xlab, y=grid::unit(-3,"lines"), gp=grid::gpar(fontsize=xaxis_fontsize))
   }
   if (yaxis){
     if(yscale_change==TRUE){

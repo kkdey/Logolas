@@ -47,8 +47,6 @@ threeletter <- function(plot = FALSE,
   outer_x2 <- c(x.l2, 0.25)
   outer_y2 <- c(y.l2, 0)
 
-  plot(c(outer_x1, outer_x2), c(outer_y1, outer_y2))
-
   inner_x1 <- c(0.25, 0.40, x.l3, 0.25)
   inner_y1 <- c(0.90, 0.90, y.l3, 0.60)
 
@@ -95,7 +93,6 @@ threeletter <- function(plot = FALSE,
              "id" = id,
              "fill" = fill)
   return(ll)
-
 
 }
 
