@@ -17,15 +17,6 @@ colnames(mat) <- c("Intergenic",
                    "Gene start \n 1000 KB window",
                    "Gene end \n 1000 KB window")
 
-table <- mat
-cols= RColorBrewer::brewer.pal(dim(mat)[1],name = "Spectral")
-frame_width = 1
-ic.scale = FALSE
-pop_name = "Histone marks prop. abundance in various genomic regions"
-xlab = "Genomic regions"
-ylab = "Information content"
-yscale_change = TRUE
-start=0.0001
 
 
 logomaker(mat,

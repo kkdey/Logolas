@@ -32,8 +32,13 @@ colSums(signature_prob)
 signature_prob[signature_prob < 0.01] = 0
 signature_prob <- apply(signature_prob, 2, function(x) return(x/sum(x)))
 
+
 rownames(signature_prob) <- levels(factor(families))
-colnames(signature_prob) <- c("Cluster1", "Cluster 2")
+colnames(signature_prob) <- c("Cluster 1", "Cluster 2")
+save(signature_prob, file="../../data/himalayan_fauna_2_clusters.rda")
+
+
+
 
 logomaker(signature_prob,
           cols= sample(RColorBrewer::brewer.pal(10,name = "Spectral"),
@@ -66,6 +71,8 @@ signature_prob <- apply(signature_prob, 2, function(x) return(x/sum(x)))
 
 rownames(signature_prob) <- levels(factor(families))
 colnames(signature_prob) <- c("Cluster1", "Cluster 2", "Cluster 3")
+
+save(signature_prob, file="../../data/himalayan_fauna_3_clusters.rda")
 
 logomaker(signature_prob,
           cols= sample(RColorBrewer::brewer.pal(10,name = "Spectral"),
