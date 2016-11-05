@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  5 NOV 2016 13:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  5 NOV 2016 16:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -471,38 +471,166 @@ Package pdftex.def Info: figure/logolas_use-1.png used on input line 185.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [3 <./figure/seqlogo_use-1.png>]
-Package color Info: Redefining color shadecolor on input line 202.
+Package color Info: Redefining color shadecolor on input line 199.
+Package color Info: Redefining color shadecolor on input line 214.
 
 <figure/logolas_use_2-1.png, id=50, 867.24pt x 722.7pt>
 File: figure/logolas_use_2-1.png Graphic file (type png)
 
 <use figure/logolas_use_2-1.png>
-Package pdftex.def Info: figure/logolas_use_2-1.png used on input line 216.
+Package pdftex.def Info: figure/logolas_use_2-1.png used on input line 228.
 (pdftex.def)             Requested size: 433.61894pt x 361.3491pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[4 <./figure/logolas_use-1.png>]
-Package color Info: Redefining color shadecolor on input line 230.
-
-<figure/logolas_use_3-1.png, id=56, 867.24pt x 722.7pt>
+ [4 <./figure/logolas_use-1.png>] [5 <./figure/logolas_use_2-1.png>]
+Package color Info: Redefining color shadecolor on input line 242.
+ <figure/logolas_use_3-1.png, id=61, 867.24pt x 722.7pt>
 File: figure/logolas_use_3-1.png Graphic file (type png)
 
 <use figure/logolas_use_3-1.png>
-Package pdftex.def Info: figure/logolas_use_3-1.png used on input line 243.
+Package pdftex.def Info: figure/logolas_use_3-1.png used on input line 256.
 (pdftex.def)             Requested size: 433.61894pt x 361.3491pt.
+ [6 <./figure/logolas_use_3-1.png>]
+Package color Info: Redefining color shadecolor on input line 272.
+Package color Info: Redefining color shadecolor on input line 292.
+
+Overfull \hbox (5.86626pt too wide) in paragraph at lines 300--300
+[][]\OT1/cmtt/m/n/12 cols1[] []<-[] []c[][]([][]rev[][](RColorBrewer[][]::[][]b
+rewer.pal[][]([][]12[][],[] []"Paired"[][]))[[][]c[][]([][]3[][],[][]4[][],[][]
+7[][],[][]8[][],[][]11[][],[][]12[][],[][]5[][],[][]6[][],[][]9[][],[][]10[][])
+],[][] 
+ []
+
+<figure/logolas_use_5-1.png, id=67, 867.24pt x 722.7pt>
+File: figure/logolas_use_5-1.png Graphic file (type png)
+
+<use figure/logolas_use_5-1.png>
+Package pdftex.def Info: figure/logolas_use_5-1.png used on input line 312.
+(pdftex.def)             Requested size: 433.61894pt x 361.3491pt.
+ [7] [8 <./figure/logolas_use_5-1.png>]
+
+LaTeX Warning: Citation `Shiraishi2015' on page 9 undefined on input line 324.
+
+Package color Info: Redefining color shadecolor on input line 327.
+Package color Info: Redefining color shadecolor on input line 353.
+<figure/logolas_use_7-1.png, id=79, 867.24pt x 722.7pt>
+File: figure/logolas_use_7-1.png Graphic file (type png)
+
+<use figure/logolas_use_7-1.png>
+Package pdftex.def Info: figure/logolas_use_7-1.png used on input line 365.
+(pdftex.def)             Requested size: 433.61894pt x 361.3491pt.
+ [9]
+Package color Info: Redefining color shadecolor on input line 381.
+ [10 <./figure/logolas_use_7-1.png>]
+LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 390
+.
+
+(/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/omscmtt.fd
+File: omscmtt.fd 
+)
+LaTeX Font Info:    Font shape `OMS/cmtt/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 390.
+Package color Info: Redefining color shadecolor on input line 402.
+
+Overfull \hbox (18.21626pt too wide) in paragraph at lines 405--405
+[]          []\OT1/cmtt/m/n/12 cols[][]=[] []sample[][](RColorBrewer[][]::[][]b
+rewer.pal[][]([][]10[][],[][]name[] []=[] []"Spectral"[][]),[] []dim[][](mat)[[
+][]1[][]]),[][] 
+ []
+
+<figure/logolas_use_9-1.png, id=94, 1228.59pt x 578.16pt>
+File: figure/logolas_use_9-1.png Graphic file (type png)
+
+<use figure/logolas_use_9-1.png>
+Package pdftex.def Info: figure/logolas_use_9-1.png used on input line 415.
+(pdftex.def)             Requested size: 614.2935pt x 289.07928pt.
+
+Overfull \hbox (113.80951pt too wide) in paragraph at lines 415--416
+ [][] 
+ []
+
+[11 <./figure/logolas_use_9-1.png>]
+Package color Info: Redefining color shadecolor on input line 431.
+
+<figure/logolas_use_10-1.png, id=100, 1156.32pt x 722.7pt>
+File: figure/logolas_use_10-1.png Graphic file (type png)
+
+<use figure/logolas_use_10-1.png>
+Package pdftex.def Info: figure/logolas_use_10-1.png used on input line 445.
+(pdftex.def)             Requested size: 578.15858pt x 361.3491pt.
+
+Overfull \hbox (77.67459pt too wide) in paragraph at lines 445--446
+ [][] 
+ []
+
+[12 <./figure/logolas_use_10-1.png>]
+Package color Info: Redefining color shadecolor on input line 465.
+Package color Info: Redefining color shadecolor on input line 508.
+ [13]
+<figures/logolas_arxiv_1.png, id=113, 702.625pt x 296.10625pt>
+File: figures/logolas_arxiv_1.png Graphic file (type png)
+
+<use figures/logolas_arxiv_1.png>
+Package pdftex.def Info: figures/logolas_arxiv_1.png used on input line 524.
+(pdftex.def)             Requested size: 505.91106pt x 289.08873pt.
+
+Overfull \hbox (5.42706pt too wide) in paragraph at lines 524--525
+ [] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 536.
+[14 <./figures/logolas_arxiv_1.png>]
+Package color Info: Redefining color shadecolor on input line 562.
+
+<figure/logolas_use_14-1.png, id=120, 578.16pt x 578.16pt>
+File: figure/logolas_use_14-1.png Graphic file (type png)
+
+<use figure/logolas_use_14-1.png>
+Package pdftex.def Info: figure/logolas_use_14-1.png used on input line 575.
+(pdftex.def)             Requested size: 289.07928pt x 289.07928pt.
+ [15 <./figure/logolas_use_14-1.png>]
+Package color Info: Redefining color shadecolor on input line 590.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.604 ... is added under `addlogos` and `addlogos_
+                                                  text` options for the `log...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.605 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+Overfull \hbox (12.58698pt too wide) in paragraph at lines 604--605
+[]\OT1/cmss/m/n/12 LAMBDA sym-bol is added un-der `addl-o-gos` and `addlogos$[]
+\OML/cmm/m/it/12 ext\OT1/cmr/m/n/12 `\OML/cmm/m/it/12 optionsforthe\OT1/cmr/m/n
+/12 `\OML/cmm/m/it/12 logomaker\OT1/cmr/m/n/12 `\OML/cmm/m/it/12 mixofsymbols:$
+ 
+ []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 255.
-[5 <./figure/logolas_use_2-1.png>] [6 <./figure/logolas_use_3-1.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 255.
+Package color Info: Redefining color shadecolor on input line 609.
+<figure/logolas_use_17-1.png, id=126, 1156.32pt x 722.7pt>
+File: figure/logolas_use_17-1.png Graphic file (type png)
 
-(./logolas.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 255.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 255.
+<use figure/logolas_use_17-1.png>
+Package pdftex.def Info: figure/logolas_use_17-1.png used on input line 619.
+(pdftex.def)             Requested size: 578.15858pt x 361.3491pt.
+
+Overfull \hbox (77.67459pt too wide) in paragraph at lines 619--620
+ [][] 
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 629.
+[16] [17 <./figure/logolas_use_17-1.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 629.
+ (./logolas.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 629.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 629.
 
 
 Package rerunfilecheck Warning: File `logolas.out' has changed.
@@ -511,38 +639,42 @@ Package rerunfilecheck Warning: File `logolas.out' has changed.
 
 Package rerunfilecheck Info: Checksums for `logolas.out':
 (rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  E318FDB6B5EBAB8EC1564DC56129E20D;151.
+(rerunfilecheck)             After:  DAE9EC01D2677A7A35FCAA24A723E265;634.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 255.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 629.
  ) 
 Here is how much of TeX's memory you used:
- 6546 strings out of 493014
- 98536 string characters out of 6133351
- 194818 words of memory out of 5000000
- 10006 multiletter control sequences out of 15000+600000
- 13289 words of font info for 46 fonts, out of 8000000 for 9000
+ 6621 strings out of 493014
+ 100189 string characters out of 6133351
+ 203689 words of memory out of 5000000
+ 10052 multiletter control sequences out of 15000+600000
+ 13583 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,11n,45p,727b,346s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb
-></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb>
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb><
-/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi12.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi17.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></us
-r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on logolas.pdf (6 pages, 310049 bytes).
+ 36i,12n,45p,727b,371s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb
+></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></u
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></us
+r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/
+local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/lo
+cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/l
+ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/l
+ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi12.pfb></usr/l
+ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi17.pfb></usr/l
+ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/lo
+cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loca
+l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on logolas.pdf (17 pages, 854883 bytes).
 PDF statistics:
- 106 PDF objects out of 1000 (max. 8388607)
- 78 compressed objects within 1 object stream
- 12 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 193 PDF objects out of 1000 (max. 8388607)
+ 135 compressed objects within 2 object streams
+ 29 named destinations out of 1000 (max. 500000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 
