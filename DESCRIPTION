@@ -1,7 +1,7 @@
 Package: Logolas
 Type: Package
 Title: Flexible and Customized Logo Plots using symbols, alphabets, numbers and alphanumeric strings
-Version: 0.99.0
+Version: 0.99.1
 Date: 11.5.2016.
 Author: c(
     person("Kushal", "Dey", email = "kkdey@uchicago.edu", role = c("aut","cre")),

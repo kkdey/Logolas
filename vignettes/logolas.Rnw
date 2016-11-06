@@ -523,7 +523,7 @@ Omar Wagih (2014).
 \newblock R package version 1.0.3. https://CRAN.R-project.org/package=RWebLogo
 
 \bibitem{Ou2015}
-Jianhong Ou Developer and Lihua Julie Zhu Developer (2015).
+Jianhong Ou and Lihua Julie Zhu  (2015).
 \newblock  motifStack: Plot stacked logos for single or multiple DNA, RNA and amino acid sequence.
 \newblock  R package version 1.14.0.
 
