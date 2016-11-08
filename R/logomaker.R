@@ -201,9 +201,11 @@ logomaker <- function( table,
 
 
   grid::grid.newpage()
-  bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
+#  bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
+  bottomMargin = ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)
+#  leftMargin = ifelse(yaxis, 0.1 + y_fontsize/3.5, 3)
   leftMargin = ifelse(yaxis, 0.1 + y_fontsize/3.5, 3)
-  grid::pushViewport(grid::plotViewport(c(bottomMargin,leftMargin,max(xlim)+0.5,max(xlim)*wt+0.5)))
+  grid::pushViewport(grid::plotViewport(c(bottomMargin,leftMargin,max(ylim)+0.5,max(ylim))))
   # pushViewport(viewport(layout = grid.layout(2, 2),
   #              x = bottomMargin,
   #              y = leftMargin,
