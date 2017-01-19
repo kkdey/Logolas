@@ -1,0 +1,26 @@
+"V1" "V2"
+"1" "Statistical inference of transmission fidelity of DNA methylation
+  patterns over somatic cell divisions in mammals" "Audrey Qiuyan Fu|Diane P. Genereux|Reinhard Stöger|Charles D. Laird|Matthew Stephens"
+"2" "A nested mixture model for protein identification using mass
+  spectrometry" "Qunhua Li|Michael J. MacCoss|Matthew Stephens"
+"3" "Using linear predictors to impute allele frequencies from summary or
+  pooled genotype data" "Xiaoquan Wen|Matthew Stephens"
+"4" "Bayesian variable selection regression for genome-wide association
+  studies and other large-scale problems" "Yongtao Guan|Matthew Stephens"
+"5" "Bayesian methods for genetic association analysis with heterogeneous
+  subgroups: From meta-analyses to gene-environment interactions" "Xiaoquan Wen|Matthew Stephens"
+"6" "Integrated analysis of variants and pathways in genome-wide association
+  studies using polygenic models of disease" "Peter Carbonetto|Matthew Stephens"
+"7" "Polygenic Modeling with Bayesian Sparse Linear Mixed Models" "Xiang Zhou|Peter Carbonetto|Matthew Stephens"
+"8" "Small World MCMC with Tempering: Ergodicity and Spectral Gap" "Yongtao Guan|Matthew Stephens"
+"9" "A statistical framework for joint eQTL analysis in multiple tissues" "Timothée Flutre|Xiaoquan Wen|Jonathan Pritchard|Matthew Stephens"
+"10" "A likelihood-based scoring method for peptide identification using mass
+  spectrometry" "Qunhua Li|Jimmy K. Eng|Matthew Stephens"
+"11" "Efficient Algorithms for Multivariate Linear Mixed Models in Genome-wide
+  Association Studies" "Xiang Zhou|Matthew Stephens"
+"12" "Wavelet-based genetic association analysis of functional phenotypes
+  arising from high-throughput sequencing assays" "Heejung Shim|Matthew Stephens"
+"13" "An estimate of the average number of recessive lethal mutations carried
+  by humans" "Ziyue Gao|Darrel Waggoner|Matthew Stephens|Carole Ober|Molly Przeworski"
+"14" "Smoothing via Adaptive Shrinkage (smash): denoising Poisson and
+  heteroskedastic Gaussian signals" "Zhengrong Xing|Matthew Stephens"
