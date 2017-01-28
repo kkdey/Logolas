@@ -30,33 +30,15 @@ Hletter <- function(plot = FALSE,
                     lwd =10){
 
       x <- c(0, 0, 0.25, 0.25, 0.75, 0.75, 1, 1, 0.75, 0.75, 0.25, 0.25)
-      x <- 0.05 + 0.90*x
+      x <- 0.15 + 0.70*x
       y <- c(0, 1, 1, 0.62, 0.62, 1, 1, 0, 0, 0.38, 0.38, 0)
 
       id <- rep(1,length(x))
       fill <- colfill
 
       if(plot){
-        grid::grid.newpage()
-        grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                          clip=TRUE))
-        if(fill_symbol){
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(fill=fill,
-                                           lwd=lwd))
-        }else{
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(col=colfill,
-                                           lwd=lwd))
-        }
+        get_plot(x, y, id, fill)
       }
-
-
-
 
       ll <- list("x"= x,
                  "y"= y,

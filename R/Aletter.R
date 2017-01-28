@@ -32,7 +32,7 @@ Aletter <- function(plot=FALSE,
     x <- c(0,4,6,10,8,6.8,3.2,2,0,3.6,5,6.4,3.6)
     y <- c(0,10,10,0,0,3,3,0,0,4,7.5,4,4)
     x <- 0.1*x
-    x <- 0.05 + 0.90*x
+    x <- 0.10 + 0.80*x
     y <- 0.1*y
 
     id <- c(rep(1,9),rep(2,4))
@@ -40,24 +40,8 @@ Aletter <- function(plot=FALSE,
 
 
     if(plot){
-      grid::grid.newpage()
-      grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                            clip=TRUE))
-      if(fill_symbol){
-        grid::grid.polygon(x, y,
-                     default.unit="native",
-                     id=id,
-                     gp=grid::gpar(fill=fill,
-                             lwd=lwd))
-      }else{
-        grid::grid.polygon(x, y,
-                     default.unit="native",
-                     id=id,
-                     gp=grid::gpar(col=colfill,
-                             lwd=lwd))
-      }
+      get_plot(x, y, id, fill)
     }
-
 
     ll <- list("x"= x,
                "y"= y,
@@ -65,5 +49,4 @@ Aletter <- function(plot=FALSE,
                "fill" = fill)
     return(ll)
 }
-
 

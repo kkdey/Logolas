@@ -12,6 +12,9 @@
 #' It defaults to NULL, in which case, the function computes the ic vector using
 #' the \code{ic_computer} functionality.
 #'
+#' @param hist Whether to use the hist method or the information criterion
+#' method to determine the heights of the logos.
+#'
 #' @param cols A vector of colors for the different logos or symbols stacked in the
 #' logo plot. The length of this vector should match with number of symbols or
 #' logos used in the plot, which is again ame as the number of rows in the input
@@ -57,6 +60,8 @@
 #' @param col_line_split The color of the line split between the consecutive groups
 #' or blocks
 #'
+#' @param All the symbols in the same column will be of same color
+#'
 #' @param addlogos Vector of additional logos/symbols defined by user
 #' @param addlogos_text Vector of the names given to the additional logos/symbols defined by user.
 #'
@@ -90,6 +95,7 @@
 
 logomaker <- function( table,
                        ic=NULL,
+                       hist=FALSE,
                        cols,
                        frame_width=NULL,
                        ic.scale=TRUE,
@@ -99,16 +105,17 @@ logomaker <- function( table,
                        xaxis_fontsize=10,
                        xlab_fontsize=15,
                        y_fontsize=15,
-                       start=0.0001,
+                       start=0.001,
                        yscale_change=TRUE,
                        pop_name = NULL,
                        xlab = "X",
                        ylab = "Information content",
                        col_line_split="grey80",
+                       cols_per_column = FALSE,
                        addlogos = NULL,
                        addlogos_text = NULL){
 
-  if(length(cols) != dim(table)[1]){
+  if(length(cols) != dim(table)[1] && cols_per_column == FALSE){
     stop("the number of colors must match the number of symbols")
   }
   if(is.null(frame_width)){
@@ -131,10 +138,17 @@ logomaker <- function( table,
 
   table_mat_norm <-  apply(table, 2, function(x) return(x/sum(x)))
   npos <- ncol(table_mat_norm)
+  if(cols_per_column == TRUE && npos != length(cols)){
+    stop("if each column has same color, then cols should be of same length as number of positions")
+  }
   chars <- as.character(rownames(table_mat_norm))
 
   if(is.null(ic)){
-    ic <- ic_computer(table_mat_norm, alpha)
+    if(hist==FALSE){
+      ic <- ic_computer(table_mat_norm, alpha, hist=hist)
+    }else{
+      ic <- ic_computer(table, alpha, hist=hist)
+    }
   }
 
   letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL)
@@ -154,33 +168,55 @@ logomaker <- function( table,
     ylab <- ylab
   }else{
     ylim <- 1
-    ylab <- "Probability"
+    ylab <- ylab
     facs <- rep(1, npos)
   }
 
   x.pos <- 0
   slash_inds <- grep("/", chars)
 
-  for (j in 1:npos){
+  if(!cols_per_column){
+    for (j in 1:npos){
 
-    column <- table_mat_norm[,j]
-    hts <- as.numeric(0.99*column*facs[j])
-    letterOrder <- order(hts)
+      column <- table_mat_norm[,j]
+      hts <- as.numeric(0.99*column*facs[j])
+      letterOrder <- order(hts)
 
-    y.pos <- 0
-    for (i in 1:length(chars)){
-      letter <- chars[letterOrder[i]]
-      col <- cols[letterOrder[i]]
-      ht <- hts[letterOrder[i]]
-      if(length(intersect(letterOrder[i], slash_inds))!=0){
-        if (ht>0) letters <- addLetter(letters,letter, col, x.pos, y.pos, ht, wt[j], addlogos = addlogos, addlogos_text = addlogos_text)
-      }else{
-        if (ht>0) letters <- addLetter(letters,letter, col, x.pos, y.pos, ht, wt[j], addlogos = NULL, addlogos_text = NULL)
+      y.pos <- 0
+      for (i in 1:length(chars)){
+        letter <- chars[letterOrder[i]]
+        col <- cols[letterOrder[i]]
+        ht <- hts[letterOrder[i]]
+        if(length(intersect(letterOrder[i], slash_inds))!=0){
+          if (ht>0) letters <- addLetter(letters,letter, color, x.pos, y.pos, ht, wt[j], addlogos = addlogos, addlogos_text = addlogos_text)
+        }else{
+          if (ht>0) letters <- addLetter(letters,letter, color, x.pos, y.pos, ht, wt[j], addlogos = NULL, addlogos_text = NULL)
+        }
+        y.pos <- y.pos + ht + start
       }
-      y.pos <- y.pos + ht + start
+      x.pos <- x.pos + wt[j]
     }
-    x.pos <- x.pos + wt[j]
+  }
 
+  if(cols_per_column){
+    for (j in 1:npos){
+
+      column <- table_mat_norm[,j]
+      hts <- as.numeric(0.99*column*facs[j])
+      letterOrder <- order(hts)
+      y.pos <- 0
+      for (i in 1:length(chars)){
+        letter <- chars[letterOrder[i]]
+        ht <- hts[letterOrder[i]]
+        if(length(intersect(letterOrder[i], slash_inds))!=0){
+          if (ht>0) letters <- addLetter(letters,letter, cols[j], x.pos, y.pos, ht, wt[j], addlogos = addlogos, addlogos_text = addlogos_text)
+        }else{
+          if (ht>0) letters <- addLetter(letters,letter, cols[j], x.pos, y.pos, ht, wt[j], addlogos = NULL, addlogos_text = NULL)
+        }
+        y.pos <- y.pos + ht + start
+      }
+      x.pos <- x.pos + wt[j]
+    }
   }
 
   xlim <- cumsum(wt) - wt/2;
@@ -219,18 +255,18 @@ logomaker <- function( table,
                gp=grid::gpar(fill=letters$fill,col="transparent"))
 
 
-  for(n in 1:length(xlim)){
+  for(n in 2:length(xlim)){
     grid::grid.lines(x = grid::unit(low_xlim[n], "native"),
                y = grid::unit(c(0, ylim), "native"),
                gp=grid::gpar(col=col_line_split))
   }
 
   if(is.null(pop_name)){
-    grid::grid.text("Logo plot", y = grid::unit(1, "npc") + grid::unit(1, "lines"),
+    grid::grid.text("Logo plot:", y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
               gp = grid::gpar(fontsize = 16))
   }else{
-    grid::grid.text(paste0("Logo plot of ", pop_name),
-                    y = grid::unit(1, "npc") + grid::unit(1, "lines"),
+    grid::grid.text(paste0("", pop_name),
+                    y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
               gp = grid::gpar(fontsize = 16))
   }
 
@@ -266,7 +302,7 @@ addLetter <- function(letters, letter,
                     addlogos=addlogos,
                     addlogos_text = addlogos_text)
   x <- x.pos + out$x * wt
-  y <- y.pos + out$y * ht
+  y <- y.pos + (0.99*out$y+0.01) * ht
 
   letter <- list("x"=x,
                  "y"=y,

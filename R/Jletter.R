@@ -28,33 +28,17 @@ Jletter <- function(plot = FALSE,
                     colfill="green",
                     lwd =10){
 
-      x <- c(0.1, 0.1, 0.25, 0.25, 0.4, 0.4, 0.1, 0.1, 0.9, 0.9, 0.6, 0.6)
-      x <- 0.05 + 0.90*x
-      y <- c(0, 0.25, 0.25, 0.15, 0.15, 0.85, 0.85, 1, 1, 0.85, 0.85, 0)
+      x <- c(0.1, 0.1, 0.25, 0.25, 0.40, 0.40, 0.10, 0.10, 0.85, 0.85, 0.57, 0.57)
+      x <- 0.15 + 0.80*x
+      y <- c(0, 0.35, 0.35, 0.17, 0.17, 0.85, 0.85, 1, 1, 0.85, 0.85, 0)
 
       id <- rep(1,length(x))
 
       fill <- colfill
 
       if(plot){
-        grid::grid.newpage()
-        grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                          clip=TRUE))
-        if(fill_symbol){
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(fill=fill,
-                                           lwd=lwd))
-        }else{
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(col=colfill,
-                                           lwd=lwd))
-        }
+          get_plot(x, y, id, fill)
       }
-
 
       ll <- list("x"= x,
                  "y"= y,

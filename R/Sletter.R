@@ -49,7 +49,7 @@ Sletter <- function(plot = FALSE,
       x.l4 <- 0.5 + 0.5*cos(angle1)
 
       x <- c(0.85, x.l1, rev(x.l2), 0.1, 0.1, 0.5, x.l3, rev(x.l4), 0.85)
-      x <- 0.05 + 0.90*x
+      x <- 0.10 + 0.80*x
       y <- c(0.85, y.l1, rev(y.l2), 0, 0.14, 0.14, y.l3, rev(y.l4), 1)
 
       id <- c(rep(1, length(x)))
@@ -57,22 +57,7 @@ Sletter <- function(plot = FALSE,
       fill <- colfill
 
       if(plot){
-        grid::grid.newpage()
-        grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                          clip=TRUE))
-        if(fill_symbol){
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(fill=fill,
-                                           lwd=lwd))
-        }else{
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(col=colfill,
-                                           lwd=lwd))
-        }
+        get_plot(x, y, id, fill)
       }
 
 

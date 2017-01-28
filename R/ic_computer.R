@@ -31,25 +31,31 @@
 #' rownames(counts_mat) <- c("P1", "P2", "P3", "P4")
 #' ic_computer(counts_mat, alpha=2)
 
-ic_computer <-function(mat, alpha) {
-  mat <- apply(mat, 2, function(x) return(x/sum(x)))
-  npos<-ncol(mat)
-  ic <-numeric(length=npos)
-  for (i in 1:npos) {
-    if(alpha == 1){
-      ic[i] <- log(nrow(mat), base=2) + sum(sapply(mat[, i], function(x) {
-      if (x > 0) { x*log2(x) } else { 0 }
-    }))
+ic_computer <-function(mat, alpha, hist=FALSE) {
+  if(!hist){
+    mat <- apply(mat, 2, function(x) return(x/sum(x)))
+    npos<-ncol(mat)
+    ic <-numeric(length=npos)
+    for (i in 1:npos) {
+      if(alpha == 1){
+        ic[i] <- log(nrow(mat), base=2) + sum(sapply(mat[, i], function(x) {
+          if (x > 0) { x*log2(x) } else { 0 }
+        }))
+      }
+      else if(alpha == Inf){
+        ic[i] <- log(nrow(mat), base=2) + log(max(mat[,i]))
+      }
+      else if(alpha <= 0){
+        stop("alpha value must be greater than 0")
+      }
+      else{
+        ic[i] <- log(nrow(mat), base=2) - (1/(1-alpha))* log (sum(mat[,i]^{alpha}))
+      }
     }
-    else if(alpha == Inf){
-      ic[i] <- log(nrow(mat), base=2) + log(max(mat[,i]))
-    }
-    else if(alpha <= 0){
-      stop("alpha value must be greater than 0")
-    }
-    else{
-      ic[i] <- log(nrow(mat), base=2) - (1/(1-alpha))* log (sum(mat[,i]^{alpha}))
-    }
+    return(ic)
+  }else{
+    mat <- mat/sum(mat)
+    ic <- colSums(mat)
+    return(ic)
   }
-  return(ic)
 }
