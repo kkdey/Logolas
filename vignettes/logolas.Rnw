@@ -72,8 +72,8 @@ biocLite("Logolas")
 
 For the developmental version on Github, one can use
 
-<<install_logolas_github, eval=FALSE>>=
-install_github('kkdey/Logolas')
+<<install_logolas_github, eval=TRUE>>=
+devtools::install_github('kkdey/Logolas')
 @ %def
 
 Then load the package with:
