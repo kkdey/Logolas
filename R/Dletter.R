@@ -45,7 +45,7 @@ Dletter <- function(plot=FALSE,
 
 
     x <- c(x_out, x_in)
-    x <- 0.05 + 0.90*x
+    x <- 0.10 + 0.80*x
     y <- c(y_out, y_in)
 
     id <- c(rep(1, length(x_out)), rep(2, length(x_in)))
@@ -53,25 +53,8 @@ Dletter <- function(plot=FALSE,
 
 
     if(plot){
-      grid::grid.newpage()
-      grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                        clip=TRUE))
-      if(fill_symbol){
-        grid::grid.polygon(x, y,
-                           default.unit="native",
-                           id=id,
-                           gp=grid::gpar(fill=fill,
-                                         lwd=lwd))
-      }else{
-        grid::grid.polygon(x, y,
-                           default.unit="native",
-                           id=id,
-                           gp=grid::gpar(col=colfill,
-                                         lwd=lwd))
-      }
+      get_plot(x, y, id, fill)
     }
-
-
 
 
     ll <- list("x"= x,

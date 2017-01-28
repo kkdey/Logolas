@@ -30,13 +30,13 @@ Pletter <- function(plot = FALSE,
 
       angle <- c(seq(pi/2, 0, length.out=100), seq(0, -(pi/2), length.out=100))
       y.l1 <- 0.75 + 0.25*sin(angle)
-      x.l1 <- 0.5 + 0.30*cos(angle)
+      x.l1 <- 0.4 + 0.30*cos(angle)
 
-      y.l2 <- 0.75 + 0.15*sin(angle)
-      x.l2 <- 0.4 + 0.20*cos(angle)
+      y.l2 <- 0.75 + 0.10*sin(angle)
+      x.l2 <- 0.4 + 0.15*cos(angle)
 
       inner_x <- c(0.25, 0.40, x.l2, 0.25)
-      inner_y <- c(0.90, 0.90, y.l2, 0.60)
+      inner_y <- c(0.85, 0.85, y.l2, 0.65)
 
 
       x <- 0.2+c(0, 0, 0.5, x.l1, 0.25, 0.25, inner_x)
@@ -48,27 +48,8 @@ Pletter <- function(plot = FALSE,
       fill <- c(colfill, "white")
 
       if(plot){
-        grid::grid.newpage()
-        grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                          clip=TRUE))
-        if(fill_symbol){
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(fill=fill,
-                                           lwd=lwd))
-        }else{
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(col=colfill,
-                                           lwd=lwd))
-        }
+        get_plot(x, y, id, fill)
       }
-
-
-
-
 
       ll <- list("x"= x,
                  "y"= y,

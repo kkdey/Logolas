@@ -44,24 +44,8 @@ zeroletter <- function(plot = FALSE,
   fill <- c(colfill, "white")
 
   if(plot){
-    grid::grid.newpage()
-    grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                      clip=TRUE))
-    if(fill_symbol){
-      grid::grid.polygon(x, y,
-                         default.unit="native",
-                         id=id,
-                         gp=grid::gpar(fill=fill,
-                                       lwd=lwd))
-    }else{
-      grid::grid.polygon(x, y,
-                         default.unit="native",
-                         id=id,
-                         gp=grid::gpar(col=colfill,
-                                       lwd=lwd))
-    }
+    get_plot(x, y, id, fill)
   }
-
 
   ll <- list("x"= x,
              "y"= y,

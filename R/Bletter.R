@@ -69,7 +69,7 @@ Bletter <- function(plot=FALSE,
 
 
     x <- c(0, 0, 0.5, x.l1, x.l2, inner_x1, inner_x2)
-    x <- 0.05 + 0.90*x
+    x <- 0.15 + 0.90*x
     y <- c(0, 1, 1, y.l1, y.l2, inner_y1, inner_y2)
 
     id <- c(rep(1, length(x)-length(inner_x1) - length(inner_x2)),
@@ -77,26 +77,8 @@ Bletter <- function(plot=FALSE,
     fill <- c(colfill, "white", "white")
 
     if(plot){
-      grid::grid.newpage()
-      grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                        clip=TRUE))
-      if(fill_symbol){
-        grid::grid.polygon(x, y,
-                           default.unit="native",
-                           id=id,
-                           gp=grid::gpar(fill=fill,
-                                         lwd=lwd))
-      }else{
-        grid::grid.polygon(x, y,
-                           default.unit="native",
-                           id=id,
-                           gp=grid::gpar(col=colfill,
-                                         lwd=lwd))
-      }
+      get_plot(x, y, id, fill)
     }
-
-
-
 
     ll <- list("x"= x,
                "y"= y,

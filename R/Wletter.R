@@ -27,9 +27,9 @@ Wletter <- function(plot = FALSE,
                     fill_symbol = TRUE,
                     colfill="green",
                     lwd =10){
-      x <- c( 0.25, 0, 0.15, 0.30, 0.5, 0.70, 0.85, 1, 0.75, 0.5)
-      x <- 0.05 + 0.90*x
-      y <- c( 0, 1, 1, 0.3, 0.8, 0.3, 1, 1, 0, 0.4)
+      x <- c( 0.25, 0, 0.15, 0.3, 0.5, 0.7, 0.85, 1, 0.75, 0.5)
+      x <- 0.10 + 0.80*x
+      y <- c( 0, 1, 1, 0.35, 0.8, 0.35, 1, 1, 0, 0.4)
 
 
       id <- rep(1,length(x))
@@ -37,22 +37,7 @@ Wletter <- function(plot = FALSE,
       fill <- colfill
 
       if(plot){
-        grid::grid.newpage()
-        grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                          clip=TRUE))
-        if(fill_symbol){
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(fill=fill,
-                                           lwd=lwd))
-        }else{
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(col=colfill,
-                                           lwd=lwd))
-        }
+        get_plot(x, y, id, fill)
       }
 
       ll <- list("x"= x,

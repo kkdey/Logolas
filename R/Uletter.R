@@ -38,7 +38,7 @@ Uletter <- function(plot = FALSE,
 
 
       x <- c(0, x.l1, 1, 0.8, rev(x.l2), 0.2)
-      x <- 0.05 + 0.90*x
+      x <- 0.1 + 0.80*x
       y <- c(1, y.l1, 1, 1, rev(y.l2), 1)
 
       id <- c(rep(1, length(x)))
@@ -46,24 +46,8 @@ Uletter <- function(plot = FALSE,
 
 
       if(plot){
-        grid::grid.newpage()
-        grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                          clip=TRUE))
-        if(fill_symbol){
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(fill=fill,
-                                           lwd=lwd))
-        }else{
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(col=colfill,
-                                           lwd=lwd))
-        }
+        get_plot(x, y, id, fill)
       }
-
 
       ll <- list("x"= x,
                  "y"= y,

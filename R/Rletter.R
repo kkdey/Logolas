@@ -33,15 +33,15 @@ Rletter <- function(plot = FALSE,
       y.l1 <- 0.75 + 0.25*sin(angle)
       x.l1 <- 0.5 + 0.30*cos(angle)
 
-      y.l2 <- 0.75 + 0.15*sin(angle)
+      y.l2 <- 0.75 + 0.10*sin(angle)
       x.l2 <- 0.4 + 0.20*cos(angle)
 
       inner_x <- c(0.25, 0.40, x.l2, 0.25)
-      inner_y <- c(0.90, 0.90, y.l2, 0.60)
+      inner_y <- c(0.85, 0.85, y.l2, 0.65)
 
 
       x <- c(0, 0, 0.5, x.l1, 0.3, 0.9, 0.6, 0.2, 0.2, inner_x)
-      x <- 0.05 + 0.90*x
+      x <- 0.15 + 0.80*x
       y <- c(0, 1,  1,  y.l1, 0.5, 0,  0,  0.4,  0, inner_y)
 
       id <- c(rep(1, length(x)-length(inner_x)), rep(2, length(inner_x)))

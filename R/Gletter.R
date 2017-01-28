@@ -42,14 +42,14 @@ Gletter <- function(plot = FALSE,
       x <- c(x.l,rev(x.l))
       y <- c(y.l,1-rev(y.l))
 
-      x.i1 <- 0.5 +0.35*sin(angle1)
-      y.i1 <- 0.5 +0.35*cos(angle1)
+      x.i1 <- 0.5 +0.30*sin(angle1)
+      y.i1 <- 0.5 +0.30*cos(angle1)
       x.i1 <- x.i1[y.i1<=max(y.l1)]
       y.i1 <- y.i1[y.i1<=max(y.l1)]
       y.i1[1] <- max(y.l1)
 
-      x.i2 <- 0.5 +0.35*sin(angle2)
-      y.i2 <- 0.5 +0.35*cos(angle2)
+      x.i2 <- 0.5 +0.30*sin(angle2)
+      y.i2 <- 0.5 +0.30*cos(angle2)
 
       x.i <- c(x.i1,x.i2)
       y.i <- c(y.i1,y.i2)
@@ -77,26 +77,8 @@ Gletter <- function(plot = FALSE,
 
 
       if(plot){
-        grid::grid.newpage()
-        grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                          clip=TRUE))
-        if(fill_symbol){
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(fill=fill,
-                                           lwd=lwd))
-        }else{
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(col=colfill,
-                                           lwd=lwd))
-        }
+        get_plot(x, y, id, fill)
       }
-
-
-
 
       ll <- list("x"= x,
                  "y"= y,

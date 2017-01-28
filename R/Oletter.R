@@ -34,37 +34,20 @@ Oletter <- function(plot = FALSE,
       x.l1 <- 0.5 + 0.5*cos(angle)
 
 
-      y.l2 <- 0.5 + 0.35*sin(angle)
-      x.l2 <- 0.5 + 0.35*cos(angle)
+      y.l2 <- 0.5 + 0.30*sin(angle)
+      x.l2 <- 0.5 + 0.30*cos(angle)
 
       id <- c(rep(1, length(x.l1)), rep(2, length(x.l2)))
 
       x <- c(x.l1, x.l2)
-      x <- 0.05 + 0.90*x
+      x <- 0.10 + 0.80*x
       y <- c(y.l1, y.l2)
 
       fill <- c(colfill,"white")
 
       if(plot){
-        grid::grid.newpage()
-        grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                          clip=TRUE))
-        if(fill_symbol){
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(fill=fill,
-                                           lwd=lwd))
-        }else{
-          grid::grid.polygon(x, y,
-                             default.unit="native",
-                             id=id,
-                             gp=grid::gpar(col=colfill,
-                                           lwd=lwd))
-        }
+        get_plot(x, y, id, fill)
       }
-
-
 
       ll <- list("x"= x,
                  "y"= y,

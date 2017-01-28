@@ -30,7 +30,7 @@ fourletter <- function(plot = FALSE,
                        colfill="green",
                        lwd =10){
 
-  x <- c(0.3, 0.15, 0.6, 0.6, 0.75, 0.75, 0.85, 0.85, 0.75, 0.75, 0.6, 0.6, 0.33, 0.45)
+  x <- c(0.3, 0.15, 0.55, 0.55, 0.70, 0.70, 0.80, 0.80, 0.70, 0.70, 0.55, 0.55, 0.32, 0.45)
   y <- c(1, 0.25, 0.25, 0, 0, 0.25, 0.25, 0.40, 0.40, 0.55, 0.55, 0.40, 0.40, 1)
 
 
@@ -38,22 +38,7 @@ fourletter <- function(plot = FALSE,
   fill <- colfill
 
   if(plot){
-    grid::grid.newpage()
-    grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
-                                      clip=TRUE))
-    if(fill_symbol){
-      grid::grid.polygon(x, y,
-                         default.unit="native",
-                         id=id,
-                         gp=grid::gpar(fill=fill,
-                                       lwd=lwd))
-    }else{
-      grid::grid.polygon(x, y,
-                         default.unit="native",
-                         id=id,
-                         gp=grid::gpar(col=colfill,
-                                       lwd=lwd))
-    }
+    get_plot(x, y, id, fill)
   }
 
 
