@@ -29,5 +29,18 @@ Returns a plot of the symbol with the input co-ordinates and fill colors
 \description{
 Plots logo given the co-ordinates and fill values of the symbols.
 }
+\examples{
+angle2 <- c(seq(pi/2, 0, length.out=100), seq(0, -(3*pi/2), length.out=100))
+x1 <- 0.5 + 0.3*cos(angle2)
+y1 <- 0.5 + 0.5*sin(angle2)
+x2 <- 0.5 + 0.15*cos(angle2)
+y2 <- 0.5 + 0.35*sin(angle2)
+x <- c(x1, x2)
+y <- c(y1, y2)
+colfill <- "green"
+id <- c(rep(1, length(x1)), rep(2, length(x2)))
+fill <- c(colfill, "white")
+get_plot(x, y, id, fill, colfill, lwd=10, fill_symbol=TRUE)
+}
 \keyword{internal}
 

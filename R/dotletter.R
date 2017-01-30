@@ -1,25 +1,14 @@
-#' @title Logo plot for dot punctuation
-#'
 #' @description Plots the symbol or logo for dot punctuation
 #'
-#' @param plot A binary. If FALSE, only outputs grid co-ordinates for the logo,
-#'        along with color labels. If TRUE, also plots the logo in a new grid
-#'        window. Defaults to FALSE.
-#' @param colfill  The color used to highlight the symbol.  Defaults to "green".
 #' @param y_pos The y-position of the center of the dot in [0,1] X [0,1] window.
 #'        Defaults to 0.1.
 #' @param x_pos The x-postition of the center of the dot in [0,1] X [0,1] window.
 #'        Defaults to 0.5.
 #' @param rad The radius of the dot. Defaults to 0.1.
 #'
-#' @return Returns a list with the following items.
-#'         \item{x}{X co-ordinates of the logo in the [0,1] X [0,1] grid window}
-#'         \item{y}{Y co-ordinates of the logo in the [0,1] X [0,1] grid window}
-#'         \item{id}{id vector representing blocks in the logo co-ordinates}
-#'         \item{fill}{a vector equal to the number of distinct ids or blocks in
-#'                    the logo, whose elements correspond to colors of these blocks}
 #' @keywords internal
 #' @import grid
+#' @rdname letters
 #' @export
 #' @examples
 #' out <- dotletter(plot=TRUE)

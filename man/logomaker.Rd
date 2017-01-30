@@ -10,7 +10,7 @@ logomaker(table, ic = NULL, hist = FALSE, cols, frame_width = NULL,
   main_fontsize = 16, start = 0.001, yscale_change = TRUE,
   pop_name = NULL, xlab = "X", ylab = "Information content",
   col_line_split = "grey80", cols_per_column = FALSE, addlogos = NULL,
-  addlogos_text = NULL)
+  addlogos_text = NULL, newpage = TRUE)
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
@@ -78,6 +78,8 @@ or blocks}
 \item{addlogos}{Vector of additional logos/symbols defined by user}
 
 \item{addlogos_text}{Vector of the names given to the additional logos/symbols defined by user.}
+
+\item{newpage}{if TRUE, plots the logo plot in a new page. Defaults to TRUE.}
 }
 \value{
 Plots the logo plot for the table data, with column names representing

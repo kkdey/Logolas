@@ -1,11 +1,5 @@
-#' @title Logo plot for a colon
-#'
 #' @description Plots the symbol or logo for a colon.
 #'
-#' @param plot A binary. If FALSE, only outputs grid co-ordinates for the logo,
-#'        along with color labels. If TRUE, also plots the logo in a new grid
-#'        window. Defaults to FALSE.
-#' @param colfill  The color used to highlight the symbol.  Defaults to "green".
 #' @param y_pos_1 The y-position of the center of the lower dot in [0,1] X [0,1]
 #'        window. Defaults to 0.1.
 #' @param y_pos_2  The y-position of the center of the upper dot in [0,1] X [0,1] window.
@@ -14,15 +8,9 @@
 #'        Defaults to 0.5.
 #' @param rad The radius of the indivudual symbols in the semicolon.
 #' @param lwd Specifies the border width of the symbol. Defaults to 10.
-#'
-#' @return Returns a list with the following items.
-#'         \item{x}{X co-ordinates of the logo in the [0,1] X [0,1] grid window}
-#'         \item{y}{Y co-ordinates of the logo in the [0,1] X [0,1] grid window}
-#'         \item{id}{id vector representing blocks in the logo co-ordinates}
-#'         \item{fill}{a vector equal to the number of distinct ids or blocks in
-#'                    the logo, whose elements correspond to colors of these blocks}
 #' @keywords internal
 #' @import grid
+#' @rdname letters
 #'
 #' @export
 #' @examples

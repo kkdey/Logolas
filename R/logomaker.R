@@ -67,6 +67,8 @@
 #' @param addlogos Vector of additional logos/symbols defined by user
 #' @param addlogos_text Vector of the names given to the additional logos/symbols defined by user.
 #'
+#' @param newpage if TRUE, plots the logo plot in a new page. Defaults to TRUE.
+#'
 #' @return Plots the logo plot for the table data, with column names representing
 #' the sites/blocks and the row names denoting the symbols for which logos are
 #' plotted
@@ -114,7 +116,8 @@ logomaker <- function( table,
                        col_line_split="grey80",
                        cols_per_column = FALSE,
                        addlogos = NULL,
-                       addlogos_text = NULL){
+                       addlogos_text = NULL,
+                       newpage = TRUE){
 
   if(length(cols) != dim(table)[1] && cols_per_column == FALSE){
     stop("the number of colors must match the number of symbols")
@@ -177,14 +180,14 @@ logomaker <- function( table,
   slash_inds <- grep("/", chars)
 
   if(!cols_per_column){
-    for (j in 1:npos){
+    for (j in seq_len(npos)){
 
       column <- table_mat_norm[,j]
       hts <- as.numeric(0.99*column*facs[j])
       letterOrder <- order(hts)
 
       y.pos <- 0
-      for (i in 1:length(chars)){
+      for (i in seq_along(chars)){
         letter <- chars[letterOrder[i]]
         col <- cols[letterOrder[i]]
         ht <- hts[letterOrder[i]]
@@ -200,13 +203,13 @@ logomaker <- function( table,
   }
 
   if(cols_per_column){
-    for (j in 1:npos){
+    for (j in seq_len(npos)){
 
       column <- table_mat_norm[,j]
       hts <- as.numeric(0.99*column*facs[j])
       letterOrder <- order(hts)
       y.pos <- 0
-      for (i in 1:length(chars)){
+      for (i in seq_along(chars)){
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
@@ -236,8 +239,9 @@ logomaker <- function( table,
        }
   }}
 
-
- # grid::grid.newpage()
+ if(newpage){
+   grid::grid.newpage()
+ }
 #  bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
   bottomMargin = ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)
 #  leftMargin = ifelse(yaxis, 0.1 + y_fontsize/3.5, 3)
