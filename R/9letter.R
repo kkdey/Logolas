@@ -60,7 +60,7 @@ nineletter <- function(plot = FALSE,
   fill <- c(colfill, "white")
 
   if(plot){
-    get_plot(x, y, id, fill)
+    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
   }
 
 

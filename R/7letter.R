@@ -35,7 +35,7 @@ sevenletter <- function(plot = FALSE,
   id <- rep(1, length(x))
 
   if(plot){
-    get_plot(x, y, id, fill)
+    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
   }
 
 

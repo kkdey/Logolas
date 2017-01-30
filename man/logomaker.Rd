@@ -4,12 +4,13 @@
 \alias{logomaker}
 \title{Main workhorse function that builds the logo plots}
 \usage{
-logomaker(table, ic = NULL, cols, frame_width = NULL, ic.scale = TRUE,
-  alpha = 1, xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10,
-  xlab_fontsize = 15, y_fontsize = 15, start = 1e-04,
-  yscale_change = TRUE, pop_name = NULL, xlab = "X",
-  ylab = "Information content", col_line_split = "grey80",
-  addlogos = NULL, addlogos_text = NULL)
+logomaker(table, ic = NULL, hist = FALSE, cols, frame_width = NULL,
+  ic.scale = TRUE, alpha = 1, xaxis = TRUE, yaxis = TRUE,
+  xaxis_fontsize = 10, xlab_fontsize = 15, y_fontsize = 15,
+  main_fontsize = 16, start = 0.001, yscale_change = TRUE,
+  pop_name = NULL, xlab = "X", ylab = "Information content",
+  col_line_split = "grey80", cols_per_column = FALSE, addlogos = NULL,
+  addlogos_text = NULL)
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
@@ -20,6 +21,9 @@ positions or groups (specified along the columns).}
 repesenting the heights of the logo stacked bars for each position/site/block.
 It defaults to NULL, in which case, the function computes the ic vector using
 the \code{ic_computer} functionality.}
+
+\item{hist}{Whether to use the hist method or the information criterion
+method to determine the heights of the logos.}
 
 \item{cols}{A vector of colors for the different logos or symbols stacked in the
 logo plot. The length of this vector should match with number of symbols or
@@ -50,6 +54,8 @@ or not. Defaults to TRUE.}
 
 \item{y_fontsize}{The size of the Y-axis font.}
 
+\item{main_fontsize}{The size of the title.}
+
 \item{start}{The starting point in Y axis for the first logo. Default is
 0.0001 which is very close to 0.}
 
@@ -66,6 +72,8 @@ plot is created. Defaults to NULL when no population name is mentioned.}
 
 \item{col_line_split}{The color of the line split between the consecutive groups
 or blocks}
+
+\item{cols_per_column}{if TRUE, all the symbols in the same column will be of same color.}
 
 \item{addlogos}{Vector of additional logos/symbols defined by user}
 

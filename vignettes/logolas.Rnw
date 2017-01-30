@@ -72,7 +72,7 @@ biocLite("Logolas")
 
 For the developmental version on Github, one can use
 
-<<install_logolas_github, eval=TRUE>>=
+<<install_logolas_github, eval=FALSE>>=
 devtools::install_github('kkdey/Logolas')
 @ %def
 
@@ -138,7 +138,6 @@ Also, the Y-axis can be adjusted by taking \begin{verb} yscale_change=TRUE \end{
 \begin{figure}[h]
 \begin{center}
 <<logolas_use_2, eval=TRUE, warning=FALSE, fig.show="asis", dpi=144, fig.width=6, fig.height=5, out.width="6in", out.height="5in">>=
-
 rownames(m) <- c("A", "C", "G", "T")
 colnames(m) <- 1:8
 logomaker(m,
@@ -162,7 +161,6 @@ One can also normalize the  heights of the stacks of logos for each column by ch
 \begin{figure}[h]
 \begin{center}
 <<logolas_use_3, eval=TRUE, warning=FALSE, fig.show="asis", dpi=144, fig.width=6, fig.height=5, out.width="6in", out.height="5in">>=
-
 rownames(m) <- c("A", "C", "G", "T")
 colnames(m) <- 1:8
 logomaker(m,
@@ -258,7 +256,6 @@ Then we apply \begin{verb} logomaker \end{verb} on that matrix.
 \begin{figure}[htp]
 \begin{center}
 <<logolas_use_7, eval=TRUE, warning=FALSE, fig.show="asis", dpi=144, fig.width=6, fig.height=5, out.width="6in", out.height="5in">>=
-
 logomaker(table,
           cols= rev(RColorBrewer::brewer.pal(dim(table)[1],
           name = "Spectral")),

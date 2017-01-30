@@ -44,6 +44,8 @@
 #'
 #' @param y_fontsize The size of the Y-axis font.
 #'
+#' @param main_fontsize The size of the title.
+#'
 #' @param yscale_change If TRUE, adjusts the Y axis scale based on the size of
 #' the bars, else keeps it to the maximum value possible, which is
 #' \code{ceiling(max(ic)} under \code{ic_computer} defined IC criteria.
@@ -60,7 +62,7 @@
 #' @param col_line_split The color of the line split between the consecutive groups
 #' or blocks
 #'
-#' @param All the symbols in the same column will be of same color
+#' @param cols_per_column if TRUE, all the symbols in the same column will be of same color.
 #'
 #' @param addlogos Vector of additional logos/symbols defined by user
 #' @param addlogos_text Vector of the names given to the additional logos/symbols defined by user.
@@ -90,8 +92,6 @@
 #'          frame_width = 1)
 #'
 #' @export
-#'
-#'
 
 logomaker <- function( table,
                        ic=NULL,
@@ -105,6 +105,7 @@ logomaker <- function( table,
                        xaxis_fontsize=10,
                        xlab_fontsize=15,
                        y_fontsize=15,
+                       main_fontsize=16,
                        start=0.001,
                        yscale_change=TRUE,
                        pop_name = NULL,
@@ -188,9 +189,9 @@ logomaker <- function( table,
         col <- cols[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, color, x.pos, y.pos, ht, wt[j], addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, col, x.pos, y.pos, ht, wt[j], addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, color, x.pos, y.pos, ht, wt[j], addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, col, x.pos, y.pos, ht, wt[j], addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -236,7 +237,7 @@ logomaker <- function( table,
   }}
 
 
-  grid::grid.newpage()
+ # grid::grid.newpage()
 #  bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
   bottomMargin = ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)
 #  leftMargin = ifelse(yaxis, 0.1 + y_fontsize/3.5, 3)
@@ -263,11 +264,11 @@ logomaker <- function( table,
 
   if(is.null(pop_name)){
     grid::grid.text("Logo plot:", y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
-              gp = grid::gpar(fontsize = 16))
+              gp = grid::gpar(fontsize = main_fontsize))
   }else{
     grid::grid.text(paste0("", pop_name),
                     y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
-              gp = grid::gpar(fontsize = 16))
+              gp = grid::gpar(fontsize = main_fontsize))
   }
 
   if (xaxis){
@@ -294,8 +295,8 @@ logomaker <- function( table,
 }
 
 addLetter <- function(letters, letter,
-                      col, x.pos, y.pos,ht,wt,
-                      addlogos, addlogos_text){
+                      col, x.pos, y.pos, ht, wt,
+                      addlogos=NULL, addlogos_text=NULL){
   letter <- as.character(toupper(letter))
   out <- makemylogo(letter,
                     colfill = col,
