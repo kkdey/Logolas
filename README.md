@@ -48,8 +48,19 @@ seqLogo(p)
 
 <img src="vignettes/figures/seqLogo_sequence.png" alt="Logo Plot" height="300" width="700">
 
-`seqLogo` uses the `makePWM` function to convert the matrix into a class "pwm" object by assigning the base information to the rows. To use our package, the user on the other hand would just need to set the row names to the base letters and the column names to the position index as follows.
-This would be more flexible when the user wants to play around with the order of the row names and change the column names.
+`seqLogo` uses the `makePWM` function to convert the matrix into a class "pwm" object by assigning the base information to the rows. To use our package, the user can directly use the `p@pwm` object as shown below
+
+```
+logomaker(p@pwm,
+          cols= RColorBrewer::brewer.pal(dim(mat)[1],
+          name ="Spectral"),
+          frame_width = 1,
+          ic.scale = TRUE,
+          yscale_change=FALSE,
+          xlab="position")
+```
+
+Besides using the `makePWM` format, the user can directly input a matrix with row names and column names as well.
 
 ```
 mat <- m

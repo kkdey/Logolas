@@ -1,6 +1,7 @@
-#' @title Logo plot for number 0
+#' @title Logo plot for numbers 0-9, A-Z and punctuation marks
 #'
-#' @description Plots the symbol or logo for numeric 0.
+#' @description Plots the symbol or logo for numbers 0-9 and alphabets A-Z,
+#' left arrow, right arrow, colon, semic colon, dash, comma and dot.
 #'
 #' @param plot A binary. If FALSE, only outputs grid co-ordinates for the logo,
 #'        along with color labels. If TRUE, also plots the logo in a new grid
@@ -10,6 +11,7 @@
 #'        of the symbol by \code{colfill}. Defaults to TRUE.
 #' @param colfill  The color used to highlight the symbol.  Defaults to "green".
 #' @param lwd Specifies the border width of the symbol. Defaults to 10.
+#' @name letters
 #'
 #' @return Returns a list with the following items.
 #'         \item{x}{X co-ordinates of the logo in the [0,1] X [0,1] grid window}
@@ -19,6 +21,8 @@
 #'                    the logo, whose elements correspond to colors of these blocks}
 #' @keywords internal
 #' @import grid
+#'
+#' @rdname letters
 #' @export
 #' @examples
 #' out <- zeroletter(plot=TRUE)

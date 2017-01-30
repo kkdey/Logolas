@@ -40,7 +40,7 @@ ic_computer <-function(mat, alpha, hist=FALSE) {
     mat <- apply(mat, 2, function(x) return(x/sum(x)))
     npos<-ncol(mat)
     ic <-numeric(length=npos)
-    for (i in 1:npos) {
+    for (i in seq_len(npos)) {
       if(alpha == 1){
         ic[i] <- log(nrow(mat), base=2) + sum(sapply(mat[, i], function(x) {
           if (x > 0) { x*log2(x) } else { 0 }

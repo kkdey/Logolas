@@ -73,7 +73,7 @@ makemylogo <- function(name,
   sym_slash_top_index <- array(0, groups)
   counter  <- 1
 
-  for(l in 1:groups){
+  for(l in seq_len(groups)){
     sym[l] <- paste0(as.character(split_string[(slash_index[counter]+1) : (slash_index[counter+1]-1)]),
                      collapse="")
     sym_slash_index <- c(sym_slash_index, slash_index[counter] : slash_index[counter+1])
@@ -84,7 +84,7 @@ makemylogo <- function(name,
 
   split_string_alphanumeric <- split_string[-sym_slash_index]
 
-  inds_alphanumeric <- (1:length(split_string))[-sym_slash_index]
+  inds_alphanumeric <- (seq_along(split_string))[-sym_slash_index]
 
   split_string_mod <- c(split_string_alphanumeric, sym)
   split_string_inds <- c(inds_alphanumeric, sym_slash_top_index)
@@ -117,7 +117,7 @@ makemylogo <- function(name,
       stop("length of the logo name and the logo text name must match")
     }
 
-    for(num in 1:length(addlogos)){
+    for(num in seq_along(addlogos)){
       split_string[grep(as.character(addlogos[num]), split_string)] <- as.character(addlogos_text[num])
     }
   }
@@ -129,7 +129,7 @@ makemylogo <- function(name,
   fillpool <- numeric()
 
   counter <- 0
-  for(m in 1:length(chars)){
+  for(m in seq_along(chars)){
     fun <- get(chars[m])
     out <- fun(colfill=colfill)
     xpool <- c(xpool, (m-1)*(1/length(chars)) + (1/length(chars))*out$x);
