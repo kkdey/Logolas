@@ -14,7 +14,14 @@ In some sense, this package may be considered a more flexible extension of the '
 
 ## Installation
 
-The package will be soon put on CRAN. As of now, you can install the developmental version from Github
+The Bioconductor version of the package can be downloaded as follows 
+
+```
+source("http://bioconductor.org/biocLite.R")
+biocLite("Logolas")
+```
+
+One can install the developmental version from Github
 
 ```
 library(devtools)

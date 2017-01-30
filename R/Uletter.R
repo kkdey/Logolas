@@ -46,7 +46,7 @@ Uletter <- function(plot = FALSE,
 
 
       if(plot){
-        get_plot(x, y, id, fill)
+        get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
       }
 
       ll <- list("x"= x,

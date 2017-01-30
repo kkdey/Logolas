@@ -13,6 +13,10 @@
 #' the information criterion. Default is alpha=1, for which it uses Shannon
 #' entropy (in the limit).
 #'
+#' @param hist if hist is FALSE (default). information criterion is used to decide on the heights
+#' of the logo plots. If TRUE, one uses the relative proportion of the values in the different
+#' columns of the matrix to determine the height of the bars.
+#'
 #' @return A vector of same length as the number of columns in the data, with
 #'         each entry representing information contained in that column,
 #'         which determines the height of the bar for the logo plot for that

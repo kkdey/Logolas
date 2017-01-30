@@ -67,7 +67,7 @@ threeletter <- function(plot = FALSE, fill_symbol = TRUE,
   fill <- c(colfill)
 
   if(plot){
-    get_plot(x, y, id, fill)
+    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
   }
 
   ll <- list("x"= x,

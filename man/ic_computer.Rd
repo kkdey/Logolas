@@ -4,7 +4,7 @@
 \alias{ic_computer}
 \title{Information criterion computer}
 \usage{
-ic_computer(mat, alpha)
+ic_computer(mat, alpha, hist = FALSE)
 }
 \arguments{
 \item{mat}{A matrix with symbols or logo names along the rows and
@@ -13,6 +13,10 @@ the sites/positions/groups along the columns.}
 \item{alpha}{The tuning parameter of the Renyi entropy used in computing
 the information criterion. Default is alpha=1, for which it uses Shannon
 entropy (in the limit).}
+
+\item{hist}{if hist is FALSE (default). information criterion is used to decide on the heights
+of the logo plots. If TRUE, one uses the relative proportion of the values in the different
+columns of the matrix to determine the height of the bars.}
 }
 \value{
 A vector of same length as the number of columns in the data, with

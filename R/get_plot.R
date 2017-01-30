@@ -5,7 +5,8 @@
 #' @param x  The X co-ordinates of the symbol
 #' @param y The Y co-ordinates of the symbol
 #' @param id The id of the different points based on how it will be grouped
-#' @param fill The color used for filling the logo.
+#' @param fill The color vector used for filling the logo.
+#' @param colfill The color label for the borders of the plot.
 #' @param lwd Specifies the border width of the symbol. Defaults to 10.
 #' @param fill_symbol A binary. If TRUE, the function would fill the symbol by
 #'        the color represented in \code{colfill}, else colors the boundary
@@ -17,7 +18,7 @@
 #' @export
 
 
-get_plot <- function(x, y, id, fill, lwd=10, fill_symbol=TRUE){
+get_plot <- function(x, y, id, fill, colfill, lwd=10, fill_symbol=TRUE){
   grid::grid.newpage()
   grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
                                     clip=TRUE))
