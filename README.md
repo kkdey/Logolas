@@ -46,65 +46,72 @@ p <- makePWM(m)
 seqLogo(p)
 ```
 
-<img src="vignettes/figures/seqLogo_sequence.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figure/seqLogo_use-1.png" alt="Logo Plot" height="300" width="700">
 
 `seqLogo` uses the `makePWM` function to convert the matrix into a class "pwm" object by assigning the base information to the rows. To use our package, the user can directly use the `p@pwm` object as shown below
 
 ```
+color_profile <- list("type" = "per_row",
+                      "col" = RColorBrewer::brewer.pal(dim(p@pwm)[1],name ="Spectral"))
 logomaker(p@pwm,
-          cols= RColorBrewer::brewer.pal(dim(mat)[1],
-          name ="Spectral"),
+          color_profile = color_profile,
           frame_width = 1,
           ic.scale = TRUE,
           yscale_change=FALSE,
-          xlab="position")
+          xlab="position",
+          col_line_split = "grey80")
 ```
 
 Besides using the `makePWM` format, the user can directly input a matrix with row names and column names as well.
 
 ```
-mat <- m
-rownames(mat) <- c("A", "C", "G", "T")
-colnames(mat) <- 1:8
-
-logomaker(mat,
-          cols= RColorBrewer::brewer.pal(dim(mat)[1],
-          name ="Spectral"),
+rownames(m) <- c("A", "C", "G", "T")
+colnames(m) <- 1:8
+logomaker(m,
+          color_profile = color_profile,
           frame_width = 1,
           ic.scale = TRUE,
+          alpha = 2,
           yscale_change=FALSE,
-          xlab="position")
+          xlab="position",
+          col_line_split = "grey80")
 ```
 
-<img src="vignettes/figures/logomaker_sequence_1.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figure/logolas_use-1.png" alt="Logo Plot" height="300" width="700">
 
 Just as in `seqLogo` , `Logolas` too has an  `ic.scale`  option to determine if the heights of the bars should be same or should be determined by the information criterion. 
 
 ```
-logomaker(mat,
-          cols= RColorBrewer::brewer.pal(dim(mat)[1],
-          name ="Spectral"),
+rownames(m) <- c("A", "C", "G", "T")
+colnames(m) <- 1:8
+logomaker(m,
+          color_profile = color_profile,
           frame_width = 1,
           ic.scale = FALSE,
-          yscale_change=FALSE,
-          xlab="position")
+          alpha = 2,
+          yscale_change=TRUE,
+          xlab="position",
+          col_line_split = "grey80")
 ```
 
-<img src="vignettes/figures/logomaker_sequence_2.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figure/logolas_use_3-1.png" alt="Logo Plot" height="300" width="700">
 
 In addition, the user can use the `yscale_change` option which adjusts for the scale of Y axis as per data and blows up the logo plot, making it easier to visualize.
 
 ```
-logomaker(mat,
-          cols= RColorBrewer::brewer.pal(dim(mat)[1],
-          name ="Spectral"),
+rownames(m) <- c("A", "C", "G", "T")
+colnames(m) <- 1:8
+logomaker(m,
+          color_profile = color_profile,
           frame_width = 1,
           ic.scale = TRUE,
+          alpha = 2,
           yscale_change=TRUE,
-          xlab="position")
+          xlab="position",
+          col_line_split = "grey80")
 ```
 
-<img src="vignettes/figures/logomaker_sequence_3.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figure/logolas_use_2-1.png" alt="Logo Plot" height="300" width="700">
 
 Besides, Logolas also lets you play with the colors of the symbols, choose your own `ic` function that can be used to determine the heights of the stacks, set titles, x-labels, y-labels and axis names as per the user choice and also choose the relative width of each column in the logo stack, the kind of flexibility one does not get with `seqLogo` package.
 
@@ -152,19 +159,22 @@ cols1 <- c(rev(RColorBrewer::brewer.pal(12, "Paired"))[c(3,4,7,8,11,12,5,6,9,10)
            RColorBrewer::brewer.pal(9, "Set1")[c(9,7)],
            RColorBrewer::brewer.pal(8, "Dark2")[c(3,4,8)])
 
+color_profile <- list("type" = "per_row",
+                      "col" = cols1)
+
 ```
 
 We then build the logo plots on this counts data.
 
 ```
 logomaker(counts_mat,
-          cols= cols1,
+          color_profile = color_profile,
           frame_width = 1,
           ic.scale  = FALSE,
           yscale_change = FALSE)
 ```
 
-<img src="vignettes/figures/logolas_protein_1.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figure/logolas_use_5-1.png" alt="Logo Plot" height="300" width="700">
 
 ## Application of Logolas - arXiv category logo 
 
@@ -211,9 +221,12 @@ tab_data <- as.matrix(tab_data)
 We apply the `logomaker` function to plot the logo plots.
 
 ```
+color_profile <- list("type" = "per_row",
+                      "col" = RColorBrewer::brewer.pal(dim(tab_data)[1],
+          name = "Spectral"))
+
 logomaker(tab_data,
-          cols= RColorBrewer::brewer.pal(dim(tab_data)[1],
-          name = "Spectral"),
+          color_profile = color_profile,
           frame_width = 1,
           ic.scale = TRUE,
           pop_name = "arXiv field categories of UChicago STAT professors",
@@ -222,21 +235,8 @@ logomaker(tab_data,
 
 ```
 
-<img src="vignettes/figures/logolas_arxiv_1.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figure/logolas_use_12-1.png" alt="Logo Plot" height="300" width="700">
 
-```
-logomaker(tab_data,
-          cols= RColorBrewer::brewer.pal(dim(tab_data)[1],
-          name = "Spectral"),
-          frame_width = 1,
-          ic.scale = FALSE,
-          pop_name = "arXiv field categories of UChicago STAT professors",
-          xlab = "Professors",
-          ylab = "Information content")
-
-```
-
-<img src="vignettes/figures/logolas_arxiv_2.png" alt="Logo Plot" height="300" width="700">
 
 ## Application of Logolas - mutational profile
 
@@ -260,18 +260,25 @@ table <- rbind(mat1, mat2)
 Now we apply Logolas to build the mutational logo plot.
 
 ```
+cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
+col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, rownames(cols)))
+
+set.seed(20)
+color_profile <- list("type" = "per_symbol",
+                      "col" = sample(col_vector, length(total_chars), replace=FALSE))
+
 logomaker(table,
-          cols= rev(RColorBrewer::brewer.pal(dim(table)[1],
-          name = "Spectral")),
+          color_profile = color_profile,
           frame_width = 1,
           ic.scale = TRUE,
           yscale_change=TRUE,
           xlab = "Position",
           ylab = "Information content")
 
+
 ```
 
-<img src="vignettes/figures/mutational_profile_logolas.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figure/logolas_use_7-1.png" alt="Logo Plot" height="300" width="700">
 
 ## Application of Logolas - histone marks
 
@@ -297,17 +304,23 @@ colnames(mat) <- c("Intergenic",
 Now we apply Logolas on this matrix.
 
 ```
+color_profile <- list("type" = "per_row",
+                      "col" = sample(RColorBrewer::brewer.pal(10,name = "Spectral"),
+                          dim(mat)[1]))
+
+
 logomaker(mat,
-          cols= sample(RColorBrewer::brewer.pal(10,name = "Spectral"), dim(mat)[1]),
+          color_profile = color_profile,
           frame_width = 1,
           ic.scale = TRUE,
-          pop_name = "Histone marks prop. abundance in various genomic regions",
+          pop_name = "Histone marks in various genomic regions",
           xlab = "",
           ylab = "Information content",
           yscale_change = TRUE,
           col_line_split = "black")
+
 ```
-<img src="vignettes/figures/histone_marks.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figure/logolas_use_9-1.png" alt="Logo Plot" height="300" width="700">
 
 
 ## Make your own logo
@@ -350,7 +363,7 @@ grid::grid.polygon(lambda$x, lambda$y,
                                    lwd=10))
   
 ```
-<img src="vignettes/figures/lambda_plot.png" alt="Logo Plot" height="200" width="200">
+<img src="vignettes/figure/logolas_use_14-1.png" alt="Logo Plot" height="200" width="200">
 
 Okay, once you are happy with the shape of the symbol, you can add it to
 the mix of all other symbols using the following command.
@@ -361,7 +374,6 @@ makemylogo("AC>EF/LAMBDA/W35",
             addlogos_text="LAMBDA", 
             plot=TRUE)
 ```
-<img src="vignettes/figures/makemylogo_with_lambda.png" alt="Logo Plot" height="300" width="700">
 
 Note that we put `lambda` inside "/.../" to make sure that the function reads it as a new symbol and not general English alphabets or numbers. Once you run this, you should see the symbol as follows 
 
@@ -376,23 +388,25 @@ counts_mat <- rbind(c(0, 10, 100, 60, 20),
 )
 
 colnames(counts_mat) <- c("Pos 1", "Pos 2", "Pos 3", "Pos 4", "Pos 5")
-rownames(counts_mat) <- c("R/LAMBDA/Q", "A", "X", "Y")
+rownames(counts_mat) <- c("R/LMBD/Q", "A", "X", "Y")
 counts_mat
 ```
 
 LAMBDA symbol is added under `addlogos` and `addlogos_text` options for the `logomaker` mix of symbols.
 
 ```
+color_profile <- list("type" = "per_row",
+                      "col" = RColorBrewer::brewer.pal(dim(counts_mat)[1], name = "Spectral"))
+
 logomaker(counts_mat,
-          cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],
-          name = "Spectral"),
+          color_profile = color_profile,
           frame_width = 1,
-          addlogos="LAMBDA",
+          addlogos="LMBD",
           addlogos_text="LAMBDA")
           
 ```
 
-<img src="vignettes/figures/lambda_logomaker.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figure/logolas_use_17-1.png" alt="Logo Plot" height="300" width="700">
 
 ## Licenses
 

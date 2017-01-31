@@ -4,13 +4,17 @@
 \alias{logomaker}
 \title{Main workhorse function that builds the logo plots}
 \usage{
-logomaker(table, ic = NULL, hist = FALSE, cols, frame_width = NULL,
-  ic.scale = TRUE, alpha = 1, xaxis = TRUE, yaxis = TRUE,
-  xaxis_fontsize = 10, xlab_fontsize = 15, y_fontsize = 15,
-  main_fontsize = 16, start = 0.001, yscale_change = TRUE,
-  pop_name = NULL, xlab = "X", ylab = "Information content",
-  col_line_split = "grey80", cols_per_column = FALSE, addlogos = NULL,
-  addlogos_text = NULL, newpage = TRUE)
+logomaker(table, ic = NULL, hist = FALSE, color_profile,
+  total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
+  "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero",
+  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",
+  "comma", "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
+  frame_width = NULL, ic.scale = TRUE, alpha = 1, xaxis = TRUE,
+  yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
+  y_fontsize = 15, main_fontsize = 16, start = 0.001,
+  yscale_change = TRUE, pop_name = NULL, xlab = "X",
+  ylab = "Information content", col_line_split = "grey80", scale0 = 0.01,
+  scale1 = 0.99, addlogos = NULL, addlogos_text = NULL, newpage = TRUE)
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
@@ -25,10 +29,19 @@ the \code{ic_computer} functionality.}
 \item{hist}{Whether to use the hist method or the information criterion
 method to determine the heights of the logos.}
 
-\item{cols}{A vector of colors for the different logos or symbols stacked in the
-logo plot. The length of this vector should match with number of symbols or
-logos used in the plot, which is again ame as the number of rows in the input
-table.}
+\item{color_profile}{A list containing two elements - "type" and "col". The type can
+be of three types - "per-row", "per-column" and "per-symbol". The "col" element
+is a vector of colors, of same length as number of rows in table for "per-row" (assigning
+a color to each string), of same length as number of columns in table for "per-column"
+(assuming a color for each column), or a distinct color for a distinct symbol in "per-symbol".
+For "per-symbol", the length of the \code{color_profile$col} should be same as library size
+of the logos, but if the vector of colors provided is more or less, we can
+downsample or upsample the colors as required. The colors are matched with the symbols in
+the \code{total_chars}}
+
+\item{total_chars}{The total number of character symbols in the user library. The default
+is the default library provided by Logolas, but the user can add symbols that he creates
+to this list.}
 
 \item{frame_width}{The width of the frames for individual site/postion/column
 in the logo plot. As default, all the columns have same width, equal to 1.}
@@ -73,7 +86,9 @@ plot is created. Defaults to NULL when no population name is mentioned.}
 \item{col_line_split}{The color of the line split between the consecutive groups
 or blocks}
 
-\item{cols_per_column}{if TRUE, all the symbols in the same column will be of same color.}
+\item{scale0}{the base change of the logo to maintain the gap between symbols.}
+
+\item{scale1}{scaling of the logo to maintain the gap between symbols.}
 
 \item{addlogos}{Vector of additional logos/symbols defined by user}
 
@@ -92,21 +107,37 @@ each other to build the logo plot.
 }
 \examples{
 
+cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
+col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, rownames(cols)))
 counts_mat <- rbind(c(0, 10, 100, 60, 20),
-                    c(40, 30, 30, 35, 20),
-                    c(100, 0, 15, 25, 75),
-                    c(10, 30, 20, 50, 70))
-
+                   c(40, 30, 30, 35, 20),
+                   c(100, 0, 15, 25, 75),
+                   c(10, 30, 20, 50, 70))
 colnames(counts_mat) <- c("2012", "2013", "2014", "2015", "2016")
-rownames(counts_mat) <- c("M", "U", "T", "D")
+rownames(counts_mat) <- c("MAN", "MAIL", "LAWN", "CAR")
+
+color_profile <- list("type" = "per_symbol",
+                     "col" = col_vector)
 logomaker(counts_mat,
-          cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],name = "Spectral"),
+          color_profile = color_profile,
           frame_width = 1,
           ic.scale = FALSE)
 
+color_profile <- list("type" = "per_row",
+                     "col" = col_vector[1:4])
+
 logomaker(counts_mat,
-         cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],name = "Spectral"),
-         frame_width = 1)
+         color_profile = color_profile,
+         frame_width = 1,
+         ic.scale = FALSE)
+
+color_profile <- list("type" = "per_column",
+                      "col" = col_vector[1:5])
+
+logomaker(counts_mat,
+         color_profile = color_profile,
+         frame_width = 1,
+         ic.scale = FALSE)
 
 }
 
