@@ -88,7 +88,7 @@ Logo plots are popular in genomic studies for sequence alignment and motif detec
 In this vignette, we discuss a number of applications in genomics and beyond where such flexible logo plots can be effective in visualizing patterns.
 
 \vspace{1em}
-\textbf{\Logolas{} version:} 0.99.4 \footnote{This document used the vignette from \Bioconductor{} package \Biocpkg{CountClust, DESeq2} as \CRANpkg{knitr} template}
+\textbf{\Logolas{} version:} 0.99.8 \footnote{This document used the vignette from \Bioconductor{} package \Biocpkg{CountClust, DESeq2} as \CRANpkg{knitr} template}
 \end{abstract}
 
 
@@ -169,8 +169,10 @@ Now we apply \Logolas{} to build a similar plot.The user can directly use the `p
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+\hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
+                      \hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{)[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"Spectral"}\hlstd{))}
 \hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}
-          \hlkwc{cols}\hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(m)[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"Spectral"}\hlstd{),}
+          \hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
           \hlkwc{yscale_change}\hlstd{=}\hlnum{FALSE}\hlstd{,}
@@ -192,7 +194,7 @@ Besides using the `makePWM` format of \begin{verb} seqLogo() \end{verb} package,
 \hlkwd{rownames}\hlstd{(m)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"A"}\hlstd{,} \hlstr{"C"}\hlstd{,} \hlstr{"G"}\hlstd{,} \hlstr{"T"}\hlstd{)}
 \hlkwd{colnames}\hlstd{(m)} \hlkwb{<-} \hlnum{1}\hlopt{:}\hlnum{8}
 \hlkwd{logomaker}\hlstd{(m,}
-          \hlkwc{cols}\hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(m)[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"Spectral"}\hlstd{),}
+          \hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
           \hlkwc{yscale_change}\hlstd{=}\hlnum{FALSE}\hlstd{,}
@@ -234,7 +236,7 @@ Also, the Y-axis can be adjusted by taking \begin{verb} yscale_change=TRUE \end{
 \hlkwd{rownames}\hlstd{(m)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"A"}\hlstd{,} \hlstr{"C"}\hlstd{,} \hlstr{"G"}\hlstd{,} \hlstr{"T"}\hlstd{)}
 \hlkwd{colnames}\hlstd{(m)} \hlkwb{<-} \hlnum{1}\hlopt{:}\hlnum{8}
 \hlkwd{logomaker}\hlstd{(m,}
-          \hlkwc{cols}\hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(m)[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"Spectral"}\hlstd{),}
+          \hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
           \hlkwc{alpha} \hlstd{=} \hlnum{2}\hlstd{,}
@@ -262,7 +264,7 @@ One can also normalize the  heights of the stacks of logos for each column by ch
 \hlkwd{rownames}\hlstd{(m)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"A"}\hlstd{,} \hlstr{"C"}\hlstd{,} \hlstr{"G"}\hlstd{,} \hlstr{"T"}\hlstd{)}
 \hlkwd{colnames}\hlstd{(m)} \hlkwb{<-} \hlnum{1}\hlopt{:}\hlnum{8}
 \hlkwd{logomaker}\hlstd{(m,}
-          \hlkwc{cols}\hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(m)[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"Spectral"}\hlstd{),}
+          \hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{ic.scale} \hlstd{=} \hlnum{FALSE}\hlstd{,}
           \hlkwc{alpha} \hlstd{=} \hlnum{2}\hlstd{,}
@@ -279,7 +281,7 @@ One can also normalize the  heights of the stacks of logos for each column by ch
 
 \newpage
 
-\Logolas{} lets you customize the colors of the logos, has option for user-defined information function under option \begin{verb} ic \end{verb},  beyond the different Renyi criteria that can be set. User can set titles, X-labels, Y-labels, axis ticks and also the relative width of each column of the logo stack, making it much more flexible than the standard packages for logo plotting.
+\Logolas{} lets you customize the colors of the logos using \begin{verb} color_profile \end{verb}, has option for user-defined information function under option \begin{verb} ic \end{verb},  beyond the different Renyi criteria that can be set. User can set titles, X-labels, Y-labels, axis ticks and also the relative width of each column of the logo stack, making it much more flexible than the standard packages for logo plotting.
 
 \subsection{Amino acid sequence motif}
 
@@ -320,8 +322,11 @@ One can use \Logolas{} for amino acid sequence motif detection as well, as the l
            \hlstd{RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{9}\hlstd{,} \hlstr{"Set1"}\hlstd{)[}\hlkwd{c}\hlstd{(}\hlnum{9}\hlstd{,}\hlnum{7}\hlstd{)],}
            \hlstd{RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{8}\hlstd{,} \hlstr{"Dark2"}\hlstd{)[}\hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,}\hlnum{4}\hlstd{,}\hlnum{8}\hlstd{)])}
 
+\hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
+                      \hlstr{"col"} \hlstd{= cols1)}
+
 \hlkwd{logomaker}\hlstd{(counts_mat,}
-          \hlkwc{cols}\hlstd{= cols1,}
+          \hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{ic.scale}  \hlstd{=} \hlnum{FALSE}\hlstd{,}
           \hlkwc{yscale_change} \hlstd{=} \hlnum{FALSE}\hlstd{)}
@@ -370,9 +375,51 @@ Then we apply \begin{verb} logomaker \end{verb} on that matrix.
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+\hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
+                      \hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(table)[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"Spectral"}\hlstd{))}
+
 \hlkwd{logomaker}\hlstd{(table,}
-          \hlkwc{cols}\hlstd{=} \hlkwd{rev}\hlstd{(RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(table)[}\hlnum{1}\hlstd{],}
-          \hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{)),}
+          \hlkwc{color_profile} \hlstd{= color_profile,}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
+          \hlkwc{yscale_change}\hlstd{=}\hlnum{TRUE}\hlstd{,}
+          \hlkwc{xlab} \hlstd{=} \hlstr{"Position"}\hlstd{,}
+          \hlkwc{ylab} \hlstd{=} \hlstr{"Information content"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=6in,height=5in]{figure/logolas_use_7_0-1} 
+
+\end{knitrout}
+\end{center}
+\end{figure}
+
+One issue with this plot is that the user may want to have the C in \begin{verb} C>T \end{verb}
+to be of the same color, but here the symbol C and \begin{verb} C>T \end{verb} are treated
+as separate entities. However Logolas coloring profile provides the user the flexibility to color each symbol instead of a string. We use the color type \begin{verb} per_symbol \end{verb} instead of the \begin{verb} per_row \end{verb} profile we have been using so far.
+
+We consider a list of all symbols \begin{verb} total_chars \end{verb} which is set as default to the list chosen above (so you can skip the \begin{verb} total_chars \end{verb} argument below). However, if the user adds a symbol to the library (the process of doing that we show in the end), then the library
+is expected to grow and the user then might want to update the \begin{verb} total_chars \end{verb} list by adding new symbols.
+
+\begin{figure}[htp]
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{cols} \hlkwb{=} \hlstd{RColorBrewer}\hlopt{::}\hlstd{brewer.pal.info[RColorBrewer}\hlopt{::}\hlstd{brewer.pal.info}\hlopt{$}\hlstd{category} \hlopt{==} \hlstr{'qual'}\hlstd{,]}
+\hlstd{col_vector} \hlkwb{=} \hlkwd{unlist}\hlstd{(}\hlkwd{mapply}\hlstd{(RColorBrewer}\hlopt{::}\hlstd{brewer.pal, cols}\hlopt{$}\hlstd{maxcolors,} \hlkwd{rownames}\hlstd{(cols)))}
+
+\hlstd{total_chars} \hlkwb{=} \hlkwd{c}\hlstd{(}\hlstr{"A"}\hlstd{,} \hlstr{"B"}\hlstd{,} \hlstr{"C"}\hlstd{,} \hlstr{"D"}\hlstd{,} \hlstr{"E"}\hlstd{,} \hlstr{"F"}\hlstd{,} \hlstr{"G"}\hlstd{,} \hlstr{"H"}\hlstd{,} \hlstr{"I"}\hlstd{,} \hlstr{"J"}\hlstd{,} \hlstr{"K"}\hlstd{,} \hlstr{"L"}\hlstd{,} \hlstr{"M"}\hlstd{,} \hlstr{"N"}\hlstd{,} \hlstr{"O"}\hlstd{,}
+            \hlstr{"P"}\hlstd{,} \hlstr{"Q"}\hlstd{,} \hlstr{"R"}\hlstd{,} \hlstr{"S"}\hlstd{,} \hlstr{"T"}\hlstd{,} \hlstr{"U"}\hlstd{,} \hlstr{"V"}\hlstd{,} \hlstr{"W"}\hlstd{,} \hlstr{"X"}\hlstd{,} \hlstr{"Y"}\hlstd{,} \hlstr{"Z"}\hlstd{,} \hlstr{"zero"}\hlstd{,} \hlstr{"one"}\hlstd{,} \hlstr{"two"}\hlstd{,}
+            \hlstr{"three"}\hlstd{,} \hlstr{"four"}\hlstd{,} \hlstr{"five"}\hlstd{,} \hlstr{"six"}\hlstd{,} \hlstr{"seven"}\hlstd{,} \hlstr{"eight"}\hlstd{,} \hlstr{"nine"}\hlstd{,} \hlstr{"dot"}\hlstd{,} \hlstr{"comma"}\hlstd{,}
+            \hlstr{"dash"}\hlstd{,} \hlstr{"colon"}\hlstd{,} \hlstr{"semicolon"}\hlstd{,} \hlstr{"leftarrow"}\hlstd{,} \hlstr{"rightarrow"}\hlstd{)}
+
+\hlkwd{set.seed}\hlstd{(}\hlnum{20}\hlstd{)}
+\hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_symbol"}\hlstd{,}
+                      \hlstr{"col"} \hlstd{=} \hlkwd{sample}\hlstd{(col_vector,} \hlkwd{length}\hlstd{(total_chars),} \hlkwc{replace}\hlstd{=}\hlnum{FALSE}\hlstd{))}
+
+\hlkwd{logomaker}\hlstd{(table,}
+          \hlkwc{color_profile} \hlstd{= color_profile,}
+          \hlkwc{total_chars} \hlstd{= total_chars,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
           \hlkwc{yscale_change}\hlstd{=}\hlnum{TRUE}\hlstd{,}
@@ -386,6 +433,40 @@ Then we apply \begin{verb} logomaker \end{verb} on that matrix.
 \end{center}
 \end{figure}
 
+Another coloring option is \begin{verb} per_column \end{verb}, in which we have a specific color for a specific column. This sort of coloring might be useful when the user wants to
+highlight the difference between columns. We provide an example of this next.
+
+\clearpage
+
+\subsection{String Logos:  Ecological Data}
+
+String logos can be used to represent how families or genus of species vary across sites for ecological or metagenomic data. In this case, we present an example of abundance patterns of different families of birds in three clusters of regions. The bird family names act as logos and the clusters of regions represent the stacks in the logo plot. Here the coloring pattern used is \begin{verb} per_column \end{verb} which distinguished between the different clusters of bird species.
+
+\begin{figure}[h]
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{set.seed}\hlstd{(}\hlnum{20}\hlstd{)}
+\hlkwd{data}\hlstd{(}\hlstr{"himalayan_fauna_3_clusters"}\hlstd{)}
+
+\hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_column"}\hlstd{,}
+                      \hlstr{"col"} \hlstd{=} \hlkwd{sample}\hlstd{(RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{10}\hlstd{,}\hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),}
+                       \hlkwd{dim}\hlstd{(himalayan_fauna_3_clusters)[}\hlnum{2}\hlstd{],} \hlkwc{replace}\hlstd{=}\hlnum{TRUE}\hlstd{))}
+\hlkwd{logomaker}\hlstd{(himalayan_fauna_3_clusters,}
+          \hlkwc{color_profile} \hlstd{= color_profile,}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
+          \hlkwc{pop_name} \hlstd{=} \hlstr{"Bird family abundance across clusters"}\hlstd{,}
+          \hlkwc{xlab} \hlstd{=} \hlstr{"Clusters"}\hlstd{,}
+          \hlkwc{ylab} \hlstd{=} \hlstr{"Information content"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=8in,height=5in]{figure/logolas_use_10-1} 
+
+\end{knitrout}
+\end{center}
+\end{figure}
 
 \newpage
 
@@ -419,8 +500,13 @@ We now apply \Logolas{} on this data.
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+\hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
+                      \hlstr{"col"} \hlstd{=} \hlkwd{sample}\hlstd{(RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{10}\hlstd{,}\hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),}
+                          \hlkwd{dim}\hlstd{(mat)[}\hlnum{1}\hlstd{]))}
+
+
 \hlkwd{logomaker}\hlstd{(mat,}
-          \hlkwc{cols}\hlstd{=} \hlkwd{sample}\hlstd{(RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{10}\hlstd{,}\hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),} \hlkwd{dim}\hlstd{(mat)[}\hlnum{1}\hlstd{]),}
+          \hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
           \hlkwc{pop_name} \hlstd{=} \hlstr{"Histone marks in various genomic regions"}\hlstd{,}
@@ -431,36 +517,6 @@ We now apply \Logolas{} on this data.
 \end{alltt}
 \end{kframe}
 \includegraphics[width=6.5in,height=4in]{figure/logolas_use_9-1} 
-
-\end{knitrout}
-\end{center}
-\end{figure}
-
-\newpage
-
-\subsection{String Logos:  Ecological Data}
-
-String logos can be used to represent how families or genus of species vary across sites for ecological or metagenomic data. In this case, we present an example of abundance patterns of different families of birds in three clusters of regions. The bird family names act as logos and the clusters of regions represent the stacks
-in the logo plot.
-
-\begin{figure}[h]
-\begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlkwd{set.seed}\hlstd{(}\hlnum{100}\hlstd{)}
-\hlkwd{data}\hlstd{(}\hlstr{"himalayan_fauna_3_clusters"}\hlstd{)}
-\hlkwd{logomaker}\hlstd{(himalayan_fauna_3_clusters,}
-          \hlkwc{cols}\hlstd{=} \hlkwd{sample}\hlstd{(RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{10}\hlstd{,}\hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),}
-                       \hlkwd{dim}\hlstd{(himalayan_fauna_3_clusters)[}\hlnum{1}\hlstd{],} \hlkwc{replace}\hlstd{=}\hlnum{TRUE}\hlstd{),}
-          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
-          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
-          \hlkwc{pop_name} \hlstd{=} \hlstr{"Bird family abundance across clusters"}\hlstd{,}
-          \hlkwc{xlab} \hlstd{=} \hlstr{"Clusters"}\hlstd{,}
-          \hlkwc{ylab} \hlstd{=} \hlstr{"Information content"}\hlstd{)}
-\end{alltt}
-\end{kframe}
-\includegraphics[width=8in,height=5in]{figure/logolas_use_10-1} 
 
 \end{knitrout}
 \end{center}
@@ -480,11 +536,10 @@ We first generate the data
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{library}\hlstd{(aRxiv)}
-\hlstd{rec1} \hlkwb{<-} \hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Matthew Stephens"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
-\hlstd{rec2} \hlkwb{<-} \hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"John Lafferty"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
-\hlstd{rec3} \hlkwb{<-} \hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Wei Biao Wu"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
-\hlstd{rec4} \hlkwb{<-} \hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Peter Mccullagh"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
+\hlstd{rec1} \hlkwb{<-} \hlstd{aRxiv}\hlopt{::}\hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Matthew Stephens"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
+\hlstd{rec2} \hlkwb{<-} \hlstd{aRxiv}\hlopt{::}\hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"John Lafferty"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
+\hlstd{rec3} \hlkwb{<-} \hlstd{aRxiv}\hlopt{::}\hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Wei Biao Wu"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
+\hlstd{rec4} \hlkwb{<-} \hlstd{aRxiv}\hlopt{::}\hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Peter Mccullagh"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
 
 \hlstd{primary_categories_1} \hlkwb{<-} \hlkwd{toupper}\hlstd{(rec1}\hlopt{$}\hlstd{primary_category)}
 \hlstd{primary_categories_2} \hlkwb{<-} \hlkwd{toupper}\hlstd{(rec2}\hlopt{$}\hlstd{primary_category)}
@@ -523,9 +578,12 @@ Next, we apply \Logolas{} on the data
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+\hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
+                      \hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(tab_data)[}\hlnum{1}\hlstd{],}
+          \hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{))}
+
 \hlkwd{logomaker}\hlstd{(tab_data,}
-          \hlkwc{cols}\hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(tab_data)[}\hlnum{1}\hlstd{],}
-          \hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),}
+          \hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
           \hlkwc{pop_name} \hlstd{=} \hlstr{"arXiv field categories of UChicago STAT professors"}\hlstd{,}
@@ -533,13 +591,10 @@ Next, we apply \Logolas{} on the data
           \hlkwc{ylab} \hlstd{=} \hlstr{"Information content"}\hlstd{)}
 \end{alltt}
 \end{kframe}
+\includegraphics[width=7in,height=5in]{figure/logolas_use_12-1} 
+
 \end{knitrout}
 
-\begin{figure}[htp]
-\begin{center}
-\includegraphics[width=7in,height=4in]{figures/logolas_arxiv_1.png}
-\end{center}
-\end{figure}
 
 \section{Creating logos and adding to Library}
 
@@ -621,9 +676,11 @@ LAMBDA symbol is added under \begin{verb} addlogos \end{verb} and  \begin{verb} 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+\hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
+                      \hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(counts_mat)[}\hlnum{1}\hlstd{],} \hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{))}
+
 \hlkwd{logomaker}\hlstd{(counts_mat,}
-          \hlkwc{cols}\hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(counts_mat)[}\hlnum{1}\hlstd{],}
-          \hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),}
+          \hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{addlogos}\hlstd{=}\hlstr{"LMBD"}\hlstd{,}
           \hlkwc{addlogos_text}\hlstd{=}\hlstr{"LAMBDA"}\hlstd{)}
@@ -654,9 +711,9 @@ for helpful discussions.
 \hlkwd{sessionInfo}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## R version 3.3.1 (2016-06-21)
+## R version 3.3.2 Patched (2017-01-29 r72049)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
-## Running under: OS X 10.12 (Sierra)
+## Running under: macOS Sierra 10.12
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -665,12 +722,13 @@ for helpful discussions.
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] Logolas_0.99.4 knitr_1.15.1  
+## [1] Logolas_0.99.8 knitr_1.15.1  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] BiocStyle_2.2.1    magrittr_1.5       tools_3.3.1        RColorBrewer_1.1-2
-##  [5] stringi_1.1.2      highr_0.6          grid_3.3.1         stringr_1.1.0     
-##  [9] seqLogo_1.40.0     stats4_3.3.1       evaluate_0.10
+##  [1] XML_3.98-1.5       grid_3.3.2         R6_2.2.0           stats4_3.3.2      
+##  [5] magrittr_1.5       evaluate_0.10      highr_0.6          httr_1.2.1        
+##  [9] stringi_1.1.2      aRxiv_0.5.10       curl_2.3           BiocStyle_2.2.1   
+## [13] RColorBrewer_1.1-2 tools_3.3.2        stringr_1.1.0      seqLogo_1.40.0
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
