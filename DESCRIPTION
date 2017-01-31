@@ -1,7 +1,7 @@
 Package: Logolas
 Type: Package
 Title: Flexible and Customized Logo Plots using symbols, alphabets, numbers and alphanumeric strings
-Version: 0.99.11
+Version: 0.99.12
 Date: 11.5.2016.
 Authors@R: c(
     person("Kushal", "Dey", email = "kkdey@uchicago.edu", role = c("aut","cre")))
@@ -9,7 +9,7 @@ Maintainer: Kushal Dey <kkdey@uchicago.edu>
 Description: Produces logo plots of a variety of symbols and names comprising English alphabets, numerics and punctuations. Can be used for sequence motif generation, mutation pattern generation, protein amino acid geenration and symbol strength representation in any generic context.
 License: GPL (>= 2)
 LazyData: TRUE
-Depends: R (>= 3.3)
+Depends: R (>= 3.4)
 URL: https://github.com/kkdey/Logolas
 Imports:
     grid,
