@@ -15,6 +15,10 @@
 #' [0,1] X [0,1] grid, along with block id labels and their corresponding colors.
 #' If TRUE, plots the symbol with specified color in a new grid window.
 #'
+#' @param total_chars The total number of character symbols in the user library. The default
+#' is the default library provided by Logolas, but the user can add symbols that he creates
+#' to this list.
+#'
 #' @param addlogos Vector of additional logos/symbols defined by user
 #'
 #' @param addlogos_text Vector of the names given to the additional
@@ -34,33 +38,23 @@
 #' @examples
 #'
 #' makemylogo("KUSHAL")
-#' makemylogo("MATTHEW", colfill="red")
-#' makemylogo("Q-BIO.QM;A,DD>R::C,123456789:D0O", plot=TRUE)
-#' lambdaletter <- function(colfill="green"){
-#'
-#'     x <- c(0.15, 0.5, 0.85, 0.75, 0.5, 0.25)
-#'     y <- c(0, 1, 0, 0, 0.8, 0)
-#'
-#'     fill <- colfill
-#'     id <- rep(1, length(x))
-#'     ll <- list("x"= x,
-#'           "y"= y,
-#'           "id" = id,
-#'           "fill" = fill)
-#'            return(ll)}
-#' makemylogo("AC>EF/lambda/W35",
-#'            addlogos="lambda",
-#'            addlogos_text="lambda",
-#'            plot=TRUE)
+#' cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
+#' col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, rownames(cols)))
+#' makemylogo("Evening", plot=TRUE, colfill=col_vector)
 #' @export
 
 
 makemylogo <- function(name,
                        colfill="orange",
                        plot=FALSE,
+                       total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+                                        "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
+                                        "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
+                                        "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
                        addlogos = NULL,
                        addlogos_text = NULL){
 
+  name <- toupper(name)
   split_string <- strsplit(as.character(name), "")[[1]]
 
   if(!is.null(addlogos)){
@@ -74,13 +68,12 @@ makemylogo <- function(name,
   counter  <- 1
 
   for(l in seq_len(groups)){
-    sym[l] <- paste0(as.character(split_string[(slash_index[counter]+1) : (slash_index[counter+1]-1)]),
-                     collapse="")
-    sym_slash_index <- c(sym_slash_index, slash_index[counter] : slash_index[counter+1])
-    sym_slash_top_index[l] <- slash_index[counter]
-    counter <- counter + 2
-  }
-
+      sym[l] <- paste0(as.character(split_string[(slash_index[counter]+1) : (slash_index[counter+1]-1)]),
+                       collapse="")
+      sym_slash_index <- c(sym_slash_index, slash_index[counter] : slash_index[counter+1])
+      sym_slash_top_index[l] <- slash_index[counter]
+      counter <- counter + 2
+    }
 
   split_string_alphanumeric <- split_string[-sym_slash_index]
 
@@ -111,6 +104,10 @@ makemylogo <- function(name,
   split_string[grep("[8]", split_string)] <- "eight"
   split_string[grep("[9]", split_string)] <- "nine"
 
+
+  total_chars <- paste0(total_chars, "letter")
+
+
   if(!is.null(addlogos)){
 
     if(length(addlogos) != length(addlogos_text)){
@@ -123,15 +120,25 @@ makemylogo <- function(name,
   }
 
   chars <- paste0(split_string, "letter")
+
+
   xpool <- numeric()
   ypool <- numeric()
   idpool <- numeric()
   fillpool <- numeric()
 
   counter <- 0
+
+  if(length(colfill) == 1){ colfill_vec <- rep(colfill, length(chars))}else if(length(colfill) > 1 && length(colfill) < 43){
+    set.seed(100)
+    colfill_vec_1 <- sample(colfill, length(total_chars), replace=TRUE)
+    colfill_vec <- colfill_vec_1[match(chars, total_chars)]}else{
+      colfill_vec_1 <- colfill[1:length(total_chars)]
+      colfill_vec <- colfill_vec_1[match(chars, total_chars)]}
+
   for(m in seq_along(chars)){
     fun <- get(chars[m])
-    out <- fun(colfill=colfill)
+    out <- fun(colfill=colfill_vec[m])
     xpool <- c(xpool, (m-1)*(1/length(chars)) + (1/length(chars))*out$x);
     ypool <- c(ypool, out$y)
     idpool <- c(idpool, out$id + counter)
