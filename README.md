@@ -46,7 +46,7 @@ p <- makePWM(m)
 seqLogo(p)
 ```
 
-<img src="vignettes/figure/seqLogo_use-1.png" alt="Logo Plot" height="300" width="700">
+<img src="vignettes/figure/seqlogo_use-1.png" alt="Logo Plot" height="300" width="700">
 
 `seqLogo` uses the `makePWM` function to convert the matrix into a class "pwm" object by assigning the base information to the rows. To use our package, the user can directly use the `p@pwm` object as shown below
 
