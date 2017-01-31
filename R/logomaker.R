@@ -15,10 +15,19 @@
 #' @param hist Whether to use the hist method or the information criterion
 #' method to determine the heights of the logos.
 #'
-#' @param cols A vector of colors for the different logos or symbols stacked in the
-#' logo plot. The length of this vector should match with number of symbols or
-#' logos used in the plot, which is again ame as the number of rows in the input
-#' table.
+#' @param color_profile A list containing two elements - "type" and "col". The type can
+#' be of three types - "per-row", "per-column" and "per-symbol". The "col" element
+#' is a vector of colors, of same length as number of rows in table for "per-row" (assigning
+#' a color to each string), of same length as number of columns in table for "per-column"
+#' (assuming a color for each column), or a distinct color for a distinct symbol in "per-symbol".
+#' For "per-symbol", the length of the \code{color_profile$col} should be same as library size
+#' of the logos, but if the vector of colors provided is more or less, we can
+#' downsample or upsample the colors as required. The colors are matched with the symbols in
+#' the \code{total_chars}
+#'
+#' @param total_chars The total number of character symbols in the user library. The default
+#' is the default library provided by Logolas, but the user can add symbols that he creates
+#' to this list.
 #'
 #' @param frame_width The width of the frames for individual site/postion/column
 #' in the logo plot. As default, all the columns have same width, equal to 1.
@@ -62,7 +71,9 @@
 #' @param col_line_split The color of the line split between the consecutive groups
 #' or blocks
 #'
-#' @param cols_per_column if TRUE, all the symbols in the same column will be of same color.
+#' @param scale1 scaling of the logo to maintain the gap between symbols.
+#'
+#' @param scale0 the base change of the logo to maintain the gap between symbols.
 #'
 #' @param addlogos Vector of additional logos/symbols defined by user
 #' @param addlogos_text Vector of the names given to the additional logos/symbols defined by user.
@@ -77,28 +88,48 @@
 #' @importFrom graphics par
 #' @examples
 #'
+#' cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
+#' col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, rownames(cols)))
 #' counts_mat <- rbind(c(0, 10, 100, 60, 20),
-#'                     c(40, 30, 30, 35, 20),
-#'                     c(100, 0, 15, 25, 75),
-#'                     c(10, 30, 20, 50, 70))
-#'
+#'                    c(40, 30, 30, 35, 20),
+#'                    c(100, 0, 15, 25, 75),
+#'                    c(10, 30, 20, 50, 70))
 #' colnames(counts_mat) <- c("2012", "2013", "2014", "2015", "2016")
-#' rownames(counts_mat) <- c("M", "U", "T", "D")
+#' rownames(counts_mat) <- c("MAN", "MAIL", "LAWN", "CAR")
+#'
+#' color_profile <- list("type" = "per_symbol",
+#'                      "col" = col_vector)
 #' logomaker(counts_mat,
-#'           cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],name = "Spectral"),
+#'           color_profile = color_profile,
 #'           frame_width = 1,
 #'           ic.scale = FALSE)
 #'
+#' color_profile <- list("type" = "per_row",
+#'                      "col" = col_vector[1:4])
+#'
 #' logomaker(counts_mat,
-#'          cols= RColorBrewer::brewer.pal(dim(counts_mat)[1],name = "Spectral"),
-#'          frame_width = 1)
+#'          color_profile = color_profile,
+#'          frame_width = 1,
+#'          ic.scale = FALSE)
+#'
+#' color_profile <- list("type" = "per_column",
+#'                       "col" = col_vector[1:5])
+#'
+#' logomaker(counts_mat,
+#'          color_profile = color_profile,
+#'          frame_width = 1,
+#'          ic.scale = FALSE)
 #'
 #' @export
 
 logomaker <- function( table,
                        ic=NULL,
                        hist=FALSE,
-                       cols,
+                       color_profile,
+                       total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+                                       "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
+                                       "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
+                                       "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
                        frame_width=NULL,
                        ic.scale=TRUE,
                        alpha=1,
@@ -114,14 +145,25 @@ logomaker <- function( table,
                        xlab = "X",
                        ylab = "Information content",
                        col_line_split="grey80",
-                       cols_per_column = FALSE,
+                       scale0=0.01,
+                       scale1=0.99,
                        addlogos = NULL,
                        addlogos_text = NULL,
                        newpage = TRUE){
 
-  if(length(cols) != dim(table)[1] && cols_per_column == FALSE){
-    stop("the number of colors must match the number of symbols")
+  npos <- ncol(table)
+  if(color_profile$type == "per_column"){
+    if(length(color_profile$col) != npos){
+      stop("number of colors must equal the number of columns of the table")
+    }
   }
+
+  if(color_profile$type == "per_row"){
+    if(length(color_profile$col) != nrow(table)){
+      stop("the number of colors must match the number of rows of the table")
+    }
+  }
+
   if(is.null(frame_width)){
     message("frame width not provided, taken to be 1")
     wt <- rep(1,dim(table)[2])
@@ -142,9 +184,6 @@ logomaker <- function( table,
 
   table_mat_norm <-  apply(table, 2, function(x) return(x/sum(x)))
   npos <- ncol(table_mat_norm)
-  if(cols_per_column == TRUE && npos != length(cols)){
-    stop("if each column has same color, then cols should be of same length as number of positions")
-  }
   chars <- as.character(rownames(table_mat_norm))
 
   if(is.null(ic)){
@@ -179,7 +218,7 @@ logomaker <- function( table,
   x.pos <- 0
   slash_inds <- grep("/", chars)
 
-  if(!cols_per_column){
+  if(color_profile$type == "per_row"){
     for (j in seq_len(npos)){
 
       column <- table_mat_norm[,j]
@@ -189,12 +228,12 @@ logomaker <- function( table,
       y.pos <- 0
       for (i in seq_along(chars)){
         letter <- chars[letterOrder[i]]
-        col <- cols[letterOrder[i]]
+        col <- color_profile$col[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, col, x.pos, y.pos, ht, wt[j], addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, col, x.pos, y.pos, ht, wt[j], addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -202,7 +241,29 @@ logomaker <- function( table,
     }
   }
 
-  if(cols_per_column){
+  if(color_profile$type == "per_symbol"){
+    for (j in seq_len(npos)){
+
+      column <- table_mat_norm[,j]
+      hts <- as.numeric(0.99*column*facs[j])
+      letterOrder <- order(hts)
+
+      y.pos <- 0
+      for (i in seq_along(chars)){
+        letter <- chars[letterOrder[i]]
+        ht <- hts[letterOrder[i]]
+        if(length(intersect(letterOrder[i], slash_inds))!=0){
+          if (ht>0) letters <- addLetter(letters,letter, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+        }else{
+          if (ht>0) letters <- addLetter(letters,letter, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+        }
+        y.pos <- y.pos + ht + start
+      }
+      x.pos <- x.pos + wt[j]
+    }
+  }
+
+  if(color_profile$type == "per_column"){
     for (j in seq_len(npos)){
 
       column <- table_mat_norm[,j]
@@ -213,9 +274,9 @@ logomaker <- function( table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, cols[j], x.pos, y.pos, ht, wt[j], addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, cols[j], x.pos, y.pos, ht, wt[j], addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -299,15 +360,17 @@ logomaker <- function( table,
 }
 
 addLetter <- function(letters, letter,
-                      col, x.pos, y.pos, ht, wt,
+                      col, total_chars, x.pos, y.pos, ht, wt,
+                      scale0=0.01, scale1=0.99,
                       addlogos=NULL, addlogos_text=NULL){
-  letter <- as.character(toupper(letter))
+  letter <- toupper(letter)
   out <- makemylogo(letter,
                     colfill = col,
+                    total_chars = total_chars,
                     addlogos=addlogos,
                     addlogos_text = addlogos_text)
   x <- x.pos + out$x * wt
-  y <- y.pos + (0.99*out$y+0.01) * ht
+  y <- y.pos + (scale1*out$y+scale0) * ht
 
   letter <- list("x"=x,
                  "y"=y,
