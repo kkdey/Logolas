@@ -1,0 +1,31 @@
+#' @import grid
+#' @keywords internal
+#' @rdname letters
+#' @export
+#' @examples
+#' out <- Eletter(plot=TRUE)
+
+Eletter <- function(plot = FALSE,
+                    fill_symbol = TRUE,
+                    colfill="green",
+                    lwd=10){
+
+
+    x <- c(0, 0, 0.7, 0.7, 0.15, 0.15, 0.5, 0.5, 0.15, 0.15, 0.7, 0.7)
+    x <- 0.15 + 0.90*x
+    y <- c(0,1,1,0.8,0.8,0.59,0.59,0.40,0.40,0.2,0.2,0)
+
+    id <- rep(1,12)
+    fill <- colfill
+
+    if(plot){
+      get_plot(x, y, id, fill)
+    }
+
+
+    ll <- list("x"= x,
+               "y"= y,
+               "id" = id,
+               "fill" = fill)
+    return(ll)
+}
