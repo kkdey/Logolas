@@ -1,0 +1,35 @@
+#' @keywords internal
+#' @import grid
+#' @rdname letters
+#' @export
+#' @examples
+#' out <- fourletter(plot=TRUE)
+
+
+
+fourletter <- function(plot = FALSE,
+                       fill_symbol = TRUE,
+                       colfill="green",
+                       lwd =10){
+
+  x <- c(0.3, 0.15, 0.55, 0.55, 0.70, 0.70, 0.80, 0.80, 0.70, 0.70, 0.55, 0.55, 0.32, 0.45)
+  y <- c(1, 0.25, 0.25, 0, 0, 0.25, 0.25, 0.40, 0.40, 0.55, 0.55, 0.40, 0.40, 1)
+
+
+  id <- rep(1, length(x))
+  fill <- colfill
+
+  if(plot){
+    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
+  }
+
+
+  ll <- list("x"= x,
+             "y"= y,
+             "id" = id,
+             "fill" = fill)
+  return(ll)
+}
+
+
+
