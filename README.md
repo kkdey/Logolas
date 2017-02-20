@@ -2,7 +2,7 @@
 
 A R package for Flexible logo plotting device for alphanumeric English symbols.
 
-[Kushal K Dey](http://kkdey.github.io/),
+[Kushal K Dey](http://kkdey.github.io/)
 
 ## Introduction
 
