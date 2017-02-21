@@ -349,6 +349,7 @@ logomaker(himalayan_fauna_3_clusters,
           color_profile = color_profile,
           frame_width = 1,
           ic.scale = TRUE,
+          alpha=200,
           pop_name = "Bird family abundance across clusters",
           xlab = "Clusters",
           ylab = "Information content")
