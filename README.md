@@ -1,7 +1,5 @@
 # Logolas
 
-[![Build Status](https://travis-ci.org/kkdey/Logolas.svg?branch=master)](https://travis-ci.org/kkdey/Logolas)
-
 A R package for Flexible logo plotting device for alphanumeric English symbols.
 
 [Kushal K Dey](http://kkdey.github.io/),
