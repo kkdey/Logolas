@@ -5,8 +5,8 @@
 \contentsline {subsection}{\numberline {3.2}String Logos: Mutation profiling}{11}{subsection.3.2}
 \contentsline {subsection}{\numberline {3.3}String Logos: Ecological Data}{14}{subsection.3.3}
 \contentsline {subsection}{\numberline {3.4}String Logos: Histone marks patterns}{15}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}String Logos: Document mining}{17}{subsection.3.5}
-\contentsline {section}{\numberline {4}Creating logos and adding to Library}{19}{section.4}
-\contentsline {section}{\numberline {5}Conclusion}{22}{section.5}
-\contentsline {section}{\numberline {6}Acknowledgements}{23}{section.6}
-\contentsline {section}{\numberline {7}Session Info}{23}{section.7}
+\contentsline {subsection}{\numberline {3.5}String Logos: Document mining}{16}{subsection.3.5}
+\contentsline {section}{\numberline {4}Creating logos and adding to Library}{17}{section.4}
+\contentsline {section}{\numberline {5}Conclusion}{19}{section.5}
+\contentsline {section}{\numberline {6}Acknowledgements}{19}{section.6}
+\contentsline {section}{\numberline {7}Session Info}{19}{section.7}
