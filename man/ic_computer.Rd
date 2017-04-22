@@ -42,4 +42,3 @@ colnames(counts_mat) <- c("2012", "2013", "2014", "2015", "2016")
 rownames(counts_mat) <- c("P1", "P2", "P3", "P4")
 ic_computer(counts_mat, alpha=2)
 }
-
