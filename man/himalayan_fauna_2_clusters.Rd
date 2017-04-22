@@ -19,4 +19,3 @@ Phylogenetic abundance of bird species families in two clusters of regions in
 Himalayas
 }
 \keyword{datasets}
-

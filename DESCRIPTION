@@ -18,4 +18,4 @@ Suggests:
     knitr, BiocStyle, Biobase, roxygen2, devtools, xtable, gridExtra, RColorBrewer, seqLogo, aRxiv
 VignetteBuilder: knitr
 biocViews: SequenceMatching, Alignment, Software, Visualization
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

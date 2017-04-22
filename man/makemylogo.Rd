@@ -53,4 +53,3 @@ cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == '
 col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, rownames(cols)))
 makemylogo("Evening", plot=TRUE, colfill=col_vector)
 }
-
