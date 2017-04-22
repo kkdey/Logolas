@@ -43,4 +43,3 @@ fill <- c(colfill, "white")
 get_plot(x, y, id, fill, colfill, lwd=10, fill_symbol=TRUE)
 }
 \keyword{internal}
-
