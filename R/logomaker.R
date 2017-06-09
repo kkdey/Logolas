@@ -150,6 +150,7 @@ logomaker <- function( table,
                        addlogos = NULL,
                        addlogos_text = NULL,
                        newpage = TRUE){
+  table <- apply(table+0.0001,2,normalize)
 
   npos <- ncol(table)
   if(color_profile$type == "per_column"){
@@ -386,3 +387,5 @@ addLetter <- function(letters, letter,
   letters$fill <- c(letters$fill,letter$fill)
   return(letters)
 }
+
+normalize = function(x){return(x/sum(x))}
