@@ -145,7 +145,7 @@ nlogomaker <- function( table,
                        newpage = TRUE){
 
   ########  data preprocessing for positive and negative scales  ##########
-
+  table <- apply(table+0.0001,2,normalize)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -360,7 +360,7 @@ nlogomaker <- function( table,
 
   for(n in 2:length(xlim)){
     grid::grid.lines(x = grid::unit(low_xlim[n], "native"),
-                     y = grid::unit(c(0, max(markers)), "native"),
+                     y = grid::unit(c(0, max(markers)/ylim), "native"),
                      gp=grid::gpar(col=col_line_split))
   }
 
@@ -509,3 +509,6 @@ nlogomaker <- function( table,
   grid::popViewport()
   grid::popViewport()
 }
+
+normalize = function(x){return(x/sum(x))}
+
