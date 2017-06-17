@@ -75,39 +75,36 @@ nlogomaker(table,
 
 ########################  adjusting table   #######################
 
-table
-table_mat_norm <-  apply(table, 2, function(x) return(x/sum(x[!is.na(x)])))
-npos <- ncol(table_mat_norm)
-chars <- as.character(rownames(table_mat_norm))
+tab1 <- cbind(c(0.24, 0.28, 0.23, 0.25),
+              rep(NA, 4),
+              c(0.29, 0.28, 0.08, 0.35))
+
+tab2 <- cbind(rep(NA, 6), c(0.92, 0.054, 0.007, 0.007, 0.007, 0.005),
+              rep(NA, 6))
+
+tab_pooled <- rbind(tab1, tab2)
+rownames(tab_pooled) <- c("A", "C", "G", "T",
+                          "C>T", "T>C", "T>G", "C>A", "C>G", "T>A")
+
+colnames(tab_pooled) <- c("left \n flank", "mismatch", "right \n flank")
+
+cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
+col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, rownames(cols)))
+
+total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+                "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
+                "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
+                "dash", "colon", "semicolon", "leftarrow", "rightarrow")
+col_vector[c(1,3,7, 20, 43)] <- c("green", "blue", "orange", "red", "gray")
+color_profile <- list("type" = "per_symbol",
+                      "col" = col_vector)
+
+
+nlogomaker(tab_pooled,
+           color_profile = color_profile,
+           ylimit = 2.1)
 
 
 
-table_mat_adj <- apply(table_mat_norm, 2, function(x)
-                                          {
-                                              indices <- which(is.na(x))
-                                              if(length(indices) == 0){
-                                                y = x
-                                                z <- y - median(y)
-                                                return(z)
-                                              }else{
-                                                y <- x[!is.na(x)]
-                                                z <- y - median(y)
-                                                zext <- array(0, length(x))
-                                                zext[indices] <- 0
-                                                zext[-indices] <- z
-                                                return(zext)
-                                          }
-})
 
-table_mat_pos <- table_mat_adj
-table_mat_pos[table_mat_pos<= 0] = 0
-table_mat_pos_norm  <- apply(table_mat_pos, 2, function(x) return(x/sum(x)))
-table_mat_pos_norm[table_mat_pos_norm == "NaN"] = 0
-
-table_mat_neg <- table_mat_adj
-table_mat_neg[table_mat_neg >= 0] = 0
-table_mat_neg_norm  <- apply(table_mat_neg, 2, function(x) return(x/sum(x)))
-table_mat_neg_norm[table_mat_neg_norm == "NaN"] = 0
-
-table_mat_norm <- replace(table_mat_norm, is.na(table_mat_norm), 0)
 
