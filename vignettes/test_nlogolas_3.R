@@ -19,6 +19,9 @@ table <- rbind(mat1, mat2)
 color_profile <- list("type" = "per_row",
                       "col" = RColorBrewer::brewer.pal(dim(table)[1],name ="Spectral"))
 
+
+table[table == 0] <- NA
+
 logomaker(table,
           color_profile = color_profile,
           frame_width = 1,
@@ -27,7 +30,6 @@ logomaker(table,
           xlab = "Position",
           ylab = "Information content")
 
-table[table == 0] <- NA
 
 nlogomaker(table,
           color_profile = color_profile,

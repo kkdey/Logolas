@@ -183,7 +183,9 @@ logomaker <- function( table,
     stop("the table must be of class matrix or data.frame")
   }
 
-  table_mat_norm <-  apply(table, 2, function(x) return(x/sum(x)))
+  table_mat_norm <-  apply(table, 2, function(x) return(x/sum(x[!is.na(x)])))
+  table_mat_norm <- replace(table_mat_norm, is.na(table_mat_norm), 0)
+
   npos <- ncol(table_mat_norm)
   chars <- as.character(rownames(table_mat_norm))
 
