@@ -388,4 +388,4 @@ addLetter <- function(letters, letter,
   return(letters)
 }
 
-normalize = function(x){return(x/sum(x))}
+normalize = function(x){return(x/sum(x[!is.na(x)]))}
