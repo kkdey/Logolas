@@ -12,7 +12,7 @@ nlogomaker(table, hist = FALSE, color_profile, total_chars = c("A", "B",
   alpha = 1, xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10,
   xlab_fontsize = 15, y_fontsize = 15, main_fontsize = 16,
   start = 0.001, yscale_change = TRUE, pop_name = NULL, xlab = "X",
-  ylab = "Enrichment Score", col_line_split = "grey80", ylimit = 1.5,
+  ylab = "Enrichment Score", col_line_split = "grey80", ylimit = 3,
   scale0 = 0.01, scale1 = 0.99, addlogos = NULL, addlogos_text = NULL,
   newpage = TRUE)
 }
