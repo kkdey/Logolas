@@ -137,7 +137,7 @@ nlogomaker <- function( table,
                        xlab = "X",
                        ylab = "Enrichment Score",
                        col_line_split="grey80",
-                       ylimit = 1.5,
+                       ylimit = 3,
                        scale0=0.01,
                        scale1=0.99,
                        addlogos = NULL,
@@ -510,5 +510,5 @@ nlogomaker <- function( table,
   grid::popViewport()
 }
 
-normalize = function(x){return(x/sum(x))}
+normalize = function(x){return(x/sum(x[!is.na(x)]))}
 
