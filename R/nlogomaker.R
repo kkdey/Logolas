@@ -186,7 +186,17 @@ nlogomaker <- function( table,
 
   table_mat_norm <- replace(table_mat_norm, is.na(table_mat_norm), 0)
 
+  for(j in 1:dim(table_mat_neg_norm)[2]){
+    if(sum(table_mat_neg_norm[,j]) == 0){
+      table_mat_neg_norm[,j] <- normalize(table_mat_neg_norm[,j]+1e-3)
+    }
+  }
 
+  for(j in 1:dim(table_mat_pos_norm)[2]){
+    if(sum(table_mat_pos_norm[,j]) == 0){
+      table_mat_pos_norm[,j] <- normalize(table_mat_pos_norm[,j]+1e-3)
+    }
+  }
   if(color_profile$type == "per_column"){
     if(length(color_profile$col) != npos){
       stop("number of colors must equal the number of columns of the table")
@@ -233,6 +243,8 @@ nlogomaker <- function( table,
     }
   })
 
+  tab_pos[tab_pos == 0] <- 1e-3
+  tab_neg[tab_neg == 0] <- 1e-3
 
   pos_neg_scaling <- apply(rbind(tab_pos, tab_neg), 2, function(x) return(x/sum(x)))
   pos_ic <- pos_neg_scaling[1, ] * ic
