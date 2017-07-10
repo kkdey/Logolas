@@ -9,10 +9,10 @@ library(Logolas)
 ##################  Preparing an example pwm matrix  ######################
 
 m = matrix(rep(0,48),4,12)
-m[1,] = c(0,0,2.5,7,0,0,0,0,0,0,1,0)
-m[2,] = c(4,6,3,1,0,0,0,0,0,5,0,5)
+m[1,] = c(0,0,2.5,7,0,0,0,0,0,0,1,2)
+m[2,] = c(4,6,3,1,0,0,0,0,0,5,0,2)
 m[3,] = c(0,0,0,0,0,1,8,0,0,1,1,2)
-m[4,] = c(4,2,2.5,0,8,7,0,8,8,2,6,1)
+m[4,] = c(4,2,2.5,0,8,7,0,8,8,2,6,2)
 rownames(m) = c("A", "C", "G", "T")
 colnames(m) = 1:12
 m=m/8
@@ -36,10 +36,26 @@ logomaker(m,xlab = 'position',color_profile = color_profile, frame_width = 1)
 
 ####### enrichment logo building
 
-nlogomaker(m,xlab = 'position',color_profile = color_profile,
-           frame_width = 1, ylimit = 2.5)
+nlogomaker(m,xlab = 'position',logoheight = "log",
+           color_profile = color_profile,
+           frame_width = 1,
+           control = list(logscale = 0.2, quant = 0.5,
+           depletion_weight = 0.5))
+
+nlogomaker(m,xlab = 'position',logoheight = "ic",
+           color_profile = color_profile,
+           frame_width = 1, control = list(logscale = 2))
+
+nlogomaker(m,xlab = 'position',logoheight = "log_odds",
+           color_profile = color_profile,
+           frame_width = 1, control = list(log_odds_scale=0.2,
+           depletion_weight = 0.99))
 
 #######  enrichment heights scaling  ################
+
+ll1 <- get_logo_heights_ic(m)
+ll2 <- get_logo_heights_log(m)
+ll3 <- get_logo_heights_log_odds(m)
 
 ic2 <- neg_ic_computer(m)
 
