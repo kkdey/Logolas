@@ -4,25 +4,21 @@
 \alias{nlogomaker}
 \title{Main workhorse function that builds negative logo plots}
 \usage{
-nlogomaker(table, hist = FALSE, color_profile, total_chars = c("A", "B",
-  "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q",
-  "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two", "three",
-  "four", "five", "six", "seven", "eight", "nine", "dot", "comma", "dash",
-  "colon", "semicolon", "leftarrow", "rightarrow"), frame_width = NULL,
-  alpha = 1, xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10,
-  xlab_fontsize = 15, y_fontsize = 15, main_fontsize = 16,
-  start = 0.001, yscale_change = TRUE, pop_name = NULL, xlab = "X",
-  ylab = "Enrichment Score", col_line_split = "grey80", ylimit = 3,
-  scale0 = 0.01, scale1 = 0.99, addlogos = NULL, addlogos_text = NULL,
-  newpage = TRUE)
+nlogomaker(table, logoheight = c("ic", "log", "log_odds"), color_profile,
+  total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
+  "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero",
+  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",
+  "comma", "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
+  frame_width = NULL, yscale_change = TRUE, pop_name = NULL,
+  addlogos = NULL, addlogos_text = NULL, newpage = TRUE, ylimit = NULL,
+  xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
+  y_fontsize = 15, main_fontsize = 16, start = 0.001, xlab = "X",
+  ylab = "Enrichment Score", col_line_split = "grey80", control = list())
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
 logos or symbols (specified along the rows) ans across different sites or
 positions or groups (specified along the columns).}
-
-\item{hist}{Whether to use the hist method or the information criterion
-method to determine the heights of the logos.}
 
 \item{color_profile}{A list containing two elements - "type" and "col". The type can
 be of three types - "per-row", "per-column" and "per-symbol". The "col" element
@@ -41,9 +37,20 @@ to this list.}
 \item{frame_width}{The width of the frames for individual site/postion/column
 in the logo plot. As default, all the columns have same width, equal to 1.}
 
-\item{alpha}{The Renyi entropy tuning parameter which is used in case of
-scaling of the bar heights by information criterion. The default tuning
-parameter value is 1, which corresponds to Shannon entropy.}
+\item{yscale_change}{If TRUE, adjusts the Y axis scale based on the size of
+the bars, else keeps it to the maximum value possible, which is
+\code{ceiling(max(ic)} under \code{ic_computer} defined IC criteria.}
+
+\item{pop_name}{User can mention a name of the population for which the logo
+plot is created. Defaults to NULL when no population name is mentioned.}
+
+\item{addlogos}{Vector of additional logos/symbols defined by user}
+
+\item{addlogos_text}{Vector of the names given to the additional logos/symbols defined by user.}
+
+\item{newpage}{if TRUE, plots the logo plot in a new page. Defaults to TRUE.}
+
+\item{ylimit}{The limit of the Y axis.}
 
 \item{xaxis}{Binary specifying if there should be a X axis in the logo plot
 or not. Defaults to TRUE.}
@@ -62,13 +69,6 @@ or not. Defaults to TRUE.}
 \item{start}{The starting point in Y axis for the first logo. Default is
 0.0001 which is very close to 0.}
 
-\item{yscale_change}{If TRUE, adjusts the Y axis scale based on the size of
-the bars, else keeps it to the maximum value possible, which is
-\code{ceiling(max(ic)} under \code{ic_computer} defined IC criteria.}
-
-\item{pop_name}{User can mention a name of the population for which the logo
-plot is created. Defaults to NULL when no population name is mentioned.}
-
 \item{xlab}{X axis label}
 
 \item{ylab}{Y axis label}
@@ -76,17 +76,16 @@ plot is created. Defaults to NULL when no population name is mentioned.}
 \item{col_line_split}{The color of the line split between the consecutive groups
 or blocks}
 
-\item{ylimit}{The limit of the Y axis.}
+\item{hist}{Whether to use the hist method or the information criterion
+method to determine the heights of the logos.}
 
-\item{scale0}{the base change of the logo to maintain the gap between symbols.}
+\item{alpha}{The Renyi entropy tuning parameter which is used in case of
+scaling of the bar heights by information criterion. The default tuning
+parameter value is 1, which corresponds to Shannon entropy.}
 
 \item{scale1}{scaling of the logo to maintain the gap between symbols.}
 
-\item{addlogos}{Vector of additional logos/symbols defined by user}
-
-\item{addlogos_text}{Vector of the names given to the additional logos/symbols defined by user.}
-
-\item{newpage}{if TRUE, plots the logo plot in a new page. Defaults to TRUE.}
+\item{scale0}{the base change of the logo to maintain the gap between symbols.}
 }
 \value{
 Plots the logo plot for the table data, with column names representing

@@ -117,14 +117,19 @@
 #' @export
 
 nlogomaker <- function( table,
-                        hist = FALSE,
+                        logoheight = c("ic", "log", "log_odds"),
                         color_profile,
                         total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
                                        "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
                                        "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
                                        "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
                        frame_width=NULL,
-                       alpha=1,
+                       yscale_change=TRUE,
+                       pop_name = NULL,
+                       addlogos = NULL,
+                       addlogos_text = NULL,
+                       newpage = TRUE,
+                       ylimit = NULL,
                        xaxis=TRUE,
                        yaxis=TRUE,
                        xaxis_fontsize=10,
@@ -132,19 +137,21 @@ nlogomaker <- function( table,
                        y_fontsize=15,
                        main_fontsize=16,
                        start=0.001,
-                       yscale_change=TRUE,
-                       pop_name = NULL,
                        xlab = "X",
                        ylab = "Enrichment Score",
                        col_line_split="grey80",
-                       ylimit = 3,
-                       scale0=0.01,
-                       scale1=0.99,
-                       addlogos = NULL,
-                       addlogos_text = NULL,
-                       newpage = TRUE){
+                       control = list()){
 
-  ########  data preprocessing for positive and negative scales  ##########
+  control.default <- list(hist = FALSE, alpha = 1, scale0=0.01,
+                          scale1=0.99, logscale = 1, log_odds_scale=1,
+                          quant = 0.5, depletion_weight = 0.5)
+  control <- modifyList(control.default, control)
+  scale0 <- control$scale0
+  scale1 <- control$scale1
+
+  depletion_weight <- control$depletion_weight
+  if(depletion_weight > 0.7){ depletion_weight <- 0.7}
+
   table <- apply(table+0.0001,2,normalize)
 
   if (class(table) == "data.frame"){
@@ -152,51 +159,31 @@ nlogomaker <- function( table,
   }else if (class(table) != "matrix"){
     stop("the table must be of class matrix or data.frame")
   }
+  chars <- as.character(rownames(table))
+  npos <- ncol(table)
 
-  table_mat_norm <-  apply(table, 2, function(x) return(x/sum(x[!is.na(x)])))
-  npos <- ncol(table_mat_norm)
-  chars <- as.character(rownames(table_mat_norm))
 
-  table_mat_adj <- apply(table_mat_norm, 2, function(x)
-  {
-    indices <- which(is.na(x))
-    if(length(indices) == 0){
-      y = x
-      z <- y - median(y)
-      return(z)
-    }else{
-      y <- x[!is.na(x)]
-      z <- y - median(y)
-      zext <- array(0, length(x))
-      zext[indices] <- 0
-      zext[-indices] <- z
-      return(zext)
-    }
-  })
-
-  table_mat_pos <- table_mat_adj
-  table_mat_pos[table_mat_pos<= 0] = 0
-  table_mat_pos_norm  <- apply(table_mat_pos, 2, function(x) return(x/sum(x)))
-  table_mat_pos_norm[table_mat_pos_norm == "NaN"] = 0
-
-  table_mat_neg <- table_mat_adj
-  table_mat_neg[table_mat_neg >= 0] = 0
-  table_mat_neg_norm  <- apply(table_mat_neg, 2, function(x) return(x/sum(x)))
-  table_mat_neg_norm[table_mat_neg_norm == "NaN"] = 0
-
-  table_mat_norm <- replace(table_mat_norm, is.na(table_mat_norm), 0)
-
-  for(j in 1:dim(table_mat_neg_norm)[2]){
-    if(sum(table_mat_neg_norm[,j]) == 0){
-      table_mat_neg_norm[,j] <- normalize(table_mat_neg_norm[,j]+1e-3)
-    }
+  if(logoheight == "ic"){
+    ll <- get_logo_heights_ic(table, alpha = control$alpha,
+                              hist = control$hist,
+                              quant = control$quant)
+  } else if (logoheight == "log"){
+    ll <- get_logo_heights_log(table, scale = control$logscale,
+                               alpha = control$alpha, hist = control$hist,
+                               quant = control$quant,
+                               depletion_weight = depletion_weight)
+  } else if (logoheight == "log_odds"){
+    ll <- get_logo_heights_log_odds(table, scale = control$log_odds_scale,
+                                    alpha = control$alpha, hist = control$hist,
+                                    quant = control$quant,
+                                    depletion_weight = depletion_weight)
   }
 
-  for(j in 1:dim(table_mat_pos_norm)[2]){
-    if(sum(table_mat_pos_norm[,j]) == 0){
-      table_mat_pos_norm[,j] <- normalize(table_mat_pos_norm[,j]+1e-3)
-    }
-  }
+  pos_ic <- ll$pos_ic
+  neg_ic <- ll$neg_ic
+  table_mat_pos_norm <- ll$table_mat_pos_norm
+  table_mat_neg_norm <- ll$table_mat_neg_norm
+
   if(color_profile$type == "per_column"){
     if(length(color_profile$col) != npos){
       stop("number of colors must equal the number of columns of the table")
@@ -208,7 +195,6 @@ nlogomaker <- function( table,
       stop("the number of colors must match the number of rows of the table")
     }
   }
-
   if(is.null(frame_width)){
     message("frame width not provided, taken to be 1")
     wt <- rep(1,dim(table)[2])
@@ -221,34 +207,6 @@ nlogomaker <- function( table,
     }
   }
 
-
-##################   obtaining ic for positive and negative scales  ##########
-
-  ic <- ic_computer(table_mat_norm, alpha, hist=hist)
-  tab_neg <- apply(table_mat_adj, 2, function(x) {
-    y = x[x < 0]
-    if(length(y) == 0){
-      return(0)
-    }else{
-      return(abs(sum(y)))
-    }
-  })
-
-  tab_pos <- apply(table_mat_adj, 2, function(x) {
-    y = x[x > 0]
-    if(length(y) == 0){
-      return(0)
-    }else{
-      return(abs(sum(y)))
-    }
-  })
-
-  tab_pos[tab_pos == 0] <- 1e-3
-  tab_neg[tab_neg == 0] <- 1e-3
-
-  pos_neg_scaling <- apply(rbind(tab_pos, tab_neg), 2, function(x) return(x/sum(x)))
-  pos_ic <- pos_neg_scaling[1, ] * ic
-  neg_ic <- pos_neg_scaling[2, ] * ic
 
 
 #####################  positive component study  ###########################
@@ -337,6 +295,9 @@ nlogomaker <- function( table,
 
   y1 <- min(letters$y)
   max1 <- max(letters$y)
+  if(is.null(ylimit)){
+    ylimit <- ceiling(max(pos_ic) + max(neg_ic))
+  }
   ylim <- ylimit
   ylim_scale <- seq(0, ylim, length.out=6);
 
@@ -362,7 +323,7 @@ nlogomaker <- function( table,
   #              y = leftMargin,
   #              width = max(xlim/2)+0.5,
   #              height = max(ylim/2)+0.5))
-  grid::pushViewport(grid::dataViewport(0:ncol(table_mat_norm),0:1,name="vp1"))
+  grid::pushViewport(grid::dataViewport(0:ncol(table),0:1,name="vp1"))
   grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
                      id=letters$id, gp=grid::gpar(fill=letters$fill,col="transparent"))
   grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
@@ -377,7 +338,7 @@ nlogomaker <- function( table,
   }
 
   if(is.null(pop_name)){
-    grid::grid.text("Neg Logo plot:", y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
+    grid::grid.text(paste0("Neg Logo plot: (", logoheight, ")"), y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
                     gp = grid::gpar(fontsize = main_fontsize))
   }else{
     grid::grid.text(paste0(pop_name),
@@ -386,8 +347,8 @@ nlogomaker <- function( table,
   }
 
   if (xaxis){
-    grid::grid.xaxis(at=wt*seq(0.5,ncol(table_mat_norm)-0.5),
-                     label=colnames(table_mat_norm),
+    grid::grid.xaxis(at=wt*seq(0.5,ncol(table)-0.5),
+                     label=colnames(table),
                      gp=grid::gpar(fontsize=xaxis_fontsize))
     grid::grid.text(xlab, y=grid::unit(-3,"lines"),
                     gp=grid::gpar(fontsize=xaxis_fontsize))
@@ -411,7 +372,7 @@ nlogomaker <- function( table,
 
   x.pos <- 0
   letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL)
-  npos <- ncol(table_mat_norm)
+  npos <- ncol(table)
 
   if(is.null(frame_width)){
     message("frame width not provided, taken to be 1")
