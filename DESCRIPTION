@@ -4,7 +4,9 @@ Title: Flexible and Customized Logo Plots using symbols, alphabets, numbers and 
 Version: 1.1.2
 Date: 11.5.2016.
 Authors@R: c(
-    person("Kushal", "Dey", email = "kkdey@uchicago.edu", role = c("aut","cre")))
+    person("Kushal", "Dey", email = "kkdey@uchicago.edu", role = c("aut","cre")),
+    person("Dongyue", "Xie", email = "dyxie@uchicago.edu", role = c("aut")),
+    person("Matthew", "Stephens", email = "mstephens@uchicago.edu", role = c("ctb")))
 Maintainer: Kushal Dey <kkdey@uchicago.edu>
 Description: Produces logo plots of a variety of symbols and names comprising English alphabets, numerics and punctuations. Can be used for sequence motif generation, mutation pattern generation, protein amino acid geenration and symbol strength representation in any generic context.
 License: GPL (>= 2)
