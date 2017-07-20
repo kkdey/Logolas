@@ -4,8 +4,8 @@
 \alias{get_logo_heights_log_odds}
 \title{Get heights of logos in nlogomaker() using absolute log odds heights.}
 \usage{
-get_logo_heights_log_odds(table, scale = 1, alpha = 1, hist = FALSE,
-  quant = 0.5, depletion_weight = 0.7)
+get_logo_heights_log_odds(table, scale = 1, bg = NULL, alpha = 1,
+  hist = FALSE, quant = 0.5, depletion_weight = 0.7)
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
@@ -14,6 +14,13 @@ positions or groups (specified along the columns).}
 
 \item{scale}{A number added to the pwm bfore taking the log transform. Defaults
 to 1.}
+
+\item{bg}{The background probability, which defaults to NULL, in which case
+equal probability is assigned to each symbol. The user can however specify a
+vector (equal to in length to the number of symbols) which specifies the
+background probability for each symbol and assumes this background probability
+to be the same across the columns (sites), or a matrix, whose each cell specifies
+the background probability of the symbols for each position.}
 
 \item{alpha}{The Renyi entropy tuning parameter which is used in case of
 scaling of the bar heights by information criterion. The default tuning

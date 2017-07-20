@@ -9,7 +9,7 @@ nlogomaker(table, logoheight = c("ic", "log", "log_odds"), color_profile,
   "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero",
   "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",
   "comma", "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
-  frame_width = NULL, yscale_change = TRUE, pop_name = NULL,
+  bg = NULL, frame_width = NULL, yscale_change = TRUE, pop_name = NULL,
   addlogos = NULL, addlogos_text = NULL, newpage = TRUE, ylimit = NULL,
   xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
   y_fontsize = 15, main_fontsize = 16, start = 0.001, xlab = "X",
@@ -33,6 +33,13 @@ the \code{total_chars}}
 \item{total_chars}{The total number of character symbols in the user library. The default
 is the default library provided by Logolas, but the user can add symbols that he creates
 to this list.}
+
+\item{bg}{The background probability, which defaults to NULL, in which case
+equal probability is assigned to each symbol. The user can however specify a
+vector (equal to in length to the number of symbols) which specifies the
+background probability for each symbol and assumes this background probability
+to be the same across the columns (sites), or a matrix, whose each cell specifies
+the background probability of the symbols for each position.}
 
 \item{frame_width}{The width of the frames for individual site/postion/column
 in the logo plot. As default, all the columns have same width, equal to 1.}
