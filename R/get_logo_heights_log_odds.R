@@ -12,6 +12,13 @@
 #' @param scale A number added to the pwm bfore taking the log transform. Defaults
 #' to 1.
 #'
+#' @param bg The background probability, which defaults to NULL, in which case
+#' equal probability is assigned to each symbol. The user can however specify a
+#' vector (equal to in length to the number of symbols) which specifies the
+#' background probability for each symbol and assumes this background probability
+#' to be the same across the columns (sites), or a matrix, whose each cell specifies
+#' the background probability of the symbols for each position.
+#'
 #' @param alpha The Renyi entropy tuning parameter which is used in case of
 #' scaling of the bar heights by information criterion. The default tuning
 #' parameter value is 1, which corresponds to Shannon entropy.
@@ -40,11 +47,30 @@
 #' @export
 
 
-get_logo_heights_log_odds <- function(table, scale = 1,
+get_logo_heights_log_odds <- function(table, scale = 1, bg = NULL,
                                       alpha = 1, hist=FALSE, quant = 0.5,
                                       depletion_weight = 0.7){
 
+  if (is.vector(bg)==TRUE){
+    if(length(bg) != dim(table)[1]){
+      stop("If background prob (bg) is a vector, the length of bg must equal the number of symbols for the logo plot")
+    }else{
+      bgmat <- bg %*% t(rep(1, dim(table)[2]))
+    }
+  }else if (is.matrix(bg)==TRUE){
+    if(dim(bg)[1] != dim(table)[1] | dim(bg)[2] != dim(table)[2]){
+      stop("If background prob (bg) is a matrix, its dimensions must match that of the table")
+    }else{
+      bgmat <- bg
+    }
+  }else {
+    message ("using a background with equal probability for all symbols")
+    bgmat <- matrix(1/dim(table)[1], dim(table)[1], dim(table)[2])
+  }
+
+
   table <- apply(table+0.0001,2,normalize)
+  bgmat <- apply(bgmat+0.0001,2,normalize)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -52,10 +78,12 @@ get_logo_heights_log_odds <- function(table, scale = 1,
     stop("the table must be of class matrix or data.frame")
   }
   table_mat_norm <-  apply(table, 2, function(x) return(x/sum(x[!is.na(x)])))
+  bgmat <-  apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
+
   npos <- ncol(table_mat_norm)
   chars <- as.character(rownames(table_mat_norm))
 
-  table_mat_adj <- apply(table_mat_norm, 2, function(x)
+  table_mat_adj <- apply(table_mat_norm/bgmat, 2, function(x)
   {
     indices <- which(is.na(x))
     if(length(indices) == 0){
