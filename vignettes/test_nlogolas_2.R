@@ -32,7 +32,13 @@ color_profile = list("type" = "per_row",
 
 ######## entropy based logo making
 
-logomaker(m,xlab = 'position',color_profile = color_profile, frame_width = 1)
+logomaker(m,xlab = 'position',color_profile = color_profile,
+          bg = c(0.28, 0.22, 0.24, 0.26),
+          frame_width = 1)
+
+logomaker(m,xlab = 'position',color_profile = color_profile,
+          bg = NULL,
+          frame_width = 1)
 
 ####### enrichment logo building
 
