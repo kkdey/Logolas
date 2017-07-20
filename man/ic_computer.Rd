@@ -4,7 +4,7 @@
 \alias{ic_computer}
 \title{Information criterion computer}
 \usage{
-ic_computer(mat, alpha, hist = FALSE)
+ic_computer(mat, alpha, hist = FALSE, bg = NULL)
 }
 \arguments{
 \item{mat}{A matrix with symbols or logo names along the rows and
@@ -17,6 +17,13 @@ entropy (in the limit).}
 \item{hist}{if hist is FALSE (default). information criterion is used to decide on the heights
 of the logo plots. If TRUE, one uses the relative proportion of the values in the different
 columns of the matrix to determine the height of the bars.}
+
+\item{bg}{The background probability, which defaults to NULL, in which case
+equal probability is assigned to each symbol. The user can however specify a
+vector (equal to in length to the number of symbols) which specifies the
+background probability for each symbol and assumes this background probability
+to be the same across the columns (sites), or a matrix, whose each cell specifies
+the background probability of the symbols for each position.}
 }
 \value{
 A vector of same length as the number of columns in the data, with
