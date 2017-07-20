@@ -38,23 +38,48 @@ logomaker(m,xlab = 'position',color_profile = color_profile, frame_width = 1)
 
 nlogomaker(m,xlab = 'position',logoheight = "log",
            color_profile = color_profile,
+           bg = c(0.25, 0.25, 0.25, 0.25),
            frame_width = 1,
            control = list(logscale = 0.2, quant = 0.5,
            depletion_weight = 0.5))
 
+nlogomaker(m,xlab = 'position',logoheight = "log",
+           color_profile = color_profile,
+           bg = c(0.4, 0.1, 0.1, 0.4),
+           frame_width = 1,
+           control = list(logscale = 0.2, quant = 0.5,
+                          depletion_weight = 0.5))
+
+nlogomaker(m,xlab = 'position',logoheight = "log",
+           color_profile = color_profile,
+           bg = c(0.1, 0.1, 0.4, 0.4),
+           frame_width = 1,
+           control = list(logscale = 0.2, quant = 0.5,
+                          depletion_weight = 0.5))
+
+
 nlogomaker(m,xlab = 'position',logoheight = "ic",
            color_profile = color_profile,
+           bg = c(0.28, 0.24, 0.22, 0.26),
            frame_width = 1, control = list(logscale = 2))
 
 nlogomaker(m,xlab = 'position',logoheight = "log_odds",
            color_profile = color_profile,
+           bg = c(0.28, 0.24, 0.22, 0.26),
            frame_width = 1, control = list(log_odds_scale=0.2,
-           depletion_weight = 0.99))
+           depletion_weight = 0.50))
 
 #######  enrichment heights scaling  ################
 
-ll1 <- get_logo_heights_ic(m)
-ll2 <- get_logo_heights_log(m)
+ll1a <- get_logo_heights_ic(m, bg = c(0.4, 0.1, 0.1, 0.4))
+ll1b <- get_logo_heights_ic(m)
+ll1c <- get_logo_heights_ic(m, bg = c(0.25, 0.25, 0.25, 0.25))
+ll1d <- get_logo_heights_ic(m, bg = c(0, 0.5, 0, 0.5))
+
+ll2a <- get_logo_heights_log(m, bg = c(0.3, 0.2, 0.2, 0.3))
+ll2b <- get_logo_heights_log(m, bg = c(0.25, 0.25, 0.25, 0.25))
+ll2c <- get_logo_heights_log(m, bg = c(0, 0.5, 0, 0.5))
+
 ll3 <- get_logo_heights_log_odds(m)
 
 ic2 <- neg_ic_computer(m)

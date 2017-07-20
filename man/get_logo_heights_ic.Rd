@@ -4,7 +4,8 @@
 \alias{get_logo_heights_ic}
 \title{Get heights of logos in nlogomaker() using Information criterion.}
 \usage{
-get_logo_heights_ic(table, alpha = 1, hist = FALSE, quant = 0.5)
+get_logo_heights_ic(table, alpha = 1, bg = NULL, opt = 1, hist = FALSE,
+  quant = 0.5)
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
@@ -14,6 +15,17 @@ positions or groups (specified along the columns).}
 \item{alpha}{The Renyi entropy tuning parameter which is used in case of
 scaling of the bar heights by information criterion. The default tuning
 parameter value is 1, which corresponds to Shannon entropy.}
+
+\item{bg}{The background probability, which defaults to NULL, in which case
+equal probability is assigned to each symbol. The user can however specify a
+vector (equal to in length to the number of symbols) which specifies the
+background probability for each symbol and assumes this background probability
+to be the same across the columns (sites), or a matrix, whose each cell specifies
+the background probability of the symbols for each position.}
+
+\item{opt}{Option parameter - taking values 1 and 2 - depending on whether
+median adjustment is done based on background corrected proportions or without
+background correction}
 
 \item{hist}{Whether to use the hist method or the information criterion
 method to determine the heights of the logos.}
