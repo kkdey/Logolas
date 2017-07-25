@@ -24,7 +24,7 @@
 #' is the default library provided by Logolas, but the user can add symbols that he creates
 #' to this list.
 #'
-#' @param backg The background probability, which defaults to NULL, in which case
+#' @param bg The background probability, which defaults to NULL, in which case
 #' equal probability is assigned to each symbol. The user can however specify a
 #' vector (equal to in length to the number of symbols) which specifies the
 #' background probability for each symbol and assumes this background probability
@@ -130,7 +130,7 @@ nlogomaker <- function(table,
                                        "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
                                        "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
                                        "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
-                       backg = NULL,
+                       bg = NULL,
                        frame_width=NULL,
                        yscale_change=TRUE,
                        pop_name = NULL,
@@ -173,19 +173,19 @@ nlogomaker <- function(table,
 
   if(logoheight == "ic"){
     ll <- get_logo_heights_ic(table, alpha = control$alpha,
-                              bg = backg,
+                              bg = bg,
                               opt = control$opt,
                               hist = control$hist,
                               quant = control$quant)
   } else if (logoheight == "log"){
     ll <- get_logo_heights_log(table, scale = control$logscale,
-                               bg = backg,
+                               bg = bg,
                                alpha = control$alpha, hist = control$hist,
                                quant = control$quant,
                                depletion_weight = depletion_weight)
   } else if (logoheight == "log_odds"){
     ll <- get_logo_heights_log_odds(table, scale = control$log_odds_scale,
-                                    bg = backg,
+                                    bg = bg,
                                     alpha = control$alpha, hist = control$hist,
                                     quant = control$quant,
                                     depletion_weight = depletion_weight)
