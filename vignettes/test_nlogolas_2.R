@@ -33,25 +33,25 @@ color_profile = list("type" = "per_row",
 ######## entropy based logo making
 
 logomaker(m,xlab = 'position',color_profile = color_profile,
-          bg = c(0.28, 0.22, 0.24, 0.26),
+          backg = c(0.28, 0.22, 0.24, 0.26),
           frame_width = 1)
 
 logomaker(m,xlab = 'position',color_profile = color_profile,
-          bg = NULL,
+          backg = NULL,
           frame_width = 1)
 
 ####### enrichment logo building
 
 nlogomaker(m,xlab = 'position',logoheight = "log",
            color_profile = color_profile,
-           bg = c(0.25, 0.25, 0.25, 0.25),
+           backg = c(0.25, 0.25, 0.25, 0.25),
            frame_width = 1,
            control = list(logscale = 0.2, quant = 0.5,
            depletion_weight = 0.5))
 
 nlogomaker(m,xlab = 'position',logoheight = "log",
            color_profile = color_profile,
-           bg = c(0.4, 0.1, 0.1, 0.4),
+           backg = c(0.4, 0.1, 0.1, 0.4),
            frame_width = 1,
            control = list(logscale = 0.2, quant = 0.5,
                           depletion_weight = 0.5))
@@ -62,6 +62,15 @@ nlogomaker(m,xlab = 'position',logoheight = "log",
            frame_width = 1,
            control = list(logscale = 0.2, quant = 0.5,
                           depletion_weight = 0.5))
+
+
+table <- m
+logoheight = "log"
+total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+                "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
+                "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
+                "dash", "colon", "semicolon", "leftarrow", "rightarrow")
+bg = c(0.1, 0.1, 0.4, 0.4)
 
 
 nlogomaker(m,xlab = 'position',logoheight = "ic",
@@ -93,6 +102,17 @@ ic2 <- neg_ic_computer(m)
 ic2$ic_pos
 ic2$ic_neg
 ic2$scales
+
+table <- m
+scale = 0.001
+bg = NULL
+alpha = 1
+hist=FALSE
+quant = 0.5
+depletion_weight = 0.7
+
+ll1a <- get_logo_heights_ic(m, bg = c(0.4, 0.1, 0.1, 0.4))
+
 
 # R version 3.3.3 (2017-03-06)
 # Platform: x86_64-apple-darwin13.4.0 (64-bit)
