@@ -9,10 +9,11 @@ nlogomaker(table, logoheight = c("ic", "log", "log_odds"), color_profile,
   "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero",
   "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",
   "comma", "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
-  bg = NULL, frame_width = NULL, yscale_change = TRUE, pop_name = NULL,
-  addlogos = NULL, addlogos_text = NULL, newpage = TRUE, ylimit = NULL,
-  xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
-  y_fontsize = 15, main_fontsize = 16, start = 0.001, xlab = "X",
+  backg = NULL, frame_width = NULL, yscale_change = TRUE,
+  pop_name = NULL, addlogos = NULL, addlogos_text = NULL,
+  newpage = TRUE, ylimit = NULL, xaxis = TRUE, yaxis = TRUE,
+  xaxis_fontsize = 10, xlab_fontsize = 15, y_fontsize = 15,
+  main_fontsize = 16, start = 0.001, xlab = "X",
   ylab = "Enrichment Score", col_line_split = "grey80", control = list())
 }
 \arguments{
@@ -34,7 +35,7 @@ the \code{total_chars}}
 is the default library provided by Logolas, but the user can add symbols that he creates
 to this list.}
 
-\item{bg}{The background probability, which defaults to NULL, in which case
+\item{backg}{The background probability, which defaults to NULL, in which case
 equal probability is assigned to each symbol. The user can however specify a
 vector (equal to in length to the number of symbols) which specifies the
 background probability for each symbol and assumes this background probability
