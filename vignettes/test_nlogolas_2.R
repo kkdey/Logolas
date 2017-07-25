@@ -33,25 +33,25 @@ color_profile = list("type" = "per_row",
 ######## entropy based logo making
 
 logomaker(m,xlab = 'position',color_profile = color_profile,
-          backg = c(0.28, 0.22, 0.24, 0.26),
+          bg = c(0.28, 0.22, 0.24, 0.26),
           frame_width = 1)
 
 logomaker(m,xlab = 'position',color_profile = color_profile,
-          backg = NULL,
+          bg = NULL,
           frame_width = 1)
 
 ####### enrichment logo building
 
 nlogomaker(m,xlab = 'position',logoheight = "log",
            color_profile = color_profile,
-           backg = c(0.25, 0.25, 0.25, 0.25),
+           bg = c(0.25, 0.25, 0.25, 0.25),
            frame_width = 1,
            control = list(logscale = 0.2, quant = 0.5,
            depletion_weight = 0.5))
 
 nlogomaker(m,xlab = 'position',logoheight = "log",
            color_profile = color_profile,
-           backg = c(0.4, 0.1, 0.1, 0.4),
+           bg = c(0.4, 0.1, 0.1, 0.4),
            frame_width = 1,
            control = list(logscale = 0.2, quant = 0.5,
                           depletion_weight = 0.5))
