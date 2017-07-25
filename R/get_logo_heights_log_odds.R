@@ -118,7 +118,7 @@ get_logo_heights_log_odds <- function(table, scale = 1, bg = NULL,
   neg_ic1 <- colSums(abs(table_mat_neg))
 
   table_mat_adj_norm <- apply(abs(table_mat_adj), 2, function(x) return((x+1e-05)/(sum(x+1e-05))))
-  ic <- ic_computer(table_mat_adj_norm, alpha, hist=hist)
+  ic <- ic_computer(table_mat_adj_norm, alpha, hist=hist, bg = bg)
 
   tab_neg <- apply(table_mat_adj, 2, function(x) {
     y = x[x < 0]
