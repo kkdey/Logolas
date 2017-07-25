@@ -29,7 +29,7 @@
 #' is the default library provided by Logolas, but the user can add symbols that he creates
 #' to this list.
 #'
-#' @param backg The background probability, which defaults to NULL, in which case
+#' @param bg The background probability, which defaults to NULL, in which case
 #' equal probability is assigned to each symbol. The user can however specify a
 #' vector (equal to in length to the number of symbols) which specifies the
 #' background probability for each symbol and assumes this background probability
@@ -138,7 +138,7 @@ logomaker <- function( table,
                                        "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
                                        "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
                                        "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
-                       backg = NULL,
+                       bg = NULL,
                        frame_width=NULL,
                        ic.scale=TRUE,
                        alpha=1,
@@ -200,9 +200,9 @@ logomaker <- function( table,
 
   if(is.null(ic)){
     if(hist==FALSE){
-      ic <- ic_computer(table_mat_norm, alpha, hist=hist, bg = backg)
+      ic <- ic_computer(table_mat_norm, alpha, hist=hist, bg = bg)
     }else{
-      ic <- ic_computer(table, alpha, hist=hist, bg = backg)
+      ic <- ic_computer(table, alpha, hist=hist, bg = bg)
     }
   }
 

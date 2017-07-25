@@ -9,7 +9,7 @@ logomaker(table, ic = NULL, hist = FALSE, color_profile,
   "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero",
   "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",
   "comma", "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
-  backg = NULL, frame_width = NULL, ic.scale = TRUE, alpha = 1,
+  bg = NULL, frame_width = NULL, ic.scale = TRUE, alpha = 1,
   xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
   y_fontsize = 15, main_fontsize = 16, start = 0.001,
   yscale_change = TRUE, pop_name = NULL, xlab = "X",
@@ -43,7 +43,7 @@ the \code{total_chars}}
 is the default library provided by Logolas, but the user can add symbols that he creates
 to this list.}
 
-\item{backg}{The background probability, which defaults to NULL, in which case
+\item{bg}{The background probability, which defaults to NULL, in which case
 equal probability is assigned to each symbol. The user can however specify a
 vector (equal to in length to the number of symbols) which specifies the
 background probability for each symbol and assumes this background probability
