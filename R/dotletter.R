@@ -14,10 +14,13 @@
 #' out <- dotletter(plot=TRUE)
 
 dotletter <- function(plot = FALSE,
+                      fill_symbol = FALSE,
                       colfill="green",
                       y_pos = 0.1,
                       x_pos = 0.5,
                       rad = 0.1){
+
+  if(fill_symbol){fill_symbol = FALSE}
 
   angle2 <- seq(0,2*pi,length=200)
   x <- x_pos + rad*cos(angle2)
