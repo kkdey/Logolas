@@ -14,10 +14,13 @@
 #' out <- commaletter(plot=TRUE)
 
 commaletter <- function(plot = FALSE,
+                        fill_symbol = FALSE,
                         colfill="green",
                         y_pos = 0.1,
                         x_pos = 0.5,
                         lwd=10){
+
+  if(fill_symbol){fill_symbol = FALSE}
 
   x <- x_pos + c(-0.05, -.05, 0.05, 0.05, -0.03, 0.01)
   y <- y_pos + c(0, 0.1, 0.1, 0, -0.1, 0)

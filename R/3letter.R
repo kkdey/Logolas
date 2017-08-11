@@ -3,7 +3,8 @@
 #' @rdname letters
 #' @export
 #' @examples
-#' out <- threeletter(plot=TRUE)
+#' out <- threeletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+#' out <- threeletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
 
 threeletter <- function(plot = FALSE, fill_symbol = TRUE,
                          colfill="green", lwd =10){
@@ -49,7 +50,7 @@ threeletter <- function(plot = FALSE, fill_symbol = TRUE,
   fill <- c(colfill)
 
   if(plot){
-    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
+    get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
   }
 
   ll <- list("x"= x,

@@ -3,7 +3,8 @@
 #' @rdname letters
 #' @export
 #' @examples
-#' out <- sevenletter(plot=TRUE)
+#' out <- sevenletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+#' out <- sevenletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
 
 sevenletter <- function(plot = FALSE,
                         fill_symbol = TRUE,
@@ -17,7 +18,7 @@ sevenletter <- function(plot = FALSE,
   id <- rep(1, length(x))
 
   if(plot){
-    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
+    get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
   }
 
 

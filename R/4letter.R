@@ -3,7 +3,8 @@
 #' @rdname letters
 #' @export
 #' @examples
-#' out <- fourletter(plot=TRUE)
+#' out <- fourletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+#' out <- fourletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
 
 
 
@@ -20,7 +21,7 @@ fourletter <- function(plot = FALSE,
   fill <- colfill
 
   if(plot){
-    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
+    get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
   }
 
 

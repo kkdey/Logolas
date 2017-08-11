@@ -3,7 +3,8 @@
 #' @rdname letters
 #' @export
 #' @examples
-#' out <- oneletter(plot=TRUE)
+#' out <- oneletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+#' out <- oneletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
 
 
 oneletter <- function(plot = FALSE,
@@ -17,7 +18,7 @@ oneletter <- function(plot = FALSE,
   fill <- colfill
 
   if(plot){
-    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
+    get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
   }
 
 
