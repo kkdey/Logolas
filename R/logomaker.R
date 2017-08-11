@@ -12,9 +12,6 @@
 #' It defaults to NULL, in which case, the function computes the ic vector using
 #' the \code{ic_computer} functionality.
 #'
-#' @param hist Whether to use the hist method or the information criterion
-#' method to determine the heights of the logos.
-#'
 #' @param color_profile A list containing two elements - "type" and "col". The type can
 #' be of three types - "per-row", "per-column" and "per-symbol". The "col" element
 #' is a vector of colors, of same length as number of rows in table for "per-row" (assigning
@@ -44,10 +41,6 @@
 #' each column is determined based on the information criterion  input.
 #' Otherwise, the bars are normalized so that the height of each bar is $1$.
 #' Defaults to TRUE.
-#'
-#' @param alpha The Renyi entropy tuning parameter which is used in case of
-#' scaling of the bar heights by information criterion. The default tuning
-#' parameter value is 1, which corresponds to Shannon entropy.
 #'
 #' @param xaxis Binary specifying if there should be a X axis in the logo plot
 #' or not. Defaults to TRUE.
@@ -79,14 +72,15 @@
 #' @param col_line_split The color of the line split between the consecutive groups
 #' or blocks
 #'
-#' @param scale1 scaling of the logo to maintain the gap between symbols.
-#'
-#' @param scale0 the base change of the logo to maintain the gap between symbols.
-#'
 #' @param addlogos Vector of additional logos/symbols defined by user
 #' @param addlogos_text Vector of the names given to the additional logos/symbols defined by user.
 #'
+#'
 #' @param newpage if TRUE, plots the logo plot in a new page. Defaults to TRUE.
+#'
+#' @param control control parameters fixing whether the height of the logos is detrmined by IC or
+#' histogram proportions, the scales for the plot, the Renyi alpha parameter for the entropy calculation,
+#' the viewport configuration details for the plot etc.
 #'
 #' @return Plots the logo plot for the table data, with column names representing
 #' the sites/blocks and the row names denoting the symbols for which logos are
@@ -132,7 +126,6 @@
 
 logomaker <- function( table,
                        ic=NULL,
-                       hist=FALSE,
                        color_profile,
                        total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
                                        "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
@@ -141,7 +134,6 @@ logomaker <- function( table,
                        bg = NULL,
                        frame_width=NULL,
                        ic.scale=TRUE,
-                       alpha=1,
                        xaxis=TRUE,
                        yaxis=TRUE,
                        xaxis_fontsize=10,
@@ -154,12 +146,27 @@ logomaker <- function( table,
                        xlab = "X",
                        ylab = "Information content",
                        col_line_split="grey80",
-                       scale0=0.01,
-                       scale1=0.99,
                        addlogos = NULL,
                        addlogos_text = NULL,
-                       newpage = TRUE){
+                       newpage = TRUE,
+                       control = list()){
   table <- apply(table+0.0001,2,normalize)
+
+  control.default <- list(hist = FALSE, alpha = 1, scale0=0.01,
+                          scale1=0.99,
+                          viewport.margin.bottom = NULL,
+                          viewport.margin.left = NULL,
+                          viewport.margin.top = NULL,
+                          viewport.margin.right = NULL)
+
+  # viewport margins usually c(3, 5, 3, 3)
+
+  control <- modifyList(control.default, control)
+  scale0 <- control$scale0
+  scale1 <- control$scale1
+  hist <- control$hist
+  alpha <- control$alpha
+
 
   npos <- ncol(table)
   if(color_profile$type == "per_column"){
@@ -316,11 +323,15 @@ logomaker <- function( table,
  if(newpage){
    grid::grid.newpage()
  }
-#  bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
-  bottomMargin = ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)
-#  leftMargin = ifelse(yaxis, 0.1 + y_fontsize/3.5, 3)
-  leftMargin = ifelse(yaxis, 0.1 + y_fontsize/3.5, 3)
-  grid::pushViewport(grid::plotViewport(c(bottomMargin,leftMargin,max(ylim)+0.5,max(ylim))))
+
+  if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
+  if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
+  if(is.null(control$viewport.margin.top)){topMargin <- max(ylim)+0.5}else{topMargin <- control$viewport.margin.top}
+  if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{leftMargin <- control$viewport.margin.right}
+
+
+  grid::pushViewport(grid::plotViewport(c(bottomMargin, leftMargin, topMargin, rightMargin)))
+
   # pushViewport(viewport(layout = grid.layout(2, 2),
   #              x = bottomMargin,
   #              y = leftMargin,

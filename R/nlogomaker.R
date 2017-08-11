@@ -79,6 +79,10 @@
 #'
 #' @param newpage if TRUE, plots the logo plot in a new page. Defaults to TRUE.
 #'
+#' @param control control parameters fixing whether the height of the logos is detrmined by IC or
+#' histogram proportions, the scales for the plot, the Renyi alpha parameter for the entropy calculation,
+#' the viewport configuration details for the plot etc.
+#'
 #' @return Plots the logo plot for the table data, with column names representing
 #' the sites/blocks and the row names denoting the symbols for which logos are
 #' plotted
@@ -152,7 +156,14 @@ nlogomaker <- function(table,
 
   control.default <- list(hist = FALSE, alpha = 1, opt = 1, scale0=0.01,
                           scale1=0.99, logscale = 1, log_odds_scale=1,
-                          quant = 0.5, depletion_weight = 0.5)
+                          quant = 0.5, depletion_weight = 0.5,
+                          viewport.margin.bottom = NULL,
+                          viewport.margin.left = NULL,
+                          viewport.margin.top = NULL,
+                          viewport.margin.right = NULL)
+
+  # viewport margins usually c(3, 5, 3, 3)
+
   control <- modifyList(control.default, control)
   scale0 <- control$scale0
   scale1 <- control$scale1
@@ -326,10 +337,14 @@ nlogomaker <- function(table,
     grid::grid.newpage()
   }
   #  bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
-  bottomMargin = ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)
-  #  leftMargin = ifelse(yaxis, 0.1 + y_fontsize/3.5, 3)
-  leftMargin = ifelse(yaxis, 1 + y_fontsize/3.5, 3)
-  grid::pushViewport(grid::plotViewport(c(bottomMargin,leftMargin,max(ylim)+0.5,max(ylim))))
+
+  if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
+  if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
+  if(is.null(control$viewport.margin.top)){topMargin <- max(ylim)+0.5}else{topMargin <- control$viewport.margin.top}
+  if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{leftMargin <- control$viewport.margin.right}
+
+  grid::pushViewport(grid::plotViewport(c(bottomMargin, leftMargin, topMargin, rightMargin)))
+
   # pushViewport(viewport(layout = grid.layout(2, 2),
   #              x = bottomMargin,
   #              y = leftMargin,
