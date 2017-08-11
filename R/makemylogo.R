@@ -9,6 +9,9 @@
 #' @param name A English name, or alphanumeric, containing English alphabets,
 #' numbers, dots, dashes, arroww, colons, semicolons, comma among punctuations.
 #'
+#' @param fill A binary indicating whether to use fill the logo symbols with
+#' color in \code{colfill} or to use it for the bordering.
+#'
 #' @param colfill The color used for the symbol
 #'
 #' @param plot  binary, if FALSE, returns only the co-ordinates of the symbol in the
@@ -45,7 +48,9 @@
 
 
 makemylogo <- function(name,
+                       fill = TRUE,
                        colfill="orange",
+                       lwd = 10,
                        plot=FALSE,
                        total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
                                         "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
@@ -152,13 +157,20 @@ makemylogo <- function(name,
     grid::grid.newpage()
     grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
                           clip=TRUE))
-    lwd <- 10
-    grid::grid.polygon(xpool, ypool,
-                 default.unit="native",
-                 id=idpool,
-                 gp=grid::gpar(fill=fillpool,
-                               lwd=lwd))
+    if(fill_symbol){
+      grid::grid.polygon(xpool, ypool,
+                         default.unit="native",
+                         id=idpool,
+                         gp=grid::gpar(fill=fillpool,
+                                       lwd=lwd))
+    }else{
+      grid::grid.polygon(xpool, ypool,
+                         default.unit="native",
+                         id=idpool,
+                         gp=grid::gpar(col=fillpool,
+                                       lwd=lwd))
     }
+  }
 
   ll <- list("x"=xpool,
              "y"=ypool,
