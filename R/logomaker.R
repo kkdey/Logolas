@@ -78,9 +78,13 @@
 #'
 #' @param newpage if TRUE, plots the logo plot in a new page. Defaults to TRUE.
 #'
-#' @param control control parameters fixing whether the height of the logos is detrmined by IC or
-#' histogram proportions, the scales for the plot, the Renyi alpha parameter for the entropy calculation,
-#' the viewport configuration details for the plot etc.
+#' @param control control parameters fixing whether the height of the logos is
+#' detrmined by IC or histogram proportions (\code{hist}), the scales for the
+#' plot (\code{scale0}, \code{scale1}), whether the symbols should be filled
+#' with color or border colored (\code{fill}), the Renyi alpha parameter for
+#' the entropy calculation (\code{alpha}), the viewport configuration details
+#' for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
+#' \code{viewport.margin.top}, \code{viewport.margin.right})  etc.
 #'
 #' @return Plots the logo plot for the table data, with column names representing
 #' the sites/blocks and the row names denoting the symbols for which logos are
@@ -153,7 +157,7 @@ logomaker <- function( table,
   table <- apply(table+0.0001,2,normalize)
 
   control.default <- list(hist = FALSE, alpha = 1, scale0=0.01,
-                          scale1=0.99,
+                          scale1=0.99, fill = TRUE,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
                           viewport.margin.top = NULL,
