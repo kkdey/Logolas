@@ -3,7 +3,8 @@
 #' @rdname letters
 #' @export
 #' @examples
-#' out <- sixletter(plot=TRUE)
+#' out <- sixletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+#' out <- sixletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
 
 sixletter <- function(plot = FALSE,
                        fill_symbol = TRUE,
@@ -38,7 +39,7 @@ sixletter <- function(plot = FALSE,
   fill <- c(colfill, "white")
 
   if(plot){
-    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
+    get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
   }
 
 

@@ -17,12 +17,15 @@
 #' out <- semicolonletter(plot=TRUE)
 
 semicolonletter <- function(plot = FALSE,
+                            fill_symbol = FALSE,
                             colfill="green",
                             y_pos_1 = 0.1,
                             y_pos_2 = 0.4,
                             x_pos = 0.5,
                             rad = 0.1,
                             lwd=10){
+
+  if(fill_symbol){fill_symbol = FALSE}
 
   angle2 <- seq(0,2*pi,length=200)
 

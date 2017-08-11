@@ -3,7 +3,8 @@
 #' @rdname letters
 #' @export
 #' @examples
-#' out <- Mletter(plot=TRUE)
+#' out <- Mletter(plot=TRUE, fill_symbol = TRUE, colfill = "green")
+#' out <- Mletter(plot=TRUE, fill_symbol = FALSE, colfill = "green")
 
 Mletter <- function(plot = FALSE,
                     fill_symbol = TRUE,
@@ -19,7 +20,7 @@ Mletter <- function(plot = FALSE,
       fill <- colfill
 
       if(plot){
-        get_plot(x, y, id, fill)
+        get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
       }
 
       ll <- list("x"= x,

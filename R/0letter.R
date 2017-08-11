@@ -25,7 +25,8 @@
 #' @rdname letters
 #' @export
 #' @examples
-#' out <- zeroletter(plot=TRUE)
+#' out <- zeroletter(plot=TRUE, fill_symbol = TRUE, colfill = "green")
+#' out <- zeroletter(plot=TRUE, fill_symbol = FALSE, colfill = "green")
 
 
 zeroletter <- function(plot = FALSE,
@@ -48,7 +49,7 @@ zeroletter <- function(plot = FALSE,
   fill <- c(colfill, "white")
 
   if(plot){
-    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
+    get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
   }
 
   ll <- list("x"= x,
