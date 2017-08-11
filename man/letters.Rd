@@ -135,17 +135,17 @@ Yletter(plot = FALSE, fill_symbol = TRUE, colfill = "green", lwd = 10)
 
 Zletter(plot = FALSE, fill_symbol = TRUE, colfill = "green", lwd = 10)
 
-colonletter(plot = FALSE, colfill = "green", y_pos_1 = 0.3,
-  y_pos_2 = 0.7, x_pos = 0.5, rad = 0.1, lwd = 10)
+colonletter(plot = FALSE, fill_symbol = FALSE, colfill = "green",
+  y_pos_1 = 0.3, y_pos_2 = 0.7, x_pos = 0.5, rad = 0.1, lwd = 10)
 
-commaletter(plot = FALSE, colfill = "green", y_pos = 0.1, x_pos = 0.5,
-  lwd = 10)
+commaletter(plot = FALSE, fill_symbol = FALSE, colfill = "green",
+  y_pos = 0.1, x_pos = 0.5, lwd = 10)
 
 dashletter(plot = FALSE, fill_symbol = TRUE, colfill = "green",
   lwd = 10)
 
-dotletter(plot = FALSE, colfill = "green", y_pos = 0.1, x_pos = 0.5,
-  rad = 0.1)
+dotletter(plot = FALSE, fill_symbol = FALSE, colfill = "green",
+  y_pos = 0.1, x_pos = 0.5, rad = 0.1)
 
 leftarrowletter(plot = FALSE, fill_symbol = TRUE, colfill = "green",
   lwd = 10)
@@ -153,8 +153,8 @@ leftarrowletter(plot = FALSE, fill_symbol = TRUE, colfill = "green",
 rightarrowletter(plot = FALSE, fill_symbol = TRUE, colfill = "green",
   lwd = 10)
 
-semicolonletter(plot = FALSE, colfill = "green", y_pos_1 = 0.1,
-  y_pos_2 = 0.4, x_pos = 0.5, rad = 0.1, lwd = 10)
+semicolonletter(plot = FALSE, fill_symbol = FALSE, colfill = "green",
+  y_pos_1 = 0.1, y_pos_2 = 0.4, x_pos = 0.5, rad = 0.1, lwd = 10)
 }
 \arguments{
 \item{plot}{A binary. If FALSE, only outputs grid co-ordinates for the logo,
@@ -232,20 +232,32 @@ Plots the symbol or logo for dot punctuation
 Plots the symbol or logo for a semi-colon.
 }
 \examples{
-out <- zeroletter(plot=TRUE)
-out <- oneletter(plot=TRUE)
-out <- twoletter(plot=TRUE)
-out <- threeletter(plot=TRUE)
-out <- fourletter(plot=TRUE)
-out <- fiveletter(plot=TRUE)
-out <- sixletter(plot=TRUE)
-out <- sevenletter(plot=TRUE)
-out <- eightletter(plot=TRUE)
-out <- nineletter(plot=TRUE)
-out <- Aletter(plot=TRUE)
+out <- zeroletter(plot=TRUE, fill_symbol = TRUE, colfill = "green")
+out <- zeroletter(plot=TRUE, fill_symbol = FALSE, colfill = "green")
+out <- oneletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+out <- oneletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+out <- twoletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+out <- twoletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+out <- threeletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+out <- threeletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+out <- fourletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+out <- fourletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+out <- fiveletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+out <- fiveletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+out <- sixletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+out <- sixletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+out <- sevenletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+out <- sevenletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+out <- eightletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+out <- eightletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+out <- nineletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+out <- nineletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+out <- Aletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+out <- Aletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
 out <- Bletter(plot=TRUE)
 
-out <- Cletter(plot=TRUE)
+out <- Cletter(plot=TRUE, fill_symbol = TRUE, colfill = "green")
+out <- Cletter(plot=TRUE, fill_symbol = FALSE, colfill = "green")
 out <- Dletter(plot=TRUE)
 
 out <- Eletter(plot=TRUE)
@@ -256,8 +268,10 @@ out <- Iletter(plot=TRUE)
 out <- Jletter(plot=TRUE)
 out <- Kletter(plot=TRUE)
 out <- Lletter(plot=TRUE)
-out <- Mletter(plot=TRUE)
-out <- Nletter(plot=TRUE)
+out <- Mletter(plot=TRUE, fill_symbol = TRUE, colfill = "green")
+out <- Mletter(plot=TRUE, fill_symbol = FALSE, colfill = "green")
+out <- Nletter(plot=TRUE, fill_symbol = TRUE, colfill = "green")
+out <- Nletter(plot=TRUE, fill_symbol = FALSE, colfill = "green")
 out <- Oletter(plot=TRUE)
 out <- Pletter(plot=TRUE)
 out <- Qletter(plot=TRUE)

@@ -4,17 +4,17 @@
 \alias{logomaker}
 \title{Main workhorse function that builds the logo plots}
 \usage{
-logomaker(table, ic = NULL, hist = FALSE, color_profile,
-  total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
-  "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero",
-  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",
-  "comma", "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
-  bg = NULL, frame_width = NULL, ic.scale = TRUE, alpha = 1,
-  xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
-  y_fontsize = 15, main_fontsize = 16, start = 0.001,
-  yscale_change = TRUE, pop_name = NULL, xlab = "X",
-  ylab = "Information content", col_line_split = "grey80", scale0 = 0.01,
-  scale1 = 0.99, addlogos = NULL, addlogos_text = NULL, newpage = TRUE)
+logomaker(table, ic = NULL, color_profile, total_chars = c("A", "B", "C",
+  "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+  "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two", "three", "four",
+  "five", "six", "seven", "eight", "nine", "dot", "comma", "dash", "colon",
+  "semicolon", "leftarrow", "rightarrow"), bg = NULL, frame_width = NULL,
+  ic.scale = TRUE, xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10,
+  xlab_fontsize = 15, y_fontsize = 15, main_fontsize = 16,
+  start = 0.001, yscale_change = TRUE, pop_name = NULL, xlab = "X",
+  ylab = "Information content", col_line_split = "grey80",
+  addlogos = NULL, addlogos_text = NULL, newpage = TRUE,
+  control = list())
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
@@ -25,9 +25,6 @@ positions or groups (specified along the columns).}
 repesenting the heights of the logo stacked bars for each position/site/block.
 It defaults to NULL, in which case, the function computes the ic vector using
 the \code{ic_computer} functionality.}
-
-\item{hist}{Whether to use the hist method or the information criterion
-method to determine the heights of the logos.}
 
 \item{color_profile}{A list containing two elements - "type" and "col". The type can
 be of three types - "per-row", "per-column" and "per-symbol". The "col" element
@@ -57,10 +54,6 @@ in the logo plot. As default, all the columns have same width, equal to 1.}
 each column is determined based on the information criterion  input.
 Otherwise, the bars are normalized so that the height of each bar is $1$.
 Defaults to TRUE.}
-
-\item{alpha}{The Renyi entropy tuning parameter which is used in case of
-scaling of the bar heights by information criterion. The default tuning
-parameter value is 1, which corresponds to Shannon entropy.}
 
 \item{xaxis}{Binary specifying if there should be a X axis in the logo plot
 or not. Defaults to TRUE.}
@@ -93,15 +86,19 @@ plot is created. Defaults to NULL when no population name is mentioned.}
 \item{col_line_split}{The color of the line split between the consecutive groups
 or blocks}
 
-\item{scale0}{the base change of the logo to maintain the gap between symbols.}
-
-\item{scale1}{scaling of the logo to maintain the gap between symbols.}
-
 \item{addlogos}{Vector of additional logos/symbols defined by user}
 
 \item{addlogos_text}{Vector of the names given to the additional logos/symbols defined by user.}
 
 \item{newpage}{if TRUE, plots the logo plot in a new page. Defaults to TRUE.}
+
+\item{control}{control parameters fixing whether the height of the logos is
+detrmined by IC or histogram proportions (\code{hist}), the scales for the
+plot (\code{scale0}, \code{scale1}), whether the symbols should be filled
+with color or border colored (\code{fill}), the Renyi alpha parameter for
+the entropy calculation (\code{alpha}), the viewport configuration details
+for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
+\code{viewport.margin.top}, \code{viewport.margin.right})  etc.}
 }
 \value{
 Plots the logo plot for the table data, with column names representing
