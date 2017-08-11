@@ -3,7 +3,9 @@
 #' @rdname letters
 #' @export
 #' @examples
-#' out <- nineletter(plot=TRUE)
+#' out <- nineletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+#' out <- nineletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+
 
 
 nineletter <- function(plot = FALSE,
@@ -41,7 +43,7 @@ nineletter <- function(plot = FALSE,
   fill <- c(colfill, "white")
 
   if(plot){
-    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
+    get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
   }
 
 

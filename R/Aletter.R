@@ -3,7 +3,9 @@
 #' @rdname letters
 #' @export
 #' @examples
-#' out <- Aletter(plot=TRUE)
+#' out <- Aletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+#' out <- Aletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+
 
 Aletter <- function(plot=FALSE,
                     fill_symbol = TRUE,
@@ -21,7 +23,7 @@ Aletter <- function(plot=FALSE,
 
 
     if(plot){
-      get_plot(x, y, id, fill)
+      get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
     }
 
     ll <- list("x"= x,

@@ -3,7 +3,9 @@
 #' @rdname letters
 #' @export
 #' @examples
-#' out <- Nletter(plot=TRUE)
+#' out <- Nletter(plot=TRUE, fill_symbol = TRUE, colfill = "green")
+#' out <- Nletter(plot=TRUE, fill_symbol = FALSE, colfill = "green")
+
 
 Nletter <- function(plot = FALSE,
                     fill_symbol = TRUE,
@@ -19,7 +21,7 @@ Nletter <- function(plot = FALSE,
       fill <- colfill
 
       if(plot){
-        get_plot(x, y, id, fill)
+        get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
       }
 
       ll <- list("x"= x,

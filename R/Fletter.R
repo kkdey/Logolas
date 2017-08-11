@@ -18,7 +18,7 @@ Fletter <- function(plot = FALSE,
       fill <- colfill
 
       if(plot){
-        get_plot(x, y, id, fill)
+        get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
       }
 
       ll <- list("x"= x,

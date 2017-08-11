@@ -3,7 +3,9 @@
 #' @rdname letters
 #' @export
 #' @examples
-#' out <- eightletter(plot=TRUE)
+#' out <- eightletter(plot=TRUE, fill_symbol = FALSE, colfill = "orange")
+#' out <- eightletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
+
 
 
 eightletter <- function(plot = FALSE,
@@ -36,7 +38,7 @@ eightletter <- function(plot = FALSE,
   fill <- c(colfill, "white", "white")
 
   if(plot){
-    get_plot(x, y, id, fill, colfill, lwd, fill_symbol)
+    get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
   }
 
 
