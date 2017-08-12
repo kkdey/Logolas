@@ -74,42 +74,66 @@ makemylogo("Evening", plot=TRUE, tofill = FALSE, colfill=col_vector)
 makemylogo("Evening", plot = TRUE, tofill=FALSE, colfill = "orange")
 makemylogo("ag", plot=TRUE, tofill = FALSE, colfill=col_vector)
 
+grid.newpage()
+layout.rows <- 2
+layout.cols <- 2
+top.vp <- viewport(layout=grid.layout(layout.rows, layout.cols,
+                                      widths=unit(rep(5,layout.cols), rep("null", 2)),
+                                      heights=unit(rep(5,layout.rows), rep("null", 1))))
+
+plot_reg <- vpList()
+l <- 1
+for(i in 1:layout.rows){
+  for(j in 1:layout.cols){
+    plot_reg[[l]] <- viewport(layout.pos.col = j, layout.pos.row = i, name = paste0("plotlogo", l))
+    l <- l+1
+  }
+}
 
 
+plot_tree <- vpTree(top.vp, plot_reg)
+
+pushViewport(plot_tree)
+
+seekViewport(paste0("plotlogo", 1))
 nlogomaker(m,xlab = 'position',logoheight = "log",
            color_profile = color_profile,
            bg = c(0.25, 0.25, 0.25, 0.25),
            frame_width = 1,
            control = list(tofill_pos = TRUE, tofill_neg=FALSE,
                           logscale = 0.2, quant = 0.5,
-                          depletion_weight = 0.5))
+                          depletion_weight = 0.5),
+           newpage = FALSE)
 
-
+seekViewport(paste0("plotlogo", 2))
 nlogomaker(m,xlab = 'position',logoheight = "log",
            color_profile = color_profile,
            bg = c(0.25, 0.25, 0.25, 0.25),
            frame_width = 1,
            control = list(tofill_pos = FALSE, tofill_neg=TRUE,
                           logscale = 0.2, quant = 0.5,
-                          depletion_weight = 0.5))
+                          depletion_weight = 0.5),
+           newpage = FALSE)
 
-
+seekViewport(paste0("plotlogo", 3))
 nlogomaker(m,xlab = 'position',logoheight = "log",
            color_profile = color_profile,
            bg = c(0.25, 0.25, 0.25, 0.25),
            frame_width = 1,
            control = list(tofill_pos = TRUE, tofill_neg=TRUE,
                           logscale = 0.2, quant = 0.5,
-                          depletion_weight = 0.5))
+                          depletion_weight = 0.5),
+           newpage = FALSE)
 
-
+seekViewport(paste0("plotlogo", 4))
 nlogomaker(m,xlab = 'position',logoheight = "log",
            color_profile = color_profile,
            bg = c(0.25, 0.25, 0.25, 0.25),
            frame_width = 1,
            control = list(tofill_pos = FALSE, tofill_neg=FALSE,
                           logscale = 0.2, quant = 0.5,
-                          depletion_weight = 0.5))
+                          depletion_weight = 0.5),
+           newpage = FALSE)
 
 
 
