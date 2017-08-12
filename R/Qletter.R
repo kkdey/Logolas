@@ -30,7 +30,7 @@ Qletter <- function(plot = FALSE,
 
       id <- c(rep(1, length(x.l1)), rep(2, length(x.l2)), rep(3, length(x.l3)))
       fill=c(colfill,"white", colfill)
-
+      colfill <- rep(colfill, length(unique(id)))
 
 
       if(plot){
@@ -41,7 +41,8 @@ Qletter <- function(plot = FALSE,
       ll <- list("x"= x,
                  "y"= y,
                  "id" = id,
-                 "fill" = fill)
+                 "fill" = fill,
+                 "colfill" = colfill)
       return(ll)
 }
 
