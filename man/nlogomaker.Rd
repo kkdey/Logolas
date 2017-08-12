@@ -88,9 +88,9 @@ detrmined by IC or histogram proportions (\code{hist}), the scales for the
 plot (\code{scale0}, \code{scale1}), the scales for log normalization or
 log-odds normalization (\code{logscale}, \code{log_odds_scale}), the weight
 on the depletion effect visualization (\code{depletion_weight}), whether the
-symbols should be filled with color or border colored (\code{fill}),
-the Renyi alpha parameter for the entropy calculation (\code{alpha}),
-the viewport configuration details for the plot
+symbols should be filled with color or border colored (\code{tofill_pos,
+tofill_neg}), the Renyi alpha parameter for the entropy calculation
+(\code{alpha}), the viewport configuration details for the plot
 (\code{viewport.margin.bottom}, \code{viewport.margin.left},
 \code{viewport.margin.top}, \code{viewport.margin.right})  etc.}
 
