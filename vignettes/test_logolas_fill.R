@@ -12,3 +12,105 @@ colnames(m) = 1:12
 m=m/8
 
 
+color_profile = list("type" = "per_row",
+                     "col" = RColorBrewer::brewer.pal(4,name ="Spectral"))
+
+
+######## entropy based logo making
+
+logomaker(m,xlab = 'position',color_profile = color_profile,
+          bg = c(0.28, 0.22, 0.24, 0.26),
+          frame_width = 1,
+          control = list(tofill = TRUE, lwd = 10))
+
+logomaker(m,xlab = 'position',color_profile = color_profile,
+          bg = c(0.28, 0.22, 0.24, 0.26),
+          frame_width = 1,
+          control = list(tofill = FALSE, lwd = 3))
+
+
+
+
+grid.newpage()
+layout.rows <- 1
+layout.cols <- 2
+top.vp <- viewport(layout=grid.layout(layout.rows, layout.cols,
+                                      widths=unit(rep(6,layout.cols), rep("null", 2)),
+                                      heights=unit(c(20,50), rep("lines", 2))))
+
+plot_reg <- vpList()
+l <- 1
+for(i in 1:layout.rows){
+  for(j in 1:layout.cols){
+    plot_reg[[l]] <- viewport(layout.pos.col = j, layout.pos.row = i, name = paste0("plotlogo", l))
+    l <- l+1
+  }
+}
+
+
+plot_tree <- vpTree(top.vp, plot_reg)
+
+pushViewport(plot_tree)
+seekViewport(paste0("plotlogo", 1))
+logomaker(m,xlab = 'position',color_profile = color_profile,
+          bg = c(0.28, 0.22, 0.24, 0.26),
+          frame_width = 1,
+          control = list(tofill = TRUE, lwd = 10),
+          newpage = FALSE)
+
+
+seekViewport(paste0("plotlogo", 2))
+logomaker(m,xlab = 'position',color_profile = color_profile,
+          bg = c(0.28, 0.22, 0.24, 0.26),
+          frame_width = 1,
+          control = list(tofill = FALSE, lwd = 3),
+          newpage = FALSE)
+
+
+
+cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
+col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, rownames(cols)))
+makemylogo("Evening", plot=TRUE, tofill = FALSE, colfill=col_vector)
+makemylogo("Evening", plot = TRUE, tofill=FALSE, colfill = "orange")
+makemylogo("ag", plot=TRUE, tofill = FALSE, colfill=col_vector)
+
+
+
+nlogomaker(m,xlab = 'position',logoheight = "log",
+           color_profile = color_profile,
+           bg = c(0.25, 0.25, 0.25, 0.25),
+           frame_width = 1,
+           control = list(tofill_pos = TRUE, tofill_neg=FALSE,
+                          logscale = 0.2, quant = 0.5,
+                          depletion_weight = 0.5))
+
+
+nlogomaker(m,xlab = 'position',logoheight = "log",
+           color_profile = color_profile,
+           bg = c(0.25, 0.25, 0.25, 0.25),
+           frame_width = 1,
+           control = list(tofill_pos = FALSE, tofill_neg=TRUE,
+                          logscale = 0.2, quant = 0.5,
+                          depletion_weight = 0.5))
+
+
+nlogomaker(m,xlab = 'position',logoheight = "log",
+           color_profile = color_profile,
+           bg = c(0.25, 0.25, 0.25, 0.25),
+           frame_width = 1,
+           control = list(tofill_pos = TRUE, tofill_neg=TRUE,
+                          logscale = 0.2, quant = 0.5,
+                          depletion_weight = 0.5))
+
+
+nlogomaker(m,xlab = 'position',logoheight = "log",
+           color_profile = color_profile,
+           bg = c(0.25, 0.25, 0.25, 0.25),
+           frame_width = 1,
+           control = list(tofill_pos = FALSE, tofill_neg=FALSE,
+                          logscale = 0.2, quant = 0.5,
+                          depletion_weight = 0.5))
+
+
+
+

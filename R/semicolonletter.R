@@ -44,6 +44,7 @@ semicolonletter <- function(plot = FALSE,
 
   id <- c(rep(1, length(x1)), rep(2, length(x2)))
   fill <- c(colfill, colfill)
+  colfill <- rep(colfill, length(unique(id)))
 
   if(plot){
     grid::grid.newpage()
@@ -59,7 +60,8 @@ semicolonletter <- function(plot = FALSE,
   ll <- list("x"= x,
              "y"= y,
              "id" = id,
-             "fill" = fill)
+             "fill" = fill,
+             "colfill" = colfill)
   return(ll)
 }
 

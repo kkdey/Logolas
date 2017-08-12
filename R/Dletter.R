@@ -32,6 +32,7 @@ Dletter <- function(plot=FALSE,
 
     id <- c(rep(1, length(x_out)), rep(2, length(x_in)))
     fill <- c(colfill, "white")
+    colfill <- rep(colfill, length(unique(id)))
 
 
     if(plot){
@@ -42,7 +43,8 @@ Dletter <- function(plot=FALSE,
     ll <- list("x"= x,
                "y"= y,
                "id" = id,
-               "fill" = fill)
+               "fill" = fill,
+               "colfill" = colfill)
     return(ll)
 }
 

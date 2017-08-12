@@ -36,6 +36,7 @@ eightletter <- function(plot = FALSE,
 
   id <- c(rep(1, length(x.l1)+length(x.l2)), rep(2, length(x.l3)), rep(3, length(x.l4)))
   fill <- c(colfill, "white", "white")
+  colfill <- rep(colfill, length(unique(id)))
 
   if(plot){
     get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
@@ -45,7 +46,8 @@ eightletter <- function(plot = FALSE,
   ll <- list("x"= x,
              "y"= y,
              "id" = id,
-             "fill" = fill)
+             "fill" = fill,
+             "colfill" = colfill)
   return(ll)
 }
 
