@@ -26,6 +26,7 @@ Oletter <- function(plot = FALSE,
       y <- c(y.l1, y.l2)
 
       fill <- c(colfill,"white")
+      colfill <- rep(colfill, length(unique(id)))
 
       if(plot){
         get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
@@ -34,7 +35,8 @@ Oletter <- function(plot = FALSE,
       ll <- list("x"= x,
                  "y"= y,
                  "id" = id,
-                 "fill" = fill)
+                 "fill" = fill,
+                 "colfill" = colfill)
       return(ll)
 }
 

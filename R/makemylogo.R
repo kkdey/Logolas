@@ -9,7 +9,7 @@
 #' @param name A English name, or alphanumeric, containing English alphabets,
 #' numbers, dots, dashes, arroww, colons, semicolons, comma among punctuations.
 #'
-#' @param fill A binary indicating whether to use fill the logo symbols with
+#' @param tofill A binary indicating whether to use fill the logo symbols with
 #' color in \code{colfill} or to use it for the bordering.
 #'
 #' @param colfill The color used for the symbol
@@ -48,7 +48,7 @@
 
 
 makemylogo <- function(name,
-                       fill = TRUE,
+                       tofill = TRUE,
                        colfill="orange",
                        lwd = 10,
                        plot=FALSE,
@@ -131,6 +131,7 @@ makemylogo <- function(name,
   ypool <- numeric()
   idpool <- numeric()
   fillpool <- numeric()
+  colfillpool <- numeric()
 
   counter <- 0
 
@@ -143,13 +144,13 @@ makemylogo <- function(name,
 
   for(m in seq_along(chars)){
     fun <- get(chars[m])
-    out <- fun(colfill=colfill_vec[m])
+    out <- fun(colfill=colfill_vec[m], fill_symbol= tofill)
     xpool <- c(xpool, (m-1)*(1/length(chars)) + (1/length(chars))*out$x);
     ypool <- c(ypool, out$y)
     idpool <- c(idpool, out$id + counter)
     fillpool <- c(fillpool, out$fill)
+    colfillpool <- c(colfillpool, out$colfill)
     counter <- counter + max(out$id);
-
   }
 
   if(plot){
@@ -157,7 +158,7 @@ makemylogo <- function(name,
     grid::grid.newpage()
     grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
                           clip=TRUE))
-    if(fill_symbol){
+    if(tofill){
       grid::grid.polygon(xpool, ypool,
                          default.unit="native",
                          id=idpool,
@@ -167,7 +168,7 @@ makemylogo <- function(name,
       grid::grid.polygon(xpool, ypool,
                          default.unit="native",
                          id=idpool,
-                         gp=grid::gpar(col=fillpool,
+                         gp=grid::gpar(col=colfillpool,
                                        lwd=lwd))
     }
   }
@@ -175,7 +176,8 @@ makemylogo <- function(name,
   ll <- list("x"=xpool,
              "y"=ypool,
              "id"=idpool,
-             "fill"=fillpool)
+             "fill"=fillpool,
+             "colfill" = colfillpool)
   return(ll)
 }
 

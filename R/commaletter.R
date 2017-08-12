@@ -27,6 +27,7 @@ commaletter <- function(plot = FALSE,
 
   id <- c(rep(1, length(x)))
   fill <- c(colfill)
+  colfill <- rep(colfill, length(unique(id)))
 
   if(plot){
     grid::grid.newpage()
@@ -41,7 +42,8 @@ commaletter <- function(plot = FALSE,
   ll <- list("x"= x,
              "y"= y,
              "id" = id,
-             "fill" = fill)
+             "fill" = fill,
+             "colfill" = colfill)
   return(ll)
 }
 

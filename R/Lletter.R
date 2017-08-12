@@ -19,6 +19,7 @@ Lletter <- function(plot = FALSE,
       id <- rep(1,length(x))
 
       fill <- colfill
+      colfill <- rep(colfill, length(unique(id)))
 
       if(plot){
         get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
@@ -27,7 +28,8 @@ Lletter <- function(plot = FALSE,
       ll <- list("x"= x,
                  "y"= y,
                  "id" = id,
-                 "fill" = fill)
+                 "fill" = fill,
+                 "colfill" = colfill)
       return(ll)
 }
 

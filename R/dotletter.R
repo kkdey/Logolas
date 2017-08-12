@@ -29,6 +29,8 @@ dotletter <- function(plot = FALSE,
   id <- rep(1, length(x))
 
   fill <- colfill
+  colfill <- rep(colfill, length(unique(id)))
+
   if(plot){
     grid::grid.newpage()
     grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,
@@ -43,7 +45,8 @@ dotletter <- function(plot = FALSE,
   ll <- list("x"= x,
              "y"= y,
              "id" = id,
-             "fill" = fill)
+             "fill" = fill,
+             "colfill" = colfill)
   return(ll)
 }
 

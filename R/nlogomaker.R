@@ -84,9 +84,9 @@
 #' plot (\code{scale0}, \code{scale1}), the scales for log normalization or
 #' log-odds normalization (\code{logscale}, \code{log_odds_scale}), the weight
 #' on the depletion effect visualization (\code{depletion_weight}), whether the
-#' symbols should be filled with color or border colored (\code{fill}),
-#' the Renyi alpha parameter for the entropy calculation (\code{alpha}),
-#' the viewport configuration details for the plot
+#' symbols should be filled with color or border colored (\code{tofill_pos,
+#' tofill_neg}), the Renyi alpha parameter for the entropy calculation
+#' (\code{alpha}), the viewport configuration details for the plot
 #' (\code{viewport.margin.bottom}, \code{viewport.margin.left},
 #' \code{viewport.margin.top}, \code{viewport.margin.right})  etc.
 #'
@@ -162,7 +162,9 @@ nlogomaker <- function(table,
                        control = list()){
 
   control.default <- list(hist = FALSE, alpha = 1, opt = 1, scale0=0.01,
-                          scale1=0.99, logscale = 1, log_odds_scale=1,
+                          scale1=0.99, tofill_pos = TRUE, tofill_neg = TRUE,
+                          lwd = 2,
+                          logscale = 1, log_odds_scale=1,
                           quant = 0.5, depletion_weight = 0.5,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
@@ -261,9 +263,9 @@ nlogomaker <- function(table,
         col <- color_profile$col[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -283,9 +285,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -305,9 +307,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -358,11 +360,24 @@ nlogomaker <- function(table,
   #              width = max(xlim/2)+0.5,
   #              height = max(ylim/2)+0.5))
   grid::pushViewport(grid::dataViewport(0:ncol(table),0:1,name="vp1"))
-  grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
-                     id=letters$id, gp=grid::gpar(fill=letters$fill,col="transparent"))
-  grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
-                     id=letters$id,
-                     gp=grid::gpar(fill=letters$fill,col="transparent"))
+  if(control$tofill_pos){
+    # grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+    #                    id=letters$id, gp=grid::gpar(fill=letters$fill,col="transparent"))
+    grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+                       id=letters$id,
+                       gp=grid::gpar(fill=letters$fill, col="transparent"))
+  }else{
+    grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+                       id=letters$id,
+                       gp=grid::gpar(col=letters$colfill, lwd = control$lwd))
+  }
+
+
+  # grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+  #                    id=letters$id, gp=grid::gpar(fill=letters$fill,col="transparent"))
+  # grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+  #                    id=letters$id,
+  #                    gp=grid::gpar(fill=letters$fill,col="transparent"))
 
 
   for(n in 2:length(xlim)){
@@ -439,9 +454,9 @@ nlogomaker <- function(table,
         col <- color_profile$col[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -461,9 +476,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -482,9 +497,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -502,13 +517,24 @@ nlogomaker <- function(table,
   ylim_scale <- seq(0, ylim, length.out=6);
   ic_lim_scale <- seq(-max(neg_ic), 0, length.out=6)
 
+  # grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+  #                    id=letters$id, gp=grid::gpar(fill=letters$fill,col="transparent"))
+  # grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+  #                    id=letters$id,
+  #                    gp=grid::gpar(fill=letters$fill,col="transparent"))
 
+  if(control$tofill_neg){
+    # grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+    #                    id=letters$id, gp=grid::gpar(fill=letters$fill,col="transparent"))
+    grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+                       id=letters$id,
+                       gp=grid::gpar(fill=letters$fill, col="transparent"))
+  }else{
+    grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+                       id=letters$id,
+                       gp=grid::gpar(col=letters$colfill, lwd = control$lwd))
+  }
 
-  grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
-                     id=letters$id, gp=grid::gpar(fill=letters$fill,col="transparent"))
-  grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
-                     id=letters$id,
-                     gp=grid::gpar(fill=letters$fill,col="transparent"))
 
   grid::grid.lines(x = grid::unit(c(0, (xlim+0.5*wt)), "native"),
                    y = grid::unit(y1/ylim, "native"),

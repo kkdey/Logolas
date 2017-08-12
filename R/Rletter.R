@@ -29,6 +29,7 @@ Rletter <- function(plot = FALSE,
       id <- c(rep(1, length(x)-length(inner_x)), rep(2, length(inner_x)))
 
       fill <- c(colfill, "white")
+      colfill <- rep(colfill, length(unique(id)))
 
       if(plot){
         get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
@@ -38,6 +39,7 @@ Rletter <- function(plot = FALSE,
       ll <- list("x"= x,
                  "y"= y,
                  "id" = id,
-                 "fill" = fill)
+                 "fill" = fill,
+                 "colfill" = colfill)
       return(ll)
 }
