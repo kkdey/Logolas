@@ -95,7 +95,7 @@ or blocks}
 \item{control}{control parameters fixing whether the height of the logos is
 detrmined by IC or histogram proportions (\code{hist}), the scales for the
 plot (\code{scale0}, \code{scale1}), whether the symbols should be filled
-with color or border colored (\code{fill}), the Renyi alpha parameter for
+with color or border colored (\code{tofill}), the Renyi alpha parameter for
 the entropy calculation (\code{alpha}), the viewport configuration details
 for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
 \code{viewport.margin.top}, \code{viewport.margin.right})  etc.}

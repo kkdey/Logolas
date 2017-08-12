@@ -81,7 +81,7 @@
 #' @param control control parameters fixing whether the height of the logos is
 #' detrmined by IC or histogram proportions (\code{hist}), the scales for the
 #' plot (\code{scale0}, \code{scale1}), whether the symbols should be filled
-#' with color or border colored (\code{fill}), the Renyi alpha parameter for
+#' with color or border colored (\code{tofill}), the Renyi alpha parameter for
 #' the entropy calculation (\code{alpha}), the viewport configuration details
 #' for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
 #' \code{viewport.margin.top}, \code{viewport.margin.right})  etc.
@@ -157,7 +157,7 @@ logomaker <- function( table,
   table <- apply(table+0.0001,2,normalize)
 
   control.default <- list(hist = FALSE, alpha = 1, scale0=0.01,
-                          scale1=0.99, fill = TRUE,
+                          scale1=0.99, tofill = TRUE, lwd = 2,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
                           viewport.margin.top = NULL,
@@ -217,7 +217,7 @@ logomaker <- function( table,
     }
   }
 
-  letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL)
+  letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL, colfill = NULL)
   npos <- ncol(table_mat_norm)
 
 
@@ -255,9 +255,9 @@ logomaker <- function( table,
         col <- color_profile$col[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -277,9 +277,9 @@ logomaker <- function( table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -298,9 +298,9 @@ logomaker <- function( table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -342,11 +342,17 @@ logomaker <- function( table,
   #              width = max(xlim/2)+0.5,
   #              height = max(ylim/2)+0.5))
   grid::pushViewport(grid::dataViewport(0:ncol(table_mat_norm),0:ylim,name="vp1"))
-  grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
-               id=letters$id, gp=grid::gpar(fill=letters$fill,col="transparent"))
-  grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
-               id=letters$id,
-               gp=grid::gpar(fill=letters$fill,col="transparent"))
+  if(control$tofill){
+    # grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+    #                    id=letters$id, gp=grid::gpar(fill=letters$fill,col="transparent"))
+    grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+                       id=letters$id,
+                       gp=grid::gpar(fill=letters$fill, col="transparent"))
+  }else{
+    grid::grid.polygon(x=grid::unit(letters$x,"native"), y=grid::unit(letters$y,"native"),
+                       id=letters$id,
+                       gp=grid::gpar(col=letters$colfill, lwd = control$lwd))
+  }
 
 
   for(n in 2:length(xlim)){
@@ -387,13 +393,15 @@ logomaker <- function( table,
   par(ask=FALSE)
 }
 
-addLetter <- function(letters, letter,
+addLetter <- function(letters, letter, tofill, lwd,
                       col, total_chars, x.pos, y.pos, ht, wt,
                       scale0=0.01, scale1=0.99,
                       addlogos=NULL, addlogos_text=NULL){
   letter <- toupper(letter)
   out <- makemylogo(letter,
+                    tofill = tofill,
                     colfill = col,
+                    lwd = lwd,
                     total_chars = total_chars,
                     addlogos=addlogos,
                     addlogos_text = addlogos_text)
@@ -403,7 +411,8 @@ addLetter <- function(letters, letter,
   letter <- list("x"=x,
                  "y"=y,
                  "id"=out$id,
-                 "fill"=out$fill)
+                 "fill"=out$fill,
+                 "colfill" = out$colfill)
 
   letters$x <- c(letters$x,letter$x)
   letters$y <- c(letters$y,letter$y)
@@ -411,6 +420,7 @@ addLetter <- function(letters, letter,
   lastID <- ifelse(is.null(letters$id),0,max(letters$id))
   letters$id <- c(letters$id,lastID+letter$id)
   letters$fill <- c(letters$fill,letter$fill)
+  letters$colfill <- c(letters$colfill,letter$colfill)
   return(letters)
 }
 

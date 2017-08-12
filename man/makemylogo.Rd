@@ -4,7 +4,7 @@
 \alias{makemylogo}
 \title{Logo maker for a given English alphanumeric with common punctuations}
 \usage{
-makemylogo(name, fill = TRUE, colfill = "orange", lwd = 10,
+makemylogo(name, tofill = TRUE, colfill = "orange", lwd = 10,
   plot = FALSE, total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I",
   "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",
   "Y", "Z", "zero", "one", "two", "three", "four", "five", "six", "seven",
@@ -15,7 +15,7 @@ makemylogo(name, fill = TRUE, colfill = "orange", lwd = 10,
 \item{name}{A English name, or alphanumeric, containing English alphabets,
 numbers, dots, dashes, arroww, colons, semicolons, comma among punctuations.}
 
-\item{fill}{A binary indicating whether to use fill the logo symbols with
+\item{tofill}{A binary indicating whether to use fill the logo symbols with
 color in \code{colfill} or to use it for the bordering.}
 
 \item{colfill}{The color used for the symbol}
