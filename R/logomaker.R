@@ -331,7 +331,7 @@ logomaker <- function( table,
   if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
   if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
   if(is.null(control$viewport.margin.top)){topMargin <- max(ylim)+0.5}else{topMargin <- control$viewport.margin.top}
-  if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{leftMargin <- control$viewport.margin.right}
+  if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{rightMargin <- control$viewport.margin.right}
 
 
   grid::pushViewport(grid::plotViewport(c(bottomMargin, leftMargin, topMargin, rightMargin)))

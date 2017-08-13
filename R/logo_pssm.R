@@ -1,14 +1,12 @@
-#' @title Main workhorse function that builds negative logo plots
+#' @title Function to plot PSSM logo plot visualization.
 #'
 #' @description stacks logos created by the \code{makemylogo} function on top of
-#' each other to build the logo plot.
+#' each other to build the PSSM logo plot.
 #'
-#' @param table The input table (data frame or matrix) of counts across different
-#' logos or symbols (specified along the rows) ans across different sites or
+#' @param table The input table (data frame or matrix) of PSSM scores
+#' (comprising of both positive and negative scores) across different
+#' logos or symbols (specified along the rows) and across different sites or
 #' positions or groups (specified along the columns).
-#'
-#' @param hist Whether to use the hist method or the information criterion
-#' method to determine the heights of the logos.
 #'
 #' @param color_profile A list containing two elements - "type" and "col". The type can
 #' be of three types - "per-row", "per-column" and "per-symbol". The "col" element
@@ -24,19 +22,8 @@
 #' is the default library provided by Logolas, but the user can add symbols that he creates
 #' to this list.
 #'
-#' @param bg The background probability, which defaults to NULL, in which case
-#' equal probability is assigned to each symbol. The user can however specify a
-#' vector (equal to in length to the number of symbols) which specifies the
-#' background probability for each symbol and assumes this background probability
-#' to be the same across the columns (sites), or a matrix, whose each cell specifies
-#' the background probability of the symbols for each position.
-#'
 #' @param frame_width The width of the frames for individual site/postion/column
 #' in the logo plot. As default, all the columns have same width, equal to 1.
-#'
-#' @param alpha The Renyi entropy tuning parameter which is used in case of
-#' scaling of the bar heights by information criterion. The default tuning
-#' parameter value is 1, which corresponds to Shannon entropy.
 #'
 #' @param xaxis Binary specifying if there should be a X axis in the logo plot
 #' or not. Defaults to TRUE.
@@ -79,69 +66,32 @@
 #'
 #' @param newpage if TRUE, plots the logo plot in a new page. Defaults to TRUE.
 #'
-#' @param control control parameters fixing whether the height of the logos is
-#' detrmined by IC or histogram proportions (\code{hist}), the scales for the
-#' plot (\code{scale0}, \code{scale1}), the scales for log normalization or
-#' log-odds normalization (\code{logscale}, \code{log_odds_scale}), the weight
-#' on the depletion effect visualization (\code{depletion_weight}), whether the
+#' @param control control parameters fixing whether the
 #' symbols should be filled with color or border colored (\code{tofill_pos,
-#' tofill_neg}), the Renyi alpha parameter for the entropy calculation
-#' (\code{alpha}), the viewport configuration details for the plot
+#' tofill_neg}), the viewport configuration details for the plot
 #' (\code{viewport.margin.bottom}, \code{viewport.margin.left},
 #' \code{viewport.margin.top}, \code{viewport.margin.right})  etc.
 #'
-#' @return Plots the logo plot for the table data, with column names representing
-#' the sites/blocks and the row names denoting the symbols for which logos are
-#' plotted
+#' @return Plots the logo plot for the PSSM scoring data, with column names
+#' representing the sites/blocks and the row names denoting the symbols
+#' for which logos are plotted
 #'
 #' @import grid
 #' @importFrom graphics par
 #' @examples
 #'
-#' mFile <- system.file("Exfiles/pwm1", package="seqLogo")
-#' m <- read.table(mFile)
-#' p <- seqLogo::makePWM(m)
-#' pwm_mat <- slot(p,name = "pwm")
-#' pwm_mat[,4] <- c(0.3, 0.3, 0.35, 0.05)
-#' mat1 <- cbind(pwm_mat[,c(3,4)], rep(NA,4), pwm_mat[,c(5,6)]);
-#' colnames(mat1) <- c("-2", "-1", "0", "1", "2")
-#' mat2 <- cbind(rep(NA,6), rep(NA,6),
-#'              c(0.8, 0.10, 0.03, 0.03, 0.0, 0),
-#'              rep(NA,6), rep(NA,6))
-#' rownames(mat2) <- c("C>T", "C>A", "C>G",
-#'                     "T>A", "T>C", "T>G")
-#'
-#' table <- rbind(mat1, mat2)
-#'
-#' cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
-#' col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, rownames(cols)))
-#'
-#' total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
-#'                "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
-#'                "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
-#'                "dash", "colon", "semicolon", "leftarrow", "rightarrow")
-#'
-#' set.seed(20)
-#' col_vector[c(1,3,7, 20, 43)] <- c("red", "blue", "orange", "green", "gray")
-#' color_profile <- list("type" = "per_symbol",
-#'                      "col" = col_vector)
-#'
-#' nlogomaker(table,
-#'            color_profile = color_profile,
-#'            ylimit = 1.2)
-#'
-#'
 #' @importFrom stats median
 #' @export
+#'
 
-nlogomaker <- function(table,
-                       logoheight = c("ic", "log", "log_odds"),
+
+
+logo_pssm <- function(table,
                        color_profile,
                        total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
                                        "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
                                        "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
                                        "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
-                       bg = NULL,
                        frame_width=NULL,
                        yscale_change=TRUE,
                        pop_name = NULL,
@@ -157,64 +107,38 @@ nlogomaker <- function(table,
                        main_fontsize=16,
                        start=0.001,
                        xlab = "X",
-                       ylab = "Enrichment Score",
+                       ylab = "PSSM  Score",
                        col_line_split="grey80",
                        control = list()){
 
-  control.default <- list(hist = FALSE, alpha = 1, opt = 1, scale0=0.01,
+  control.default <- list(scale0=0.01,
                           scale1=0.99, tofill_pos = TRUE, tofill_neg = TRUE,
                           lwd = 2,
-                          logscale = 1, log_odds_scale=1,
-                          quant = 0.5, depletion_weight = 0.5,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
                           viewport.margin.top = NULL,
                           viewport.margin.right = NULL)
 
-  # viewport margins usually c(3, 5, 3, 3)
-
   control <- modifyList(control.default, control)
   scale0 <- control$scale0
   scale1 <- control$scale1
 
-  depletion_weight <- control$depletion_weight
-  if(depletion_weight > 0.7){ depletion_weight <- 0.7}
+  table_mat_pos <- table
+  table_mat_pos[table_mat_pos<= 0] = 0
+  table_mat_pos_norm  <- apply(table_mat_pos, 2, function(x) return(x/sum(x)))
+  table_mat_pos_norm[table_mat_pos_norm == "NaN"] = 0
 
-  table <- apply(table+0.0001,2,normalize)
+  table_mat_neg <- table
+  table_mat_neg[table_mat_neg >= 0] = 0
+  table_mat_neg_norm  <- apply(abs(table_mat_neg), 2, function(x) return(x/sum(x)))
+  table_mat_neg_norm[table_mat_neg_norm == "NaN"] = 0
 
-  if (class(table) == "data.frame"){
-    table <- as.matrix(table)
-  }else if (class(table) != "matrix"){
-    stop("the table must be of class matrix or data.frame")
-  }
+  pos_ic <- colSums(table_mat_pos)
+  neg_ic <- colSums(abs(table_mat_neg))
+
   chars <- as.character(rownames(table))
   npos <- ncol(table)
 
-
-  if(logoheight == "ic"){
-    ll <- get_logo_heights_ic(table, alpha = control$alpha,
-                              bg = bg,
-                              opt = control$opt,
-                              hist = control$hist,
-                              quant = control$quant)
-  } else if (logoheight == "log"){
-    ll <- get_logo_heights_log(table, scale = control$logscale,
-                               bg = bg,
-                               alpha = control$alpha, hist = control$hist,
-                               quant = control$quant,
-                               depletion_weight = depletion_weight)
-  } else if (logoheight == "log_odds"){
-    ll <- get_logo_heights_log_odds(table, scale = control$log_odds_scale,
-                                    bg = bg,
-                                    alpha = control$alpha, hist = control$hist,
-                                    quant = control$quant,
-                                    depletion_weight = depletion_weight)
-  }
-
-  pos_ic <- ll$pos_ic
-  neg_ic <- ll$neg_ic
-  table_mat_pos_norm <- ll$table_mat_pos_norm
-  table_mat_neg_norm <- ll$table_mat_neg_norm
 
   if(color_profile$type == "per_column"){
     if(length(color_profile$col) != npos){
@@ -241,7 +165,7 @@ nlogomaker <- function(table,
 
 
 
-#####################  positive component study  ###########################
+  #####################  positive component study  ###########################
 
   letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL)
   facs <- pos_ic
@@ -323,7 +247,7 @@ nlogomaker <- function(table,
 
 
   letters$y <- letters$y + max(abs(neg_ic))
- # letters$y <- 0.8*letters$y*(ylim/max(max(pos_ic), max(neg_ic)))
+  # letters$y <- 0.8*letters$y*(ylim/max(max(pos_ic), max(neg_ic)))
 
   y1 <- min(letters$y)
   max1 <- max(letters$y)
@@ -348,9 +272,9 @@ nlogomaker <- function(table,
   #  bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
 
   if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
-  if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
-  if(is.null(control$viewport.margin.top)){topMargin <- max(ylim)+0.5}else{topMargin <- control$viewport.margin.top}
-  if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{rightMargin <- control$viewport.margin.right}
+  if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2.5 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
+  if(is.null(control$viewport.margin.top)){topMargin <- 3}else{topMargin <- control$viewport.margin.top}
+  if(is.null(control$viewport.margin.right)){rightMargin <- 3}else{rightMargin <- control$viewport.margin.right}
 
   grid::pushViewport(grid::plotViewport(c(bottomMargin, leftMargin, topMargin, rightMargin)))
 
@@ -387,7 +311,7 @@ nlogomaker <- function(table,
   }
 
   if(is.null(pop_name)){
-    grid::grid.text(paste0("Neg Logo plot: (", logoheight, ")"), y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
+    grid::grid.text(paste0("PSSM Logo plot:"), y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
                     gp = grid::gpar(fontsize = main_fontsize))
   }else{
     grid::grid.text(paste0(pop_name),
@@ -403,10 +327,10 @@ nlogomaker <- function(table,
                     gp=grid::gpar(fontsize=xaxis_fontsize))
   }
   if (yaxis){
-   # if(yscale_change==TRUE){
-      grid::grid.yaxis(at = ic_lim_scale/ylim,
-                       label = round(ic_lim_scale,2) - round(y1,2),
-                       gp=grid::gpar(fontsize=y_fontsize))
+    # if(yscale_change==TRUE){
+    grid::grid.yaxis(at = ic_lim_scale/ylim,
+                     label = round(ic_lim_scale,2) - round(y1,2),
+                     gp=grid::gpar(fontsize=y_fontsize))
     # }else{
     #   grid::grid.yaxis(gp=grid::gpar(fontsize=y_fontsize))
     # }
@@ -416,7 +340,7 @@ nlogomaker <- function(table,
 
 
 
-####################   negative component study  #########################
+  ####################   negative component study  #########################
 
 
   x.pos <- 0
@@ -508,7 +432,7 @@ nlogomaker <- function(table,
   }
 
   letters$y <- letters$y + max(abs(neg_ic))
-#  letters$y <- 0.8*letters$y*(ylim/max(max(pos_ic), max(neg_ic)))
+  #  letters$y <- 0.8*letters$y*(ylim/max(max(pos_ic), max(neg_ic)))
   letters$y <- letters$y/ylim
 
   xlim <- cumsum(wt) - wt/2;
