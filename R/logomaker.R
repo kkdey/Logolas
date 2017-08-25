@@ -204,7 +204,7 @@ logomaker <- function( table,
   }
 
   table_mat_norm <-  apply(table, 2, function(x) return(x/sum(x[!is.na(x)])))
-  table_mat_norm <- replace(table_mat_norm, is.na(table_mat_norm), 0)
+  #table_mat_norm <- replace(table_mat_norm, is.na(table_mat_norm), 0)
 
   npos <- ncol(table_mat_norm)
   chars <- as.character(rownames(table_mat_norm))
@@ -216,6 +216,8 @@ logomaker <- function( table,
       ic <- ic_computer(table, alpha, hist=hist, bg = bg)
     }
   }
+
+  table_mat_norm <- replace(table_mat_norm, is.na(table_mat_norm), 0)
 
   letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL, colfill = NULL)
   npos <- ncol(table_mat_norm)
