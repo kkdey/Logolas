@@ -36,6 +36,7 @@ logomaker(table,color_profile = color_profile,frame_width = 1)
 
 
 ic=NULL
+table <- table
 total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
                 "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
                 "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",

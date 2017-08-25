@@ -47,58 +47,76 @@ ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
   if (is.vector(bg)==TRUE){
     if(length(bg) != dim(mat)[1]){
       stop("If background prob (bg) is a vector, the length of bg must equal the number of symbols for the logo plot")
+    }else if(length(which(is.na(mat))) > 0){
+      stop("For NA in table, a vector bg is not allowed")
     }else{
       bgmat <- bg %*% t(rep(1, dim(mat)[2]))
+      bgmat[which(is.na(mat))] <- NA
+      bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
     }
   }else if (is.matrix(bg)==TRUE){
     if(dim(bg)[1] != dim(mat)[1] | dim(bg)[2] != dim(mat)[2]){
       stop("If background prob (bg) is a matrix, its dimensions must match that of the table")
     }else{
       bgmat <- bg
+      bgmat[which(is.na(mat))] <- NA
+      bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
     }
   }else {
     message ("using a background with equal probability for all symbols")
     bgmat <- matrix(1/dim(mat)[1], dim(mat)[1], dim(mat)[2])
+    bgmat[which(is.na(mat))] <- NA
+    bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
   }
 
   bgmat <- apply(bgmat+0.1,2,normalize)
 
   if(!hist){
-    mat <- apply(mat, 2, function(x) return(x/sum(x)))
+    mat <- apply(mat, 2, function(x) return(x/sum(x[!is.na(x)])))
     npos<-ncol(mat)
     ic <-numeric(length=npos)
     for (i in 1:npos) {
       if(alpha == 1){
         if(is.null(bg)){
-          ic[i] <- log(length(which(mat[,i]!=0.00)), base=2) + sum(sapply(mat[, i], function(x) {
+          tmp <- mat[,i]
+          tmp <- tmp[!is.na(tmp)]
+          ic[i] <- log(length(which(tmp!=0.00)), base=2) + sum(sapply(tmp, function(x) {
             if (x > 0) { x*log2(x) } else { 0 }
           }))
         }else{
-          ic[i] <- sum(sapply(1:length(mat[,i]), function(x) {
-            if (x > 0) { mat[x,i]*log2(mat[x,i]) } else { 0 }
-          })) - sum(sapply(1:length(mat[,i]), function(x) {
-            if (x > 0) { mat[x,i]*log2(bgmat[x,i]) } else { 0 }
+          tmp <- mat[,i]
+          tmp <- tmp[!is.na(tmp)]
+          ic[i] <- sum(sapply(1:length(tmp), function(x) {
+            if (x > 0) { tmp[x]*log2(tmp[x]) } else { 0 }
+          })) - sum(sapply(1:length(tmp), function(x) {
+            if (x > 0) { tmp[x]*log2(bgmat[x,i]) } else { 0 }
           }))
         }
       }
       else if(alpha == Inf){
-        ic[i] <- log(length(which(mat[,i]!=0.00)), base=2) + log(max(mat[,i]))
+        tmp <- mat[,i]
+        tmp <- tmp[!is.na(tmp)]
+        ic[i] <- log(length(which(tmp!=0.00)), base=2) + log(max(tmp))
       }
       else if(alpha <= 0){
         stop("alpha value must be greater than 0")
       }
       else{
         if(is.null(bg)){
-          ic[i] <- log(length(which(mat[,i]!=0.00)), base=2) - (1/(1-alpha))* log (sum(mat[,i]^{alpha}), base=2)
+          tmp <- mat[,i]
+          tmp <- tmp[!is.na(tmp)]
+          ic[i] <- log(length(which(tmp !=0.00)), base=2) - (1/(1-alpha))* log (sum(tmp^{alpha}), base=2)
         }else{
-          ic[i] <- (1/(1-alpha))* log (sum(bgmat[,i]^{alpha}), base=2) - (1/(1-alpha))* log (sum(mat[,i]^{alpha}), base=2)
+          tmp <- mat[,i]
+          tmp <- tmp[!is.na(tmp)]
+          ic[i] <- (1/(1-alpha))* log (sum(bgmat[,i]^{alpha}), base=2) - (1/(1-alpha))* log (sum(tmp^{alpha}), base=2)
         }
       }
     }
     return(ic)
   }else{
-    mat <- mat/sum(mat)
-    ic <- colSums(mat)
+    mat <- mat/sum(mat[!is.na(mat)])
+    ic <- colSums(mat, na.rm = TRUE)
     return(ic)
   }
 }
