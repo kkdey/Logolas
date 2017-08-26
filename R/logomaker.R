@@ -154,7 +154,7 @@ logomaker <- function( table,
                        addlogos_text = NULL,
                        newpage = TRUE,
                        control = list()){
-  table <- apply(table+0.0001,2,normalize)
+  table <- apply(table+0.0001,2,normalize2)
 
   control.default <- list(hist = FALSE, alpha = 1, scale0=0.01,
                           scale1=0.99, tofill = TRUE, lwd = 2,
@@ -203,11 +203,13 @@ logomaker <- function( table,
     stop("the table must be of class matrix or data.frame")
   }
 
+  #print(table)
   table_mat_norm <-  apply(table, 2, function(x) return(x/sum(x[!is.na(x)])))
   #table_mat_norm <- replace(table_mat_norm, is.na(table_mat_norm), 0)
 
   npos <- ncol(table_mat_norm)
   chars <- as.character(rownames(table_mat_norm))
+  #print(table_mat_norm)
 
   if(is.null(ic)){
     if(hist==FALSE){
@@ -426,4 +428,4 @@ addLetter <- function(letters, letter, tofill, lwd,
   return(letters)
 }
 
-normalize = function(x){return(x/sum(x[!is.na(x)]))}
+normalize2 = function(x){return(x/sum(x[!is.na(x)]))}
