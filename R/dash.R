@@ -88,6 +88,7 @@
 #' out <- dash(xmat, optmethod = "w_mixEM", verbose=TRUE)
 #'
 #' @export
+#' @importFrom LaplacesDemon ddirichlet
 #'
 
 
