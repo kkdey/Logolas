@@ -20,7 +20,7 @@
 #'
 #' @export
 #'
-#'
+#' @import SQUAREM
 
 
 mixEM = function(matrix_lik,prior,pi_init=NULL,control=list()){
@@ -29,7 +29,7 @@ mixEM = function(matrix_lik,prior,pi_init=NULL,control=list()){
   if(is.null(pi_init)){
     pi_init = rep(1/k,k)# Use as starting point for pi
   }
-  res = squarem(par=pi_init,fixptfn=fixpoint, objfn=negpenloglik,matrix_lik=matrix_lik, prior=prior, control=control)
+  res = SQUAREM::squarem(par=pi_init,fixptfn=fixpoint, objfn=negpenloglik,matrix_lik=matrix_lik, prior=prior, control=control)
   return(list(pihat = normalize(pmax(0,res$par)), B=res$value.objfn,
               niter = res$iter, converged=res$convergence, control=control))
 }
@@ -94,7 +94,7 @@ w_mixEM = function(matrix_lik,prior, pi_init=NULL, weights=NULL,control=list()){
   if(is.null(weights)){
     weights <- rep(1/dim(matrix_lik)[1], dim(matrix_lik)[1])
   }
-  res = squarem(par=pi_init,fixptfn=w_fixpoint, objfn=w_negpenloglik,matrix_lik=matrix_lik, prior=prior, w=weights,control=control)
+  res = SQUAREM::squarem(par=pi_init,fixptfn=w_fixpoint, objfn=w_negpenloglik,matrix_lik=matrix_lik, prior=prior, w=weights,control=control)
   return(list(pihat = normalize(pmax(0,res$par)), B=res$value.objfn,
               niter = res$iter, converged=res$convergence, control=control))
 }
