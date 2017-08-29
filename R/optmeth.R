@@ -18,9 +18,9 @@
 #' @return A list, including the estimates (pihat), the log likelihood for each interation (B)
 #' and a flag to indicate convergence
 #'
-#' @export
-#'
 #' @import SQUAREM
+#' @export
+
 
 
 mixEM = function(matrix_lik,prior,pi_init=NULL,control=list()){
@@ -80,9 +80,9 @@ penloglik = function(pi, matrix_lik, prior){
 #' @return A list, including the estimates (pihat), the log likelihood for each interation (B)
 #' and a flag to indicate convergence
 #'
+#' @import SQUAREM
 #' @export
-#'
-#'
+
 
 
 w_mixEM = function(matrix_lik,prior, pi_init=NULL, weights=NULL,control=list()){
