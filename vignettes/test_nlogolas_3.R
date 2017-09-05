@@ -32,6 +32,7 @@ logomaker(table,
 
 
 nlogomaker(table,
+          logoheight = "ic",
           color_profile = color_profile,
           frame_width = 1,
           yscale_change=TRUE,

@@ -32,18 +32,40 @@ logomaker(table,
 logomaker(table,color_profile = color_profile,frame_width = 1)
 
 
+##############   nlogomaker()  on the mutation signature data      ######################
 
 
+nlogomaker(table,
+           logoheight = 'ic',
+           color_profile = color_profile,
+           frame_width = 1)
 
-ic=NULL
+nlogomaker(table,
+           logoheight = 'log',
+           color_profile = color_profile,
+           frame_width = 1)
+
+nlogomaker(table,
+           logoheight = 'log_odds',
+           color_profile = color_profile,
+           frame_width = 1)
+
+
 table <- table
+logoheight <- "ic"
+color_profile <- color_profile
 total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
                 "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
                 "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
                 "dash", "colon", "semicolon", "leftarrow", "rightarrow")
 bg = NULL
-frame_width=NULL
-ic.scale=TRUE
+frame_width=1
+yscale_change=TRUE
+pop_name = NULL
+addlogos = NULL
+addlogos_text = NULL
+newpage = TRUE
+ylimit = NULL
 xaxis=TRUE
 yaxis=TRUE
 xaxis_fontsize=10
@@ -51,15 +73,9 @@ xlab_fontsize=15
 y_fontsize=15
 main_fontsize=16
 start=0.001
-yscale_change=TRUE
-pop_name = NULL
 xlab = "X"
-ylab = "Information content"
+ylab = "Enrichment Score"
 col_line_split="grey80"
-addlogos = NULL
-addlogos_text = NULL
-newpage = TRUE
 control = list()
-
 
 

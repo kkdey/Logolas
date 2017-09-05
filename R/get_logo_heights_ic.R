@@ -52,18 +52,26 @@ get_logo_heights_ic <- function(table, alpha = 1, bg = NULL, opt = 1,
   if (is.vector(bg)==TRUE){
     if(length(bg) != dim(table)[1]){
       stop("If background prob (bg) is a vector, the length of bg must equal the number of symbols for the logo plot")
+    }else if(length(which(is.na(table))) > 0){
+      stop("For NA in table, a vector bg is not allowed")
     }else{
       bgmat <- bg %*% t(rep(1, dim(table)[2]))
+      bgmat[which(is.na(table))] <- NA
+      bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
     }
   }else if (is.matrix(bg)==TRUE){
     if(dim(bg)[1] != dim(table)[1] | dim(bg)[2] != dim(table)[2]){
       stop("If background prob (bg) is a matrix, its dimensions must match that of the table")
     }else{
       bgmat <- bg
+      bgmat[which(is.na(table))] <- NA
+      bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
     }
   }else {
     message ("using a background with equal probability for all symbols")
     bgmat <- matrix(1/dim(table)[1], dim(table)[1], dim(table)[2])
+    bgmat[which(is.na(table))] <- NA
+    bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
   }
 
 
