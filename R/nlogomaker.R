@@ -180,7 +180,7 @@ nlogomaker <- function(table,
   depletion_weight <- control$depletion_weight
   if(depletion_weight > 0.7){ depletion_weight <- 0.7}
 
-  table <- apply(table+0.0001,2,normalize)
+  table <- apply(table+0.0001,2,normalize_n)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -263,9 +263,9 @@ nlogomaker <- function(table,
         col <- color_profile$col[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -285,9 +285,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -307,9 +307,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -454,9 +454,9 @@ nlogomaker <- function(table,
         col <- color_profile$col[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -476,9 +476,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -497,9 +497,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -543,5 +543,37 @@ nlogomaker <- function(table,
   grid::popViewport()
 }
 
-normalize = function(x){return(x/sum(x[!is.na(x)]))}
+
+addLetter_n <- function(letters, letter, tofill, lwd,
+                      col, total_chars, x.pos, y.pos, ht, wt,
+                      scale0=0.01, scale1=0.99,
+                      addlogos=NULL, addlogos_text=NULL){
+  letter <- toupper(letter)
+  out <- makemylogo(letter,
+                    tofill = tofill,
+                    colfill = col,
+                    lwd = lwd,
+                    total_chars = total_chars,
+                    addlogos=addlogos,
+                    addlogos_text = addlogos_text)
+  x <- x.pos + out$x * wt
+  y <- y.pos + (scale1*out$y+scale0) * ht
+
+  letter <- list("x"=x,
+                 "y"=y,
+                 "id"=out$id,
+                 "fill"=out$fill,
+                 "colfill" = out$colfill)
+
+  letters$x <- c(letters$x,letter$x)
+  letters$y <- c(letters$y,letter$y)
+
+  lastID <- ifelse(is.null(letters$id),0,max(letters$id))
+  letters$id <- c(letters$id,lastID+letter$id)
+  letters$fill <- c(letters$fill,letter$fill)
+  letters$colfill <- c(letters$colfill,letter$colfill)
+  return(letters)
+}
+
+normalize_n = function(x){return(x/sum(x[!is.na(x)]))}
 

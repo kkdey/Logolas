@@ -78,8 +78,8 @@ get_logo_heights_log <- function(table, scale = 0.001, bg = NULL,
 
 
 
-  table <- apply(table+0.0001,2,normalize)
-  bgmat <- apply(bgmat+0.0001,2,normalize)
+  table <- apply(table+0.0001,2,normalize_log)
+  bgmat <- apply(bgmat+0.0001,2,normalize_log)
 
 
   if (class(table) == "data.frame"){
@@ -165,3 +165,4 @@ get_logo_heights_log <- function(table, scale = 0.001, bg = NULL,
   return(ll)
 }
 
+normalize_log = function(x){return(x/sum(x[!is.na(x)]))}
