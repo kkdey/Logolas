@@ -75,8 +75,8 @@ get_logo_heights_ic <- function(table, alpha = 1, bg = NULL, opt = 1,
   }
 
 
-    table <- apply(table+0.0001,2,normalize)
-    bgmat <- apply(bgmat+0.0001,2,normalize)
+    table <- apply(table+0.0001,2,normalize_ic)
+    bgmat <- apply(bgmat+0.0001,2,normalize_ic)
 
     if (class(table) == "data.frame"){
       table <- as.matrix(table)
@@ -184,3 +184,4 @@ get_logo_heights_ic <- function(table, alpha = 1, bg = NULL, opt = 1,
     return(ll)
 }
 
+normalize_ic = function(x){return(x/sum(x[!is.na(x)]))}
