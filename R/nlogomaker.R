@@ -263,9 +263,9 @@ nlogomaker <- function(table,
         col <- color_profile$col[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_pos, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_pos, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -285,9 +285,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_pos, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_pos, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -307,9 +307,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_pos, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_pos, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -454,9 +454,9 @@ nlogomaker <- function(table,
         col <- color_profile$col[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_neg, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_neg, lwd = control$lwd, col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -476,9 +476,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_neg, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_neg, lwd = control$lwd, color_profile$col, total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
@@ -497,9 +497,9 @@ nlogomaker <- function(table,
         letter <- chars[letterOrder[i]]
         ht <- hts[letterOrder[i]]
         if(length(intersect(letterOrder[i], slash_inds))!=0){
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_neg, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = addlogos, addlogos_text = addlogos_text)
         }else{
-          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
+          if (ht>0) letters <- addLetter_n(letters,letter, tofill = control$tofill_neg, lwd = control$lwd, color_profile$col[j], total_chars, x.pos, y.pos, ht, wt[j], scale0 = scale0, scale1=scale1, addlogos = NULL, addlogos_text = NULL)
         }
         y.pos <- y.pos + ht + start
       }
