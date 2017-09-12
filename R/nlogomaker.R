@@ -243,6 +243,8 @@ nlogomaker <- function(table,
 
 #####################  positive component study  ###########################
 
+  print(pos_ic)
+  print(neg_ic)
   letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL)
   facs <- pos_ic
 
@@ -331,12 +333,16 @@ nlogomaker <- function(table,
     ylimit <- ceiling(max(pos_ic) + max(neg_ic))
   }
   ylim <- ylimit
+  print(pos_ic)
+  print(neg_ic)
+  print(ylimit)
   ylim_scale <- seq(0, ylim, length.out=6);
 
   negbins <- ceiling((y1/max1)*6)
   posbins <- 6 - negbins
   ic_lim_scale <- c(seq(0, y1, length.out = negbins),
                     seq(y1, ylim, length.out = posbins))
+  print(ic_lim_scale)
 
   letters$y <- letters$y/ylim
 
@@ -387,7 +393,7 @@ nlogomaker <- function(table,
   }
 
   if(is.null(pop_name)){
-    grid::grid.text(paste0("Neg Logo plot: (", logoheight, ")"), y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
+    grid::grid.text(paste0("Neg Logolas plot: (", logoheight, ")"), y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
                     gp = grid::gpar(fontsize = main_fontsize))
   }else{
     grid::grid.text(paste0(pop_name),

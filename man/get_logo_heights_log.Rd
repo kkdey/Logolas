@@ -4,8 +4,8 @@
 \alias{get_logo_heights_log}
 \title{Get heights of logos in nlogomaker() using absolute log heights.}
 \usage{
-get_logo_heights_log(table, scale = 0.001, bg = NULL, alpha = 1,
-  hist = FALSE, quant = 0.5, depletion_weight = 0.7)
+get_logo_heights_log(table, scale = 1, bg = NULL, alpha = 1,
+  hist = FALSE, quant = 0.5, depletion_weight = 0.5)
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
