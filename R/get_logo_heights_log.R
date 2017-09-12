@@ -47,9 +47,9 @@
 #' @export
 
 
-get_logo_heights_log <- function(table, scale = 0.001, bg = NULL,
+get_logo_heights_log <- function(table, scale = 1, bg = NULL,
                                  alpha = 1, hist=FALSE, quant = 0.5,
-                                 depletion_weight = 0.7){
+                                 depletion_weight = 0.5){
 
   if (is.vector(bg)==TRUE){
     if(length(bg) != dim(table)[1]){
@@ -97,12 +97,12 @@ get_logo_heights_log <- function(table, scale = 0.001, bg = NULL,
   {
     indices <- which(is.na(x))
     if(length(indices) == 0){
-      y = log(x+scale)
+      y = log(x+scale, base=2)
       z <- y - quantile(y, quant)
       return(z)
     }else{
       w <- x[!is.na(x)]
-      y <- log(w+scale)
+      y <- log(w+scale, base=2)
       z <- y - quantile(y, quant)
       zext <- array(0, length(x))
       zext[indices] <- 0
