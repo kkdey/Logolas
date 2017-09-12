@@ -96,13 +96,13 @@ get_logo_heights_log_odds <- function(table, scale = 1, bg = NULL,
     indices <- which(is.na(x))
     if(length(indices) == 0){
       x <- x+scale
-      y = log(x/(sum(x)-x))
+      y = log(x/(sum(x)-x), base=2)
       z <- y - quantile(y, quant)
       return(z)
     }else{
       w <- x[!is.na(x)]
       w <- w + scale
-      y <- log(w/(sum(w)-w))
+      y <- log(w/(sum(w)-w), base=2)
       z <- y - quantile(y, quant)
       zext <- array(0, length(x))
       zext[indices] <- 0

@@ -366,7 +366,7 @@ logomaker <- function( table,
   }
 
   if(is.null(pop_name)){
-    grid::grid.text("Logo plot:", y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
+    grid::grid.text("Logolas plot:", y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
               gp = grid::gpar(fontsize = main_fontsize))
   }else{
     grid::grid.text(paste0("", pop_name),
