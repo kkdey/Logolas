@@ -333,16 +333,16 @@ nlogomaker <- function(table,
     ylimit <- ceiling(max(pos_ic) + max(neg_ic))
   }
   ylim <- ylimit
-  print(pos_ic)
-  print(neg_ic)
-  print(ylimit)
+  # print(pos_ic)
+  # print(neg_ic)
+  # print(ylimit)
   ylim_scale <- seq(0, ylim, length.out=6);
 
   negbins <- ceiling((y1/max1)*6)
   posbins <- 6 - negbins
   ic_lim_scale <- c(seq(0, y1, length.out = negbins),
                     seq(y1, ylim, length.out = posbins))
-  print(ic_lim_scale)
+ # print(ic_lim_scale)
 
   letters$y <- letters$y/ylim
 
