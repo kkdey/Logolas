@@ -42,7 +42,7 @@ logomaker(m,xlab = 'position',color_profile = color_profile,
 
 ####### enrichment logo building
 
-nlogomaker(m,xlab = 'position',logoheight = "log",
+nlogomaker(m,xlab = 'position',logoheight = "ic",
            color_profile = color_profile,
            bg = c(0.25, 0.25, 0.25, 0.25),
            frame_width = 1,

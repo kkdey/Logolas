@@ -90,7 +90,7 @@ get_logo_heights_ic <- function(table, alpha = 1, bg = NULL, opt = 1,
     chars <- as.character(rownames(table_mat_norm))
 
     if(opt == 1){
-      table_mat_adj <- apply(table_mat_norm/bgmat, 2, function(x)
+      table_mat_adj <- apply(log(table_mat_norm/bgmat, base=2), 2, function(x)
       {
         indices <- which(is.na(x))
         if(length(indices) == 0){
@@ -107,7 +107,7 @@ get_logo_heights_ic <- function(table, alpha = 1, bg = NULL, opt = 1,
         }
       })
     }else{
-      table_mat_adj <- apply(table_mat_norm, 2, function(x)
+      table_mat_adj <- apply(log(table_mat_norm, base=2), 2, function(x)
       {
         indices <- which(is.na(x))
         if(length(indices) == 0){
