@@ -163,7 +163,7 @@ nlogomaker <- function(table,
 
   control.default <- list(hist = FALSE, alpha = 1, opt = 1, scale0=0.01,
                           scale1=0.99, tofill_pos = TRUE, tofill_neg = TRUE,
-                          lwd = 2,
+                          lwd = 2, ic_scale = 1,
                           logscale = 1, log_odds_scale=1,
                           quant = 0.5, depletion_weight = 0.5,
                           viewport.margin.bottom = NULL,
@@ -193,6 +193,7 @@ nlogomaker <- function(table,
 
   if(logoheight == "ic"){
     ll <- get_logo_heights_ic(table, alpha = control$alpha,
+                              scale = control$ic_scale,
                               bg = bg,
                               opt = control$opt,
                               hist = control$hist,
