@@ -4,13 +4,16 @@
 \alias{get_logo_heights_ic}
 \title{Get heights of logos in nlogomaker() using Information criterion.}
 \usage{
-get_logo_heights_ic(table, alpha = 1, bg = NULL, opt = 1, hist = FALSE,
-  quant = 0.5)
+get_logo_heights_ic(table, alpha = 1, scale = 1, bg = NULL, opt = 1,
+  hist = FALSE, quant = 0.5)
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
 logos or symbols (specified along the rows) ans across different sites or
-positions or groups (specified along the columns).}
+positions or groups (specified along the columns).
+
+ @param scale A number added to the pwm bfore taking the log transform. Defaults
+to 1.}
 
 \item{alpha}{The Renyi entropy tuning parameter which is used in case of
 scaling of the bar heights by information criterion. The default tuning

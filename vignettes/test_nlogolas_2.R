@@ -46,7 +46,7 @@ nlogomaker(m,xlab = 'position',logoheight = "ic",
            color_profile = color_profile,
            bg = c(0.25, 0.25, 0.25, 0.25),
            frame_width = 1,
-           control = list(logscale = 0.2, quant = 0.5,
+           control = list(ic_scale = 1, quant = 0.5,
            depletion_weight = 0.5))
 
 nlogomaker(m,xlab = 'position',logoheight = "log",
