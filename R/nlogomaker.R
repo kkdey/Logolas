@@ -243,8 +243,8 @@ nlogomaker <- function(table,
 
 #####################  positive component study  ###########################
 
-  print(pos_ic)
-  print(neg_ic)
+ # print(pos_ic)
+ # print(neg_ic)
   letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL)
   facs <- pos_ic
 
