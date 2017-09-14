@@ -166,10 +166,10 @@ nlogomaker <- function(table,
                           lwd = 2, ic_epsilon = 0.01,
                           log_epsilon = 0.01, log_odds_epsilon=0.01,
                           quant = 0.5, depletion_weight = 0,
-                          viewport.margin.bottom = NULL,
-                          viewport.margin.left = NULL,
-                          viewport.margin.top = NULL,
-                          viewport.margin.right = NULL)
+                          viewport.margin.bottom = 3,
+                          viewport.margin.left = 5,
+                          viewport.margin.top = 2.5,
+                          viewport.margin.right = 2.5)
 
   # viewport margins usually c(3, 5, 3, 3)
 
@@ -356,10 +356,15 @@ nlogomaker <- function(table,
   }
   #  bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
 
-  if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
-  if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
-  if(is.null(control$viewport.margin.top)){topMargin <- max(ylim)+0.5}else{topMargin <- control$viewport.margin.top}
-  if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{rightMargin <- control$viewport.margin.right}
+# if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
+#  if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
+#  if(is.null(control$viewport.margin.top)){topMargin <- max(ylim)+0.5}else{topMargin <- control$viewport.margin.top}
+#  if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{rightMargin <- control$viewport.margin.right}
+
+  topMargin <- control$viewport.margin.top
+  rightMargin <- control$viewport.margin.right
+  leftMargin <- control$viewport.margin.left
+  bottomMargin <- control$viewport.margin.bottom
 
   grid::pushViewport(grid::plotViewport(c(bottomMargin, leftMargin, topMargin, rightMargin)))
 
