@@ -359,7 +359,7 @@ nlogomaker <- function(table,
   }
   #  bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
 
-  if(!single_panel){
+  if(!control$single_panel){
     if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
     if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
     if(is.null(control$viewport.margin.top)){topMargin <- max(ylim)+0.5}else{topMargin <- control$viewport.margin.top}
