@@ -9,8 +9,8 @@
 #' logos or symbols (specified along the rows) ans across different sites or
 #' positions or groups (specified along the columns).
 #'
-#' @param scale A number added to the pwm bfore taking the log transform. Defaults
-#' to 1.
+#' @param epsilon An additive constant added to the PWM before scaling to eliminate
+#'  log (0) type errors.
 #'
 #' @param bg The background probability, which defaults to NULL, in which case
 #' equal probability is assigned to each symbol. The user can however specify a
@@ -47,7 +47,7 @@
 #' @export
 
 
-get_logo_heights_log_odds <- function(table, scale = 1, bg = NULL,
+get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL,
                                       alpha = 1, hist=FALSE, quant = 0.5,
                                       depletion_weight = 0.7){
 
@@ -91,17 +91,17 @@ get_logo_heights_log_odds <- function(table, scale = 1, bg = NULL,
   npos <- ncol(table_mat_norm)
   chars <- as.character(rownames(table_mat_norm))
 
-  table_mat_adj <- apply(table_mat_norm/bgmat, 2, function(x)
+  table_mat_adj <- apply((table_mat_norm + epsilon)/(bgmat + epsilon), 2, function(x)
   {
     indices <- which(is.na(x))
     if(length(indices) == 0){
-      x <- x+scale
+     # x <- x
       y = log(x/(sum(x)-x), base=2)
       z <- y - quantile(y, quant)
       return(z)
     }else{
       w <- x[!is.na(x)]
-      w <- w + scale
+      #w <- w + scale
       y <- log(w/(sum(w)-w), base=2)
       z <- y - quantile(y, quant)
       zext <- array(0, length(x))
