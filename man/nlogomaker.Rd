@@ -92,9 +92,9 @@ log transform to avoid log(0) errors (\code{log_epsilon}, \code{ic_epsilon},
 or border colored (\code{tofill_pos, tofill_neg}), the Renyi alpha parameter
 for the entropy calculation (\code{alpha}), the viewport configuration details
 for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
-\code{viewport.margin.top}, \code{viewport.margin.right}), whether we are
-plotting a single panel Logolas plot or a multipanel one (\code{single_panel})
- etc.}
+\code{viewport.margin.top}, \code{viewport.margin.right}), whether the
+height of the logos would be fixed apriori or determined by the PWM matrix
+as in seqLogo (\code{use_seqLogo_heights}) etc.}
 
 \item{hist}{Whether to use the hist method or the information criterion
 method to determine the heights of the logos.}
