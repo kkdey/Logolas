@@ -4,7 +4,7 @@
 \alias{get_logo_heights_log}
 \title{Get heights of logos in nlogomaker() using absolute log heights.}
 \usage{
-get_logo_heights_log(table, scale = 1, bg = NULL, alpha = 1,
+get_logo_heights_log(table, epsilon = 0.01, bg = NULL, alpha = 1,
   hist = FALSE, quant = 0.5, depletion_weight = 0.5)
 }
 \arguments{
@@ -12,8 +12,8 @@ get_logo_heights_log(table, scale = 1, bg = NULL, alpha = 1,
 logos or symbols (specified along the rows) ans across different sites or
 positions or groups (specified along the columns).}
 
-\item{scale}{A number added to the pwm bfore taking the log transform. Defaults
-to 1.}
+\item{epsilon}{An additive constant added to the PWM before scaling to eliminate
+log (0) type errors.}
 
 \item{bg}{The background probability, which defaults to NULL, in which case
 equal probability is assigned to each symbol. The user can however specify a

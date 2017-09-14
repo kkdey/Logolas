@@ -9,8 +9,8 @@
 #' logos or symbols (specified along the rows) ans across different sites or
 #' positions or groups (specified along the columns).
 #'
-#'  @param scale A number added to the pwm bfore taking the log transform. Defaults
-#' to 1.
+#' @param epsilon An additive constant added to the PWM before scaling to eliminate
+#'  log (0) type errors.
 #'
 #' @param alpha The Renyi entropy tuning parameter which is used in case of
 #' scaling of the bar heights by information criterion. The default tuning
@@ -93,7 +93,7 @@ get_logo_heights_ic <- function(table, alpha = 1, scale = 1, bg = NULL, opt = 1,
     chars <- as.character(rownames(table_mat_norm))
 
     if(opt == 1){
-      table_mat_adj <- apply(log((table_mat_norm)/(bgmat)+scale, base=2), 2, function(x)
+      table_mat_adj <- apply(log((table_mat_norm+epsilon)/(bgmat+epsilon), base=2), 2, function(x)
       {
         indices <- which(is.na(x))
         if(length(indices) == 0){
