@@ -193,19 +193,19 @@ nlogomaker <- function(table,
 
   if(logoheight == "ic"){
     ll <- get_logo_heights_ic(table, alpha = control$alpha,
-                              scale = control$ic_epsilon,
+                              epsilon = control$ic_epsilon,
                               bg = bg,
                               opt = control$opt,
                               hist = control$hist,
                               quant = control$quant)
   } else if (logoheight == "log"){
-    ll <- get_logo_heights_log(table, scale = control$log_epsilon,
+    ll <- get_logo_heights_log(table, epsilon = control$log_epsilon,
                                bg = bg,
                                alpha = control$alpha, hist = control$hist,
                                quant = control$quant,
                                depletion_weight = depletion_weight)
   } else if (logoheight == "log_odds"){
-    ll <- get_logo_heights_log_odds(table, scale = control$log_odds_epsilon,
+    ll <- get_logo_heights_log_odds(table, epsilon = control$log_odds_epsilon,
                                     bg = bg,
                                     alpha = control$alpha, hist = control$hist,
                                     quant = control$quant,
