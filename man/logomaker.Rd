@@ -98,7 +98,9 @@ plot (\code{scale0}, \code{scale1}), whether the symbols should be filled
 with color or border colored (\code{tofill}), the Renyi alpha parameter for
 the entropy calculation (\code{alpha}), the viewport configuration details
 for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
-\code{viewport.margin.top}, \code{viewport.margin.right})  etc.}
+\code{viewport.margin.top}, \code{viewport.margin.right}), whether we are
+plotting a single panel Logolas plot or a multipanel one (\code{single_panel})
+etc.}
 }
 \value{
 Plots the logo plot for the table data, with column names representing
