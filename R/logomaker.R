@@ -84,8 +84,9 @@
 #' with color or border colored (\code{tofill}), the Renyi alpha parameter for
 #' the entropy calculation (\code{alpha}), the viewport configuration details
 #' for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
-#' \code{viewport.margin.top}, \code{viewport.margin.right}), whether we are
-#' plotting a single panel Logolas plot or a multipanel one (\code{single_panel})
+#' \code{viewport.margin.top}, \code{viewport.margin.right}), whether the
+#' height of the logos would be fixed apriori or determined by the PWM matrix
+#' as in seqLogo (\code{use_seqLogo_heights})
 #' etc.
 #'
 #' @return Plots the logo plot for the table data, with column names representing
@@ -164,7 +165,7 @@ logomaker <- function( table,
                           viewport.margin.left = NULL,
                           viewport.margin.top = NULL,
                           viewport.margin.right = NULL,
-                          single_panel = TRUE)
+                          use_seqLogo_heights = FALSE)
 
   # viewport margins usually c(3, 5, 3, 3)
 
@@ -335,7 +336,7 @@ logomaker <- function( table,
    grid::grid.newpage()
  }
 
-  if(control$single_panel == FALSE){
+  if(control$use_seqLogo_heights){
     if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
     if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
     if(is.null(control$viewport.margin.top)){topMargin <- max(ylim)+0.5}else{topMargin <- control$viewport.margin.top}
