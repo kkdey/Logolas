@@ -160,10 +160,10 @@ logomaker <- function( table,
 
   control.default <- list(hist = FALSE, alpha = 1, scale0=0.01,
                           scale1=0.99, tofill = TRUE, lwd = 2,
-                          viewport.margin.bottom = 3,
-                          viewport.margin.left = 5,
-                          viewport.margin.top = 2.5,
-                          viewport.margin.right = 2.5,
+                          viewport.margin.bottom = NULL,
+                          viewport.margin.left = NULL,
+                          viewport.margin.top = NULL,
+                          viewport.margin.right = NULL,
                           single_panel = TRUE)
 
   # viewport margins usually c(3, 5, 3, 3)
@@ -342,10 +342,10 @@ logomaker <- function( table,
     if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{rightMargin <- control$viewport.margin.right}
   }else{
 
-    viewport.margin.bottom = 3
-    viewport.margin.left = 5
-    viewport.margin.top = 2.5
-    viewport.margin.right = 2.5
+    control$viewport.margin.bottom = 3
+    control$viewport.margin.left = 5
+    control$viewport.margin.top = 2.5
+    control$viewport.margin.right = 2.5
 
     topMargin <- control$viewport.margin.top
     rightMargin <- control$viewport.margin.right
