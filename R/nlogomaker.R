@@ -88,7 +88,9 @@
 #' or border colored (\code{tofill_pos, tofill_neg}), the Renyi alpha parameter
 #' for the entropy calculation (\code{alpha}), the viewport configuration details
 #' for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
-#' \code{viewport.margin.top}, \code{viewport.margin.right})  etc.
+#' \code{viewport.margin.top}, \code{viewport.margin.right}), whether we are
+#' plotting a single panel Logolas plot or a multipanel one (\code{single_panel})
+#'  etc.
 #'
 #' @return Plots the logo plot for the table data, with column names representing
 #' the sites/blocks and the row names denoting the symbols for which logos are
@@ -166,10 +168,11 @@ nlogomaker <- function(table,
                           lwd = 2, ic_epsilon = 0.01,
                           log_epsilon = 0.01, log_odds_epsilon=0.01,
                           quant = 0.5, depletion_weight = 0,
-                          viewport.margin.bottom = 3,
-                          viewport.margin.left = 5,
-                          viewport.margin.top = 2.5,
-                          viewport.margin.right = 2.5)
+                          viewport.margin.bottom = NULL,
+                          viewport.margin.left = NULL,
+                          viewport.margin.top = NULL,
+                          viewport.margin.right = NULL,
+                          single_panel = TRUE)
 
   # viewport margins usually c(3, 5, 3, 3)
 
@@ -356,15 +359,23 @@ nlogomaker <- function(table,
   }
   #  bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
 
-# if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
-#  if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
-#  if(is.null(control$viewport.margin.top)){topMargin <- max(ylim)+0.5}else{topMargin <- control$viewport.margin.top}
-#  if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{rightMargin <- control$viewport.margin.right}
+  if(!single_panel){
+    if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
+    if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
+    if(is.null(control$viewport.margin.top)){topMargin <- max(ylim)+0.5}else{topMargin <- control$viewport.margin.top}
+    if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{rightMargin <- control$viewport.margin.right}
+  }else{
 
-  topMargin <- control$viewport.margin.top
-  rightMargin <- control$viewport.margin.right
-  leftMargin <- control$viewport.margin.left
-  bottomMargin <- control$viewport.margin.bottom
+    viewport.margin.bottom = 3
+    viewport.margin.left = 5
+    viewport.margin.top = 2.5
+    viewport.margin.right = 2.5
+
+    topMargin <- control$viewport.margin.top
+    rightMargin <- control$viewport.margin.right
+    leftMargin <- control$viewport.margin.left
+    bottomMargin <- control$viewport.margin.bottom
+  }
 
   grid::pushViewport(grid::plotViewport(c(bottomMargin, leftMargin, topMargin, rightMargin)))
 
