@@ -49,7 +49,7 @@
 #' @export
 
 
-get_logo_heights_ic <- function(table, alpha = 1, scale = 1, bg = NULL, opt = 1,
+get_logo_heights_ic <- function(table, alpha = 1, epsilon = 0.01, bg = NULL, opt = 1,
                                 hist = FALSE, quant = 0.5){
 
   if (is.vector(bg)==TRUE){
