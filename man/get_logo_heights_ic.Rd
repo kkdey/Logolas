@@ -10,10 +10,7 @@ get_logo_heights_ic(table, alpha = 1, scale = 1, bg = NULL, opt = 1,
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
 logos or symbols (specified along the rows) ans across different sites or
-positions or groups (specified along the columns).
-
- @param scale A number added to the pwm bfore taking the log transform. Defaults
-to 1.}
+positions or groups (specified along the columns).}
 
 \item{alpha}{The Renyi entropy tuning parameter which is used in case of
 scaling of the bar heights by information criterion. The default tuning
@@ -35,6 +32,9 @@ method to determine the heights of the logos.}
 
 \item{quant}{The quantile to be adjusted for in computing enrichment and
 depletion scores. Defaults to 0.5, which corresponds to the median.}
+
+\item{epsilon}{An additive constant added to the PWM before scaling to eliminate
+log (0) type errors.}
 }
 \description{
 Genertes total heights of the logos in the positive and negative
