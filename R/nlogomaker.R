@@ -81,13 +81,13 @@
 #'
 #' @param control control parameters fixing whether the height of the logos is
 #' detrmined by IC or histogram proportions (\code{hist}), the scales for the
-#' plot (\code{scale0}, \code{scale1}), the scales for log normalization or
-#' log-odds normalization (\code{logscale}, \code{log_odds_scale}), the weight
-#' on the depletion effect visualization (\code{depletion_weight}), whether the
-#' symbols should be filled with color or border colored (\code{tofill_pos,
-#' tofill_neg}), the Renyi alpha parameter for the entropy calculation
-#' (\code{alpha}), the viewport configuration details for the plot
-#' (\code{viewport.margin.bottom}, \code{viewport.margin.left},
+#' plot (\code{scale0}, \code{scale1}), the additive factor epsilon added to
+#' log transform to avoid log(0) errors (\code{log_epsilon}, \code{ic_epsilon},
+#' \code{log_odds_epsilon}), the weight on the depletion effect visualization
+#' (\code{depletion_weight}), whether the symbols should be filled with color
+#' or border colored (\code{tofill_pos, tofill_neg}), the Renyi alpha parameter
+#' for the entropy calculation (\code{alpha}), the viewport configuration details
+#' for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
 #' \code{viewport.margin.top}, \code{viewport.margin.right})  etc.
 #'
 #' @return Plots the logo plot for the table data, with column names representing
@@ -163,8 +163,8 @@ nlogomaker <- function(table,
 
   control.default <- list(hist = FALSE, alpha = 1, opt = 1, scale0=0.01,
                           scale1=0.99, tofill_pos = TRUE, tofill_neg = TRUE,
-                          lwd = 2, ic_scale = 1,
-                          logscale = 1, log_odds_scale=1,
+                          lwd = 2, ic_epsilon = 1,
+                          log_epsilon = 1, log_odds_epsilon=1,
                           quant = 0.5, depletion_weight = 0,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
@@ -193,23 +193,25 @@ nlogomaker <- function(table,
 
   if(logoheight == "ic"){
     ll <- get_logo_heights_ic(table, alpha = control$alpha,
-                              scale = control$ic_scale,
+                              scale = control$ic_epsilon,
                               bg = bg,
                               opt = control$opt,
                               hist = control$hist,
                               quant = control$quant)
   } else if (logoheight == "log"){
-    ll <- get_logo_heights_log(table, scale = control$logscale,
+    ll <- get_logo_heights_log(table, scale = control$log_epsilon,
                                bg = bg,
                                alpha = control$alpha, hist = control$hist,
                                quant = control$quant,
                                depletion_weight = depletion_weight)
   } else if (logoheight == "log_odds"){
-    ll <- get_logo_heights_log_odds(table, scale = control$log_odds_scale,
+    ll <- get_logo_heights_log_odds(table, scale = control$log_odds_epsilon,
                                     bg = bg,
                                     alpha = control$alpha, hist = control$hist,
                                     quant = control$quant,
                                     depletion_weight = depletion_weight)
+  }else{
+    stop("logoheight option must be one of ic, log or log_odds")
   }
 
   pos_ic <- ll$pos_ic

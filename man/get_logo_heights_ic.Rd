@@ -4,8 +4,8 @@
 \alias{get_logo_heights_ic}
 \title{Get heights of logos in nlogomaker() using Information criterion.}
 \usage{
-get_logo_heights_ic(table, alpha = 1, scale = 1, bg = NULL, opt = 1,
-  hist = FALSE, quant = 0.5)
+get_logo_heights_ic(table, alpha = 1, epsilon = 0.01, bg = NULL,
+  opt = 1, hist = FALSE, quant = 0.5)
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
@@ -15,6 +15,9 @@ positions or groups (specified along the columns).}
 \item{alpha}{The Renyi entropy tuning parameter which is used in case of
 scaling of the bar heights by information criterion. The default tuning
 parameter value is 1, which corresponds to Shannon entropy.}
+
+\item{epsilon}{An additive constant added to the PWM before scaling to eliminate
+log (0) type errors.}
 
 \item{bg}{The background probability, which defaults to NULL, in which case
 equal probability is assigned to each symbol. The user can however specify a
@@ -32,9 +35,6 @@ method to determine the heights of the logos.}
 
 \item{quant}{The quantile to be adjusted for in computing enrichment and
 depletion scores. Defaults to 0.5, which corresponds to the median.}
-
-\item{epsilon}{An additive constant added to the PWM before scaling to eliminate
-log (0) type errors.}
 }
 \description{
 Genertes total heights of the logos in the positive and negative
