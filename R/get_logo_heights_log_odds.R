@@ -49,7 +49,7 @@
 
 get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL,
                                       alpha = 1, hist=FALSE, quant = 0.5,
-                                      depletion_weight = 0.7){
+                                      depletion_weight = 0){
 
   if (is.vector(bg)==TRUE){
     if(length(bg) != dim(table)[1]){
