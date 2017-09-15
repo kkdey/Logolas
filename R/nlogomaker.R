@@ -68,7 +68,7 @@
 #' @param col_line_split The color of the line split between the consecutive groups
 #' or blocks
 #'
-#' @param ylimit The limit of the Y axis.
+#' @param yrange The limit of the Y axis.
 #'
 #' @param scale1 scaling of the logo to maintain the gap between symbols.
 #'
@@ -130,7 +130,7 @@
 #'
 #' nlogomaker(table,
 #'            color_profile = color_profile,
-#'            ylimit = 1.2)
+#'            yrange = 1.2)
 #'
 #'
 #' @importFrom stats median
@@ -150,7 +150,7 @@ nlogomaker <- function(table,
                        addlogos = NULL,
                        addlogos_text = NULL,
                        newpage = TRUE,
-                       ylimit = NULL,
+                       yrange = NULL,
                        xaxis=TRUE,
                        yaxis=TRUE,
                        xaxis_fontsize=10,
@@ -335,13 +335,21 @@ nlogomaker <- function(table,
 
   y1 <- min(letters$y)
   max1 <- max(letters$y)
-  if(is.null(ylimit)){
-    ylimit <- ceiling(max(pos_ic) + max(neg_ic))
+  if(is.null(yrange)){
+    yrange <- ceiling(max(pos_ic) + max(neg_ic))
+  }else{
+    if(yrange > ceiling(max(pos_ic) + max(neg_ic))){
+      ylim <- yrange
+    }else{
+      warning("yrange chosen does not contain the whole range of variation of the logo heights,
+              keep yrange as NULL for full visualization")
+      ylim <- yrange
+    }
   }
-  ylim <- ylimit
+  ylim <- yrange
   # print(pos_ic)
   # print(neg_ic)
-  # print(ylimit)
+  # print(yrange)
   ylim_scale <- seq(0, ylim, length.out=6);
 
   negbins <- ceiling((y1/max1)*6)
@@ -462,7 +470,7 @@ nlogomaker <- function(table,
 
   letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL)
   facs <- neg_ic
-  ylim <- ylimit
+  ylim <- yrange
 
   slash_inds <- grep("/", chars)
 

@@ -10,7 +10,7 @@ nlogomaker(table, logoheight = c("ic", "log", "log_odds"), color_profile,
   "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",
   "comma", "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
   bg = NULL, frame_width = NULL, yscale_change = TRUE, pop_name = NULL,
-  addlogos = NULL, addlogos_text = NULL, newpage = TRUE, ylimit = NULL,
+  addlogos = NULL, addlogos_text = NULL, newpage = TRUE, yrange = NULL,
   xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
   y_fontsize = 15, main_fontsize = 16, start = 0.001, xlab = "X",
   ylab = "Enrichment Score", col_line_split = "grey80", control = list())
@@ -57,7 +57,7 @@ plot is created. Defaults to NULL when no population name is mentioned.}
 
 \item{newpage}{if TRUE, plots the logo plot in a new page. Defaults to TRUE.}
 
-\item{ylimit}{The limit of the Y axis.}
+\item{yrange}{The limit of the Y axis.}
 
 \item{xaxis}{Binary specifying if there should be a X axis in the logo plot
 or not. Defaults to TRUE.}
@@ -148,7 +148,7 @@ color_profile <- list("type" = "per_symbol",
 
 nlogomaker(table,
            color_profile = color_profile,
-           ylimit = 1.2)
+           yrange = 1.2)
 
 
 }
