@@ -5,7 +5,7 @@
 \title{Get heights of logos in nlogomaker() using absolute log odds heights.}
 \usage{
 get_logo_heights_log_odds(table, epsilon = 0.01, bg = NULL, alpha = 1,
-  hist = FALSE, quant = 0.5, depletion_weight = 0.7)
+  hist = FALSE, quant = 0.5, depletion_weight = 0)
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different
