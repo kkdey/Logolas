@@ -414,7 +414,7 @@ logomaker <- function( table,
     }else{
       grid::grid.yaxis(gp=grid::gpar(fontsize=y_fontsize))
     }
-    grid::grid.text(ylab,x=grid::unit(-gap_ylab,"lines"),rot=90,
+    grid::grid.text(ylab,x=grid::unit(-control$gap_ylab,"lines"),rot=90,
               gp=grid::gpar(fontsize=y_fontsize))
   }
   grid::popViewport()
