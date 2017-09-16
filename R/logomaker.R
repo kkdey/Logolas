@@ -82,12 +82,13 @@
 #' detrmined by IC or histogram proportions (\code{hist}), the scales for the
 #' plot (\code{scale0}, \code{scale1}), whether the symbols should be filled
 #' with color or border colored (\code{tofill}), the Renyi alpha parameter for
-#' the entropy calculation (\code{alpha}), the viewport configuration details
-#' for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
-#' \code{viewport.margin.top}, \code{viewport.margin.right}), whether the
-#' height of the logos would be fixed apriori or determined by the PWM matrix
-#' as in seqLogo (\code{use_seqLogo_heights})
-#' etc.
+#' the entropy calculation (\code{alpha}), the gap between ylabel and y-axis and
+#' xlabel and x-axis texts (\code{gap_ylab}, \code{gap_xlab}), and the viewport
+#' configuration details for the plot (\code{viewport.margin.bottom},
+#' \code{viewport.margin.left}, \code{viewport.margin.top},
+#' \code{viewport.margin.right}), whether the height of the logos would be fixed
+#' apriori or determined by the PWM matrix as in seqLogo
+#' (\code{use_seqLogo_heights}) etc.
 #'
 #' @return Plots the logo plot for the table data, with column names representing
 #' the sites/blocks and the row names denoting the symbols for which logos are
@@ -151,6 +152,7 @@ logomaker <- function( table,
                        yscale_change=TRUE,
                        pop_name = NULL,
                        xlab = "X",
+                       yrange = NULL,
                        ylab = "Information content",
                        col_line_split="grey80",
                        addlogos = NULL,
@@ -161,6 +163,7 @@ logomaker <- function( table,
 
   control.default <- list(hist = FALSE, alpha = 1, scale0=0.01,
                           scale1=0.99, tofill = TRUE, lwd = 2,
+                          gap_ylab = 3.5, gap_xlab = 3.5,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
                           viewport.margin.top = NULL,
@@ -394,18 +397,24 @@ logomaker <- function( table,
     grid::grid.xaxis(at=wt*seq(0.5,ncol(table_mat_norm)-0.5),
                label=colnames(table_mat_norm),
                gp=grid::gpar(fontsize=xaxis_fontsize))
-    grid::grid.text(xlab, y=grid::unit(-3,"lines"),
+    grid::grid.text(xlab, y=grid::unit(-gap_xlab,"lines"),
                     gp=grid::gpar(fontsize=xaxis_fontsize))
   }
   if (yaxis){
     if(yscale_change==TRUE){
+      s <- 1
+      tempp <- round(ic_lim_scale,1)
+      while (length(unique(tempp)) < length(tempp)){
+        s <- s+1
+        tempp <- round(ic_lim_scale,s)
+      }
       grid::grid.yaxis(at = ylim_scale,
-                 label = round(ic_lim_scale,1),
+                 label = tempp,
                  gp=grid::gpar(fontsize=y_fontsize))
     }else{
       grid::grid.yaxis(gp=grid::gpar(fontsize=y_fontsize))
     }
-    grid::grid.text(ylab,x=grid::unit(-3,"lines"),rot=90,
+    grid::grid.text(ylab,x=grid::unit(-gap_ylab,"lines"),rot=90,
               gp=grid::gpar(fontsize=y_fontsize))
   }
   grid::popViewport()
