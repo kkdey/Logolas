@@ -96,12 +96,13 @@ or blocks}
 detrmined by IC or histogram proportions (\code{hist}), the scales for the
 plot (\code{scale0}, \code{scale1}), whether the symbols should be filled
 with color or border colored (\code{tofill}), the Renyi alpha parameter for
-the entropy calculation (\code{alpha}), the viewport configuration details
-for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
-\code{viewport.margin.top}, \code{viewport.margin.right}), whether the
-height of the logos would be fixed apriori or determined by the PWM matrix
-as in seqLogo (\code{use_seqLogo_heights})
-etc.}
+the entropy calculation (\code{alpha}), the gap between ylabel and y-axis and
+xlabel and x-axis texts (\code{gap_ylab}, \code{gap_xlab}), and the viewport
+configuration details for the plot (\code{viewport.margin.bottom},
+\code{viewport.margin.left}, \code{viewport.margin.top},
+\code{viewport.margin.right}), whether the height of the logos would be fixed
+apriori or determined by the PWM matrix as in seqLogo
+(\code{use_seqLogo_heights}) etc.}
 }
 \value{
 Plots the logo plot for the table data, with column names representing
