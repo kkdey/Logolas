@@ -397,7 +397,7 @@ logomaker <- function( table,
     grid::grid.xaxis(at=wt*seq(0.5,ncol(table_mat_norm)-0.5),
                label=colnames(table_mat_norm),
                gp=grid::gpar(fontsize=xaxis_fontsize))
-    grid::grid.text(xlab, y=grid::unit(-gap_xlab,"lines"),
+    grid::grid.text(xlab, y=grid::unit(-control$gap_xlab,"lines"),
                     gp=grid::gpar(fontsize=xaxis_fontsize))
   }
   if (yaxis){

@@ -435,7 +435,7 @@ nlogomaker <- function(table,
     grid::grid.xaxis(at=wt*seq(0.5,ncol(table)-0.5),
                      label=colnames(table),
                      gp=grid::gpar(fontsize=xaxis_fontsize))
-    grid::grid.text(xlab, y=grid::unit(-gap_xlab,"lines"),
+    grid::grid.text(xlab, y=grid::unit(-control$gap_xlab,"lines"),
                     gp=grid::gpar(fontsize=xaxis_fontsize))
   }
   if (yaxis){
