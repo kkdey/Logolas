@@ -340,7 +340,8 @@ String logos can be used to represent how families or genus of species vary acro
 <<logolas_use_10, eval=TRUE, warning=FALSE, fig.show="asis", dpi=144, fig.width=8, fig.height=5, out.width="8in", out.height="5in">>=
 
 set.seed(20)
-data("himalayan_fauna_3_clusters")
+#data("himalayan_fauna_3_clusters")
+suppressWarnings(suppressMessages(himalayan_fauna_3_clusters <- get(load(system.file("extdata", "himalayan_fauna_3_clusters.rda", package = "Logolas")))))
 
 color_profile <- list("type" = "per_column",
                       "col" = sample(RColorBrewer::brewer.pal(10,name = "Spectral"),
@@ -349,7 +350,6 @@ logomaker(himalayan_fauna_3_clusters,
           color_profile = color_profile,
           frame_width = 1,
           ic.scale = TRUE,
-          alpha=200,
           pop_name = "Bird family abundance across clusters",
           xlab = "Clusters",
           ylab = "Information content")
