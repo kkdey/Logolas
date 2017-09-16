@@ -86,11 +86,13 @@
 #' \code{log_odds_epsilon}), the weight on the depletion effect visualization
 #' (\code{depletion_weight}), whether the symbols should be filled with color
 #' or border colored (\code{tofill_pos, tofill_neg}), the Renyi alpha parameter
-#' for the entropy calculation (\code{alpha}), the viewport configuration details
-#' for the plot (\code{viewport.margin.bottom}, \code{viewport.margin.left},
-#' \code{viewport.margin.top}, \code{viewport.margin.right}), whether the
-#' height of the logos would be fixed apriori or determined by the PWM matrix
-#' as in seqLogo (\code{use_seqLogo_heights}) etc.
+#' for the entropy calculation (\code{alpha}), the gap between ylabel and y-axis and
+#' xlabel and x-axis texts (\code{gap_ylab}, \code{gap_xlab}), the viewport
+#' configuration details for the plot (\code{viewport.margin.bottom},
+#' \code{viewport.margin.left}, \code{viewport.margin.top},
+#' \code{viewport.margin.right}), whether the height of the logos would be fixed
+#'  apriori or determined by the PWM matrix as in seqLogo
+#'  (\code{use_seqLogo_heights}) etc.
 #'
 #' @return Plots the logo plot for the table data, with column names representing
 #' the sites/blocks and the row names denoting the symbols for which logos are
@@ -168,6 +170,7 @@ nlogomaker <- function(table,
                           lwd = 2, ic_epsilon = 0.01,
                           log_epsilon = 0.01, log_odds_epsilon=0.01,
                           quant = 0.5, depletion_weight = 0,
+                          gap_xlab = 3.5, gap_ylab = 3.5,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
                           viewport.margin.top = NULL,
@@ -432,7 +435,7 @@ nlogomaker <- function(table,
     grid::grid.xaxis(at=wt*seq(0.5,ncol(table)-0.5),
                      label=colnames(table),
                      gp=grid::gpar(fontsize=xaxis_fontsize))
-    grid::grid.text(xlab, y=grid::unit(-3,"lines"),
+    grid::grid.text(xlab, y=grid::unit(-gap_xlab,"lines"),
                     gp=grid::gpar(fontsize=xaxis_fontsize))
   }
   if (yaxis){
@@ -443,7 +446,7 @@ nlogomaker <- function(table,
     # }else{
     #   grid::grid.yaxis(gp=grid::gpar(fontsize=y_fontsize))
     # }
-    grid::grid.text(ylab,x=grid::unit(-3.5,"lines"),rot=90,
+    grid::grid.text(ylab,x=grid::unit(-gap_ylab,"lines"),rot=90,
                     gp=grid::gpar(fontsize=y_fontsize))
   }
 
