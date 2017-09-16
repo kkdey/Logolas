@@ -152,7 +152,6 @@ logomaker <- function( table,
                        yscale_change=TRUE,
                        pop_name = NULL,
                        xlab = "X",
-                       yrange = NULL,
                        ylab = "Information content",
                        col_line_split="grey80",
                        addlogos = NULL,
@@ -330,9 +329,9 @@ logomaker <- function( table,
   }
   if(ic.scale){
   if(yscale_change){
-       if(ylim  > 1){
+      # if(ylim  > 1){
          letters$y <- letters$y*(ylim/max(ic));
-       }
+     #  }
   }}
 
  if(newpage){
@@ -346,10 +345,10 @@ logomaker <- function( table,
     if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{rightMargin <- control$viewport.margin.right}
   }else{
 
-    control$viewport.margin.bottom = 3
-    control$viewport.margin.left = 5
-    control$viewport.margin.top = 2.5
-    control$viewport.margin.right = 2.5
+    if(is.null(control$viewport.margin.bottom)){control$viewport.margin.bottom = 3}
+    if(is.null(control$viewport.margin.left)){control$viewport.margin.left = 5}
+    if(is.null(control$viewport.margin.top)){control$viewport.margin.top = 2.5}
+    if(is.null(control$viewport.margin.right)){control$viewport.margin.right = 2.5}
 
     topMargin <- control$viewport.margin.top
     rightMargin <- control$viewport.margin.right

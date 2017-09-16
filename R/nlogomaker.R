@@ -339,7 +339,11 @@ nlogomaker <- function(table,
   y1 <- min(letters$y)
   max1 <- max(letters$y)
   if(is.null(yrange)){
-    yrange <- ceiling(max(pos_ic) + max(neg_ic))
+    if( (max(pos_ic) + max(neg_ic)) < 1){
+      yrange <- max(pos_ic) + max(neg_ic) + 0.01
+    }else{
+      yrange <- ceiling(max(pos_ic) + max(neg_ic))
+    }
   }else{
     if(yrange > ceiling(max(pos_ic) + max(neg_ic))){
       ylim <- yrange
@@ -377,10 +381,11 @@ nlogomaker <- function(table,
     if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{rightMargin <- control$viewport.margin.right}
   }else{
 
-    control$viewport.margin.bottom = 3
-    control$viewport.margin.left = 5
-    control$viewport.margin.top = 2.5
-    control$viewport.margin.right = 2.5
+    if(is.null(control$viewport.margin.bottom)){control$viewport.margin.bottom = 3}
+    if(is.null(control$viewport.margin.left)){control$viewport.margin.left = 5}
+    if(is.null(control$viewport.margin.top)){control$viewport.margin.top = 2.5}
+    if(is.null(control$viewport.margin.right)){control$viewport.margin.right = 2.5}
+
 
     topMargin <- control$viewport.margin.top
     rightMargin <- control$viewport.margin.right
