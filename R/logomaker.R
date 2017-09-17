@@ -162,7 +162,7 @@ logomaker <- function( table,
 
   control.default <- list(hist = FALSE, alpha = 1, scale0=0.01,
                           scale1=0.99, tofill = TRUE, lwd = 2,
-                          gap_ylab = 3.5, gap_xlab = 3.5,
+                          gap_ylab = 3, gap_xlab = 3,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
                           viewport.margin.top = NULL,

@@ -113,11 +113,12 @@ logo_pssm <- function(table,
 
   control.default <- list(scale0=0.01,
                           scale1=0.99, tofill_pos = TRUE, tofill_neg = TRUE,
-                          lwd = 2,
+                          lwd = 2, gap_xlab = 3, gap_ylab = 3,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
                           viewport.margin.top = NULL,
-                          viewport.margin.right = NULL)
+                          viewport.margin.right = NULL,
+                          use_seqLogo_heights = FALSE)
 
   control <- modifyList(control.default, control)
   scale0 <- control$scale0
@@ -271,10 +272,24 @@ logo_pssm <- function(table,
   }
   #  bottomMargin = ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)
 
-  if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
-  if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2.5 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
-  if(is.null(control$viewport.margin.top)){topMargin <- 3}else{topMargin <- control$viewport.margin.top}
-  if(is.null(control$viewport.margin.right)){rightMargin <- 3}else{rightMargin <- control$viewport.margin.right}
+  if(control$use_seqLogo_heights){
+    if(is.null(control$viewport.margin.bottom)){bottomMargin <- ifelse(xaxis, 1 + xaxis_fontsize/3.5, 3)}else{bottomMargin <- control$viewport.margin.bottom}
+    if(is.null(control$viewport.margin.left)){leftMargin <- ifelse(xaxis, 2 + xaxis_fontsize/3.5, 3)}else{leftMargin <- control$viewport.margin.left}
+    if(is.null(control$viewport.margin.top)){topMargin <- max(ylim)+0.5}else{topMargin <- control$viewport.margin.top}
+    if(is.null(control$viewport.margin.right)){rightMargin <- max(ylim)}else{rightMargin <- control$viewport.margin.right}
+  }else{
+
+    if(is.null(control$viewport.margin.bottom)){control$viewport.margin.bottom = 3}
+    if(is.null(control$viewport.margin.left)){control$viewport.margin.left = 5}
+    if(is.null(control$viewport.margin.top)){control$viewport.margin.top = 2.5}
+    if(is.null(control$viewport.margin.right)){control$viewport.margin.right = 2.5}
+
+
+    topMargin <- control$viewport.margin.top
+    rightMargin <- control$viewport.margin.right
+    leftMargin <- control$viewport.margin.left
+    bottomMargin <- control$viewport.margin.bottom
+  }
 
   grid::pushViewport(grid::plotViewport(c(bottomMargin, leftMargin, topMargin, rightMargin)))
 
@@ -323,7 +338,7 @@ logo_pssm <- function(table,
     grid::grid.xaxis(at=wt*seq(0.5,ncol(table)-0.5),
                      label=colnames(table),
                      gp=grid::gpar(fontsize=xaxis_fontsize))
-    grid::grid.text(xlab, y=grid::unit(-3,"lines"),
+    grid::grid.text(xlab, y=grid::unit(-control$gap_xlab,"lines"),
                     gp=grid::gpar(fontsize=xaxis_fontsize))
   }
   if (yaxis){
@@ -334,7 +349,7 @@ logo_pssm <- function(table,
     # }else{
     #   grid::grid.yaxis(gp=grid::gpar(fontsize=y_fontsize))
     # }
-    grid::grid.text(ylab,x=grid::unit(-3.5,"lines"),rot=90,
+    grid::grid.text(ylab,x=grid::unit(-control$gap_ylab,"lines"),rot=90,
                     gp=grid::gpar(fontsize=y_fontsize))
   }
 
