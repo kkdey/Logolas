@@ -4,7 +4,8 @@
 \alias{nlogomaker}
 \title{Main workhorse function that builds negative logo plots}
 \usage{
-nlogomaker(table, logoheight = c("ic", "log", "log_odds"), color_profile,
+nlogomaker(table, logoheight = c("ic_diff", "ic_ratio", "ic_log",
+  "ic_log_odds", "log", "log_odds", "ratio", "diff"), color_profile,
   total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
   "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero",
   "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",
@@ -19,6 +20,11 @@ nlogomaker(table, logoheight = c("ic", "log", "log_odds"), color_profile,
 \item{table}{The input table (data frame or matrix) of counts across different
 logos or symbols (specified along the rows) ans across different sites or
 positions or groups (specified along the columns).}
+
+\item{logoheight}{The method used to generate the heights of the logos in the
+psotive and the negative Y axis of the logo plot. Can take one of 8 options -
+\code{ratio}, \code{diff}, \code{log}, \code{log_odds}, \code{ic_log},
+\code{ic_diff}, \code{ic_ratio} and \code{ic_log_odds}.}
 
 \item{color_profile}{A list containing two elements - "type" and "col". The type can
 be of three types - "per-row", "per-column" and "per-symbol". The "col" element
@@ -86,20 +92,16 @@ or blocks}
 \item{control}{control parameters fixing whether the height of the logos is
 detrmined by IC or histogram proportions (\code{hist}), the scales for the
 plot (\code{scale0}, \code{scale1}), the additive factor epsilon added to
-log transform to avoid log(0) errors (\code{log_epsilon}, \code{ic_epsilon},
-\code{log_odds_epsilon}), the weight on the depletion effect visualization
-(\code{depletion_weight}), whether the symbols should be filled with color
-or border colored (\code{tofill_pos, tofill_neg}), the Renyi alpha parameter
-for the entropy calculation (\code{alpha}), the gap between ylabel and y-axis and
-xlabel and x-axis texts (\code{gap_ylab}, \code{gap_xlab}), the viewport
-configuration details for the plot (\code{viewport.margin.bottom},
-\code{viewport.margin.left}, \code{viewport.margin.top},
+log transform to avoid log(0) errors (\code{epsilon}), the weight on the
+depletion effect visualization (\code{depletion_weight}), whether the symbols
+should be filled with color or border colored (\code{tofill_pos, tofill_neg}),
+the Renyi alpha parameter for the entropy calculation (\code{alpha}),
+the gap between ylabel and y-axis and xlabel and x-axis texts (\code{gap_ylab},
+\code{gap_xlab}), the viewport configuration details for the plot
+(\code{viewport.margin.bottom}, \code{viewport.margin.left}, \code{viewport.margin.top},
 \code{viewport.margin.right}), whether the height of the logos would be fixed
  apriori or determined by the PWM matrix as in seqLogo
  (\code{use_seqLogo_heights}) etc.}
-
-\item{hist}{Whether to use the hist method or the information criterion
-method to determine the heights of the logos.}
 
 \item{alpha}{The Renyi entropy tuning parameter which is used in case of
 scaling of the bar heights by information criterion. The default tuning
