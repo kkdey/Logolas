@@ -1,9 +1,9 @@
-#' @title Get heights of logos in nlogomaker() using absolute log heights.
+#' @title Get heights of logos in nlogomaker() using ratios of the PWM with background.
 #'
 #' @description Genertes total heights of the logos in the positive and negative
 #' scales of the nlogomaker() logo plot along with the proportion of the height
 #' distributed between the logos to be plotted in the positive and the negative
-#' scales respectively.
+#' scales respectively using ratios of the PWM with background.
 #'
 #' @param table The input table (data frame or matrix) of counts across different
 #' logos or symbols (specified along the rows) ans across different sites or
@@ -47,7 +47,7 @@
 #' @export
 
 
-get_logo_heights_log <- function(table, epsilon = 0.01, bg = NULL,
+get_logo_heights_ratio <- function(table, epsilon = 0.01, bg = NULL,
                                  alpha = 1, hist=FALSE, quant = 0.5,
                                  depletion_weight = 0){
 
@@ -93,7 +93,7 @@ get_logo_heights_log <- function(table, epsilon = 0.01, bg = NULL,
   npos <- ncol(table_mat_norm)
   chars <- as.character(rownames(table_mat_norm))
 
-  table_mat_adj <- apply(log((table_mat_norm+epsilon)/(bgmat+epsilon), base=2), 2, function(x)
+  table_mat_adj <- apply((table_mat_norm+epsilon)/(bgmat+epsilon), 2, function(x)
   {
     indices <- which(is.na(x))
     if(length(indices) == 0){
@@ -163,4 +163,3 @@ get_logo_heights_log <- function(table, epsilon = 0.01, bg = NULL,
   ll$table_mat_neg_norm <- table_mat_neg_norm
   return(ll)
 }
-

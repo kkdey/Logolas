@@ -7,8 +7,10 @@
 #' logos or symbols (specified along the rows) ans across different sites or
 #' positions or groups (specified along the columns).
 #'
-#' @param hist Whether to use the hist method or the information criterion
-#' method to determine the heights of the logos.
+#' @param logoheight The method used to generate the heights of the logos in the
+#' psotive and the negative Y axis of the logo plot. Can take one of 8 options -
+#' \code{ratio}, \code{diff}, \code{log}, \code{log_odds}, \code{ic_log},
+#' \code{ic_diff}, \code{ic_ratio} and \code{ic_log_odds}.
 #'
 #' @param color_profile A list containing two elements - "type" and "col". The type can
 #' be of three types - "per-row", "per-column" and "per-symbol". The "col" element
@@ -82,14 +84,13 @@
 #' @param control control parameters fixing whether the height of the logos is
 #' detrmined by IC or histogram proportions (\code{hist}), the scales for the
 #' plot (\code{scale0}, \code{scale1}), the additive factor epsilon added to
-#' log transform to avoid log(0) errors (\code{log_epsilon}, \code{ic_epsilon},
-#' \code{log_odds_epsilon}), the weight on the depletion effect visualization
-#' (\code{depletion_weight}), whether the symbols should be filled with color
-#' or border colored (\code{tofill_pos, tofill_neg}), the Renyi alpha parameter
-#' for the entropy calculation (\code{alpha}), the gap between ylabel and y-axis and
-#' xlabel and x-axis texts (\code{gap_ylab}, \code{gap_xlab}), the viewport
-#' configuration details for the plot (\code{viewport.margin.bottom},
-#' \code{viewport.margin.left}, \code{viewport.margin.top},
+#' log transform to avoid log(0) errors (\code{epsilon}), the weight on the
+#' depletion effect visualization (\code{depletion_weight}), whether the symbols
+#' should be filled with color or border colored (\code{tofill_pos, tofill_neg}),
+#' the Renyi alpha parameter for the entropy calculation (\code{alpha}),
+#' the gap between ylabel and y-axis and xlabel and x-axis texts (\code{gap_ylab},
+#' \code{gap_xlab}), the viewport configuration details for the plot
+#' (\code{viewport.margin.bottom}, \code{viewport.margin.left}, \code{viewport.margin.top},
 #' \code{viewport.margin.right}), whether the height of the logos would be fixed
 #'  apriori or determined by the PWM matrix as in seqLogo
 #'  (\code{use_seqLogo_heights}) etc.
@@ -139,7 +140,8 @@
 #' @export
 
 nlogomaker <- function(table,
-                       logoheight = c("ic", "log", "log_odds"),
+                       logoheight = c("ic_diff", "ic_ratio", "ic_log", "ic_log_odds",
+                                        "log", "log_odds", "ratio", "diff"),
                        color_profile,
                        total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
                                        "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
@@ -167,8 +169,7 @@ nlogomaker <- function(table,
 
   control.default <- list(hist = FALSE, alpha = 1, opt = 1, scale0=0.01,
                           scale1=0.99, tofill_pos = TRUE, tofill_neg = TRUE,
-                          lwd = 2, ic_epsilon = 0.01,
-                          log_epsilon = 0.01, log_odds_epsilon=0.01,
+                          lwd = 2, epsilon = 0.01,
                           quant = 0.5, depletion_weight = 0,
                           gap_xlab = 3, gap_ylab = 3,
                           viewport.margin.bottom = NULL,
@@ -186,7 +187,7 @@ nlogomaker <- function(table,
   depletion_weight <- control$depletion_weight
   if(depletion_weight > 0.7){ depletion_weight <- 0.7}
 
-  table <- apply(table+0.0001,2,normalize_n)
+  table <- apply(table+0.0001,2,normalize)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -197,27 +198,60 @@ nlogomaker <- function(table,
   npos <- ncol(table)
 
 
-  if(logoheight == "ic"){
-    ll <- get_logo_heights_ic(table, alpha = control$alpha,
-                              epsilon = control$ic_epsilon,
+  if(logoheight == "ic_ratio"){
+    ll <- get_logo_heights_ic_ratio(table, alpha = control$alpha,
+                              epsilon = control$epsilon,
                               bg = bg,
                               opt = control$opt,
                               hist = control$hist,
                               quant = control$quant)
-  } else if (logoheight == "log"){
-    ll <- get_logo_heights_log(table, epsilon = control$log_epsilon,
+  } else if (logoheight == "ic_diff"){
+    ll <- get_logo_heights_ic_diff(table, alpha = control$alpha,
+                                    epsilon = control$epsilon,
+                                    bg = bg,
+                                    opt = control$opt,
+                                    hist = control$hist,
+                                    quant = control$quant)
+  }else if (logoheight == "ic_log"){
+    ll <- get_logo_heights_ic_log(table, alpha = control$alpha,
+                                   epsilon = control$epsilon,
+                                   bg = bg,
+                                   opt = control$opt,
+                                   hist = control$hist,
+                                   quant = control$quant)
+  }else if (logoheight == "ic_log_odds"){
+    ll <- get_logo_heights_ic_log_odds(table, alpha = control$alpha,
+                                  epsilon = control$epsilon,
+                                  bg = bg,
+                                  opt = control$opt,
+                                  hist = control$hist,
+                                  quant = control$quant)
+  }else if (logoheight == "log"){
+    ll <- get_logo_heights_log(table, epsilon = control$epsilon,
                                bg = bg,
                                alpha = control$alpha, hist = control$hist,
                                quant = control$quant,
                                depletion_weight = depletion_weight)
   } else if (logoheight == "log_odds"){
-    ll <- get_logo_heights_log_odds(table, epsilon = control$log_odds_epsilon,
+    ll <- get_logo_heights_log_odds(table, epsilon = control$epsilon,
                                     bg = bg,
                                     alpha = control$alpha, hist = control$hist,
                                     quant = control$quant,
                                     depletion_weight = depletion_weight)
+  }else if (logoheight == "diff"){
+    ll <- get_logo_heights_diff(table, epsilon = control$epsilon,
+                                bg = bg,
+                                alpha = control$alpha, hist = control$hist,
+                                quant = control$quant,
+                                depletion_weight = depletion_weight)
+  }else if (logoheight == "ratio"){
+    ll <- get_logo_heights_ratio(table, epsilon = control$epsilon,
+                                bg = bg,
+                                alpha = control$alpha, hist = control$hist,
+                                quant = control$quant,
+                                depletion_weight = depletion_weight)
   }else{
-    stop("logoheight option must be one of ic, log or log_odds")
+    stop("logoheight option must be one of log, ratio, diff, log_odds, ic_log, ic_diff, ic_ratio, ic_log_odds")
   }
 
   pos_ic <- ll$pos_ic
@@ -616,5 +650,4 @@ addLetter_n <- function(letters, letter, tofill, lwd,
   return(letters)
 }
 
-normalize_n = function(x){return(x/sum(x[!is.na(x)]))}
 

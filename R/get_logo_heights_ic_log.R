@@ -1,9 +1,10 @@
-#' @title Get heights of logos in nlogomaker() using Information criterion.
+#' @title Get heights of logos in nlogomaker() using Information criterion with
+#' log scale splitting of ratios
 #'
-#' @description Genertes total heights of the logos in the positive and negative
+#' @description Generates total heights of the logos in the positive and negative
 #' scales of the nlogomaker() logo plot along with the proportion of the height
 #' distributed between the logos to be plotted in the positive and the negative
-#' scales respectively.
+#' scales respectively using Information criterion and log scale split.
 #'
 #' @param table The input table (data frame or matrix) of counts across different
 #' logos or symbols (specified along the rows) ans across different sites or
@@ -49,7 +50,7 @@
 #' @export
 
 
-get_logo_heights_ic <- function(table, alpha = 1, epsilon = 0.01, bg = NULL, opt = 1,
+get_logo_heights_ic_log <- function(table, alpha = 1, epsilon = 0.01, bg = NULL, opt = 1,
                                 hist = FALSE, quant = 0.5){
 
   if (is.vector(bg)==TRUE){
@@ -78,8 +79,8 @@ get_logo_heights_ic <- function(table, alpha = 1, epsilon = 0.01, bg = NULL, opt
   }
 
 
-    table <- apply(table+0.0001,2,normalize_ic)
-    bgmat <- apply(bgmat+0.0001,2,normalize_ic)
+    table <- apply(table+0.0001,2,normalize)
+    bgmat <- apply(bgmat+0.0001,2,normalize)
 
     if (class(table) == "data.frame"){
       table <- as.matrix(table)
@@ -110,7 +111,7 @@ get_logo_heights_ic <- function(table, alpha = 1, epsilon = 0.01, bg = NULL, opt
         }
       })
     }else{
-      table_mat_adj <- apply(log(table_mat_norm+scale, base=2), 2, function(x)
+      table_mat_adj <- apply(log(table_mat_norm+epsilon, base=2), 2, function(x)
       {
         indices <- which(is.na(x))
         if(length(indices) == 0){
@@ -186,5 +187,3 @@ get_logo_heights_ic <- function(table, alpha = 1, epsilon = 0.01, bg = NULL, opt
     ll$table_mat_neg_norm <- table_mat_neg_norm
     return(ll)
 }
-
-normalize_ic = function(x){return(x/sum(x[!is.na(x)]))}
