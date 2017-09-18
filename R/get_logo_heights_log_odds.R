@@ -19,6 +19,10 @@
 #' to be the same across the columns (sites), or a matrix, whose each cell specifies
 #' the background probability of the symbols for each position.
 #'
+#' @param opt Option parameter - taking values 1 and 2 - depending on whether
+#' median adjustment is done based on background corrected proportions or without
+#' background correction
+#'
 #' @param alpha The Renyi entropy tuning parameter which is used in case of
 #' scaling of the bar heights by information criterion. The default tuning
 #' parameter value is 1, which corresponds to Shannon entropy.
@@ -47,7 +51,7 @@
 #' @export
 
 
-get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL,
+get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL, opt = 1,
                                       alpha = 1, hist=FALSE, quant = 0.5,
                                       depletion_weight = 0){
 
@@ -77,8 +81,8 @@ get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL,
   }
 
 
-  table <- apply(table+0.0001,2,normalize_logodds)
-  bgmat <- apply(bgmat+0.0001,2,normalize_logodds)
+  table <- apply(table+0.0001,2,normalize)
+  bgmat <- apply(bgmat+0.0001,2,normalize)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -91,25 +95,48 @@ get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL,
   npos <- ncol(table_mat_norm)
   chars <- as.character(rownames(table_mat_norm))
 
-  table_mat_adj <- apply((table_mat_norm + epsilon)/(bgmat + epsilon), 2, function(x)
-  {
-    indices <- which(is.na(x))
-    if(length(indices) == 0){
-     # x <- x
-      y = log(x/(sum(x)-x), base=2)
-      z <- y - quantile(y, quant)
-      return(z)
-    }else{
-      w <- x[!is.na(x)]
-      #w <- w + scale
-      y <- log(w/(sum(w)-w), base=2)
-      z <- y - quantile(y, quant)
-      zext <- array(0, length(x))
-      zext[indices] <- 0
-      zext[-indices] <- z
-      return(zext)
-    }
-  })
+  if(opt == 1){
+    table_mat_adj <- apply((table_mat_norm + epsilon)/(bgmat + epsilon), 2, function(x)
+    {
+      indices <- which(is.na(x))
+      if(length(indices) == 0){
+        # x <- x
+        y = log(x/(sum(x)-x), base=2)
+        z <- y - quantile(y, quant)
+        return(z)
+      }else{
+        w <- x[!is.na(x)]
+        #w <- w + scale
+        y <- log(w/(sum(w)-w), base=2)
+        z <- y - quantile(y, quant)
+        zext <- array(0, length(x))
+        zext[indices] <- 0
+        zext[-indices] <- z
+        return(zext)
+      }
+    })
+  }else{
+    table_mat_adj <- apply((table_mat_norm + epsilon), 2, function(x)
+    {
+      indices <- which(is.na(x))
+      if(length(indices) == 0){
+        # x <- x
+        y = log(x/(sum(x)-x), base=2)
+        z <- y - quantile(y, quant)
+        return(z)
+      }else{
+        w <- x[!is.na(x)]
+        #w <- w + scale
+        y <- log(w/(sum(w)-w), base=2)
+        z <- y - quantile(y, quant)
+        zext <- array(0, length(x))
+        zext[indices] <- 0
+        zext[-indices] <- z
+        return(zext)
+      }
+    })
+  }
+
 
   table_mat_pos <- table_mat_adj
   table_mat_pos[table_mat_pos<= 0] = 0
@@ -164,5 +191,3 @@ get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL,
   ll$table_mat_neg_norm <- table_mat_neg_norm
   return(ll)
 }
-
-normalize_logodds = function(x){return(x/sum(x[!is.na(x)]))}
