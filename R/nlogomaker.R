@@ -457,7 +457,7 @@ nlogomaker <- function(table,
 
   for(n in 2:length(xlim)){
     grid::grid.lines(x = grid::unit(low_xlim[n], "native"),
-                     y = grid::unit(c(0, max(markers)/ylim), "native"),
+                     y = grid::unit(c(0, 1), "native"),
                      gp=grid::gpar(col=col_line_split))
   }
 
