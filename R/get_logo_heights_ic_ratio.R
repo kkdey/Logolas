@@ -79,8 +79,8 @@ get_logo_heights_ic_ratio <- function(table, alpha = 1, epsilon = 0.01, bg = NUL
   }
 
 
-  table <- apply(table+0.0001,2,normalize)
-  bgmat <- apply(bgmat+0.0001,2,normalize)
+  table <- apply(table+0.0001,2,normalize_ic_ratio)
+  bgmat <- apply(bgmat+0.0001,2,normalize_ic_ratio)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -187,3 +187,5 @@ get_logo_heights_ic_ratio <- function(table, alpha = 1, epsilon = 0.01, bg = NUL
   ll$table_mat_neg_norm <- table_mat_neg_norm
   return(ll)
 }
+
+normalize_ic_ratio = function(x){return(x/sum(x[!is.na(x)]))}
