@@ -78,8 +78,8 @@ get_logo_heights_diff <- function(table, epsilon = 0.01, bg = NULL,
 
 
 
-  table <- apply(table+0.0001,2,normalize)
-  bgmat <- apply(bgmat+0.0001,2,normalize)
+  table <- apply(table+0.0001,2,normalize_diff)
+  bgmat <- apply(bgmat+0.0001,2,normalize_diff)
 
 
   if (class(table) == "data.frame"){
@@ -163,3 +163,6 @@ get_logo_heights_diff <- function(table, epsilon = 0.01, bg = NULL,
   ll$table_mat_neg_norm <- table_mat_neg_norm
   return(ll)
 }
+
+normalize_diff = function(x){return(x/sum(x[!is.na(x)]))}
+
