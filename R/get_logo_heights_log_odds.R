@@ -81,8 +81,8 @@ get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL, opt = 1,
   }
 
 
-  table <- apply(table+0.0001,2,normalize)
-  bgmat <- apply(bgmat+0.0001,2,normalize)
+  table <- apply(table+0.0001,2,normalize_log_odds)
+  bgmat <- apply(bgmat+0.0001,2,normalize_log_odds)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -191,3 +191,6 @@ get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL, opt = 1,
   ll$table_mat_neg_norm <- table_mat_neg_norm
   return(ll)
 }
+
+normalize_log_odds = function(x){return(x/sum(x[!is.na(x)]))}
+

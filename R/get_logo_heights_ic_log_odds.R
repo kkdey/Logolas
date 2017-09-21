@@ -79,8 +79,8 @@ get_logo_heights_ic_log_odds <- function(table, alpha = 1, epsilon = 0.01, bg = 
   }
 
 
-  table <- apply(table+0.0001,2,normalize)
-  bgmat <- apply(bgmat+0.0001,2,normalize)
+  table <- apply(table+0.0001,2,normalize_ic_log_odds)
+  bgmat <- apply(bgmat+0.0001,2,normalize_ic_log_odds)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -194,3 +194,4 @@ get_logo_heights_ic_log_odds <- function(table, alpha = 1, epsilon = 0.01, bg = 
   return(ll)
 }
 
+normalize_ic_log_odds = function(x){return(x/sum(x[!is.na(x)]))}

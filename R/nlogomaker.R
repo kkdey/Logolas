@@ -187,7 +187,7 @@ nlogomaker <- function(table,
   depletion_weight <- control$depletion_weight
   if(depletion_weight > 0.7){ depletion_weight <- 0.7}
 
-  table <- apply(table+0.0001,2,normalize)
+  table <- apply(table+0.0001,2,normalize3)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -650,4 +650,5 @@ addLetter_n <- function(letters, letter, tofill, lwd,
   return(letters)
 }
 
+normalize3 = function(x){return(x/sum(x[!is.na(x)]))}
 

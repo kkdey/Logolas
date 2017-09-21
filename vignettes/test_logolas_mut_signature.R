@@ -36,7 +36,7 @@ logomaker(table,color_profile = color_profile,frame_width = 1)
 
 
 nlogomaker(table,
-           logoheight = 'ic',
+           logoheight = 'ratio',
            color_profile = color_profile,
            frame_width = 1)
 
