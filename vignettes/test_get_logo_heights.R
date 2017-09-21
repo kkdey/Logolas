@@ -141,6 +141,7 @@ opt = 1
 hist = FALSE
 quant = 0.5
 
+logoheight <- "log_odds"
 total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
                 "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
                 "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
