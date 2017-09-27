@@ -32,13 +32,6 @@
 #'                   and 0.1.
 #' @param mode An user defined mode/mean for the Dirichlet components. Defaults
 #'             to equal means for all components.
-#' @param weight A list of three components which assigns weights to the center
-#'             Dirichlet component (determined by defined position of concentrations).
-#'             Defaults to center weight of 10 and null and corner weights of 1.
-#' @param def_positions A list of three components which assigns concentration
-#'                values to center, null and corner components of Dirichlet
-#'                distributions. The default concentrations for center are Inf,
-#'                null are 1 and corner as 0.5.
 #' @param optmethod The method for performing optimization of the mixture
 #'               proportions or grades of memberships for the different
 #'               Dirichlet compositions. Can be either of "mixEM", "w_mixEM"
@@ -46,18 +39,18 @@
 #'               optimization.
 #' @param sample_weights The weights of the samples for performing the optimization.
 #'               Defaults to NULL, in which case the weight is same for each sample.
-#' @param verbose if TRUE, outputs messages tracking progress of the method
-#' @param fdr_bound The concentration bound used to detect false discoveries
-#'                of deviations from the mode.
+#' @param verbose if TRUE, outputs messages tracking progress of the method.
 #' @param bf A boolean (TRUE/FALSE) variable denoting whether log bayes factor
 #'           (with respect to category with smallest representation) is used in
 #'           optimization or the loglikelihood. Defaults to FALSE.
 #' @param pi_init An initial starting value for the mixture proportions. Defaults
 #'                to same proportion for all categories.
-#' @param control A list of control parameters for the SQUAREM/IP algorithm,
+#' @param squarem_control A list of control parameters for the SQUAREM/IP algorithm,
 #'              default value is set to be control.default=list(K = 1, method=3,
 #'               square=TRUE, step.min0=1, step.max0=1, mstep=4, kr=1,
 #'               objfn.inc=1,tol=1.e-07, maxiter=5000, trace=FALSE).
+#' @param dash_control A list of control parameters for determining the concentrations
+#'                     and prior weights and fdr control parameters for dash fucntion.
 #' @param reportcov A boolean indicating whether the user wants to return
 #'                  the covariance and correlation structure of the posterior.
 #'                  Defaults to FALSE.
@@ -88,23 +81,34 @@
 #' out <- dash(xmat, optmethod = "w_mixEM", verbose=TRUE)
 #'
 #' @export
-#' @importFrom LaplacesDemon ddirichlet
 #'
 
 
 dash <- function(comp_data,
                  concentration = NULL,
                  mode = NULL,
-                 weight = list("center" = 10, "null" = 1, "corner" = 1),
-                 def_positions = list("center" = Inf, "null" = 1, "corner" = 0.5),
                  optmethod = c("mixEM", "w_mixEM", "mixIP"),
                  sample_weights = NULL,
                  verbose = FALSE,
-                 fdr_bound = 50,
                  bf = TRUE,
                  pi_init = NULL,
-                 control = list(),
+                 squarem_control = list(),
+                 dash_control = list(),
                  reportcov = FALSE){
+
+  comp_data <- t(comp_data)
+
+  dash_control.default <- list(add_NULL = TRUE, add_Inf = TRUE, add_corner = TRUE,
+                               corner_val = 0.005, null_weight = 1, Inf_weight = 1,
+                               corner_weight = 1, fdr_bound = 50)
+
+  dash_control <- modifyList(dash_control.default, dash_control)
+
+  squarem_control.default=list(K = 1, method=3,
+                               square=TRUE, step.min0=1, step.max0=1, mstep=4, kr=1,
+                               objfn.inc=1,tol=1.e-07, maxiter=5000, trace=FALSE)
+
+  squarem_control <- modifyList(squarem_control.default, squarem_control)
 
   ## check if the mode has same length as columns of composition data
 
@@ -112,54 +116,83 @@ dash <- function(comp_data,
     cat("Checking inputs and processing the data \n")
   }
 
+  ############  Determine the mode of the Dirichlet distribution   ##################
+
   if(is.null(mode)){
     mode <- rep(1, dim(comp_data)[2])
   }else{
     mode <- mode/min(mode[mode!=0])
   }
 
+  ## weights for the samples - check if this vector has the same
+  ## length as the number of samples (number of rows of the compositional data),
+  ## unless it is NULL, in which case, all samples have equal weights.
+
   if(!is.null(sample_weights)){
     if(length(sample_weights) != dim(comp_data)[1]){
       stop("The length of the user-defined sample weights must match with number of rows
            in the comp_data")
     }
-  }
+    }
 
+  ## check if an initial mixture proportion pi has been provided by the user.
 
   if(!is.null(pi_init)){
     if(length(pi_init) != dim(comp_data)[2]){
       stop("The length of the user-defined pi_init must match with number of columns
            in the comp_data")
     }
-  }
+    }
 
+  ## if background mode or probability is provided, we check if the length of the
+  ## vector matches with number of samples
 
   if(!is.null(mode)){
     if(length(mode) != dim(comp_data)[2]){
       stop("The length of the user-defined mode must match with number of columns
            in the comp_data")
     }
-  }
+    }
 
   ## add prior concentrations - adding an Inf and 1 concentration to the mix
   ## if not provided by the user
 
-  if(is.null(concentration)){
-    concentration <- c(Inf, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.1)
-  }else{
-    concentration <- unique(c(def_positions$center, concentration, def_positions$null, def_positions$corner))
-  }
+  concentration <- unique(concentration)
 
+  if(is.null(concentration)){
+    concentration <- c(Inf, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.005)
+  }else{
+    if (dash_control$add_NULL){
+      concentration <- c(concentration, 1)
+    }
+    if (dash_control$add_Inf){
+      concentration <- c(concentration, Inf)
+    }
+    if(dash_control$add_corner){
+      if (min(concentration) > dash_control$corner_val){
+        concentration <- c(concentration, dash_control$corner_val)
+      }
+    }
+    concentration <- sort(concentration, decreasing = TRUE)
+  }
 
   conc <- concentration
   conc[conc == Inf] <- 10^5
   conc_mat <- t(sapply(conc,function(x) return(x*(mode+1e-04))))
 
   prior <- array(1, length(concentration))
-  prior[match(c(def_positions$center, def_positions$null, def_positions$corner), concentration)] <- c(weight$center, weight$null, weight$corner)
+  if(length(which(concentration == Inf)) > 0){
+    prior[which(concentration == Inf)] <- dash_control$Inf_weight
+  }
+  if(length(which(concentration == 1)) > 0){
+    prior[which(concentration == 1)] <- dash_control$null_weight
+  }
+  if(min(concentration) < 1){
+    prior[which(concentration == min(concentration))] <- dash_control$corner_weight
+  }
 
 
-  #############  define the matrix likelihoods   ###########################
+  #############  define the matrix likelihoods under Dirichlet model  ###########################
 
   if(verbose){
     cat("Fitting the dash shrinkage \n")
@@ -170,7 +203,7 @@ dash <- function(comp_data,
   for(n in 1:dim(comp_data)[1]){
     x <- comp_data[n,]
     for(k in 2:dim(conc_mat)[1]){
-     # numero <- sum(x)*beta(sum(conc_mat[k,]), sum(x))
+      # numero <- sum(x)*beta(sum(conc_mat[k,]), sum(x))
       lognumero <- log(sum(x)) - LaplacesDemon::ddirichlet(rep(1,2), alpha = c(sum(conc_mat[k,]), sum(x)), log=TRUE)
       if(lognumero == -Inf | lognumero == Inf ){
         matrix_log_lik[n, k] <- lognumero
@@ -178,10 +211,6 @@ dash <- function(comp_data,
         index1 <- which(x > 0)
         logdeno <- sum(log(x[index1]) -  sapply(1:length(index1), function(mm) return(LaplacesDemon::ddirichlet(rep(1,2), alpha = c(conc_mat[k, index1[mm]], x[index1[mm]]), log=TRUE))))
         matrix_log_lik[n,k] <- lognumero - logdeno
-       # tmp1 <- exp(log(x[index1]) -  sapply(1:length(index1), function(mm) return(LaplacesDemon::ddirichlet(rep(1,2), alpha = c(conc_mat[k, index1[mm]], x[index1[mm]]), log=TRUE))))
-      #  tmp2 <- x[index1] * beta(conc_mat[k, index1], x[index1])
-       # deno <- prod(x[index1] * beta(conc_mat[k, index1], x[index1]))
-       # matrix_lik[n,k] <- numero/deno
       }
     }
     matrix_log_lik[n,1] <- logfac(sum(x)) - sum(sapply(x, function(y) return(logfac(y)))) + sum(x*log((conc_mat[1,]+1e-04)/sum(conc_mat[1,]+1e-04)))
@@ -196,20 +225,24 @@ dash <- function(comp_data,
   ############################  mixEM optimization ############################
 
   if(optmethod == "mixEM"){
-    fit=do.call("mixEM",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=control))
+    fit=do.call("mixEM",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=squarem_control))
   }else if (optmethod == "w_mixEM"){
-    fit=do.call("w_mixEM",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=control, weights=sample_weights))
+    fit=do.call("w_mixEM",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=squarem_control, weights=sample_weights))
   }else if (optmethod == "mixIP"){
-    fit=do.call("mixIP",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=control))
+    fit=do.call("mixIP",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=squarem_control))
   }else{
     message("optmethod npt provided correctly: switching to mixEM")
-    fit=do.call("mixEM",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=control))
+    fit=do.call("mixEM",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=squarem_control))
   }
 
 
   if(verbose){
     cat("Preparing output from fitted model  \n")
   }
+
+  ##  generate output list ll and assigning different attributes to it
+  ##  we first add the estimated pi, the concentration parameters and the prior
+  ##  parameters
 
   ll <- list()
   ll$fitted_pi <- fit$pihat
@@ -221,7 +254,13 @@ dash <- function(comp_data,
   pi_complete <- rep(1, dim(matrix_lik)[1]) %*% t(fit$pihat)
   matrix_lik_adj <- matrix_lik*pi_complete
   posterior_weights <- t(apply(matrix_lik_adj, 1, function(x) return(x/sum(x))))
+  colnames(posterior_weights) <- concentration
   ll$posterior_weights <- posterior_weights
+
+  if(!is.null(rownames(comp_data))){
+    rownames(ll$posterior_weights) <- rownames(comp_data)
+  }
+
 
   ########################    posterior means      ############################
 
@@ -239,9 +278,19 @@ dash <- function(comp_data,
   for(n in 1:dim(comp_data)[1]){
     posmean[n,] <- posmean_comp[n,,]%*%posterior_weights[n,]
   }
+  ll$posmean <- t(posmean)
+  ll$datamean <- apply(comp_data, 1, function(x) return(x/sum(x)))
 
-  ll$posmean <- posmean
-  ll$datamean <- t(apply(comp_data, 1, function(x) return(x/sum(x))))
+  if(!is.null(colnames(comp_data))){
+    rownames(ll$posmean) <- colnames(comp_data)
+    rownames(ll$datamean) <- colnames(comp_data)
+  }
+
+  if(!is.null(rownames(comp_data))){
+    colnames(ll$posmean) <- rownames(comp_data)
+    colnames(ll$datamean) <- rownames(comp_data)
+  }
+
 
   ######################## posterior cov/corr structure  ############################
 
@@ -275,11 +324,11 @@ dash <- function(comp_data,
   ######################   FDR + corner enrichment  #########################
 
   ll$center_prob_local <- posterior_weights[,which(concentration == Inf)]
-  ll$center_prob <- rowSums(posterior_weights[, which(concentration > fdr_bound)])
+  ll$center_prob <- rowSums(posterior_weights[, which(concentration > dash_control$fdr_bound)])
   ll$corner_prob <- rowSums(posterior_weights[, which(concentration < 1)])
 
   return(ll)
-}
+  }
 
 
 logfac = function(x){
