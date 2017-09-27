@@ -4,11 +4,10 @@
 \alias{dash}
 \title{Dirichlet adaptive shrinkage of compositional data using dash}
 \usage{
-dash(comp_data, concentration = NULL, mode = NULL, weight = list(center =
-  10, null = 1, corner = 1), def_positions = list(center = Inf, null = 1,
-  corner = 0.5), optmethod = c("mixEM", "w_mixEM", "mixIP"),
-  sample_weights = NULL, verbose = FALSE, fdr_bound = 50, bf = TRUE,
-  pi_init = NULL, control = list(), reportcov = FALSE)
+dash(comp_data, concentration = NULL, mode = NULL, optmethod = c("mixEM",
+  "w_mixEM", "mixIP"), sample_weights = NULL, verbose = FALSE, bf = TRUE,
+  pi_init = NULL, squarem_control = list(), dash_control = list(),
+  reportcov = FALSE)
 }
 \arguments{
 \item{comp_data, }{a n by m matrix where n represents the sample and m
@@ -22,15 +21,6 @@ and 0.1.}
 \item{mode}{An user defined mode/mean for the Dirichlet components. Defaults
 to equal means for all components.}
 
-\item{weight}{A list of three components which assigns weights to the center
-Dirichlet component (determined by defined position of concentrations).
-Defaults to center weight of 10 and null and corner weights of 1.}
-
-\item{def_positions}{A list of three components which assigns concentration
-values to center, null and corner components of Dirichlet
-distributions. The default concentrations for center are Inf,
-null are 1 and corner as 0.5.}
-
 \item{optmethod}{The method for performing optimization of the mixture
 proportions or grades of memberships for the different
 Dirichlet compositions. Can be either of "mixEM", "w_mixEM"
@@ -40,10 +30,7 @@ optimization.}
 \item{sample_weights}{The weights of the samples for performing the optimization.
 Defaults to NULL, in which case the weight is same for each sample.}
 
-\item{verbose}{if TRUE, outputs messages tracking progress of the method}
-
-\item{fdr_bound}{The concentration bound used to detect false discoveries
-of deviations from the mode.}
+\item{verbose}{if TRUE, outputs messages tracking progress of the method.}
 
 \item{bf}{A boolean (TRUE/FALSE) variable denoting whether log bayes factor
 (with respect to category with smallest representation) is used in
@@ -52,10 +39,13 @@ optimization or the loglikelihood. Defaults to FALSE.}
 \item{pi_init}{An initial starting value for the mixture proportions. Defaults
 to same proportion for all categories.}
 
-\item{control}{A list of control parameters for the SQUAREM/IP algorithm,
+\item{squarem_control}{A list of control parameters for the SQUAREM/IP algorithm,
 default value is set to be control.default=list(K = 1, method=3,
  square=TRUE, step.min0=1, step.max0=1, mstep=4, kr=1,
  objfn.inc=1,tol=1.e-07, maxiter=5000, trace=FALSE).}
+
+\item{dash_control}{A list of control parameters for determining the concentrations
+and prior weights and fdr control parameters for dash fucntion.}
 
 \item{reportcov}{A boolean indicating whether the user wants to return
 the covariance and correlation structure of the posterior.
