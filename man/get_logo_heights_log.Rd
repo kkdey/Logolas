@@ -35,6 +35,10 @@ depletion scores. Defaults to 0.5, which corresponds to the median.}
 \item{depletion_weight}{Weighing attached to ic based information score and the
 log height based score. Defaults to 0.8}
 }
+\value{
+Returns the heights of enrichment and depletion for
+log approach to EDLogo.
+}
 \description{
 Genertes total heights of the logos in the positive and negative
 scales of the nlogomaker() logo plot along with the proportion of the height

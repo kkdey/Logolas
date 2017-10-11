@@ -82,10 +82,6 @@ symbols should be filled with color or border colored (\code{tofill_pos,
 tofill_neg}), the viewport configuration details for the plot
 (\code{viewport.margin.bottom}, \code{viewport.margin.left},
 \code{viewport.margin.top}, \code{viewport.margin.right})  etc.}
-
-\item{scale1}{scaling of the logo to maintain the gap between symbols.}
-
-\item{scale0}{the base change of the logo to maintain the gap between symbols.}
 }
 \value{
 Plots the logo plot for the PSSM scoring data, with column names
@@ -97,5 +93,18 @@ stacks logos created by the \code{makemylogo} function on top of
 each other to build the PSSM logo plot.
 }
 \examples{
+
+m = matrix(rep(0,28),4,7)
+m[1,] = c(-10,-6, -5, 4, -10, 4, 5)
+m[2,] = c(-2,4, -6, 3, -3, 3, 0)
+m[3,] = c(1,-5, -2, -1, 20, -3, -12)
+m[4,] = c(10,1, 20, 0, 0, -4, 8)
+rownames(m) = c("A", "C", "G", "T")
+colnames(m) = 1:7
+color_profile = list("type" = "per_row",
+                    "col" = RColorBrewer::brewer.pal(4,name ="Spectral"))
+logo_pssm(m,xlab = 'position',
+         color_profile = color_profile,
+         frame_width = 1)
 
 }

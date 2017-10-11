@@ -57,10 +57,6 @@
 #'
 #' @param ylimit The limit of the Y axis.
 #'
-#' @param scale1 scaling of the logo to maintain the gap between symbols.
-#'
-#' @param scale0 the base change of the logo to maintain the gap between symbols.
-#'
 #' @param addlogos Vector of additional logos/symbols defined by user
 #' @param addlogos_text Vector of the names given to the additional logos/symbols defined by user.
 #'
@@ -78,6 +74,7 @@
 #'
 #' @import grid
 #' @importFrom graphics par
+#' @importFrom  utils  modifyList
 #' @examples
 #'
 #' m = matrix(rep(0,28),4,7)
