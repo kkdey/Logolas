@@ -55,15 +55,26 @@ options(digits=3, width=80, prompt=" ", continue=" ")
 
 \section{Introduction}
 
-Logo plots are a popular tool in bioinformatics and regulatory genomics studies for representing sequence alignment patterns and for sequence and protein motif detection. One of the first and widely used logo plotting tools is \Biocpkg{seqLogo} by Oliver Bembom \cite{Bembom2016}, specifically targeted at DNA sequence alignment. However, it has a library of only 4 symbols - A, C, G and T- corresponding to the 4 nucleotides. The package \CRANpkg{RWebLogo} is an extension of WebLogo python package that plots custom sequence logos by extending it to all alphabets \cite{Wagih2014}. Another package \Biocpkg{motifStack} works with both DNA/RNA sequence motif and amino acid sequence motif and customizes font size and colors \cite{Ou2015}.
+Ever since its introduction due to Schneider & Stephens (1990), sequence logos have proved to be an effective tool in informative visualization of patterns in aligned sets of sequences. There are several existing packages for plotting sequence logos, like \textit{seqLogo}, \textit{seq2Logo}, \textit{motifStack} etc.
 
-\Logolas{} adds more flexibility by customizing logos and the graphical design of the logo plots. Also it extends the library of symbols beyond English alphabets to numbers, symbols (arrows, punctuations) and to alphanumeric strings. It allows the user to choose a range of information criteria to determine logo sizes. It provides a simple user interface to create new logos and add them to their personalized library of logos and even apply them in strings. We show several applications in genomics, ecology and document mining, where such logo plots can be applied.
+We introduce another Logo visualization package called \textit{Logolas} which addresses some limitations of the above packages and makes logo visualization a more generic tool with potential applications in a much wider scope of problems, in comparison to the existing softwares. Some features of \textit{Logolas} are as follows.
+
+- \textbf{EDLogo Representation} : General logo plotting softwares highlight only enrichment of certain symbols, but Logolas allows the user to highlight both enrichment and depletion of symbols at any position, leading to more parsimonious and visually appealing representation.
+
+- \textbf{Strings as symbols} : General logo building softwares have limited library of symbols usually restricted to English alphabets. Logolas allows the user to plot symbols for any alphanumeric string, comprising of English alphabets, numbers, punctuation marks, arrows etc. It also provides an easy interface for the user to create her own logo and add to the library of symbols that can be plotted (check the Vignette).
+
+
+- \textbf{Dirichlet Adaptive Shrinkage} : Most existing logo plotting tools take position weight matrix (PWM) as input for the logo plot and do not adapt well to the scale of the underlying positional frequencies from which the PWM is created. In Logolas, we provide a Dirichlet Adaptive Shrinkage method (dash) approach for adaptively scaling the heights of the logos based on the frequency scale. This approach is similar in lines to the **ashr** software due to M. Stephens (2016).
+
+
+- \textbf{Better stylizations} : Logolas also allows for new and flexible stylizations of the logos, involving color palettes, new fill and border styles, several options for determining heights of the logos etc. We also show how to plot multi-panel Logolas plots and combine Logolas plots with ggplot2 graphics.
+
 
 \newpage
 
 \section{\Logolas{} Installation}
 
-\Logolas{} requires the following CRAN-R package : \CRANpkg{grid}, \CRANpkg{gridExtra}, \CRANpkg{RColorBrewer}, \CRANpkg{devtools}.
+\Logolas{} loads as dependencies the following CRAN-R package : \CRANpkg{grid}, \CRANpkg{gridExtra}, \CRANpkg{graphics}, \CRANpkg{SQUAREM},  \CRANpkg{LaplacesDemon},  \CRANpkg{LaplacesDemon}, \CRANpkg{Matrix}, \CRANpkg{RColorBrewer}, \CRANpkg{devtools}.
 
 <<install_logolas_bio, eval=FALSE>>=
 source("http://bioconductor.org/biocLite.R")
