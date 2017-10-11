@@ -80,6 +80,19 @@
 #' @importFrom graphics par
 #' @examples
 #'
+#' m = matrix(rep(0,28),4,7)
+#' m[1,] = c(-10,-6, -5, 4, -10, 4, 5)
+#' m[2,] = c(-2,4, -6, 3, -3, 3, 0)
+#' m[3,] = c(1,-5, -2, -1, 20, -3, -12)
+#' m[4,] = c(10,1, 20, 0, 0, -4, 8)
+#' rownames(m) = c("A", "C", "G", "T")
+#' colnames(m) = 1:7
+#' color_profile = list("type" = "per_row",
+#'                     "col" = RColorBrewer::brewer.pal(4,name ="Spectral"))
+#' logo_pssm(m,xlab = 'position',
+#'          color_profile = color_profile,
+#'          frame_width = 1)
+#'
 #' @importFrom stats median
 #' @export
 #'

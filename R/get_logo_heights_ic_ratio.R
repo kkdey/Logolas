@@ -45,7 +45,7 @@
 #' rownames(m) = c("A", "C", "G", "T")
 #' colnames(m) = 1:12
 #' m=m/8
-#' get_logo_heights_ic(m, alpha = 1, hist = FALSE)
+#' get_logo_heights_ic_ratio(m, alpha = 1, hist = FALSE)
 #'
 #' @export
 
