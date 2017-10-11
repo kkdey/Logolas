@@ -1,2 +1,27 @@
 version 0.99.14
 	+ Release
+
+CHANGES IN VERSION 0.1.1
+------------------------
+	 
+	  
+	o Added EDLogo plots highlighting both enrichment and depletion
+
+        o Added new fill and border styles for the logos
+
+	o Added a Dirichlet Adaptive Shrinkage (dash) for adaptively scaling position weights 
+
+	o Added tutorials in the vignette for multi panel Logos plots and combining Logolas plots with ggplot2 graphics.
+
+	o Some input arguments are deprecated or passed into control parameters
+
+	o Background matrix or vector option has been added for comparative logo plot visualization given a prior belief.
+
+	o PSSM logo plot function added primarily for protein sequence motif visualization
+
+	o Functions added to compute the heights of the enrichments and depletions of the symbols in logo plot.
+
+	o Nomenclature added for calling a base at each position.
+
+
+
