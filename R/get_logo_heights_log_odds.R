@@ -36,6 +36,11 @@
 #' @param depletion_weight Weighing attached to ic based information score and the
 #' log height based score. Defaults to 0.8
 #'
+#' @return Returns the heights of enrichment and depletion for
+#' log odds approach to EDLogo.
+#'
+#' @importFrom  stats quantile
+#'
 #' @examples
 #'
 #' m = matrix(rep(0,48),4,12)
@@ -46,7 +51,7 @@
 #' rownames(m) = c("A", "C", "G", "T")
 #' colnames(m) = 1:12
 #' m=m/8
-#' get_logo_heights_log_odds(m, scale = 1)
+#' get_logo_heights_log_odds(m)
 #'
 #' @export
 
