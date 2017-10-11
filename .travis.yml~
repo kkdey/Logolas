@@ -1,0 +1,9 @@
+# Sample .travis.yml for R projects
+
+
+language: r
+warnings_are_errors: true
+sudo: required
+bioc_required: true
+r_github_packages:
+  - rstudio/rmarkdown
