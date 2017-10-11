@@ -42,7 +42,7 @@
 #' rownames(m) = c("A", "C", "G", "T")
 #' colnames(m) = 1:12
 #' m=m/8
-#' get_logo_heights_log(m)
+#' get_logo_heights_ratio(m)
 #'
 #' @export
 
