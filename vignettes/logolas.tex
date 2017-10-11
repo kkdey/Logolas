@@ -71,8 +71,8 @@
 
 
 
-\author{Kushal K Dey \\[1em]
-\small{\textit{Stephens Lab}, Dept. of Statistics, The University of Chicago} \mbox{ }\\
+\author{Kushal K Dey, Dongyue Xie, Matthew Stephens  \\[1em]
+\small{Dept. of Statistics, The University of Chicago} \mbox{ }\\
 \small{\texttt{$^*$Correspondending Email: kkdey@uchicago.edu}}}
 
 
@@ -88,7 +88,7 @@ Logo plots are popular in genomic studies for sequence alignment and motif detec
 In this vignette, we discuss a number of applications in genomics and beyond where such flexible logo plots can be effective in visualizing patterns.
 
 \vspace{1em}
-\textbf{\Logolas{} version:} 0.99.14 \footnote{This document used the vignette from \Bioconductor{} package \Biocpkg{CountClust, DESeq2} as \CRANpkg{knitr} template}
+\textbf{\Logolas{} version:} 1.1.2 \footnote{This document used the vignette from \Bioconductor{} package \Biocpkg{CountClust, DESeq2} as \CRANpkg{knitr} template}
 \end{abstract}
 
 
@@ -99,15 +99,26 @@ In this vignette, we discuss a number of applications in genomics and beyond whe
 
 \section{Introduction}
 
-Logo plots are a popular tool in bioinformatics and regulatory genomics studies for representing sequence alignment patterns and for sequence and protein motif detection. One of the first and widely used logo plotting tools is \Biocpkg{seqLogo} by Oliver Bembom \cite{Bembom2016}, specifically targeted at DNA sequence alignment. However, it has a library of only 4 symbols - A, C, G and T- corresponding to the 4 nucleotides. The package \CRANpkg{RWebLogo} is an extension of WebLogo python package that plots custom sequence logos by extending it to all alphabets \cite{Wagih2014}. Another package \Biocpkg{motifStack} works with both DNA/RNA sequence motif and amino acid sequence motif and customizes font size and colors \cite{Ou2015}.
+Ever since its introduction due to Schneider and Stephens (1990), sequence logos have proved to be an effective tool in informative visualization of patterns in aligned sets of sequences. There are several existing packages for plotting sequence logos, like \textit{seqLogo}, \textit{seq2Logo}, \textit{motifStack} etc.
 
-\Logolas{} adds more flexibility by customizing logos and the graphical design of the logo plots. Also it extends the library of symbols beyond English alphabets to numbers, symbols (arrows, punctuations) and to alphanumeric strings. It allows the user to choose a range of information criteria to determine logo sizes. It provides a simple user interface to create new logos and add them to their personalized library of logos and even apply them in strings. We show several applications in genomics, ecology and document mining, where such logo plots can be applied.
+We introduce another Logo visualization package called \textit{Logolas} which addresses some limitations of the above packages and makes logo visualization a more generic tool with potential applications in a much wider scope of problems, in comparison to the existing softwares. Some features of \textit{Logolas} are as follows.
+
+- \textbf{EDLogo Representation} : General logo plotting softwares highlight only enrichment of certain symbols, but Logolas allows the user to highlight both enrichment and depletion of symbols at any position, leading to more parsimonious and visually appealing representation.
+
+- \textbf{Strings as symbols} : General logo building softwares have limited library of symbols usually restricted to English alphabets. Logolas allows the user to plot symbols for any alphanumeric string, comprising of English alphabets, numbers, punctuation marks, arrows etc. It also provides an easy interface for the user to create her own logo and add to the library of symbols that can be plotted (check the Vignette).
+
+
+- \textbf{Dirichlet Adaptive Shrinkage} : Most existing logo plotting tools take position weight matrix (PWM) as input for the logo plot and do not adapt well to the scale of the underlying positional frequencies from which the PWM is created. In Logolas, we provide a Dirichlet Adaptive Shrinkage method (dash) approach for adaptively scaling the heights of the logos based on the frequency scale. This approach is similar in lines to the **ashr** software due to M. Stephens (2016).
+
+
+- \textbf{Better stylizations} : Logolas also allows for new and flexible stylizations of the logos, involving color palettes, new fill and border styles, several options for determining heights of the logos etc. We also show how to plot multi-panel Logolas plots and combine Logolas plots with ggplot2 graphics.
+
 
 \newpage
 
 \section{\Logolas{} Installation}
 
-\Logolas{} requires the following CRAN-R package : \CRANpkg{grid}, \CRANpkg{gridExtra}, \CRANpkg{RColorBrewer}, \CRANpkg{devtools}.
+\Logolas{} loads as dependencies the following CRAN-R package : \CRANpkg{grid}, \CRANpkg{gridExtra}, \CRANpkg{graphics}, \CRANpkg{SQUAREM},  \CRANpkg{LaplacesDemon},  \CRANpkg{LaplacesDemon}, \CRANpkg{Matrix}, \CRANpkg{RColorBrewer}, \CRANpkg{devtools}.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -138,150 +149,313 @@ Then load the package with:
 \end{kframe}
 \end{knitrout}
 
-\section{Applications}
+\section{Standard Logos}
 
-We start with the most basic application of logo plots - for alignment of DNA sequence, comprising of logos A, C, T and G, corresponding to the four nucleotide. This is the typical application of \Biocpkg{seqLogo}. We start with the same demo example provided in the \Biocpkg{seqLogo} vignette.
+One of the first applications of logo plots have been in visualization of DNA sequence motifs. We start with the example PWM from \textbf{seqLogo}.
 
-\begin{figure}[h]
-\begin{center}
+\subsection{First example with Logolas}
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlstd{mFile} \hlkwb{<-} \hlkwd{system.file}\hlstd{(}\hlstr{"Exfiles/pwm1"}\hlstd{,} \hlkwc{package}\hlstd{=}\hlstr{"seqLogo"}\hlstd{)}
 \hlstd{m} \hlkwb{<-} \hlkwd{read.table}\hlstd{(mFile)}
 \hlstd{p} \hlkwb{<-} \hlstd{seqLogo}\hlopt{::}\hlkwd{makePWM}\hlstd{(m)}
-\hlstd{seqLogo}\hlopt{::}\hlkwd{seqLogo}\hlstd{(p)}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=5in,height=5in]{figure/seqlogo_use-1} 
-
 \end{knitrout}
-\end{center}
-\end{figure}
 
-
-The user first needs to make a position weight matrix from the matrix using the \begin{verb} makePWM() \end{verb} function. Then it uses the \begin{verb} seqLogo() \end{verb} function on the output to plot the logo plots.
-
-\newpage
-
-Now we apply \Logolas{} to build a similar plot.The user can directly use the `p@pwm` object generated by \begin{verb} seqLogo() \end{verb} as shown below
+We next define the color pattern for the logo plot.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
-                      \hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{)[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"Spectral"}\hlstd{))}
-\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}
-          \hlkwc{color_profile} \hlstd{= color_profile,}
-          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
-          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
-          \hlkwc{yscale_change}\hlstd{=}\hlnum{FALSE}\hlstd{,}
-          \hlkwc{xlab}\hlstd{=}\hlstr{"position"}\hlstd{,}
-          \hlkwc{col_line_split} \hlstd{=} \hlstr{"grey80"}\hlstd{)}
+\hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{)[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"Spectral"}\hlstd{))}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=6in,height=5in]{figure/logolas_use_0-1} 
-
 \end{knitrout}
 
-Besides using the `makePWM` format of \begin{verb} seqLogo() \end{verb} package, the user has the flexibility to directly input a matrix with row names and column names as well.
-
-\begin{figure}[h]
-\begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlkwd{rownames}\hlstd{(m)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"A"}\hlstd{,} \hlstr{"C"}\hlstd{,} \hlstr{"G"}\hlstd{,} \hlstr{"T"}\hlstd{)}
-\hlkwd{colnames}\hlstd{(m)} \hlkwb{<-} \hlnum{1}\hlopt{:}\hlnum{8}
-\hlkwd{logomaker}\hlstd{(m,}
-          \hlkwc{color_profile} \hlstd{= color_profile,}
-          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
-          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
-          \hlkwc{yscale_change}\hlstd{=}\hlnum{FALSE}\hlstd{,}
-          \hlkwc{xlab}\hlstd{=}\hlstr{"position"}\hlstd{,}
-          \hlkwc{col_line_split} \hlstd{=} \hlstr{"grey80"}\hlstd{)}
-\end{alltt}
-\end{kframe}
-\includegraphics[width=6in,height=5in]{figure/logolas_use-1} 
-
-\end{knitrout}
-\end{center}
-\end{figure}
-
-\newpage
-
-As default, if \begin{verb} ic.scale = TRUE \end{verb}, the heights of the bars at each position are determined by the Shannon entropy as in \Biocpkg{seqLogo}. The size of logo in each stack is proportional to the relative abundance of that logo in that stack.
-
-To change to other orders of Renyi entropy, one can tune the input parameter \begin{verb} alpha \end{verb}. A higher value of  \begin{verb} alpha \end{verb} makes the logos more prominent, besides maintaining relative structure. One can set different infromation criteria using the \begin{verb} ic_computer \end{verb}
-function.
+We now apply the main plotting function \textit{logomaker} in \textbf{Logolas} for plotting the standard logo plot.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{ic_computer}\hlstd{(m,} \hlkwc{alpha}\hlstd{=}\hlnum{3}\hlstd{)}
+\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,} \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}\hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{)}
 \end{alltt}
-\begin{verbatim}
-## [1] 0.5283 0.5283 0.5283 0.0434 0.3390 0.5283 0.5283 0.5283
-\end{verbatim}
 \end{kframe}
 \end{knitrout}
 
-Also, the Y-axis can be adjusted by taking \begin{verb} yscale_change=TRUE \end{verb}
+\subsection{Different configurations of standard logo}
 
-\begin{figure}[h]
-\begin{center}
+Logolas also allows the user to choose different colors, change the scale of the Y axis, normalize the height of the logos and also play around with the margins of the plot in the plotting region. We present a demonstration of these feature of \textbf{Logolas} in the example below. We also show in this example, how multi-panel Logolas plots can be created.
+
+We first set up the multiple panels and then present the standard logo plots under different customizations.
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{rownames}\hlstd{(m)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"A"}\hlstd{,} \hlstr{"C"}\hlstd{,} \hlstr{"G"}\hlstd{,} \hlstr{"T"}\hlstd{)}
-\hlkwd{colnames}\hlstd{(m)} \hlkwb{<-} \hlnum{1}\hlopt{:}\hlnum{8}
-\hlkwd{logomaker}\hlstd{(m,}
-          \hlkwc{color_profile} \hlstd{= color_profile,}
+\hlcom{######################      Setting up multiple panels        ########################}
+
+\hlkwd{library}\hlstd{(grid)}
+\hlkwd{library}\hlstd{(gridBase)}
+\hlkwd{library}\hlstd{(gridExtra)}
+
+\hlkwd{grid.newpage}\hlstd{()}
+\hlstd{layout.rows} \hlkwb{<-} \hlnum{2}
+\hlstd{layout.cols} \hlkwb{<-} \hlnum{2}
+\hlstd{top.vp} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout}\hlstd{=}\hlkwd{grid.layout}\hlstd{(layout.rows, layout.cols,}
+                                      \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{5}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,} \hlnum{2}\hlstd{)),}
+                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{5}\hlstd{,layout.rows),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,} \hlnum{1}\hlstd{))))}
+\hlstd{plot_reg} \hlkwb{<-} \hlkwd{vpList}\hlstd{()}
+\hlstd{l} \hlkwb{<-} \hlnum{1}
+\hlkwa{for}\hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{layout.rows)\{}
+  \hlkwa{for}\hlstd{(j} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{layout.cols)\{}
+    \hlstd{plot_reg[[l]]} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout.pos.col} \hlstd{= j,} \hlkwc{layout.pos.row} \hlstd{= i,} \hlkwc{name} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{, l))}
+    \hlstd{l} \hlkwb{<-} \hlstd{l}\hlopt{+}\hlnum{1}
+  \hlstd{\}}
+\hlstd{\}}
+
+
+\hlstd{plot_tree} \hlkwb{<-} \hlkwd{vpTree}\hlstd{(top.vp, plot_reg)}
+
+\hlkwd{pushViewport}\hlstd{(plot_tree)}
+
+
+\hlcom{##########################   Creating the multi-panel logos   ##############################}
+
+
+\hlcom{#change the color of letters}
+\hlcom{#change the diverging palettes}
+\hlstd{color_profile1}\hlkwb{=}\hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
+\hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{)[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"PiYG"}\hlstd{))}
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{1}\hlstd{))}
+\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile1,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
-          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
-          \hlkwc{alpha} \hlstd{=} \hlnum{2}\hlstd{,}
-          \hlkwc{yscale_change}\hlstd{=}\hlnum{TRUE}\hlstd{,}
-          \hlkwc{xlab}\hlstd{=}\hlstr{"position"}\hlstd{,}
-          \hlkwc{col_line_split} \hlstd{=} \hlstr{"grey80"}\hlstd{)}
-\end{alltt}
-\end{kframe}
-\includegraphics[width=6in,height=5in]{figure/logolas_use_2-1} 
+          \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
+          \hlkwc{pop_name} \hlstd{=} \hlstr{'Change color'}\hlstd{,}
+          \hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{viewport.margin.left} \hlstd{=} \hlnum{5}\hlstd{))}
 
-\end{knitrout}
-\end{center}
-\end{figure}
-
-
-\newpage
-
-One can also normalize the  heights of the stacks of logos for each column by choosing \begin{verb} ic.scale = FALSE \end{verb}.
-
-\begin{figure}[h]
-\begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlkwd{rownames}\hlstd{(m)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"A"}\hlstd{,} \hlstr{"C"}\hlstd{,} \hlstr{"G"}\hlstd{,} \hlstr{"T"}\hlstd{)}
-\hlkwd{colnames}\hlstd{(m)} \hlkwb{<-} \hlnum{1}\hlopt{:}\hlnum{8}
-\hlkwd{logomaker}\hlstd{(m,}
-          \hlkwc{color_profile} \hlstd{= color_profile,}
+\hlcom{#change the y scale:}
+\hlcom{#if yscale_change = FALSE, then the height of y axis would be 2.}
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{2}\hlstd{))}
+\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
+          \hlkwc{pop_name} \hlstd{=} \hlstr{'Change y scale'}\hlstd{,}
+          \hlkwc{yscale_change} \hlstd{=} \hlnum{FALSE}\hlstd{,}
+          \hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{viewport.margin.left} \hlstd{=} \hlnum{5}\hlstd{))}
+\hlcom{#Normalize the height of bars to 1}
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{3}\hlstd{))}
+\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
           \hlkwc{ic.scale} \hlstd{=} \hlnum{FALSE}\hlstd{,}
-          \hlkwc{alpha} \hlstd{=} \hlnum{2}\hlstd{,}
-          \hlkwc{xlab}\hlstd{=}\hlstr{"position"}\hlstd{,}
-          \hlkwc{col_line_split} \hlstd{=} \hlstr{"grey80"}\hlstd{,}
-          \hlkwc{ylab} \hlstd{=} \hlstr{"Probability"}\hlstd{)}
+          \hlkwc{pop_name} \hlstd{=} \hlstr{'Normalize the height'}\hlstd{,}
+          \hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{viewport.margin.left} \hlstd{=} \hlnum{5}\hlstd{))}
+\hlcom{#change the background probability}
+\hlcom{#And modify the title and the axis label}
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{4}\hlstd{))}
+\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{bg}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0.32}\hlstd{,} \hlnum{0.18}\hlstd{,} \hlnum{0.2}\hlstd{,} \hlnum{0.3}\hlstd{),}
+          \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
+          \hlkwc{pop_name} \hlstd{=} \hlstr{'Change background prob'}\hlstd{,}
+          \hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{viewport.margin.left} \hlstd{=} \hlnum{5}\hlstd{))}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=6in,height=5in]{figure/logolas_use_3-1} 
-
 \end{knitrout}
-\end{center}
-\end{figure}
 
-\newpage
 
-\Logolas{} lets you customize the colors of the logos using \begin{verb} color_profile \end{verb}, has option for user-defined information function under option \begin{verb} ic \end{verb},  beyond the different Renyi criteria that can be set. User can set titles, X-labels, Y-labels, axis ticks and also the relative width of each column of the logo stack, making it much more flexible than the standard packages for logo plotting.
+\subsection{Other entropy measures}
+
+Besides the default Shannon entropy, \textit{logomaker} function in
+textbf{Logolas} can also determine the Information Criterion using Renyi entrop. For this entropy measure, the Information content at position $i$ is $IC_{i,\alpha}=\frac{1}{1-\alpha}\Sigma_b\log_2(q_{b,i}^\alpha-0.25^{1-\alpha})$. When $\alpha\rightarrow1$, the limiting value of Renyi entropy is the Shannon entropy. In `logomaker`, `alpha` is a control parameter that can be tuned to get plots for different entropy measures. The figure below shows the logo plots with different values of $\alpha$.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{grid.newpage}\hlstd{()}
+\hlstd{layout.rows} \hlkwb{<-} \hlnum{1}
+\hlstd{layout.cols} \hlkwb{<-} \hlnum{2}
+\hlstd{top.vp} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout}\hlstd{=}\hlkwd{grid.layout}\hlstd{(layout.rows, layout.cols,}
+                                      \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{6}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,} \hlnum{2}\hlstd{)),}
+                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{20}\hlstd{,}\hlnum{50}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlstr{"lines"}\hlstd{,} \hlnum{2}\hlstd{))))}
+
+\hlstd{plot_reg} \hlkwb{<-} \hlkwd{vpList}\hlstd{()}
+\hlstd{l} \hlkwb{<-} \hlnum{1}
+\hlkwa{for}\hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{layout.rows)\{}
+  \hlkwa{for}\hlstd{(j} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{layout.cols)\{}
+    \hlstd{plot_reg[[l]]} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout.pos.col} \hlstd{= j,} \hlkwc{layout.pos.row} \hlstd{= i,} \hlkwc{name} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{, l))}
+    \hlstd{l} \hlkwb{<-} \hlstd{l}\hlopt{+}\hlnum{1}
+  \hlstd{\}}
+\hlstd{\}}
+
+
+\hlstd{plot_tree} \hlkwb{<-} \hlkwd{vpTree}\hlstd{(top.vp, plot_reg)}
+
+\hlkwd{pushViewport}\hlstd{(plot_tree)}
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{1}\hlstd{))}
+\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
+          \hlkwc{pop_name} \hlstd{=} \hlstr{'Logo plot, Alpha=2'}\hlstd{,}
+          \hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{viewport.margin.left} \hlstd{=} \hlnum{5}\hlstd{,}\hlkwc{alpha}\hlstd{=}\hlnum{2}\hlstd{))}
+
+
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{2}\hlstd{))}
+\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
+          \hlkwc{pop_name} \hlstd{=} \hlstr{'Logo plot, Alpha=0.2'}\hlstd{,}
+          \hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{viewport.margin.left} \hlstd{=} \hlnum{5}\hlstd{,}\hlkwc{alpha}\hlstd{=}\hlnum{0.2}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\subsection{Combine Logolas with ggplot2}
+
+The user can also embed the Logolas plots with ggplot2 graphics. We present a simple illustration below.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(ggplot2)}
+\hlkwd{library}\hlstd{(grid)}
+\hlkwd{library}\hlstd{(gridBase)}
+
+
+\hlkwd{grid.newpage}\hlstd{()}
+\hlstd{layout.rows} \hlkwb{<-} \hlnum{1}
+\hlstd{layout.cols} \hlkwb{<-} \hlnum{2}
+\hlstd{top.vp} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout}\hlstd{=}\hlkwd{grid.layout}\hlstd{(layout.rows, layout.cols,}
+                                      \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{2}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{, layout.cols)),}
+                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{1}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,}\hlnum{1}\hlstd{))))}
+
+\hlstd{plot_reg} \hlkwb{<-} \hlkwd{vpList}\hlstd{()}
+\hlstd{l} \hlkwb{<-} \hlnum{1}
+\hlkwa{for}\hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{layout.rows)\{}
+  \hlkwa{for}\hlstd{(j} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{layout.cols)\{}
+    \hlstd{plot_reg[[l]]} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout.pos.col} \hlstd{= j,} \hlkwc{layout.pos.row} \hlstd{= i,} \hlkwc{name} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{, l))}
+    \hlstd{l} \hlkwb{<-} \hlstd{l}\hlopt{+}\hlnum{1}
+  \hlstd{\}}
+\hlstd{\}}
+
+
+\hlstd{plot_tree} \hlkwb{<-} \hlkwd{vpTree}\hlstd{(top.vp, plot_reg)}
+
+\hlkwd{pushViewport}\hlstd{(plot_tree)}
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{1}\hlstd{))}
+\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
+          \hlkwc{bg} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0.28}\hlstd{,} \hlnum{0.22}\hlstd{,} \hlnum{0.24}\hlstd{,} \hlnum{0.26}\hlstd{),}
+          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
+          \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
+          \hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{viewport.margin.left} \hlstd{=} \hlnum{5}\hlstd{))}
+
+
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{2}\hlstd{))}
+\hlstd{vp3} \hlkwb{=} \hlkwd{viewport}\hlstd{(}\hlkwc{width}\hlstd{=}\hlnum{0.8}\hlstd{,} \hlkwc{height}\hlstd{=}\hlnum{0.8}\hlstd{,} \hlkwc{x} \hlstd{=} \hlnum{0.5}\hlstd{,} \hlkwc{y} \hlstd{=} \hlnum{0.5}\hlstd{)}
+\hlstd{p} \hlkwb{<-} \hlkwd{qplot}\hlstd{(mpg,} \hlkwc{data}\hlstd{=mtcars,} \hlkwc{geom}\hlstd{=}\hlstr{"density"}\hlstd{)}
+\hlkwd{print}\hlstd{(p,} \hlkwc{vp} \hlstd{= vp3)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\section{EDLogo Representation}
+
+Standard sequence logos tend to highlight the enrichment of symbols. In this esection, we introduce \textit{EDLogo}, an alternative visualization to the standard sequence logos that highlights both enrichment and depletion.
+
+For example, suppose for a particular position, the base composition of $ \left (A, C, G, T \right)$ is as follows
+
+$$ \left (A, C, G, T \right ) : = \left ( 0.33, 0.33, 0.01, 0.33 \right )  $$
+
+Sequence logos will show a mild enrichment of A, C, G in this position and the stack height for this position will be relativelys small compared to the ones with enrichment. This generally makes it hard to see the depletion. \textit{EDLogo} is a solution to this problem. We illustrate that with an example compariosn of \textit{EDLogo} and standard sequence logo below.
+
+\subsection{EDLogo - First example}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(ggplot2)}
+\hlkwd{library}\hlstd{(grid)}
+\hlkwd{library}\hlstd{(gridBase)}
+
+
+\hlkwd{grid.newpage}\hlstd{()}
+\hlstd{layout.rows} \hlkwb{<-} \hlnum{1}
+\hlstd{layout.cols} \hlkwb{<-} \hlnum{2}
+\hlstd{top.vp} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout}\hlstd{=}\hlkwd{grid.layout}\hlstd{(layout.rows, layout.cols,}
+                                      \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{2}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{, layout.cols)),}
+                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{1}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,}\hlnum{1}\hlstd{))))}
+
+\hlstd{plot_reg} \hlkwb{<-} \hlkwd{vpList}\hlstd{()}
+\hlstd{l} \hlkwb{<-} \hlnum{1}
+\hlkwa{for}\hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{layout.rows)\{}
+  \hlkwa{for}\hlstd{(j} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{layout.cols)\{}
+    \hlstd{plot_reg[[l]]} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout.pos.col} \hlstd{= j,} \hlkwc{layout.pos.row} \hlstd{= i,} \hlkwc{name} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{, l))}
+    \hlstd{l} \hlkwb{<-} \hlstd{l}\hlopt{+}\hlnum{1}
+  \hlstd{\}}
+\hlstd{\}}
+
+\hlstd{pwm}\hlkwb{=}\hlkwd{cbind}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{),}\hlkwd{c}\hlstd{(}\hlnum{0.328}\hlstd{,}\hlnum{0.332}\hlstd{,}\hlnum{0.33}\hlstd{,}\hlnum{0.01}\hlstd{),}
+          \hlkwd{c}\hlstd{(}\hlnum{0.1}\hlstd{,}\hlnum{0.8}\hlstd{,}\hlnum{0.05}\hlstd{,}\hlnum{0.05}\hlstd{),}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{0.05}\hlstd{,}\hlnum{0.95}\hlstd{,}\hlnum{0}\hlstd{))}
+\hlkwd{rownames}\hlstd{(pwm)}\hlkwb{=}\hlkwd{c}\hlstd{(}\hlstr{'A'}\hlstd{,}\hlstr{'C'}\hlstd{,}\hlstr{'G'}\hlstd{,}\hlstr{'T'}\hlstd{)}
+\hlkwd{colnames}\hlstd{(pwm)}\hlkwb{=}\hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(pwm)}
+\hlkwd{logomaker}\hlstd{(pwm,}\hlkwc{color_profile}\hlstd{=color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}\hlkwc{pop_name} \hlstd{=} \hlstr{''}\hlstd{,}\hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{gap_ylab}\hlstd{=}\hlnum{3.5}\hlstd{))}
+\hlkwd{nlogomaker}\hlstd{(pwm,}\hlkwc{logoheight} \hlstd{=} \hlstr{'log'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{pop_name} \hlstd{=} \hlstr{''}\hlstd{,}\hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{gap_ylab}\hlstd{=}\hlnum{3.5}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\subsection{Different options of EDLogo}
+
+The \textit{EDLogo} plot is created using the \textit{nlogomaker} function. Note that there is a \textit{logoheight} option in this plot which was set to \textit{log} for the above example. Actually there are total $8$ options for \textit{logoheight} - the details can be found in Documentation. A comparative analysis of some of these options on the seqLogo example is provided below.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mFile} \hlkwb{<-} \hlkwd{system.file}\hlstd{(}\hlstr{"Exfiles/pwm1"}\hlstd{,} \hlkwc{package}\hlstd{=}\hlstr{"seqLogo"}\hlstd{)}
+\hlstd{m} \hlkwb{<-} \hlkwd{read.table}\hlstd{(mFile)}
+\hlstd{p} \hlkwb{<-} \hlstd{seqLogo}\hlopt{::}\hlkwd{makePWM}\hlstd{(m)}
+
+\hlkwd{grid.newpage}\hlstd{()}
+\hlstd{layout.rows} \hlkwb{<-} \hlnum{1}
+\hlstd{layout.cols} \hlkwb{<-} \hlnum{3}
+\hlstd{top.vp} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout}\hlstd{=}\hlkwd{grid.layout}\hlstd{(layout.rows, layout.cols,}
+                                      \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{6}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,} \hlnum{2}\hlstd{)),}
+                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{20}\hlstd{,}\hlnum{50}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlstr{"lines"}\hlstd{,} \hlnum{2}\hlstd{))))}
+
+\hlstd{plot_reg} \hlkwb{<-} \hlkwd{vpList}\hlstd{()}
+\hlstd{l} \hlkwb{<-} \hlnum{1}
+\hlkwa{for}\hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{layout.rows)\{}
+  \hlkwa{for}\hlstd{(j} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{layout.cols)\{}
+    \hlstd{plot_reg[[l]]} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout.pos.col} \hlstd{= j,} \hlkwc{layout.pos.row} \hlstd{= i,} \hlkwc{name} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{, l))}
+    \hlstd{l} \hlkwb{<-} \hlstd{l}\hlopt{+}\hlnum{1}
+  \hlstd{\}}
+\hlstd{\}}
+
+
+\hlstd{plot_tree} \hlkwb{<-} \hlkwd{vpTree}\hlstd{(top.vp, plot_reg)}
+
+\hlkwd{pushViewport}\hlstd{(plot_tree)}
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{1}\hlstd{))}
+\hlkwd{nlogomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{logoheight} \hlstd{=} \hlstr{'log'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{pop_name} \hlstd{=} \hlstr{"log"}\hlstd{,} \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{2}\hlstd{))}
+\hlkwd{nlogomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{logoheight} \hlstd{=} \hlstr{'log_odds'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{pop_name} \hlstd{=} \hlstr{"log_odds"}\hlstd{,} \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{3}\hlstd{))}
+\hlkwd{nlogomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{logoheight} \hlstd{=} \hlstr{'ratio'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{pop_name} \hlstd{=} \hlstr{"ratio"}\hlstd{,} \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+
+\section{Applications}
+
+We present some examples beyond the DNA, RNA sequence motif examples that we dealt with thus far.
 
 \subsection{Amino acid sequence motif}
 
@@ -342,9 +516,9 @@ Note that all one needs to do to build the logo plots is to specify the row name
 
 \newpage
 
-\subsection{String Logos: Mutation profiling}
+\subsection{String Logos: Mutational Signature profiling}
 
-We now step beyond alphabet logos and present the first example of how a string can be used as a logo. Suppose for a set of cell lines, we are provided data on the number of mutations (nucleotide substitions) and nucleotides at the flanking bases of the nucleotide substitution. This is the kind of problem addressed by Shiraishi et al 2015 \cite{Shiraishi2015}. They developed a package \begin{verb} pmsignature \end{verb} for plotting the substitution and flanking bases profile, but here we use logos to do the same. We apply it here on a demo example.
+We now step beyond alphabet logos and present the first example of how a string can be used as a logo. Suppose we are provided with the mutational signature data for a particular tissue or cell type. A mutational signature is usually represented by the mutation type flanked by the bases adjacent to it. We provide a demo of how a mutation signature can be represented by \textbf{Logolas}.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -397,9 +571,6 @@ One issue with this plot is that the user may want to have the C in \begin{verb}
 to be of the same color, but here the symbol C and \begin{verb} C>T \end{verb} are treated
 as separate entities. However Logolas coloring profile provides the user the flexibility to color each symbol instead of a string. We use the color type \begin{verb} per_symbol \end{verb} instead of the \begin{verb} per_row \end{verb} profile we have been using so far.
 
-We consider a list of all symbols \begin{verb} total_chars \end{verb} which is set as default to the list chosen above (so you can skip the \begin{verb} total_chars \end{verb} argument below). However, if the user adds a symbol to the library (the process of doing that we show in the end), then the library
-is expected to grow and the user then might want to update the \begin{verb} total_chars \end{verb} list by adding new symbols.
-
 \begin{figure}[htp]
 \begin{center}
 \begin{knitrout}
@@ -433,47 +604,13 @@ is expected to grow and the user then might want to update the \begin{verb} tota
 \end{center}
 \end{figure}
 
-Another coloring option is \begin{verb} per_column \end{verb}, in which we have a specific color for a specific column. This sort of coloring might be useful when the user wants to
-highlight the difference between columns. We provide an example of this next.
+Another coloring option is \begin{verb} per_column \end{verb}, in which we have a specific color for a specific column.
 
 \clearpage
 
-\subsection{String Logos:  Ecological Data}
-
-String logos can be used to represent how families or genus of species vary across sites for ecological or metagenomic data. In this case, we present an example of abundance patterns of different families of birds in three clusters of regions. The bird family names act as logos and the clusters of regions represent the stacks in the logo plot. Here the coloring pattern used is \begin{verb} per_column \end{verb} which distinguished between the different clusters of bird species.
-
-\begin{figure}[h]
-\begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlkwd{set.seed}\hlstd{(}\hlnum{20}\hlstd{)}
-\hlkwd{data}\hlstd{(}\hlstr{"himalayan_fauna_3_clusters"}\hlstd{)}
-
-\hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_column"}\hlstd{,}
-                      \hlstr{"col"} \hlstd{=} \hlkwd{sample}\hlstd{(RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{10}\hlstd{,}\hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),}
-                       \hlkwd{dim}\hlstd{(himalayan_fauna_3_clusters)[}\hlnum{2}\hlstd{],} \hlkwc{replace}\hlstd{=}\hlnum{TRUE}\hlstd{))}
-\hlkwd{logomaker}\hlstd{(himalayan_fauna_3_clusters,}
-          \hlkwc{color_profile} \hlstd{= color_profile,}
-          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
-          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
-          \hlkwc{alpha}\hlstd{=}\hlnum{200}\hlstd{,}
-          \hlkwc{pop_name} \hlstd{=} \hlstr{"Bird family abundance across clusters"}\hlstd{,}
-          \hlkwc{xlab} \hlstd{=} \hlstr{"Clusters"}\hlstd{,}
-          \hlkwc{ylab} \hlstd{=} \hlstr{"Information content"}\hlstd{)}
-\end{alltt}
-\end{kframe}
-\includegraphics[width=8in,height=5in]{figure/logolas_use_10-1} 
-
-\end{knitrout}
-\end{center}
-\end{figure}
-
-\newpage
-
 \subsection{String Logos:  Histone marks patterns}
 
-In studies related to histone marks, one might be interested to see if certain histone marks are prominent than others in some cell lines or tissues or in some genomic regions. In this case, we apply \Logolas{} on an example data from Koch et al (2007) [Supp Table 2 of that paper] \cite{Koch2007}. The authors recorded number of histone modification sites identified by their algorithm which overlap with an intergenic sequence, intron, exon, gene start and gene end for the lymphoblastoid cell line, GM06990, in the ChIP-CHIP data. Logolas provides a handy visualization to see how the patterns of histone modification sites changes across genomic region types for that cell line.
+In studies related to histone marks, one might be interested to see if certain histone marks are prominent than others in some cell lines or tissues or in some genomic regions. In this case, we apply \Logolas{} on an example data from Koch et al (2007) [Supp Table 2 of that paper]. The authors recorded number of histone modification sites identified by their algorithm which overlap with an intergenic sequence, intron, exon, gene start and gene end for the lymphoblastoid cell line, GM06990, in the ChIP-CHIP data. Logolas provides a handy visualization to see how the patterns of histone modification sites changes across genomic region types for that cell line.
 
 First we input the data from Supp Table 2 due to Koch et al (2007).
 
@@ -517,7 +654,7 @@ We now apply \Logolas{} on this data.
           \hlkwc{col_line_split} \hlstd{=} \hlstr{"black"}\hlstd{)}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=6.5in,height=4in]{figure/logolas_use_9-1} 
+\includegraphics[width=6.5in,height=4in]{figure/histone_logolas-1} 
 
 \end{knitrout}
 \end{center}
@@ -525,76 +662,34 @@ We now apply \Logolas{} on this data.
 
 \newpage
 
-\subsection{String Logos:  Document mining}
+The \textit{EDLogo} representation of the same table i presented below.
 
-So far we mainly focused on biology examples where \Logolas{} can be applied. But,
-it has applications beyond the field of biology. One example application of \Logolas{} is in document mining and representing keywords or tags as logos.
-
-Here we build a logo plot of the field categories of manuscipts submitted on aRxiv by 4 professors from Dept. of Statistics, University of Chicago. Note that the field categories here are a combination of numbers, alphabets, dots and dashes.
-
-We first generate the data
-
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlstd{rec1} \hlkwb{<-} \hlstd{aRxiv}\hlopt{::}\hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Matthew Stephens"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
-\hlstd{rec2} \hlkwb{<-} \hlstd{aRxiv}\hlopt{::}\hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"John Lafferty"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
-\hlstd{rec3} \hlkwb{<-} \hlstd{aRxiv}\hlopt{::}\hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Wei Biao Wu"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
-\hlstd{rec4} \hlkwb{<-} \hlstd{aRxiv}\hlopt{::}\hlkwd{arxiv_search}\hlstd{(}\hlstr{'au:"Peter Mccullagh"'}\hlstd{,} \hlkwc{limit}\hlstd{=}\hlnum{50}\hlstd{)}
-
-\hlstd{primary_categories_1} \hlkwb{<-} \hlkwd{toupper}\hlstd{(rec1}\hlopt{$}\hlstd{primary_category)}
-\hlstd{primary_categories_2} \hlkwb{<-} \hlkwd{toupper}\hlstd{(rec2}\hlopt{$}\hlstd{primary_category)}
-\hlstd{primary_categories_3} \hlkwb{<-} \hlkwd{toupper}\hlstd{(rec3}\hlopt{$}\hlstd{primary_category)}
-\hlstd{primary_categories_4} \hlkwb{<-} \hlkwd{toupper}\hlstd{(rec4}\hlopt{$}\hlstd{primary_category)}
-
-\hlstd{factor_levels} \hlkwb{<-} \hlkwd{unique}\hlstd{(}\hlkwd{c}\hlstd{(}\hlkwd{unique}\hlstd{(primary_categories_1),}
-                   \hlkwd{unique}\hlstd{(primary_categories_2),}
-                   \hlkwd{unique}\hlstd{(primary_categories_3),}
-                   \hlkwd{unique}\hlstd{(primary_categories_4)))}
-
-\hlstd{primary_categories_1} \hlkwb{<-} \hlkwd{factor}\hlstd{(primary_categories_1,} \hlkwc{levels}\hlstd{=factor_levels)}
-\hlstd{primary_categories_2} \hlkwb{<-} \hlkwd{factor}\hlstd{(primary_categories_2,} \hlkwc{levels}\hlstd{=factor_levels)}
-\hlstd{primary_categories_3} \hlkwb{<-} \hlkwd{factor}\hlstd{(primary_categories_3,} \hlkwc{levels}\hlstd{=factor_levels)}
-\hlstd{primary_categories_4} \hlkwb{<-} \hlkwd{factor}\hlstd{(primary_categories_4,} \hlkwc{levels}\hlstd{=factor_levels)}
-
-
-\hlstd{tab_data} \hlkwb{<-} \hlkwd{cbind}\hlstd{(}\hlkwd{table}\hlstd{(primary_categories_1),}
-                  \hlkwd{table}\hlstd{(primary_categories_2),}
-                  \hlkwd{table}\hlstd{(primary_categories_3),}
-                  \hlkwd{table}\hlstd{(primary_categories_4))}
-
-\hlkwd{colnames}\hlstd{(tab_data)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Matthew Stephens"}\hlstd{,}
-                        \hlstr{"John Lafferty"}\hlstd{,}
-                        \hlstr{"Wei Biao Wu"}\hlstd{,}
-                        \hlstr{"Peter McCullagh"}\hlstd{)}
-
-\hlstd{tab_data} \hlkwb{<-} \hlkwd{as.matrix}\hlstd{(tab_data)}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
-
-
-Next, we apply \Logolas{} on the data
-
+\begin{figure}[h]
+\begin{center}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
-                      \hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(tab_data)[}\hlnum{1}\hlstd{],}
-          \hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{))}
+                      \hlstr{"col"} \hlstd{=} \hlkwd{sample}\hlstd{(RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlnum{10}\hlstd{,}\hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{),}
+                          \hlkwd{dim}\hlstd{(mat)[}\hlnum{1}\hlstd{]))}
 
-\hlkwd{logomaker}\hlstd{(tab_data,}
+\hlkwd{nlogomaker}\hlstd{(mat,}
           \hlkwc{color_profile} \hlstd{= color_profile,}
-          \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
-          \hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{,}
-          \hlkwc{pop_name} \hlstd{=} \hlstr{"arXiv field categories of UChicago STAT professors"}\hlstd{,}
-          \hlkwc{xlab} \hlstd{=} \hlstr{"Professors"}\hlstd{,}
-          \hlkwc{ylab} \hlstd{=} \hlstr{"Information content"}\hlstd{)}
+          \hlkwc{logoheight} \hlstd{=} \hlstr{"log"}\hlstd{,}
+          \hlkwc{pop_name} \hlstd{=} \hlstr{"Histone marks in various genomic regions"}\hlstd{,}
+          \hlkwc{xlab} \hlstd{=} \hlstr{""}\hlstd{,}
+          \hlkwc{ylab} \hlstd{=} \hlstr{"Information content"}\hlstd{,}
+          \hlkwc{yscale_change} \hlstd{=} \hlnum{TRUE}\hlstd{,}
+          \hlkwc{col_line_split} \hlstd{=} \hlstr{"black"}\hlstd{)}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=7in,height=5in]{figure/logolas_use_12-1} 
+\includegraphics[width=6.5in,height=4in]{figure/histone_nlogolas-1} 
 
 \end{knitrout}
+\end{center}
+\end{figure}
+
+\newpage
 
 
 \section{Creating logos and adding to Library}
@@ -607,54 +702,61 @@ she can create it as follows
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{LAMBDAletter} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{colfill}\hlstd{=}\hlstr{"green"}\hlstd{)\{}
+\hlstd{LAMBDAletter} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{plot}\hlstd{=}\hlnum{FALSE}\hlstd{,}
+                         \hlkwc{fill_symbol} \hlstd{=} \hlnum{TRUE}\hlstd{,}
+                         \hlkwc{colfill}\hlstd{=}\hlstr{"green"}\hlstd{,}
+                         \hlkwc{lwd}\hlstd{=}\hlnum{10}\hlstd{)\{}
 
   \hlstd{x} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{0.15}\hlstd{,} \hlnum{0.5}\hlstd{,} \hlnum{0.85}\hlstd{,} \hlnum{0.75}\hlstd{,} \hlnum{0.5}\hlstd{,} \hlnum{0.25}\hlstd{)}
   \hlstd{y} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{0.8}\hlstd{,} \hlnum{0}\hlstd{)}
-
   \hlstd{fill} \hlkwb{<-} \hlstd{colfill}
   \hlstd{id} \hlkwb{<-} \hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwd{length}\hlstd{(x))}
+
+  \hlstd{colfill} \hlkwb{<-} \hlkwd{rep}\hlstd{(colfill,} \hlkwd{length}\hlstd{(}\hlkwd{unique}\hlstd{(id)))}
+
+  \hlkwa{if}\hlstd{(plot)\{}
+    \hlkwd{get_plot}\hlstd{(x, y, id, fill, colfill,} \hlkwc{lwd} \hlstd{= lwd,} \hlkwc{fill_symbol} \hlstd{= fill_symbol)}
+  \hlstd{\}}
 
   \hlstd{ll} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"x"}\hlstd{= x,}
              \hlstr{"y"}\hlstd{= y,}
              \hlstr{"id"} \hlstd{= id,}
-             \hlstr{"fill"} \hlstd{= fill)}
+             \hlstr{"fill"} \hlstd{= fill,}
+             \hlstr{"colfill"} \hlstd{= colfill)}
   \hlkwd{return}\hlstd{(ll)}
 \hlstd{\}}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
 
-The function name has to be of the form `*letter"` where the user can be creative with the `"*"` part. Also the name must be in uppercase letters. The user can then check if the symbol plot looks like a lambda or not.
+One can take a look at the symbol created in the following way.
 
-\begin{figure}
-\begin{center}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{lambda} \hlkwb{<-} \hlkwd{LAMBDAletter}\hlstd{()}
+\hlstd{lambda} \hlkwb{<-} \hlkwd{LAMBDAletter}\hlstd{(}\hlkwc{plot}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=4in,height=4in]{figure/new_symbol-1} 
+\begin{kframe}\begin{alltt}
 \hlstd{grid}\hlopt{::}\hlkwd{grid.newpage}\hlstd{()}
 \hlstd{grid}\hlopt{::}\hlkwd{pushViewport}\hlstd{(grid}\hlopt{::}\hlkwd{viewport}\hlstd{(}\hlkwc{x}\hlstd{=}\hlnum{0.5}\hlstd{,}\hlkwc{y}\hlstd{=}\hlnum{0.5}\hlstd{,}\hlkwc{width}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{height}\hlstd{=}\hlnum{1}\hlstd{,}
                                   \hlkwc{clip}\hlstd{=}\hlnum{TRUE}\hlstd{))}
 \hlstd{grid}\hlopt{::}\hlkwd{grid.polygon}\hlstd{(lambda}\hlopt{$}\hlstd{x, lambda}\hlopt{$}\hlstd{y,}
-                     \hlkwc{default.unit}\hlstd{=}\hlstr{"native"}\hlstd{,}
-                     \hlkwc{id}\hlstd{=lambda}\hlopt{$}\hlstd{id,}
-                     \hlkwc{gp}\hlstd{=grid}\hlopt{::}\hlkwd{gpar}\hlstd{(}\hlkwc{fill}\hlstd{=lambda}\hlopt{$}\hlstd{fill,}
-                                   \hlkwc{lwd}\hlstd{=}\hlnum{10}\hlstd{))}
+                   \hlkwc{default.unit}\hlstd{=}\hlstr{"native"}\hlstd{,}
+                   \hlkwc{id}\hlstd{=lambda}\hlopt{$}\hlstd{id,}
+                   \hlkwc{gp}\hlstd{=grid}\hlopt{::}\hlkwd{gpar}\hlstd{(}\hlkwc{fill}\hlstd{=lambda}\hlopt{$}\hlstd{fill,}
+                                 \hlkwc{lwd}\hlstd{=}\hlnum{10}\hlstd{))}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=4in,height=4in]{figure/logolas_use_14-1} 
+\includegraphics[width=4in,height=4in]{figure/new_symbol-2} 
 
 \end{knitrout}
-\end{center}
-\end{figure}
 
-The user can then add this symbol to the library which contains alphabets, numbers,
-punctuations etc already.
+The function name has to be of the form `*letter"` where the user can be creative with the `"*"` part. Also the name must be in uppercase letters. The user can then add this symbol to the logo plot library and make logos of strings containing the above symbol.
 
-To use \begin{verb} lambda \end{verb} as part of a string, the user has to put \begin{verb} lambda \end{verb} inside "/.../" to make sure that the function reads it as a new symbol and not general English alphabets or numbers. We provide an example below.
-
-
+\begin{figure}
+\begin{center}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -663,23 +765,11 @@ To use \begin{verb} lambda \end{verb} as part of a string, the user has to put \
                     \hlkwd{c}\hlstd{(}\hlnum{100}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{15}\hlstd{,} \hlnum{25}\hlstd{,} \hlnum{75}\hlstd{),}
                     \hlkwd{c}\hlstd{(}\hlnum{10}\hlstd{,} \hlnum{30}\hlstd{,} \hlnum{20}\hlstd{,} \hlnum{50}\hlstd{,} \hlnum{70}\hlstd{)}
 \hlstd{)}
-
 \hlkwd{colnames}\hlstd{(counts_mat)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Pos 1"}\hlstd{,} \hlstr{"Pos 2"}\hlstd{,} \hlstr{"Pos 3"}\hlstd{,} \hlstr{"Pos 4"}\hlstd{,} \hlstr{"Pos 5"}\hlstd{)}
 \hlkwd{rownames}\hlstd{(counts_mat)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"R/LMBD/Q"}\hlstd{,} \hlstr{"A"}\hlstd{,} \hlstr{"X"}\hlstd{,} \hlstr{"Y"}\hlstd{)}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
 
-LAMBDA symbol is added under \begin{verb} addlogos \end{verb} and  \begin{verb} addlogos_text \end{verb} options for the \begin{verb} logomaker \end{verb} mix of symbols.
-
-\begin{figure}[h]
-\begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
 \hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
                       \hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(counts_mat)[}\hlnum{1}\hlstd{],} \hlkwc{name} \hlstd{=} \hlstr{"Spectral"}\hlstd{))}
-
 \hlkwd{logomaker}\hlstd{(counts_mat,}
           \hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
@@ -687,22 +777,20 @@ LAMBDA symbol is added under \begin{verb} addlogos \end{verb} and  \begin{verb} 
           \hlkwc{addlogos_text}\hlstd{=}\hlstr{"LAMBDA"}\hlstd{)}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=8in,height=5in]{figure/logolas_use_17-1} 
+\includegraphics[width=4in,height=4in]{figure/new_string-1} 
 
 \end{knitrout}
 \end{center}
 \end{figure}
 
-\newpage
 
 \section{Conclusion}
 
-\Logolas{} allows an user to use alphabets, numbers, punctuations, arrows and alpha-numeric strings as logos, which expands the horizon of applicability of logo plots. Logo plots can be used as a substitute for divided bar charts and pie charts, replacing colors by actual symbols of the category represented and thereby deprecating the need for legends. It also can be used to see patterns of variation of categories (logos) observed across time points, genomic positions or any sequential variable (stacks or columns). Finally, the flexibility of creating new logos, which can be new shapes or symbols, expands the scope of logo plots even further.
+\Logolas{} provides a new logo representation called \textit{EDLogo} that highlights both enrichment as well as depletion of symbols in a logo plot. It also allows the user to plot strings as logos, that extends the applicability of logo plots beyond DNA, RNA and protein sequences. We show a few examples of the string logo in modeling mutational signature profiles, histone marks composition and ecological species abundance compositions. \Logolas{} also provides an adaptive scaling algorithm called Dirichlet adaptive shrinkage (dash) which scales the position weights for each position adapitvely taking into account the scales of the frequency of alignment at that position. In addition to the aforementioned features, \Logolas{} also provides many novel customizations, fill and border styles, comptability of logo plots with ggplot2 graphics etc.
 
 \section{Acknowledgements}
 
-We would like to acknowledge Oliver Bembom, the author of `seqLogo` for acting as an inspiration and providing the foundation on which this package is created. We would also like to thank Kevin Luo, Hussein al Asadi, John Blischak and Alex White
-for helpful discussions.
+The authors would like to acknowledge Oliver Bembom, the author of `seqLogo` for acting as an inspiration and providing the foundation on which this package is created. We would also like to thank John Blischak, Kevin Luo, Hussein al Asadi and Alex White for helpful discussions.
 
 \section{Session Info}
 
@@ -712,24 +800,27 @@ for helpful discussions.
 \hlkwd{sessionInfo}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
-## R version 3.3.2 Patched (2017-01-29 r72049)
+## R version 3.3.3 (2017-03-06)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
-## Running under: macOS Sierra 10.12
+## Running under: macOS Sierra 10.12.5
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 ## 
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
 ## 
 ## other attached packages:
-## [1] Logolas_0.99.14 knitr_1.15.1   
+## [1] ggplot2_2.2.1  gridExtra_2.3  gridBase_0.4-7 Logolas_1.1.2  knitr_1.16    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] XML_3.98-1.5       grid_3.3.2         R6_2.2.0           stats4_3.3.2      
-##  [5] magrittr_1.5       evaluate_0.10      highr_0.6          httr_1.2.1        
-##  [9] stringi_1.1.2      aRxiv_0.5.10       curl_2.3           BiocStyle_2.2.1   
-## [13] RColorBrewer_1.1-2 tools_3.3.2        stringr_1.1.0      seqLogo_1.40.0
+##  [1] Rcpp_0.12.12       plyr_1.8.4         gtable_0.2.0       stats4_3.3.3      
+##  [5] magrittr_1.5       scales_0.4.1       evaluate_0.10      highr_0.6         
+##  [9] rlang_0.1.1.9000   stringi_1.1.5      lazyeval_0.2.0     labeling_0.3      
+## [13] BiocStyle_2.2.1    RColorBrewer_1.1-2 tools_3.3.3        stringr_1.2.0     
+## [17] munsell_0.4.3      colorspace_1.3-2   seqLogo_1.40.0     SQUAREM_2016.8-2  
+## [21] tibble_1.3.4
 \end{verbatim}
 \end{kframe}
 \end{knitrout}

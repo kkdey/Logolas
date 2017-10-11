@@ -2,8 +2,7 @@
 % Please edit documentation in R/GetConsensusSeq.R
 \name{GetConsensusSeq}
 \alias{GetConsensusSeq}
-\title{Function for obtaining consensus sequence of DNA sequence
-symbols from a PWM matrix}
+\title{Function for obtaining consensus sequence of DNA sequence symbols from a PWM matrix}
 \usage{
 GetConsensusSeq(pwm)
 }
@@ -23,7 +22,15 @@ to the getIUPAC() method used by the atSNP package.
 }
 \examples{
 
-pwm=matrix(c(0.8,0.1,0.1,0,0.9,0.1,0,0,0.9,0.05,0.05,0,0.5,0.4,0,0.1,0.6,0.4,0,0,0.4,0.4,0.1,0.1,0.5,0,0.2,0.3,0.35,0.35,0.06,0.24,0.4,0.3,0.2,0.1,0.4,0.2,0.2,0.2,0.28,0.24,0.24,0.24,0.5,0.16,0.17,0.17,0.6,0.13,0.13,0.14,0.7,0.15,0.15,0),nrow = 4,byrow = F)
+library(Matrix)
+pwm=matrix(c(0.8,0.1,0.1,0,
+0.9,0.1,0,0,0.9,0.05,0.05,0,0.5,
+0.4,0,0.1,0.6,0.4,0,0,0.4,0.4,0.1,
+0.1,0.5,0,0.2,0.3,0.35,0.35,0.06,
+0.24,0.4,0.3,0.2,0.1,0.4,0.2,0.2,
+0.2,0.28,0.24,0.24,0.24,0.5,0.16,0.17,
+0.17,0.6,0.13,0.13,0.14,0.7,0.15,0.15,0),
+nrow = 4,byrow = FALSE)
 rownames(pwm)=c('A','C','G','T')
 colnames(pwm)=1:ncol(pwm)
 GetConsensusSeq(pwm)

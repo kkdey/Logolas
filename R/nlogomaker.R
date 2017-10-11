@@ -36,10 +36,6 @@
 #' @param frame_width The width of the frames for individual site/postion/column
 #' in the logo plot. As default, all the columns have same width, equal to 1.
 #'
-#' @param alpha The Renyi entropy tuning parameter which is used in case of
-#' scaling of the bar heights by information criterion. The default tuning
-#' parameter value is 1, which corresponds to Shannon entropy.
-#'
 #' @param xaxis Binary specifying if there should be a X axis in the logo plot
 #' or not. Defaults to TRUE.
 #'
@@ -72,10 +68,6 @@
 #'
 #' @param yrange The limit of the Y axis.
 #'
-#' @param scale1 scaling of the logo to maintain the gap between symbols.
-#'
-#' @param scale0 the base change of the logo to maintain the gap between symbols.
-#'
 #' @param addlogos Vector of additional logos/symbols defined by user
 #' @param addlogos_text Vector of the names given to the additional logos/symbols defined by user.
 #'
@@ -101,6 +93,8 @@
 #'
 #' @import grid
 #' @importFrom graphics par
+#' @importFrom  utils  modifyList
+#'
 #' @examples
 #'
 #' mFile <- system.file("Exfiles/pwm1", package="seqLogo")

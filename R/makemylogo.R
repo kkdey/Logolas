@@ -14,6 +14,8 @@
 #'
 #' @param colfill The color used for the symbol
 #'
+#' @param lwd The line width for the symbol.
+#'
 #' @param plot  binary, if FALSE, returns only the co-ordinates of the symbol in the
 #' [0,1] X [0,1] grid, along with block id labels and their corresponding colors.
 #' If TRUE, plots the symbol with specified color in a new grid window.

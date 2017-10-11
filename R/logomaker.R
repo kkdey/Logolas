@@ -96,6 +96,8 @@
 #'
 #' @import grid
 #' @importFrom graphics par
+#' @importFrom  utils  modifyList
+#'
 #' @examples
 #'
 #' cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]

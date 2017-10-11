@@ -19,7 +19,7 @@
 #' and a flag to indicate convergence
 #'
 #' @import SQUAREM
-#' @export
+
 
 
 
@@ -81,7 +81,6 @@ penloglik = function(pi, matrix_lik, prior){
 #' and a flag to indicate convergence
 #'
 #' @import SQUAREM
-#' @export
 
 
 
@@ -144,7 +143,7 @@ w_penloglik = function(pi, matrix_lik, prior, w){
 #' @return A list, including the estimates (pihat), the log likelihood for each interation (B)
 #' and a flag to indicate convergence
 #'
-#' @export
+
 mixIP = function(matrix_lik, prior, pi_init = NULL, control = list(), weights=NULL){
 
   # This is the smallest value allowed for the mixture weights.
