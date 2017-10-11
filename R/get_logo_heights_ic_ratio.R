@@ -34,6 +34,10 @@
 #' @param quant The quantile to be adjusted for in computing enrichment and
 #' depletion scores. Defaults to 0.5, which corresponds to the median.
 #'
+#' @return Returns the heights of enrichment and depletion for
+#' ic-ratio approach to EDLogo.
+#'
+#' @importFrom  stats quantile
 #'
 #' @examples
 #'

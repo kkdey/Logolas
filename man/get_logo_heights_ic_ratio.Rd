@@ -37,6 +37,10 @@ method to determine the heights of the logos.}
 \item{quant}{The quantile to be adjusted for in computing enrichment and
 depletion scores. Defaults to 0.5, which corresponds to the median.}
 }
+\value{
+Returns the heights of enrichment and depletion for
+ic-ratio approach to EDLogo.
+}
 \description{
 Genertes total heights of the logos in the positive and negative
 scales of the nlogomaker() logo plot along with the proportion of the height
@@ -53,6 +57,6 @@ m[4,] = c(4,2,2.5,0,8,7,0,8,8,2,6,1)
 rownames(m) = c("A", "C", "G", "T")
 colnames(m) = 1:12
 m=m/8
-get_logo_heights_ic(m, alpha = 1, hist = FALSE)
+get_logo_heights_ic_ratio(m, alpha = 1, hist = FALSE)
 
 }

@@ -102,14 +102,6 @@ the gap between ylabel and y-axis and xlabel and x-axis texts (\code{gap_ylab},
 \code{viewport.margin.right}), whether the height of the logos would be fixed
  apriori or determined by the PWM matrix as in seqLogo
  (\code{use_seqLogo_heights}) etc.}
-
-\item{alpha}{The Renyi entropy tuning parameter which is used in case of
-scaling of the bar heights by information criterion. The default tuning
-parameter value is 1, which corresponds to Shannon entropy.}
-
-\item{scale1}{scaling of the logo to maintain the gap between symbols.}
-
-\item{scale0}{the base change of the logo to maintain the gap between symbols.}
 }
 \value{
 Plots the logo plot for the table data, with column names representing

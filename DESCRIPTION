@@ -1,6 +1,6 @@
 Package: Logolas
 Type: Package
-Title: Package for EDLogo visualization, featuring string logos and adaptive scaling of position weight matrices. 
+Title: Package for EDLogo visualization, featuring string logos and adaptive scaling of position weight matrices
 Version: 1.2.1
 Date: 10.10.2017.
 Authors@R: c(
@@ -19,10 +19,13 @@ Imports:
     LaplacesDemon,
     Matrix,
     stats,
-    graphics
+    graphics,
+    REBayes,
+    Rmosek,
+    utils
 Suggests:
     knitr, BiocStyle, Biobase, roxygen2, devtools, xtable, gridExtra, 
     RColorBrewer, seqLogo, aRxiv, atSNP, JASPAR2014, TFBSTools 
 VignetteBuilder: knitr
-biocViews: SequenceMatching, Alignment, Software, Visualization
+biocViews: SequenceMatching, Alignment, Software, Visualization, Bayesian
 RoxygenNote: 6.0.1
