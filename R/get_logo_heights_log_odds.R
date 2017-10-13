@@ -100,6 +100,12 @@ get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL, opt = 1,
   npos <- ncol(table_mat_norm)
   chars <- as.character(rownames(table_mat_norm))
 
+  if(quant != 0){
+    qq <- quantile(y, quant)
+  }else{
+    qq <- 0
+  }
+
   if(opt == 1){
     table_mat_adj <- apply((table_mat_norm + epsilon)/(bgmat + epsilon), 2, function(x)
     {
@@ -107,13 +113,13 @@ get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL, opt = 1,
       if(length(indices) == 0){
         # x <- x
         y = log(x/(sum(x)-x), base=2)
-        z <- y - quantile(y, quant)
+        z <- y - qq
         return(z)
       }else{
         w <- x[!is.na(x)]
         #w <- w + scale
         y <- log(w/(sum(w)-w), base=2)
-        z <- y - quantile(y, quant)
+        z <- y - qq
         zext <- array(0, length(x))
         zext[indices] <- 0
         zext[-indices] <- z
