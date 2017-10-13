@@ -97,17 +97,23 @@ get_logo_heights_ic_log <- function(table, alpha = 1, epsilon = 0.01, bg = NULL,
     npos <- ncol(table_mat_norm)
     chars <- as.character(rownames(table_mat_norm))
 
+    if(quant != 0){
+      qq <- quantile(y, quant)
+    }else{
+      qq <- 0
+    }
+
     if(opt == 1){
       table_mat_adj <- apply(log((table_mat_norm+epsilon)/(bgmat+epsilon), base=2), 2, function(x)
       {
         indices <- which(is.na(x))
         if(length(indices) == 0){
           y = x
-          z <- y - quantile(y, quant)
+          z <- y - qq
           return(z)
         }else{
           y <- x[!is.na(x)]
-          z <- y - quantile(y, quant)
+          z <- y - qq
           zext <- array(0, length(x))
           zext[indices] <- 0
           zext[-indices] <- z
