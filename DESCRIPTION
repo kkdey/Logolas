@@ -20,8 +20,6 @@ Imports:
     Matrix,
     stats,
     graphics,
-    REBayes,
-    Rmosek,
     utils,
     ggplot2,
     gridBase
