@@ -109,7 +109,8 @@ ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
         }else{
           tmp <- mat[,i]
           tmp <- tmp[!is.na(tmp)]
-          ic[i] <- (1/(1-alpha))* log (sum(bgmat[,i]^{alpha}), base=2) - (1/(1-alpha))* log (sum(tmp^{alpha}), base=2)
+          ic[i] <- abs((log(length(which(tmp !=0.00)), base=2) - (1/(1-alpha))* log2(sum(tmp^{alpha}))) -
+                         (log(length(which(tmp !=0.00)), base=2) - (1/(1-alpha))* log2(sum(bgmat[,i]^{alpha}))))
         }
       }
     }
