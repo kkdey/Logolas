@@ -1,9 +1,9 @@
-#' @title Get heights of logos in nlogomaker() using absolute log odds heights.
+#' @title Get heights of logos in nlogomaker() using absolute unscaled log heights.
 #'
 #' @description Genertes total heights of the logos in the positive and negative
 #' scales of the nlogomaker() logo plot along with the proportion of the height
 #' distributed between the logos to be plotted in the positive and the negative
-#' scales respectively.
+#' scales respectively using unscaled log proportions.
 #'
 #' @param table The input table (data frame or matrix) of counts across different
 #' logos or symbols (specified along the rows) ans across different sites or
@@ -19,10 +19,6 @@
 #' to be the same across the columns (sites), or a matrix, whose each cell specifies
 #' the background probability of the symbols for each position.
 #'
-#' @param opt Option parameter - taking values 1 and 2 - depending on whether
-#' median adjustment is done based on background corrected proportions or without
-#' background correction
-#'
 #' @param alpha The Renyi entropy tuning parameter which is used in case of
 #' scaling of the bar heights by information criterion. The default tuning
 #' parameter value is 1, which corresponds to Shannon entropy.
@@ -37,7 +33,7 @@
 #' log height based score. Defaults to 0.8
 #'
 #' @return Returns the heights of enrichment and depletion for
-#' log odds approach to EDLogo.
+#' log approach to EDLogo.
 #'
 #' @importFrom  stats quantile
 #'
@@ -51,14 +47,14 @@
 #' rownames(m) = c("A", "C", "G", "T")
 #' colnames(m) = 1:12
 #' m=m/8
-#' get_logo_heights_log_odds(m)
+#' get_logo_heights_unscaled_log(m)
 #'
 #' @export
 
 
-get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL, opt = 1,
-                                      alpha = 1, hist=FALSE, quant = 0.5,
-                                      depletion_weight = 0){
+get_logo_heights_unscaled_log <- function(table, epsilon = 0.01, bg = NULL,
+                                 alpha = 1, hist=FALSE, quant = 0.5,
+                                 depletion_weight = 0){
 
   if (is.vector(bg)==TRUE){
     if(length(bg) != dim(table)[1]){
@@ -68,7 +64,7 @@ get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL, opt = 1,
     }else{
       bgmat <- bg %*% t(rep(1, dim(table)[2]))
       bgmat[which(is.na(table))] <- NA
-      bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
+     # bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
     }
   }else if (is.matrix(bg)==TRUE){
     if(dim(bg)[1] != dim(table)[1] | dim(bg)[2] != dim(table)[2]){
@@ -76,84 +72,54 @@ get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL, opt = 1,
     }else{
       bgmat <- bg
       bgmat[which(is.na(table))] <- NA
-      bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
+    #  bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
     }
   }else {
     message ("using a background with equal probability for all symbols")
-    bgmat <- matrix(1/dim(table)[1], dim(table)[1], dim(table)[2])
+    bgmat <- matrix(mean(table, na.rm=TRUE), dim(table)[1], dim(table)[2])
     bgmat[which(is.na(table))] <- NA
-    bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
+    # bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
   }
 
-
-  table <- apply(table+0.0001,2,normalize_log_odds)
-  bgmat <- apply(bgmat+0.0001,2,normalize_log_odds)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
   }else if (class(table) != "matrix"){
     stop("the table must be of class matrix or data.frame")
   }
-  table_mat_norm <-  apply(table, 2, function(x) return(x/sum(x[!is.na(x)])))
-  bgmat <-  apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
+  table_mat_norm <-  table
+  bgmat <-  bgmat
 
   npos <- ncol(table_mat_norm)
   chars <- as.character(rownames(table_mat_norm))
 
 
-
-  if(opt == 1){
-    table_mat_adj <- apply((table_mat_norm + epsilon)/(bgmat + epsilon), 2, function(x)
-    {
-      indices <- which(is.na(x))
-      if(length(indices) == 0){
-        # x <- x
-        y = log(x/(sum(x)-x), base=2)
-        if(quant != 0){
-          qq <- quantile(y, quant)
-        }else{
-          qq <- 0
-        }
-        z <- y - qq
-        return(z)
+  table_mat_adj <- apply(log((table_mat_norm+epsilon)/(bgmat+epsilon), base=2), 2, function(x)
+  {
+    indices <- which(is.na(x))
+    if(length(indices) == 0){
+      y = x
+      if(quant != 0){
+        qq <- quantile(y, quant)
       }else{
-        w <- x[!is.na(x)]
-        #w <- w + scale
-        y <- log(w/(sum(w)-w), base=2)
-        if(quant != 0){
-          qq <- quantile(y, quant)
-        }else{
-          qq <- 0
-        }
-        z <- y - qq
-        zext <- array(0, length(x))
-        zext[indices] <- 0
-        zext[-indices] <- z
-        return(zext)
+        qq <- 0
       }
-    })
-  }else{
-    table_mat_adj <- apply((table_mat_norm + epsilon), 2, function(x)
-    {
-      indices <- which(is.na(x))
-      if(length(indices) == 0){
-        # x <- x
-        y = log(x/(sum(x)-x), base=2)
-        z <- y - quantile(y, quant)
-        return(z)
+      z <- y - qq
+      return(z)
+    }else{
+      y <- x[!is.na(x)]
+      if(quant != 0){
+        qq <- quantile(y, quant)
       }else{
-        w <- x[!is.na(x)]
-        #w <- w + scale
-        y <- log(w/(sum(w)-w), base=2)
-        z <- y - quantile(y, quant)
-        zext <- array(0, length(x))
-        zext[indices] <- 0
-        zext[-indices] <- z
-        return(zext)
+        qq <- 0
       }
-    })
-  }
-
+      z <- y - qq
+      zext <- array(0, length(x))
+      zext[indices] <- 0
+      zext[-indices] <- z
+      return(zext)
+    }
+  })
 
   table_mat_pos <- table_mat_adj
   table_mat_pos[table_mat_pos<= 0] = 0
@@ -208,6 +174,3 @@ get_logo_heights_log_odds <- function(table, epsilon = 0.01, bg = NULL, opt = 1,
   ll$table_mat_neg_norm <- table_mat_neg_norm
   return(ll)
 }
-
-normalize_log_odds = function(x){return(x/sum(x[!is.na(x)]))}
-
