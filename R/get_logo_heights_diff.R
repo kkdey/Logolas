@@ -86,11 +86,6 @@ get_logo_heights_diff <- function(table, epsilon = 0.01, bg = NULL,
   table <- apply(table+0.0001,2,normalize_diff)
   bgmat <- apply(bgmat+0.0001,2,normalize_diff)
 
-  if(quant != 0){
-    qq <- quantile(y, quant)
-  }else{
-    qq <- 0
-  }
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -108,10 +103,20 @@ get_logo_heights_diff <- function(table, epsilon = 0.01, bg = NULL,
     indices <- which(is.na(x))
     if(length(indices) == 0){
       y = x
+      if(quant != 0){
+        qq <- quantile(y, quant)
+      }else{
+        qq <- 0
+      }
       z <- y - qq
       return(z)
     }else{
       y <- x[!is.na(x)]
+      if(quant != 0){
+        qq <- quantile(y, quant)
+      }else{
+        qq <- 0
+      }
       z <- y - qq
       zext <- array(0, length(x))
       zext[indices] <- 0
