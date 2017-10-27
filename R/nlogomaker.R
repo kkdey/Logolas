@@ -135,7 +135,7 @@
 
 nlogomaker <- function(table,
                        logoheight = c("ic_diff", "ic_ratio", "ic_log", "ic_log_odds",
-                                        "log", "log_odds", "ratio", "diff"),
+                                        "log", "log_odds", "ratio", "diff", "probKL"),
                        color_profile,
                        total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
                                        "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
@@ -166,6 +166,7 @@ nlogomaker <- function(table,
                           lwd = 2, epsilon = 0.01,
                           quant = 0.5, depletion_weight = 0,
                           gap_xlab = 3, gap_ylab = 3.5,
+                          totbins = 6, minbins = 2,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
                           viewport.margin.top = NULL,
@@ -181,7 +182,6 @@ nlogomaker <- function(table,
   depletion_weight <- control$depletion_weight
   if(depletion_weight > 0.7){ depletion_weight <- 0.7}
 
-  table <- apply(table+0.0001,2,normalize3)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -193,6 +193,7 @@ nlogomaker <- function(table,
 
 
   if(logoheight == "ic_ratio"){
+    table <- apply(table+0.0001,2,normalize3)
     ll <- get_logo_heights_ic_ratio(table, alpha = control$alpha,
                               epsilon = control$epsilon,
                               bg = bg,
@@ -200,6 +201,7 @@ nlogomaker <- function(table,
                               hist = control$hist,
                               quant = control$quant)
   } else if (logoheight == "ic_diff"){
+    table <- apply(table+0.0001,2,normalize3)
     ll <- get_logo_heights_ic_diff(table, alpha = control$alpha,
                                     epsilon = control$epsilon,
                                     bg = bg,
@@ -207,6 +209,7 @@ nlogomaker <- function(table,
                                     hist = control$hist,
                                     quant = control$quant)
   }else if (logoheight == "ic_log"){
+    table <- apply(table+0.0001,2,normalize3)
     ll <- get_logo_heights_ic_log(table, alpha = control$alpha,
                                    epsilon = control$epsilon,
                                    bg = bg,
@@ -214,6 +217,7 @@ nlogomaker <- function(table,
                                    hist = control$hist,
                                    quant = control$quant)
   }else if (logoheight == "ic_log_odds"){
+    table <- apply(table+0.0001,2,normalize3)
     ll <- get_logo_heights_ic_log_odds(table, alpha = control$alpha,
                                   epsilon = control$epsilon,
                                   bg = bg,
@@ -221,31 +225,56 @@ nlogomaker <- function(table,
                                   hist = control$hist,
                                   quant = control$quant)
   }else if (logoheight == "log"){
+    table <- apply(table+0.0001,2,normalize3)
     ll <- get_logo_heights_log(table, epsilon = control$epsilon,
                                bg = bg,
                                alpha = control$alpha, hist = control$hist,
                                quant = control$quant,
                                depletion_weight = depletion_weight)
   } else if (logoheight == "log_odds"){
+    table <- apply(table+0.0001,2,normalize3)
     ll <- get_logo_heights_log_odds(table, epsilon = control$epsilon,
                                     bg = bg,
                                     alpha = control$alpha, hist = control$hist,
                                     quant = control$quant,
                                     depletion_weight = depletion_weight)
   }else if (logoheight == "diff"){
+    table <- apply(table+0.0001,2,normalize3)
     ll <- get_logo_heights_diff(table, epsilon = control$epsilon,
                                 bg = bg,
                                 alpha = control$alpha, hist = control$hist,
                                 quant = control$quant,
                                 depletion_weight = depletion_weight)
   }else if (logoheight == "ratio"){
+    table <- apply(table+0.0001,2,normalize3)
     ll <- get_logo_heights_ratio(table, epsilon = control$epsilon,
                                 bg = bg,
                                 alpha = control$alpha, hist = control$hist,
                                 quant = control$quant,
                                 depletion_weight = depletion_weight)
+  }else if (logoheight == "probKL"){
+    table <- apply(table+0.0001,2,normalize3)
+    ll <- get_logo_heights_probKL(table, epsilon = control$epsilon,
+                                 bg = bg,
+                                 alpha = control$alpha, hist = control$hist,
+                                 quant = control$quant,
+                                 depletion_weight = depletion_weight)
+  }else if (logoheight == "wKL"){
+    table <- apply(table+0.0001,2,normalize3)
+    ll <- get_logo_heights_wKL(table, epsilon = control$epsilon,
+                                  bg = bg,
+                                  alpha = control$alpha, hist = control$hist,
+                                  quant = control$quant,
+                                  depletion_weight = depletion_weight)
+  }else if (logoheight == "unscaled_log"){
+    ll <- get_logo_heights_unscaled_log(table, epsilon = control$epsilon,
+                               bg = bg,
+                               alpha = control$alpha, hist = control$hist,
+                               quant = control$quant,
+                               depletion_weight = depletion_weight)
   }else{
-    stop("logoheight option must be one of log, ratio, diff, log_odds, ic_log, ic_diff, ic_ratio, ic_log_odds")
+    stop("logoheight option must be one of log, ratio, diff, probKL, wKL,
+         log_odds, ic_log, ic_diff, ic_ratio, ic_log_odds, unscaled_log")
   }
 
   pos_ic <- ll$pos_ic
@@ -387,8 +416,8 @@ nlogomaker <- function(table,
   # print(yrange)
   ylim_scale <- seq(0, ylim, length.out=6);
 
-  negbins <- ceiling((y1/max1)*6)
-  posbins <- 6 - negbins
+  negbins <- max(ceiling((y1/max1)*6), control$minbins)
+  posbins <- max(control$totbins - negbins, control$minbins)
   ic_lim_scale <- c(seq(0, y1, length.out = negbins),
                     seq(y1, ylim, length.out = posbins))
  # print(ic_lim_scale)
@@ -456,7 +485,7 @@ nlogomaker <- function(table,
   }
 
   if(is.null(pop_name)){
-    grid::grid.text(paste0("Neg Logolas plot: (", logoheight, ")"), y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
+    grid::grid.text(paste0("EDLogo plot: (", logoheight, ")"), y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
                     gp = grid::gpar(fontsize = main_fontsize))
   }else{
     grid::grid.text(paste0(pop_name),

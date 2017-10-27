@@ -97,12 +97,6 @@ get_logo_heights_ic_log_odds <- function(table, alpha = 1, epsilon = 0.01, bg = 
   npos <- ncol(table_mat_norm)
   chars <- as.character(rownames(table_mat_norm))
 
-  if(quant != 0){
-    qq <- quantile(y, quant)
-  }else{
-    qq <- 0
-  }
-
   if(opt == 1){
     table_mat_adj <- apply((table_mat_norm + epsilon)/(bgmat + epsilon), 2, function(x)
     {
@@ -110,12 +104,22 @@ get_logo_heights_ic_log_odds <- function(table, alpha = 1, epsilon = 0.01, bg = 
       if(length(indices) == 0){
         # x <- x
         y = log(x/(sum(x)-x), base=2)
+        if(quant != 0){
+          qq <- quantile(y, quant)
+        }else{
+          qq <- 0
+        }
         z <- y - qq
         return(z)
       }else{
         w <- x[!is.na(x)]
         #w <- w + scale
         y <- log(w/(sum(w)-w), base=2)
+        if(quant != 0){
+          qq <- quantile(y, quant)
+        }else{
+          qq <- 0
+        }
         z <- y - qq
         zext <- array(0, length(x))
         zext[indices] <- 0
