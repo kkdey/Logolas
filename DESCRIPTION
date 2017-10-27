@@ -25,7 +25,7 @@ Imports:
     gridBase
 Suggests:
     knitr, BiocStyle, Biobase, roxygen2, devtools, xtable, gridExtra, 
-    RColorBrewer, seqLogo, aRxiv, atSNP, JASPAR2014, TFBSTools 
+    RColorBrewer, seqLogo, aRxiv, JASPAR2014, TFBSTools 
 VignetteBuilder: knitr
 biocViews: SequenceMatching, Alignment, Software, Visualization, Bayesian
 RoxygenNote: 6.0.1
