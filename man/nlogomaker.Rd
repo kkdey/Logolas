@@ -5,7 +5,7 @@
 \title{Main workhorse function that builds negative logo plots}
 \usage{
 nlogomaker(table, logoheight = c("ic_diff", "ic_ratio", "ic_log",
-  "ic_log_odds", "log", "log_odds", "ratio", "diff"), color_profile,
+  "ic_log_odds", "log", "log_odds", "ratio", "diff", "probKL"), color_profile,
   total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
   "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero",
   "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",

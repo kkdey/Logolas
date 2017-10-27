@@ -124,6 +124,7 @@ logo_pssm <- function(table,
   control.default <- list(scale0=0.01,
                           scale1=0.99, tofill_pos = TRUE, tofill_neg = TRUE,
                           lwd = 2, gap_xlab = 3, gap_ylab = 3,
+                          totbins = 6, minbins = 2,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
                           viewport.margin.top = NULL,
@@ -268,8 +269,8 @@ logo_pssm <- function(table,
   ylim <- ylimit
   ylim_scale <- seq(0, ylim, length.out=6);
 
-  negbins <- ceiling((y1/max1)*6)
-  posbins <- 6 - negbins
+  negbins <- max(ceiling((y1/max1)*6), control$minbins)
+  posbins <- max(control$totbins - negbins, control$minbins)
   ic_lim_scale <- c(seq(0, y1, length.out = negbins),
                     seq(y1, ylim, length.out = posbins))
 
