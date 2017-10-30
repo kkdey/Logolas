@@ -17,7 +17,6 @@ Imports:
     grid,
     SQUAREM,
     LaplacesDemon,
-    Matrix,
     stats,
     graphics,
     utils,
