@@ -11,7 +11,7 @@ Maintainer: Kushal Dey <kkdey@uchicago.edu>
 Description: Produces logo plots highlighting both enrichment and depletion of characters called EDLogos, allows for plotting of string symbols, and performs scaling of position weights adaptively, along with several cool stylizations. 
 License: GPL (>= 2)
 LazyData: TRUE
-Depends: R (>= 3.3), ggplot2, gridBase
+Depends: R (>= 3.3)
 URL: https://github.com/kkdey/Logolas
 Imports:
     grid,

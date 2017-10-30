@@ -90,7 +90,7 @@
 dash <- function(comp_data,
                  concentration = NULL,
                  mode = NULL,
-                 optmethod = c("mixEM", "w_mixEM", "mixIP"),
+                 optmethod = c("mixEM", "w_mixEM"),
                  sample_weights = NULL,
                  verbose = FALSE,
                  bf = TRUE,
@@ -231,8 +231,6 @@ dash <- function(comp_data,
     fit=do.call("mixEM",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=squarem_control))
   }else if (optmethod == "w_mixEM"){
     fit=do.call("w_mixEM",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=squarem_control, weights=sample_weights))
-  }else if (optmethod == "mixIP"){
-    fit=do.call("mixIP",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=squarem_control))
   }else{
     message("optmethod npt provided correctly: switching to mixEM")
     fit=do.call("mixEM",args = list(matrix_lik= matrix_lik, prior=prior, pi_init=pi_init, control=squarem_control))
