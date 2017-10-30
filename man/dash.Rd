@@ -5,7 +5,7 @@
 \title{Dirichlet adaptive shrinkage of compositional data using dash}
 \usage{
 dash(comp_data, concentration = NULL, mode = NULL, optmethod = c("mixEM",
-  "w_mixEM", "mixIP"), sample_weights = NULL, verbose = FALSE, bf = TRUE,
+  "w_mixEM"), sample_weights = NULL, verbose = FALSE, bf = TRUE,
   pi_init = NULL, squarem_control = list(), dash_control = list(),
   reportcov = FALSE)
 }
