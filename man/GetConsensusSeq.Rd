@@ -22,7 +22,6 @@ to the getIUPAC() method used by the atSNP package.
 }
 \examples{
 
-library(Matrix)
 pwm=matrix(c(0.8,0.1,0.1,0,
 0.9,0.1,0,0,0.9,0.05,0.05,0,0.5,
 0.4,0,0.1,0.6,0.4,0,0,0.4,0.4,0.1,

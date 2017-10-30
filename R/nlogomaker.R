@@ -131,6 +131,8 @@
 #'
 #'
 #' @importFrom stats median
+#' @import ggplot2
+#' @import gridBase
 #' @export
 
 nlogomaker <- function(table,
