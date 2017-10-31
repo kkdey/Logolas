@@ -245,6 +245,7 @@ logomaker <- function( table,
     }
     ylab <- ylab
     facs <- ic
+
   }else{
     ylim <- 1
     ylab <- ylab

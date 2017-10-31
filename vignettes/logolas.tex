@@ -88,7 +88,7 @@ Logo plots are popular in genomic studies for sequence alignment and motif detec
 In this vignette, we discuss a number of applications in genomics and beyond where such flexible logo plots can be effective in visualizing patterns.
 
 \vspace{1em}
-\textbf{\Logolas{} version:} 1.1.2 \footnote{This document used the vignette from \Bioconductor{} package \Biocpkg{CountClust, DESeq2} as \CRANpkg{knitr} template}
+\textbf{\Logolas{} version:} 1.2.1 \footnote{This document used the vignette from \Bioconductor{} package \Biocpkg{CountClust, DESeq2} as \CRANpkg{knitr} template}
 \end{abstract}
 
 
@@ -171,20 +171,27 @@ We next define the color pattern for the logo plot.
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlstd{color_profile} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
-\hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{)[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"Spectral"}\hlstd{))}
+\hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{))[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"Spectral"}\hlstd{))}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
 
 We now apply the main plotting function \textit{logomaker} in \textbf{Logolas} for plotting the standard logo plot.
 
+\begin{figure}[h]
+\begin{center}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,} \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}\hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlkwd{logomaker}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{),}\hlkwc{color_profile} \hlstd{= color_profile,} \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}\hlkwc{ic.scale} \hlstd{=} \hlnum{TRUE}\hlstd{)}
 \end{alltt}
 \end{kframe}
+\includegraphics[width=6in,height=5in]{figure/standard_logo-1} 
+
 \end{knitrout}
+\end{center}
+\end{figure}
+
 
 \subsection{Different configurations of standard logo}
 
@@ -228,9 +235,9 @@ We first set up the multiple panels and then present the standard logo plots und
 \hlcom{#change the color of letters}
 \hlcom{#change the diverging palettes}
 \hlstd{color_profile1}\hlkwb{=}\hlkwd{list}\hlstd{(}\hlstr{"type"} \hlstd{=} \hlstr{"per_row"}\hlstd{,}
-\hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{)[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"PiYG"}\hlstd{))}
+\hlstr{"col"} \hlstd{= RColorBrewer}\hlopt{::}\hlkwd{brewer.pal}\hlstd{(}\hlkwd{dim}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{))[}\hlnum{1}\hlstd{],}\hlkwc{name} \hlstd{=}\hlstr{"PiYG"}\hlstd{))}
 \hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{1}\hlstd{))}
-\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile1,}
+\hlkwd{logomaker}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{),}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile1,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
           \hlkwc{pop_name} \hlstd{=} \hlstr{'Change color'}\hlstd{,}
@@ -239,7 +246,7 @@ We first set up the multiple panels and then present the standard logo plots und
 \hlcom{#change the y scale:}
 \hlcom{#if yscale_change = FALSE, then the height of y axis would be 2.}
 \hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{2}\hlstd{))}
-\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
+\hlkwd{logomaker}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{),}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
           \hlkwc{pop_name} \hlstd{=} \hlstr{'Change y scale'}\hlstd{,}
@@ -247,7 +254,7 @@ We first set up the multiple panels and then present the standard logo plots und
           \hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{viewport.margin.left} \hlstd{=} \hlnum{5}\hlstd{))}
 \hlcom{#Normalize the height of bars to 1}
 \hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{3}\hlstd{))}
-\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
+\hlkwd{logomaker}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{),}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
           \hlkwc{ic.scale} \hlstd{=} \hlnum{FALSE}\hlstd{,}
@@ -256,7 +263,7 @@ We first set up the multiple panels and then present the standard logo plots und
 \hlcom{#change the background probability}
 \hlcom{#And modify the title and the axis label}
 \hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{4}\hlstd{))}
-\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
+\hlkwd{logomaker}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{),}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{bg}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0.32}\hlstd{,} \hlnum{0.18}\hlstd{,} \hlnum{0.2}\hlstd{,} \hlnum{0.3}\hlstd{),}
           \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
@@ -264,8 +271,15 @@ We first set up the multiple panels and then present the standard logo plots und
           \hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{viewport.margin.left} \hlstd{=} \hlnum{5}\hlstd{))}
 \end{alltt}
 \end{kframe}
+\includegraphics[width=6in,height=5in]{figure/diff_features-1} 
+
 \end{knitrout}
 
+% \begin{figure}[h]
+% \begin{center}
+% \includegraphics[height=6in, width=8in]{figure/panel1.pdf}
+% \end{center}
+% \end{figure}
 
 \subsection{Other entropy measures}
 
@@ -280,7 +294,7 @@ textbf{Logolas} can also determine the Information Criterion using Renyi entrop.
 \hlstd{layout.cols} \hlkwb{<-} \hlnum{2}
 \hlstd{top.vp} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout}\hlstd{=}\hlkwd{grid.layout}\hlstd{(layout.rows, layout.cols,}
                                       \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{6}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,} \hlnum{2}\hlstd{)),}
-                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{20}\hlstd{,}\hlnum{50}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlstr{"lines"}\hlstd{,} \hlnum{2}\hlstd{))))}
+                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{20}\hlstd{,}\hlnum{20}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlstr{"lines"}\hlstd{,} \hlnum{2}\hlstd{))))}
 
 \hlstd{plot_reg} \hlkwb{<-} \hlkwd{vpList}\hlstd{()}
 \hlstd{l} \hlkwb{<-} \hlnum{1}
@@ -296,7 +310,7 @@ textbf{Logolas} can also determine the Information Criterion using Renyi entrop.
 
 \hlkwd{pushViewport}\hlstd{(plot_tree)}
 \hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{1}\hlstd{))}
-\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
+\hlkwd{logomaker}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{),}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
           \hlkwc{pop_name} \hlstd{=} \hlstr{'Logo plot, Alpha=2'}\hlstd{,}
@@ -304,14 +318,17 @@ textbf{Logolas} can also determine the Information Criterion using Renyi entrop.
 
 
 \hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{2}\hlstd{))}
-\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
+\hlkwd{logomaker}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{),}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
           \hlkwc{pop_name} \hlstd{=} \hlstr{'Logo plot, Alpha=0.2'}\hlstd{,}
           \hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{viewport.margin.left} \hlstd{=} \hlnum{5}\hlstd{,}\hlkwc{alpha}\hlstd{=}\hlnum{0.2}\hlstd{))}
 \end{alltt}
 \end{kframe}
+\includegraphics[width=6in,height=5in]{figure/entropy-1} 
+
 \end{knitrout}
+
 
 \subsection{Combine Logolas with ggplot2}
 
@@ -329,8 +346,8 @@ The user can also embed the Logolas plots with ggplot2 graphics. We present a si
 \hlstd{layout.rows} \hlkwb{<-} \hlnum{1}
 \hlstd{layout.cols} \hlkwb{<-} \hlnum{2}
 \hlstd{top.vp} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout}\hlstd{=}\hlkwd{grid.layout}\hlstd{(layout.rows, layout.cols,}
-                                      \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{2}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{, layout.cols)),}
-                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{1}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,}\hlnum{1}\hlstd{))))}
+                                      \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{6}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{, layout.cols)),}
+                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{20}\hlstd{,}\hlnum{20}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,}\hlnum{1}\hlstd{))))}
 
 \hlstd{plot_reg} \hlkwb{<-} \hlkwd{vpList}\hlstd{()}
 \hlstd{l} \hlkwb{<-} \hlnum{1}
@@ -346,7 +363,7 @@ The user can also embed the Logolas plots with ggplot2 graphics. We present a si
 
 \hlkwd{pushViewport}\hlstd{(plot_tree)}
 \hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{1}\hlstd{))}
-\hlkwd{logomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
+\hlkwd{logomaker}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{),}\hlkwc{xlab} \hlstd{=} \hlstr{'position'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}
           \hlkwc{bg} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0.28}\hlstd{,} \hlnum{0.22}\hlstd{,} \hlnum{0.24}\hlstd{,} \hlnum{0.26}\hlstd{),}
           \hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}
           \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{,}
@@ -359,6 +376,8 @@ The user can also embed the Logolas plots with ggplot2 graphics. We present a si
 \hlkwd{print}\hlstd{(p,} \hlkwc{vp} \hlstd{= vp3)}
 \end{alltt}
 \end{kframe}
+\includegraphics[width=6in,height=5in]{figure/ggplot2-1} 
+
 \end{knitrout}
 
 \section{EDLogo Representation}
@@ -373,6 +392,7 @@ Sequence logos will show a mild enrichment of A, C, G in this position and the s
 
 \subsection{EDLogo - First example}
 
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -385,8 +405,8 @@ Sequence logos will show a mild enrichment of A, C, G in this position and the s
 \hlstd{layout.rows} \hlkwb{<-} \hlnum{1}
 \hlstd{layout.cols} \hlkwb{<-} \hlnum{2}
 \hlstd{top.vp} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout}\hlstd{=}\hlkwd{grid.layout}\hlstd{(layout.rows, layout.cols,}
-                                      \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{2}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{, layout.cols)),}
-                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{1}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,}\hlnum{1}\hlstd{))))}
+                                      \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{6}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{, layout.cols)),}
+                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{20}\hlstd{,}\hlnum{20}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,}\hlnum{1}\hlstd{))))}
 
 \hlstd{plot_reg} \hlkwb{<-} \hlkwd{vpList}\hlstd{()}
 \hlstd{l} \hlkwb{<-} \hlnum{1}
@@ -397,19 +417,31 @@ Sequence logos will show a mild enrichment of A, C, G in this position and the s
   \hlstd{\}}
 \hlstd{\}}
 
+\hlstd{plot_tree} \hlkwb{<-} \hlkwd{vpTree}\hlstd{(top.vp, plot_reg)}
+
+\hlkwd{pushViewport}\hlstd{(plot_tree)}
+
 \hlstd{pwm}\hlkwb{=}\hlkwd{cbind}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{),}\hlkwd{c}\hlstd{(}\hlnum{0.328}\hlstd{,}\hlnum{0.332}\hlstd{,}\hlnum{0.33}\hlstd{,}\hlnum{0.01}\hlstd{),}
           \hlkwd{c}\hlstd{(}\hlnum{0.1}\hlstd{,}\hlnum{0.8}\hlstd{,}\hlnum{0.05}\hlstd{,}\hlnum{0.05}\hlstd{),}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{0.05}\hlstd{,}\hlnum{0.95}\hlstd{,}\hlnum{0}\hlstd{))}
 \hlkwd{rownames}\hlstd{(pwm)}\hlkwb{=}\hlkwd{c}\hlstd{(}\hlstr{'A'}\hlstd{,}\hlstr{'C'}\hlstd{,}\hlstr{'G'}\hlstd{,}\hlstr{'T'}\hlstd{)}
 \hlkwd{colnames}\hlstd{(pwm)}\hlkwb{=}\hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(pwm)}
-\hlkwd{logomaker}\hlstd{(pwm,}\hlkwc{color_profile}\hlstd{=color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}\hlkwc{pop_name} \hlstd{=} \hlstr{''}\hlstd{,}\hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{gap_ylab}\hlstd{=}\hlnum{3.5}\hlstd{))}
-\hlkwd{nlogomaker}\hlstd{(pwm,}\hlkwc{logoheight} \hlstd{=} \hlstr{'log'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{pop_name} \hlstd{=} \hlstr{''}\hlstd{,}\hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{gap_ylab}\hlstd{=}\hlnum{3.5}\hlstd{))}
+
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{1}\hlstd{))}
+\hlkwd{logomaker}\hlstd{(pwm,}\hlkwc{color_profile}\hlstd{=color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,}\hlkwc{pop_name} \hlstd{=} \hlstr{'Logo'}\hlstd{,}\hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{gap_ylab}\hlstd{=}\hlnum{3.5}\hlstd{),} \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+\hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{2}\hlstd{))}
+\hlkwd{nlogomaker}\hlstd{(pwm,}\hlkwc{logoheight} \hlstd{=} \hlstr{'log'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{pop_name} \hlstd{=} \hlstr{'EDLogo'}\hlstd{,}\hlkwc{control} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{gap_ylab}\hlstd{=}\hlnum{3.5}\hlstd{),} \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 \end{alltt}
 \end{kframe}
+\includegraphics[width=6in,height=5in]{figure/edlogo-1} 
+
 \end{knitrout}
+
 
 \subsection{Different options of EDLogo}
 
 The \textit{EDLogo} plot is created using the \textit{nlogomaker} function. Note that there is a \textit{logoheight} option in this plot which was set to \textit{log} for the above example. Actually there are total $8$ options for \textit{logoheight} - the details can be found in Documentation. A comparative analysis of some of these options on the seqLogo example is provided below.
+
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -419,12 +451,11 @@ The \textit{EDLogo} plot is created using the \textit{nlogomaker} function. Note
 \hlstd{p} \hlkwb{<-} \hlstd{seqLogo}\hlopt{::}\hlkwd{makePWM}\hlstd{(m)}
 
 \hlkwd{grid.newpage}\hlstd{()}
-\hlstd{layout.rows} \hlkwb{<-} \hlnum{1}
-\hlstd{layout.cols} \hlkwb{<-} \hlnum{3}
+\hlstd{layout.rows} \hlkwb{<-} \hlnum{2}
+\hlstd{layout.cols} \hlkwb{<-} \hlnum{2}
 \hlstd{top.vp} \hlkwb{<-} \hlkwd{viewport}\hlstd{(}\hlkwc{layout}\hlstd{=}\hlkwd{grid.layout}\hlstd{(layout.rows, layout.cols,}
-                                      \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{6}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,} \hlnum{2}\hlstd{)),}
-                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{20}\hlstd{,}\hlnum{50}\hlstd{),} \hlkwd{rep}\hlstd{(}\hlstr{"lines"}\hlstd{,} \hlnum{2}\hlstd{))))}
-
+                                      \hlkwc{widths}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{5}\hlstd{,layout.cols),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,} \hlnum{2}\hlstd{)),}
+                                      \hlkwc{heights}\hlstd{=}\hlkwd{unit}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlnum{5}\hlstd{,layout.rows),} \hlkwd{rep}\hlstd{(}\hlstr{"null"}\hlstd{,} \hlnum{1}\hlstd{))))}
 \hlstd{plot_reg} \hlkwb{<-} \hlkwd{vpList}\hlstd{()}
 \hlstd{l} \hlkwb{<-} \hlnum{1}
 \hlkwa{for}\hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{layout.rows)\{}
@@ -439,16 +470,18 @@ The \textit{EDLogo} plot is created using the \textit{nlogomaker} function. Note
 
 \hlkwd{pushViewport}\hlstd{(plot_tree)}
 \hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{1}\hlstd{))}
-\hlkwd{nlogomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{logoheight} \hlstd{=} \hlstr{'log'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{pop_name} \hlstd{=} \hlstr{"log"}\hlstd{,} \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\hlkwd{nlogomaker}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{),}\hlkwc{logoheight} \hlstd{=} \hlstr{'log'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{pop_name} \hlstd{=} \hlstr{"log"}\hlstd{,} \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 
 
 \hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{2}\hlstd{))}
-\hlkwd{nlogomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{logoheight} \hlstd{=} \hlstr{'log_odds'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{pop_name} \hlstd{=} \hlstr{"log_odds"}\hlstd{,} \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\hlkwd{nlogomaker}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{),}\hlkwc{logoheight} \hlstd{=} \hlstr{'log_odds'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{pop_name} \hlstd{=} \hlstr{"log_odds"}\hlstd{,} \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 
 \hlkwd{seekViewport}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"plotlogo"}\hlstd{,} \hlnum{3}\hlstd{))}
-\hlkwd{nlogomaker}\hlstd{(p}\hlopt{@}\hlkwc{pwm}\hlstd{,}\hlkwc{logoheight} \hlstd{=} \hlstr{'ratio'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{pop_name} \hlstd{=} \hlstr{"ratio"}\hlstd{,} \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\hlkwd{nlogomaker}\hlstd{(}\hlkwd{attr}\hlstd{(p,} \hlstr{"pwm"}\hlstd{),}\hlkwc{logoheight} \hlstd{=} \hlstr{'ratio'}\hlstd{,}\hlkwc{color_profile} \hlstd{= color_profile,}\hlkwc{frame_width} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{pop_name} \hlstd{=} \hlstr{"ratio"}\hlstd{,} \hlkwc{newpage} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 \end{alltt}
 \end{kframe}
+\includegraphics[width=6in,height=5in]{figure/edlogo_opts-1} 
+
 \end{knitrout}
 
 
@@ -812,14 +845,14 @@ The authors would like to acknowledge Oliver Bembom, the author of `seqLogo` for
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] ggplot2_2.2.1  gridExtra_2.3  gridBase_0.4-7 Logolas_1.1.2  knitr_1.16    
+## [1] ggplot2_2.2.1  gridExtra_2.3  gridBase_0.4-7 Logolas_1.2.1  knitr_1.17    
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.12       plyr_1.8.4         gtable_0.2.0       stats4_3.3.3      
-##  [5] magrittr_1.5       scales_0.4.1       evaluate_0.10      highr_0.6         
+##  [5] magrittr_1.5       evaluate_0.10.1    scales_0.4.1       highr_0.6         
 ##  [9] rlang_0.1.1.9000   stringi_1.1.5      lazyeval_0.2.0     labeling_0.3      
 ## [13] BiocStyle_2.2.1    RColorBrewer_1.1-2 tools_3.3.3        stringr_1.2.0     
-## [17] munsell_0.4.3      colorspace_1.3-2   seqLogo_1.40.0     SQUAREM_2016.8-2  
+## [17] munsell_0.4.3      seqLogo_1.40.0     colorspace_1.3-2   SQUAREM_2017.10-1 
 ## [21] tibble_1.3.4
 \end{verbatim}
 \end{kframe}

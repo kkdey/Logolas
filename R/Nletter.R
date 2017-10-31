@@ -6,7 +6,6 @@
 #' out <- Nletter(plot=TRUE, fill_symbol = TRUE, colfill = "green")
 #' out <- Nletter(plot=TRUE, fill_symbol = FALSE, colfill = "green")
 
-
 Nletter <- function(plot = FALSE,
                     fill_symbol = TRUE,
                     colfill="green",

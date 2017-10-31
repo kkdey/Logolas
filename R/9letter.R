@@ -7,7 +7,6 @@
 #' out <- nineletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
 
 
-
 nineletter <- function(plot = FALSE,
                        fill_symbol = TRUE,
                        colfill="green",

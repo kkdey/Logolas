@@ -7,7 +7,6 @@
 #' out <- eightletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
 
 
-
 eightletter <- function(plot = FALSE,
                        fill_symbol = TRUE,
                        colfill="green",
@@ -40,6 +39,7 @@ eightletter <- function(plot = FALSE,
 
   if(plot){
     get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
+
   }
 
 

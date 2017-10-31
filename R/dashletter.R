@@ -17,7 +17,6 @@ dashletter <- function(plot = FALSE,
 
   fill <- colfill
   colfill <- rep(colfill, length(unique(id)))
-
   if(plot){
     get_plot(x, y, id, fill)
   }
