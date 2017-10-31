@@ -114,9 +114,14 @@ color_profile <- list("type" = "per_row",
 
 We now apply the main plotting function \textit{logomaker} in \textbf{Logolas} for plotting the standard logo plot.
 
-<<standard_logo, cache=FALSE, eval=TRUE,warning=FALSE>>=
+\begin{figure}[h]
+\begin{center}
+<<standard_logo, cache=FALSE, eval=TRUE, warning=FALSE, fig.show="asis", dpi=144, fig.width=6, fig.height=5, out.width="6in", out.height="5in">>=
 logomaker(attr(p, "pwm"),color_profile = color_profile, frame_width = 1,ic.scale = TRUE)
 @ %def
+\end{center}
+\end{figure}
+
 
 \subsection{Different configurations of standard logo}
 
@@ -124,7 +129,7 @@ Logolas also allows the user to choose different colors, change the scale of the
 
 We first set up the multiple panels and then present the standard logo plots under different customizations.
 
-<<diff_features, cache=FALSE, eval=TRUE,warning=FALSE>>=
+<<diff_features, cache=FALSE, eval=TRUE, warning=FALSE,  fig.show="asis", dpi=144, fig.width=6, fig.height=5, out.width="6in", out.height="5in">>=
 
 ######################      Setting up multiple panels        ########################
 
@@ -196,20 +201,25 @@ logomaker(attr(p, "pwm"),xlab = 'position',color_profile = color_profile,
 
 @ %def
 
+% \begin{figure}[h]
+% \begin{center}
+% \includegraphics[height=6in, width=8in]{figure/panel1.pdf}
+% \end{center}
+% \end{figure}
 
 \subsection{Other entropy measures}
 
 Besides the default Shannon entropy, \textit{logomaker} function in
 textbf{Logolas} can also determine the Information Criterion using Renyi entrop. For this entropy measure, the Information content at position $i$ is $IC_{i,\alpha}=\frac{1}{1-\alpha}\Sigma_b\log_2(q_{b,i}^\alpha-0.25^{1-\alpha})$. When $\alpha\rightarrow1$, the limiting value of Renyi entropy is the Shannon entropy. In `logomaker`, `alpha` is a control parameter that can be tuned to get plots for different entropy measures. The figure below shows the logo plots with different values of $\alpha$.
 
-<<entropy, cache=FALSE, eval=TRUE, warning=FALSE, fig.height=5,fig.width=12>>=
+<<entropy, cache=FALSE, eval=TRUE, warning=FALSE,  fig.show="asis", dpi=144, fig.width=8, fig.height=6, out.width="6in", out.height="5in">>=
 
 grid.newpage()
 layout.rows <- 1
 layout.cols <- 2
 top.vp <- viewport(layout=grid.layout(layout.rows, layout.cols,
                                       widths=unit(rep(6,layout.cols), rep("null", 2)),
-                                      heights=unit(c(20,50), rep("lines", 2))))
+                                      heights=unit(c(20,20), rep("lines", 2))))
 
 plot_reg <- vpList()
 l <- 1
@@ -240,11 +250,12 @@ logomaker(attr(p, "pwm"),xlab = 'position',color_profile = color_profile,
           control = list(viewport.margin.left = 5,alpha=0.2))
 @ %def
 
+
 \subsection{Combine Logolas with ggplot2}
 
 The user can also embed the Logolas plots with ggplot2 graphics. We present a simple illustration below.
 
-<<ggplot2, cache=FALSE, eval=TRUE,warning=FALSE>>=
+<<ggplot2, cache=FALSE, eval=TRUE, warning=FALSE,  fig.show="asis", dpi=144, fig.width=6, fig.height=5, out.width="6in", out.height="5in">>=
 
 library(ggplot2)
 library(grid)
@@ -255,8 +266,8 @@ grid.newpage()
 layout.rows <- 1
 layout.cols <- 2
 top.vp <- viewport(layout=grid.layout(layout.rows, layout.cols,
-                                      widths=unit(rep(2,layout.cols), rep("null", layout.cols)),
-                                      heights=unit(rep(2,1), rep("null",1))))
+                                      widths=unit(rep(6,layout.cols), rep("null", layout.cols)),
+                                      heights=unit(rep(20,20), rep("null",1))))
 
 plot_reg <- vpList()
 l <- 1
@@ -298,7 +309,8 @@ Sequence logos will show a mild enrichment of A, C, G in this position and the s
 
 \subsection{EDLogo - First example}
 
-<<edlogo, cache=FALSE, eval=TRUE,warning=FALSE>>=
+
+<<edlogo, cache=FALSE, eval=TRUE, warning=FALSE,  fig.show="asis", dpi=144, fig.width=6, fig.height=5, out.width="6in", out.height="5in">>=
 
 library(ggplot2)
 library(grid)
@@ -309,8 +321,8 @@ grid.newpage()
 layout.rows <- 1
 layout.cols <- 2
 top.vp <- viewport(layout=grid.layout(layout.rows, layout.cols,
-                                      widths=unit(rep(2,layout.cols), rep("null", layout.cols)),
-                                      heights=unit(rep(2,1), rep("null",1))))
+                                      widths=unit(rep(6,layout.cols), rep("null", layout.cols)),
+                                      heights=unit(rep(20,20), rep("null",1))))
 
 plot_reg <- vpList()
 l <- 1
@@ -321,32 +333,41 @@ for(i in 1:layout.rows){
   }
 }
 
+plot_tree <- vpTree(top.vp, plot_reg)
+
+pushViewport(plot_tree)
+
 pwm=cbind(c(1,0,0,0),c(0.328,0.332,0.33,0.01),
           c(0.1,0.8,0.05,0.05),c(0,0.05,0.95,0))
 rownames(pwm)=c('A','C','G','T')
 colnames(pwm)=1:ncol(pwm)
-logomaker(pwm,color_profile=color_profile,frame_width = 1,pop_name = '',control = list(gap_ylab=3.5))
-nlogomaker(pwm,logoheight = 'log',color_profile = color_profile,pop_name = '',control = list(gap_ylab=3.5))
+
+seekViewport(paste0("plotlogo", 1))
+logomaker(pwm,color_profile=color_profile,frame_width = 1,pop_name = 'Logo',control = list(gap_ylab=3.5), newpage = FALSE)
+
+seekViewport(paste0("plotlogo", 2))
+nlogomaker(pwm,logoheight = 'log',color_profile = color_profile,pop_name = 'EDLogo',control = list(gap_ylab=3.5), newpage = FALSE)
 
 @ %def
+
 
 \subsection{Different options of EDLogo}
 
 The \textit{EDLogo} plot is created using the \textit{nlogomaker} function. Note that there is a \textit{logoheight} option in this plot which was set to \textit{log} for the above example. Actually there are total $8$ options for \textit{logoheight} - the details can be found in Documentation. A comparative analysis of some of these options on the seqLogo example is provided below.
 
-<<edlogo_opts,message=FALSE,warning=FALSE,fig.height=5,fig.width=12>>=
+
+<<edlogo_opts,message=FALSE,eval=TRUE, warning=FALSE,  fig.show="asis", dpi=144, fig.width=6, fig.height=5, out.width="6in", out.height="5in">>=
 
 mFile <- system.file("Exfiles/pwm1", package="seqLogo")
 m <- read.table(mFile)
 p <- seqLogo::makePWM(m)
 
 grid.newpage()
-layout.rows <- 1
-layout.cols <- 3
+layout.rows <- 2
+layout.cols <- 2
 top.vp <- viewport(layout=grid.layout(layout.rows, layout.cols,
-                                      widths=unit(rep(6,layout.cols), rep("null", 2)),
-                                      heights=unit(c(20,50), rep("lines", 2))))
-
+                                      widths=unit(rep(5,layout.cols), rep("null", 2)),
+                                      heights=unit(rep(5,layout.rows), rep("null", 1))))
 plot_reg <- vpList()
 l <- 1
 for(i in 1:layout.rows){

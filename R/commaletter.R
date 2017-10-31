@@ -28,7 +28,6 @@ commaletter <- function(plot = FALSE,
   id <- c(rep(1, length(x)))
   fill <- c(colfill)
   colfill <- rep(colfill, length(unique(id)))
-
   if(plot){
     grid::grid.newpage()
     grid::pushViewport(grid::viewport(x=0.5,y=0.5,width=1, height=1,

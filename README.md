@@ -4,6 +4,7 @@ A R package for Flexible logo plotting device for alphanumeric English symbols.
 
 [Kushal K Dey](http://kkdey.github.io/), Dongyue Xie, [Matthew Stephens](http://stephenslab.uchicago.edu/)
 
+
 ## Introduction
 
 Logolas requires the CRAN-R packages `grid`, `gridExtra` and `ggplot2`. Also the package builds on the template set by the Bioconductor package `seqLogo` which was aimed at displaying A, C, G, T sequence logo motifs. 
