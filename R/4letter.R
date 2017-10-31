@@ -7,7 +7,6 @@
 #' out <- fourletter(plot=TRUE, fill_symbol = TRUE, colfill = "orange")
 
 
-
 fourletter <- function(plot = FALSE,
                        fill_symbol = TRUE,
                        colfill="green",

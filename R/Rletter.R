@@ -33,6 +33,7 @@ Rletter <- function(plot = FALSE,
 
       if(plot){
         get_plot(x, y, id, fill, colfill, lwd = lwd, fill_symbol = fill_symbol)
+
       }
 
 

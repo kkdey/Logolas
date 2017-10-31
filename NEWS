@@ -1,15 +1,15 @@
-version 0.99.14
+version 1.2.1
 	+ Release
 
-CHANGES IN VERSION 0.1.1
+CHANGES IN VERSION 1.2.1
 ------------------------
-	 
-	  
+
+
 	o Added EDLogo plots highlighting both enrichment and depletion
 
         o Added new fill and border styles for the logos
 
-	o Added a Dirichlet Adaptive Shrinkage (dash) for adaptively scaling position weights 
+	o Added a Dirichlet Adaptive Shrinkage (dash) for adaptively scaling position weights
 
 	o Added tutorials in the vignette for multi panel Logos plots and combining Logolas plots with ggplot2 graphics.
 
@@ -22,6 +22,4 @@ CHANGES IN VERSION 0.1.1
 	o Functions added to compute the heights of the enrichments and depletions of the symbols in logo plot.
 
 	o Nomenclature added for calling a base at each position.
-
-
 

@@ -134,7 +134,6 @@ makemylogo <- function(name,
   idpool <- numeric()
   fillpool <- numeric()
   colfillpool <- numeric()
-
   counter <- 0
 
   if(length(colfill) == 1){ colfill_vec <- rep(colfill, length(chars))}else if(length(colfill) > 1 && length(colfill) < 43){
