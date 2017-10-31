@@ -2,7 +2,6 @@ Package: Logolas
 Type: Package
 Title: Package for EDLogo visualization, featuring string logos and adaptive scaling of position weight matrices
 Version: 1.2.1
-Date: 10.10.2017.
 Authors@R: c(
     person("Kushal", "Dey", email = "kkdey@uchicago.edu", role = c("aut","cre")),
     person("Dongyue", "Xie", email = "dyxie@uchicago.edu", role = c("ctb")),
