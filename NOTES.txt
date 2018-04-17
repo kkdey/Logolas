@@ -1,0 +1,24 @@
+To-do items, comments & suggestions for improving R package
+Compiled by Peter Carbonetto
+February 6, 2018
+
+* TO DO: In README, briefly describe computing environment(s) where
+code has been tested. (e.g., summarize the sessionInfo output from the
+vignettes that you created)
+
+* TO DO: Add a Bioconductor "badge" to the README.
+
+* TO DO: Update roxygen2 documentation for logo_pssm & logomaker
+
+* TO DO: Create demo/00Index.
+
+* TO DO: Verify, and fix as needed, examples in:
+
+    - GetConsensusSeq.R
+    - get_logo_heights.R
+    - get_plot.R
+    - get_viewport_logo.R
+    - logo_pssm.R
+    - logomaker.R
+    - makemylogo.R
+

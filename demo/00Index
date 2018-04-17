@@ -1,0 +1,5 @@
+test_gallery_logomaker Test functions replicating gallery logo plots here:
+                       https://kkdey.github.io/Logolas-pages/Gallery.html
+test_get_logo_heights  Test whether the function is outputting the heights of
+                       the logo stacks correctly.
+test_logomaker         Test if the logomaker function runs correctly.
