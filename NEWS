@@ -1,0 +1,86 @@
+version 2.0.1
+	+ Release
+
+CHANGES IN VERSION 1.2.1
+------------------------
+
+
+	o Added EDLogo plots highlighting both enrichment and depletion
+
+        o Added new fill and border styles for the logos
+
+	o Added a Dirichlet Adaptive Shrinkage (dash) for adaptively scaling position weights
+
+	o Added tutorials in the vignette for multi panel Logos plots and combining Logolas plots with ggplot2 graphics.
+
+	o Some input arguments are deprecated or passed into control parameters
+
+	o Background matrix or vector option has been added for comparative logo plot visualization given a prior belief.
+
+	o PSSM logo plot function added primarily for protein sequence motif visualization
+
+	o Functions added to compute the heights of the enrichments and depletions of the symbols in logo plot.
+
+	o Nomenclature added for calling a base at each position.
+
+
+
+
+
+CHANGES IN VERSION 1.2.1
+------------------------
+
+	o Deprecated depletion weight input for unscaled logos + added unscaled log and
+	  probKL and wKL approaches to the set of possible logos
+
+
+CHANGES IN VERSION 2.0.0
+------------------------
+
+   o deprecated the two functions - `logomaker` and `nlogomaker` for standard and EDLogo.
+     All logo plots can be now be generated using the same function - `logomaker()`. The
+     type argument in this function can be chosen to be Logo or EDLogo.
+
+   o trimmed the package down from nearly 60 exported functions to just 7 exported functions.
+
+   o The format of the input data is now made more flexible - it allows for a vector of character
+     sequences, along with the PFM or the PWM matrix as before (see vignette).
+
+   o changed the complicated `color_profile` argument into three separate arguments - a `color_type`
+     similar to `color_profile$type` argument before, a `colors` argument allowing user to choose a
+     cohort of colors, and a `color_seed` argument allowing the user to sample different colors from
+     the cohort. We now provide a default cohort of `colors` as well as default `color_type` in `per-row`
+     (see vignette). The user now can do with not worrying about defining `color_profile` at all, and use
+     the defaults instead and change the default cohort by `color_seed`.
+     (see vignette).
+
+   o added a `return_heights` option in `logomaker()` function that, when set to TRUE, returns the
+     information of the heights of the stacks used for both standard and EDLogo (see vignette).
+
+   o added a `use_dash` argument that, when set to TRUE, would automatically detect if the input is
+     a character sequence of PFM matrix and perform adaptive scaling of heights (see vignette).
+
+   o updated the vignette completely with major focus on the EDLogo representation and the use of the
+     current `logomaker()` functionality
+
+   o updated the README - with citation information and a demo example added.
+
+   o Updated the gallery codes (https://kkdey.github.io/Logolas-pages/Gallery.html) here to conform to the
+	  new system of functions.
+
+	 o Updated the HTML vignette (https://kkdey.github.io/Logolas-pages/workflow.html) to match with the pdf
+	  version of the vignette attached with the package.
+
+CHANGES IN VERSION 2.0.1
+------------------------
+
+     o updated README with examples from String logos (histones and mutation signatures).
+
+     o moved from having data under `inst/extdata` to the `data` folder.
+
+     o added a `demo` folder containing some test gallery examples.
+
+
+
+
+

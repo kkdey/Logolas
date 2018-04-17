@@ -1,0 +1,6 @@
+^LICENSE$
+^NOTES\.txt$
+^.*\.Rproj$
+^\.Rproj\.user$
+utils
+.git

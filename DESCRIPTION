@@ -1,0 +1,52 @@
+Package: Logolas
+Type: Package
+Encoding: UTF-8
+Title: EDLogo Plots Featuring String Logos and Adaptive Scaling of
+    Position-Weight Matrices
+Version: 2.0.2
+Date: 2018-02-06
+Authors@R: c(person("Kushal","Dey",email = "kkdey@uchicago.edu",
+                    role = c("aut","cre")),
+             person("Dongyue","Xie",role = "aut"),
+             person("Peter","Carbonetto",role = "ctb"),
+             person("Matthew","Stephens",role = "aut"))
+Maintainer: Kushal Dey <kkdey@uchicago.edu>
+Description: Produces logo plots highlighting both enrichment and
+    depletion of characters, allows for plotting of string symbols,
+    and performs scaling of position-weights adaptively, along with
+    several fun stylizations.
+License: GPL (>= 2)
+URL: https://github.com/kkdey/Logolas
+BugReports: http://github.com/kkdey/Logolas/issues
+LazyData: TRUE
+NeedsCompilation: no
+Depends: R (>= 3.4)
+Imports:
+    grid,
+    SQUAREM,
+    LaplacesDemon,
+    stats,
+    graphics,
+    utils,
+    ggplot2,
+    gridBase,
+    Biostrings
+Suggests:
+    knitr,
+    rmarkdown,
+    BiocStyle,
+    Biobase,
+    devtools,
+    xtable,
+    gridExtra, 
+    RColorBrewer,
+    seqLogo,
+    ggseqlogo
+biocViews:
+    SequenceMatching,
+    Alignment,
+    Software,
+    Visualization,
+    Bayesian
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1
