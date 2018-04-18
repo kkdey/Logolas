@@ -18,7 +18,8 @@
 #         \item{y}{Y co-ordinates of the logo in the [0,1] X [0,1] grid window}
 #         \item{id}{id vector representing blocks in the logo co-ordinates}
 #         \item{fill}{a vector equal to the number of distinct ids or blocks in
-#                    the logo, whose elements correspond to colors of these blocks}
+#                    the logo, whose elements correspond to colors of these 
+#                     blocks}
 # @keywords internal
 # @import grid
 #
@@ -206,7 +207,8 @@ fourletter <- function(plot = FALSE,
                        colfill="green",
                        lwd =10){
 
-  x <- c(0.3, 0.15, 0.55, 0.55, 0.70, 0.70, 0.80, 0.80, 0.70, 0.70, 0.55, 0.55, 0.32, 0.45)
+  x <- c(0.3, 0.15, 0.55, 0.55, 0.70, 0.70, 0.80, 0.80, 0.70, 0.70,
+         0.55, 0.55, 0.32, 0.45)
   y <- c(1, 0.25, 0.25, 0, 0, 0.25, 0.25, 0.40, 0.40, 0.55, 0.55, 0.40, 0.40, 1)
 
 
@@ -296,7 +298,8 @@ sixletter <- function(plot = FALSE,
                       colfill="green",
                       lwd =10){
 
-  angle <- c(seq((2*pi/3) - 0.2, 0, length.out=100), seq(0, -(pi) , length.out=100))
+  angle <- c(seq((2*pi/3) - 0.2, 0, length.out=100), seq(0, -(pi) , 
+                                                         length.out=100))
 
   y.l2 <- 0.27 + 0.27*sin(angle)
   x.l2 <- 0.5 + 0.30*cos(angle)
@@ -386,12 +389,14 @@ eightletter <- function(plot = FALSE,
                         colfill="green",
                         lwd =10){
 
-  angle1 <- c(seq(-(pi/2) - 0.35, -2*pi, length.out=100), seq(0, -(pi/2)+0.35, length.out=100))
+  angle1 <- c(seq(-(pi/2) - 0.35, -2*pi, length.out=100), seq(0, -(pi/2)+0.35, 
+                                                              length.out=100))
 
   y.l1 <- 0.75 + 0.25*sin(angle1)
   x.l1 <- 0.5 + 0.35*cos(angle1)
 
-  angle2 <- c(seq(pi/2 - 0.35, 0, length.out=100), seq(0, -(3*pi/2) + 0.35, length.out=100))
+  angle2 <- c(seq(pi/2 - 0.35, 0, length.out=100), seq(0, -(3*pi/2) + 0.35, 
+                                                       length.out=100))
 
   y.l2 <- 0.25 + 0.25*sin(angle2)
   x.l2 <- 0.5 + 0.35*cos(angle2)
@@ -407,7 +412,8 @@ eightletter <- function(plot = FALSE,
   x <- c(x.l2, x.l1, x.l3, x.l4)
   y <- c(y.l2, y.l1, y.l3, y.l4)
 
-  id <- c(rep(1, length(x.l1)+length(x.l2)), rep(2, length(x.l3)), rep(3, length(x.l4)))
+  id <- c(rep(1, length(x.l1)+length(x.l2)), rep(2, length(x.l3)), 
+          rep(3, length(x.l4)))
   fill <- c(colfill, "white", "white")
   colfill <- rep(colfill, length(unique(id)))
 
@@ -667,7 +673,8 @@ Cletter <- function(plot=FALSE,
 #
 # @param y_pos_1 The y-position of the center of the lower dot in [0,1] X [0,1]
 #        window. Defaults to 0.1.
-# @param y_pos_2  The y-position of the center of the upper dot in [0,1] X [0,1] window.
+# @param y_pos_2  The y-position of the center of the upper dot in 
+#        [0,1] X [0,1] window.
 #        Defaults to 0.7.
 # @param x_pos The x-postition of the center of the dot in [0,1] X [0,1] window.
 #        Defaults to 0.5.
@@ -1442,7 +1449,8 @@ Rletter <- function(plot = FALSE,
 #
 # @param y_pos_1 The y-position of the center of the lower dot in [0,1] X [0,1]
 #        window. Defaults to 0.1.
-# @param y_pos_2  The y-position of the center of the upper dot in [0,1] X [0,1] window.
+# @param y_pos_2  The y-position of the center of the upper dot in 
+#        [0,1] X [0,1] window.
 #        Defaults to 0.7.
 # @param x_pos The x-postition of the center of the dot in [0,1] X [0,1] window.
 #        Defaults to 0.5.
@@ -1606,7 +1614,8 @@ Uletter <- function(plot = FALSE,
                     colfill="green",
                     lwd =10){
 
-  angle <- c(seq(pi, 3*(pi/2), length.out=100), seq(3*(pi/2), 2*pi, length.out=100))
+  angle <- c(seq(pi, 3*(pi/2), length.out=100), seq(3*(pi/2), 2*pi, 
+                                                    length.out=100))
 
   y.l1 <- 0.5 + 0.5*sin(angle)
   x.l1 <- 0.5 + 0.5*cos(angle)

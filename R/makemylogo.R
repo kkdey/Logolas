@@ -16,13 +16,15 @@
 #'
 #' @param lwd The line width for the symbol.
 #'
-#' @param plot  binary, if FALSE, returns only the co-ordinates of the symbol in the
-#' [0,1] X [0,1] grid, along with block id labels and their corresponding colors.
-#' If TRUE, plots the symbol with specified color in a new grid window.
+#' @param plot  binary, if FALSE, returns only the co-ordinates of the symbol 
+#' in the [0,1] X [0,1] grid, along with block id labels and their 
+#' corresponding colors. If TRUE, plots the symbol with specified color 
+#' in a new grid window.
 #'
-#' @param total_chars The total number of character symbols in the user library. The default
-#' is the default library provided by Logolas, but the user can add symbols that he creates
-#' to this list.
+#' @param total_chars The total number of character symbols in the user library.
+#'  The default is the default library provided by Logolas, but the user can 
+#'  add symbols that he creates to this list.
+#'
 #'
 #' @param addlogos Vector of additional logos/symbols defined by user
 #'
@@ -44,7 +46,8 @@
 #'
 #' makemylogo("KUSHAL")
 #' cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
-#' col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, rownames(cols)))
+#' col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, 
+#' rownames(cols)))
 #' makemylogo("Evening", plot=TRUE, colfill=col_vector)
 #' @export
 
@@ -54,10 +57,14 @@ makemylogo <- function(name,
                        colfill="orange",
                        lwd = 10,
                        plot=FALSE,
-                       total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
-                                        "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
-                                        "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
-                                        "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
+                       total_chars = c("A", "B", "C", "D", "E", "F", "G", "H",
+                                       "I", "J", "K", "L", "M", "N", "O",
+                                        "P", "Q", "R", "S", "T", "U", "V",
+                                       "W", "X", "Y", "Z", "zero", "one", "two",
+                                        "three", "four", "five", "six", "seven",
+                                        "eight", "nine", "dot", "comma",
+                                        "dash", "colon", "semicolon",
+                                        "leftarrow", "rightarrow"),
                        addlogos = NULL,
                        addlogos_text = NULL){
 
@@ -136,7 +143,8 @@ makemylogo <- function(name,
   colfillpool <- numeric()
   counter <- 0
 
-  if(length(colfill) == 1){ colfill_vec <- rep(colfill, length(chars))}else if(length(colfill) > 1 && length(colfill) < 43){
+  if(length(colfill) == 1){ colfill_vec <- rep(colfill, length(chars))}
+  else if(length(colfill) > 1 && length(colfill) < 43){
     set.seed(100)
     colfill_vec_1 <- sample(colfill, length(total_chars), replace=TRUE)
     colfill_vec <- colfill_vec_1[match(chars, total_chars)]}else{

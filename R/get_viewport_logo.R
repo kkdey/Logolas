@@ -21,14 +21,17 @@ get_viewport_logo <- function(layout.rows, layout.cols,
                               widths_1 = 6, heights_1 = 20){
   grid::grid.newpage()
   top.vp <- viewport(layout=grid.layout(layout.rows, layout.cols,
-                                        widths=unit(rep(widths_1,layout.cols), rep("null", layout.cols)),
-                                        heights=unit(rep(heights_1,layout.rows), rep("lines", layout.rows))))
+                                        widths=unit(rep(widths_1,layout.cols), 
+                                                    rep("null", layout.cols)),
+                                        heights=unit(rep(heights_1,layout.rows),
+                                                rep("lines", layout.rows))))
 
   plot_reg <- vpList()
   l <- 1
   for(i in 1:layout.rows){
     for(j in 1:layout.cols){
-      plot_reg[[l]] <- viewport(layout.pos.col = j, layout.pos.row = i, name = paste0("plotlogo", l))
+      plot_reg[[l]] <- viewport(layout.pos.col = j, layout.pos.row = i, 
+                                name = paste0("plotlogo", l))
       l <- l+1
     }
   }
