@@ -13,16 +13,17 @@
 # the information criterion. Default is alpha=1, for which it uses Shannon
 # entropy (in the limit).
 #
-# @param hist if hist is FALSE (default). information criterion is used to decide on the heights
-# of the logo plots. If TRUE, one uses the relative proportion of the values in the different
-# columns of the matrix to determine the height of the bars.
+# @param hist if hist is FALSE (default). information criterion is used to 
+# decide on the heights
+# of the logo plots. If TRUE, one uses the relative proportion of the values in
+# the different columns of the matrix to determine the height of the bars.
 #
 # @param bg The background probability, which defaults to NULL, in which case
 # equal probability is assigned to each symbol. The user can however specify a
 # vector (equal to in length to the number of symbols) which specifies the
 # background probability for each symbol and assumes this background probability
-# to be the same across the columns (sites), or a matrix, whose each cell specifies
-# the background probability of the symbols for each position.
+# to be the same across the columns (sites), or a matrix, whose each cell 
+# specifies the background probability of the symbols for each position.
 #
 # @return A vector of same length as the number of columns in the data, with
 #         each entry representing information contained in that column,
@@ -45,7 +46,8 @@ ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
 
   if (is.vector(bg)==TRUE){
     if(length(bg) != dim(mat)[1]){
-      stop("If background prob (bg) is a vector, the length of bg must equal the number of symbols for the logo plot")
+      stop("If background prob (bg) is a vector, the length of bg must equal 
+           the number of symbols for the logo plot")
     }else if(length(which(is.na(mat))) > 0){
       stop("For NA in table, a vector bg is not allowed")
     }else{
@@ -55,7 +57,8 @@ ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
     }
   }else if (is.matrix(bg)==TRUE){
     if(dim(bg)[1] != dim(mat)[1] | dim(bg)[2] != dim(mat)[2]){
-      stop("If background prob (bg) is a matrix, its dimensions must match that of the table")
+      stop("If background prob (bg) is a matrix, its dimensions must match that
+           of the table")
     }else{
       bgmat <- bg
       bgmat[which(is.na(mat))] <- NA
@@ -79,7 +82,8 @@ ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
         if(is.null(bg)){
           tmp <- mat[,i]
           tmp <- tmp[!is.na(tmp)]
-          ic[i] <- log(length(which(tmp!=0.00)), base=2) + sum(sapply(tmp, function(x) {
+          ic[i] <- log(length(which(tmp!=0.00)), base=2) + 
+              sum(sapply(tmp, function(x) {
             if (x > 0) { x*log2(x) } else { 0 }
           }))
         }else{
@@ -102,12 +106,15 @@ ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
       else{
         if(is.null(bg)){
           tmp <- mat[!is.na(mat[,i]), i]
-          ic[i] <- log(length(which(tmp !=0.00)), base=2) - (1/(1-alpha))* log (sum(tmp^{alpha}), base=2)
+          ic[i] <- log(length(which(tmp !=0.00)), base=2) - 
+              (1/(1-alpha))* log (sum(tmp^{alpha}), base=2)
         }else{
           tmp <- mat[!is.na(mat[,i]), i]
           bgtmp <- bgmat[!is.na(mat[,i]), i]
-          ic[i] <- abs((log(length(which(tmp !=0.00)), base=2) - (1/(1-alpha))* log2(sum(tmp^{alpha}))) -
-                         (log(length(which(tmp !=0.00)), base=2) - (1/(1-alpha))* log2(sum(bgtmp^{alpha}))))
+          ic[i] <- abs((log(length(which(tmp !=0.00)), base=2) - 
+                            (1/(1-alpha))* log2(sum(tmp^{alpha}))) -
+                         (log(length(which(tmp !=0.00)), base=2) - 
+                              (1/(1-alpha))* log2(sum(bgtmp^{alpha}))))
         }
       }
     }

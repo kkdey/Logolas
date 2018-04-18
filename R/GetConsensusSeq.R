@@ -1,18 +1,22 @@
-#' @title Function for obtaining consensus sequence of DNA sequence symbols from a PWM matrix
+#' @title Function for obtaining consensus sequence of DNA sequence symbols 
+#'        from a PWM matrix
 #'
 #' @description uses a special nomenclature (we call it the Logolas nomenclature)
 #' to determine the consensus sequence of symbols based on the enrichment and
 #' depletion of the symbols at each position. This approach is an alternative
 #' to the getIUPAC() method used by the atSNP package.
 #'
-#' @param data The input data may be a vector of A, C, G and T sequences - representing
+#' @param data The input data may be a vector of A, C, G and T sequences - 
+#'             representing
 #'             aligned  DNA or RNA sequences , or a matrix/ data frame with
 #'             symbols of A, C, G and T along the rows of the matrix/data
-#'             frame and the positions or sites of the aligned sequences along the columns.
+#'             frame and the positions or sites of the aligned sequences along 
+#'             the columns.
 #'
 #'
-#' @return Returns the consensus sequence for the DNA/RNA sequence motif along the positions
-#' using the Logolas nomenclature (highlighting both enrichment and depletion).
+#' @return Returns the consensus sequence for the DNA/RNA sequence motif along 
+#'        the positions using the Logolas nomenclature (highlighting both 
+#'        enrichment and depletion).
 #'
 #' @import grid
 #' @importFrom graphics par
@@ -30,8 +34,8 @@
 #' colnames(pwm)=1:ncol(pwm)
 #' GetConsensusSeq(pwm)
 #'
-#' sequence <- c("CTATTGT", "CTCTTAT", "CTATTAA", "CTATTTA", "CTATTAT", "CTTGAAT",
-#'                 "CTTAGAT", "CTATTAA", "CTATTTA", "CTATTAT")
+#' sequence <- c("CTATTGT", "CTCTTAT", "CTATTAA", "CTATTTA", "CTATTAT", 
+#'               "CTTGAAT", "CTTAGAT", "CTATTAA", "CTATTTA", "CTATTAT")
 #' GetConsensusSeq(sequence)
 #'
 #' @export
@@ -41,12 +45,14 @@ GetConsensusSeq=function(data){
   if(is.character(data)){
 
     if(length(data) == 1){
-      stop("Just one character sequence provided, user needs to enter multiple such aligned sequences")
+      stop("Just one character sequence provided, user needs to enter multiple
+           such aligned sequences")
     }
 
     numchars <- sapply(data, function(x) return (nchar(x)))
     if(!(isTRUE(all.equal( max(numchars) ,min(numchars)) ))){
-      stop("character sequences entered are not all of same length : so cannot be aligned")
+      stop("character sequences entered are not all of same length : 
+           so cannot be aligned")
     }
     L <- length(data)
     pwm <- Biostrings::consensusMatrix(data)
@@ -59,12 +65,15 @@ GetConsensusSeq=function(data){
   pwm2 <- pwm
   pwm <- pwm2[match(bases, rownames(pwm2)),]
   if(dim(pwm)[1] != dim(pwm2)[1]){
-    stop("At least one of the bases A, C, G, T is missing in the row name of the PWM matrix")
+    stop("At least one of the bases A, C, G, T is missing in the row 
+         name of the PWM matrix")
   }
   based=tolower(bases)
   ll=get_logo_heights(pwm, ic = FALSE, score = "log-odds")
-  pp=c();for (i in 1:ncol(pwm)){pp=cbind(pp,ll$pos_ic[i]*ll$table_mat_pos_norm[,i])};
-  nn=c();for(i in 1:ncol(pwm)){nn=cbind(nn,ll$neg_ic[i]*ll$table_mat_neg_norm[,i])};
+  pp=c();for (i in 1:ncol(pwm))
+      {pp=cbind(pp,ll$pos_ic[i]*ll$table_mat_pos_norm[,i])};
+  nn=c();for(i in 1:ncol(pwm))
+      {nn=cbind(nn,ll$neg_ic[i]*ll$table_mat_neg_norm[,i])};
   codes=c()
 
   for(i in 1:ncol(pwm)){
@@ -73,10 +82,13 @@ GetConsensusSeq=function(data){
     if(sum(pp[,i]>=2)==1){
       #check if there is one depletion when there is one enrichment
       if(sum(nn[,i]>=3.9)==1){
-        code=paste('(',bases[which.max(pwm[,i])],based[which.min(pwm[,i])],')',sep = '')
+        code=paste('(',bases[which.max(pwm[,i])],
+                   based[which.min(pwm[,i])],')',sep = '')
       }else{code=bases[which.max(pwm[,i])]}
     }else if(sum(pp[,i]>=0.9)==2){ # if no enrichemnt, is there two?
-      code=paste('(',bases[sort(pwm[,i],index.return=TRUE,decreasing = TRUE)$ix[1]],bases[sort(pwm[,i],index.return=TRUE,decreasing = TRUE)$ix[2]],')',sep = '')
+      code=paste('(',bases[sort(pwm[,i],index.return=TRUE,
+                                decreasing = TRUE)$ix[1]],bases[sort(pwm[,i],
+                    index.return=TRUE,decreasing = TRUE)$ix[2]],')',sep = '')
     } else if(sum(nn[,i]>=2)==1){ # if no two, is there one depletion?
       code=based[which.min(pwm[,i])]
     }else {code='N'}

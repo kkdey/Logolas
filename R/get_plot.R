@@ -12,7 +12,8 @@
 #'        the color represented in \code{colfill}, else colors the boundary
 #'        of the symbol by \code{colfill}. Defaults to TRUE.
 #'
-#' @return Returns a plot of the symbol with the input co-ordinates and fill colors
+#' @return Returns a plot of the symbol with the input co-ordinates and fill 
+#'         colors
 #' @import grid
 #' @keywords internal
 #' @export
