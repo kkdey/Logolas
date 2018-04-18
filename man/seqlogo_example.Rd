@@ -4,13 +4,15 @@
 \name{seqlogo_example}
 \alias{seqlogo_example}
 \title{An example of the position weight matrix taken from seqLogo package
-A dataset of composition probabilities of A, C, G and T in 8 positions of the motif.}
+A dataset of composition probabilities of A, C, G and T in 8 positions of 
+the motif.}
 \format{A matrix with 4 rows and 8 columns}
 \usage{
 seqlogo_example
 }
 \description{
 An example of the position weight matrix taken from seqLogo package
-A dataset of composition probabilities of A, C, G and T in 8 positions of the motif.
+A dataset of composition probabilities of A, C, G and T in 8 positions of 
+the motif.
 }
 \keyword{datasets}

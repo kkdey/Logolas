@@ -4,13 +4,15 @@
 \name{pssm}
 \alias{pssm}
 \title{Position specific scoring matrix data
-A dataset of position specific sores of various amino acids in 9 positions binding domain.}
+A dataset of position specific sores of various amino acids in 9 positions
+binding domain.}
 \format{A matrix with 20 rows (aminoa acids) and 9 columns}
 \usage{
 pssm
 }
 \description{
 Position specific scoring matrix data
-A dataset of position specific sores of various amino acids in 9 positions binding domain.
+A dataset of position specific sores of various amino acids in 9 positions
+binding domain.
 }
 \keyword{datasets}
