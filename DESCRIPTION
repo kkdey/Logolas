@@ -3,7 +3,7 @@ Type: Package
 Encoding: UTF-8
 Title: EDLogo Plots Featuring String Logos and Adaptive Scaling of
     Position-Weight Matrices
-Version: 1.4.1
+Version: 1.3.1
 Date: 2018-02-06
 Authors@R: c(person("Kushal","Dey",email = "kkdey@uchicago.edu",
                     role = c("aut","cre")),
