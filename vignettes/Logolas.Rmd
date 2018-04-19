@@ -11,11 +11,20 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-We present an elaborate guided tutorial of how to use the **Logolas** R package. A pdf version of this vignette can be found [here](https://github.com/kkdey/Logolas/blob/master/vignettes/logolas.pdf).
+We present an elaborate guided tutorial of how to use the **Logolas**
+R package. A pdf version of this vignette can be found
+[here](https://github.com/kkdey/Logolas/blob/master/vignettes/logolas.pdf).
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(dpi = 90,dev = "png")
+```
 
 ## Features of Logolas 
 
-Compared to the existing packages for plotting sequence logos (*seqLogo*, *seq2Logo*, *motifStack* etc), **Logolas** offers several new features that makes  logo visualization a more generic tool with potential applications in a much wider scope of problems.
+Compared to the existing packages for plotting sequence logos
+(*seqLogo*, *seq2Logo*, *motifStack* etc), **Logolas** offers several
+new features that makes logo visualization a more generic tool with
+potential applications in a much wider scope of problems.
 
 - **Enrichment Depletion Logo (EDLogo)** : General logo plotting softwares highlight only enrichment of certain symbols, but Logolas allows the user to highlight both enrichment and depletion of symbols at any position, leading to more parsimonious and visually appealing representation.
 
@@ -43,7 +52,7 @@ For installing the developmental version of **Logolas** from Github, the user is
 devtools::install_github('kkdey/Logolas')
 ```
 
-Load \Logolas{} into R
+Load the Logolas package.
 
 ```{r load, eval=TRUE}
 library(Logolas)
@@ -181,9 +190,12 @@ logomaker(sequence, type = "Logo", logo_control = list(pop_name = "use_dash = TR
 
 The adaptive scaling is performed by the Dirichlet Adaptive Shrinkage method, the details of which can be viewed at our [dashr](https://github.com/kkdey/dashr) package.
 
-\section{String symbols}
+### String symbols
 
-**Logolas** allows the user to plot symbols not just for characters as we saw in previous examples, but for any alphanumeric string. We present two examples - one for representing mutation signature and another for representing histone marks composition.
+**Logolas** allows the user to plot symbols not just for characters as
+  we saw in previous examples, but for any alphanumeric string. We
+  present two examples - one for representing mutation signature and
+  another for representing histone marks composition.
 
 Histone marks string symbols example
 
@@ -269,7 +281,7 @@ sessionInfo()
 
 ----------------------------------------------------------------------------
 
-**Thank you for using Logolas !**  
+**Thank you for using Logolas !**
 
 If you have any questions, you can either open an issue in our [Github page](https://github.com/kkdey/Logolas) or write to Kushal K Dey (kkdey@uchicago.edu). Also please feel free to contribute to the package. You can contribute by submitting a pull request or by communicating with the said person.
 
