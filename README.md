@@ -110,6 +110,15 @@ Finally, please walk through some more detailed examples in the
 vignette("Logolas")
 ```
 
+## Developer notes
+
+This was the R command used to generate the vignette PDF file from the
+R Markdown source:
+
+```R
+render("Logolas.Rmd",output_format="pdf_document")
+```
+
 ## Credits
 
 This software was developed by [Kushal Dey](https://github.com/kkdey)
