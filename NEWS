@@ -1,4 +1,4 @@
-version 1.4.1
+version 1.3.1
 	+ Release
 
 CHANGES IN VERSION 1.2.1
@@ -70,15 +70,12 @@ CHANGES IN VERSION 1.3.1
 
 	 o Updated the HTML vignette (https://kkdey.github.io/Logolas-pages/workflow.html) to match with the pdf
 	  version of the vignette attached with the package.
+	  
+   o updated README with examples from String logos (histones and mutation signatures).
 
-CHANGES IN VERSION 1.4.1
-------------------------
+   o moved from having data under `inst/extdata` to the `data` folder.
 
-     o updated README with examples from String logos (histones and mutation signatures).
-
-     o moved from having data under `inst/extdata` to the `data` folder.
-
-     o added a `demo` folder containing some test gallery examples.
+   o added a `demo` folder containing some test gallery examples.
 
 
 
