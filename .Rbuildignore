@@ -2,12 +2,7 @@
 ^NOTES\.txt$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-<<<<<<< HEAD
 utils
 .git
-=======
-<<<<<<< HEAD
 ^data-raw$
-=======
->>>>>>> d9d1267b9505fabb4292945f4a2494daf7f90990
->>>>>>> upstream/master
+.travis.yml
