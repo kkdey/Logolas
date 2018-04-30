@@ -5,4 +5,5 @@
 utils
 .git
 ^data-raw$
-.travis.yml
+utils
+.git

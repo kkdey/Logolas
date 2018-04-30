@@ -1,0 +1,10 @@
+citHeader("To cite the Logolas package in publications use:")
+
+citEntry(entry   = "Article",
+         title   = "Dey, K.K., Xie, D. and Stephens, M., 2017. A new sequence logo plot to highlight enrichment and depletion",
+	 author  = "Kushal K. Dey, Dongyue Xie, Matthew Stephens",
+	 year    = "2017",
+	 journal = "bioRxiv, p.226597",
+	 textVersion = paste("Dey K.K, Xie, D., Stephens, M. (2017).",
+             "A new sequence logo plot to highlight enrichment and depletion. bioRxiv, p.226597."))
+						      
