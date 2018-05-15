@@ -12,9 +12,9 @@ get_viewport_logo(layout.rows, layout.cols, widths.val = 6,
 
 \item{layout.cols}{The number of columns in the panel}
 
-\item{widths_1}{The widths of each viewport in the panel}
+\item{widths.val}{The widths of each viewport in the panel}
 
-\item{heights_1}{The heights of each viewport in the panel}
+\item{heights.val}{The heights of each viewport in the panel}
 }
 \value{
 Creates a panel of viewports for each row and each column, to be

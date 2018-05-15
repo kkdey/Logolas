@@ -5,8 +5,8 @@
 #'
 #' @param  layout.rows The number of rows in the panel
 #' @param  layout.cols The number of columns in the panel
-#' @param  widths_1  The widths of each viewport in the panel
-#' @param  heights_1 The heights of each viewport in the panel
+#' @param  widths.val  The widths of each viewport in the panel
+#' @param  heights.val The heights of each viewport in the panel
 #' @return Creates a panel of viewports for each row and each column, to be
 #' subsequently used for creating logo plots.
 #' @import grid
