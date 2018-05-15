@@ -18,12 +18,26 @@
 
 
 get_viewport_logo <- function(layout.rows, layout.cols,
-                              widths_1 = 6, heights_1 = 20){
+                              widths.val = 6, heights.val = 20){
   grid::grid.newpage()
+    
+  if(length(widths.val) == 1){
+      widths_vec <- rep(widths.val,layout.cols)
+  }
+    
+  if(length(heights.val) == 1){
+      heights_vec <- rep(heights.val, layout.rows)
+  }else{
+      if(length(widths.val) != layout.cols) stop("widths must be a number of a vector of numbers of same size as layout.cols")
+      if(length(heights.val) != layout.cols) stop("heights must be a number of a vector of numbers of same size as layout.rows")
+      widths_vec <- widths.val
+      heights_vec <- heights.val
+  }
+    
   top.vp <- viewport(layout=grid.layout(layout.rows, layout.cols,
-                                        widths=unit(rep(widths_1,layout.cols), 
+                                        widths=unit(widths_vec, 
                                                     rep("null", layout.cols)),
-                                        heights=unit(rep(heights_1,layout.rows),
+                                        heights=unit(heights_vec,
                                                 rep("lines", layout.rows))))
 
   plot_reg <- vpList()
