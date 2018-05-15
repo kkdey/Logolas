@@ -23,17 +23,18 @@ get_viewport_logo <- function(layout.rows, layout.cols,
     
   if(length(widths.val) == 1){
       widths_vec <- rep(widths.val,layout.cols)
+  }else{
+    if(length(widths.val) != layout.cols) stop("widths must be a number of a vector of numbers of same size as layout.cols")
+    widths_vec <- widths.val
   }
     
   if(length(heights.val) == 1){
       heights_vec <- rep(heights.val, layout.rows)
   }else{
-      if(length(widths.val) != layout.cols) stop("widths must be a number of a vector of numbers of same size as layout.cols")
-      if(length(heights.val) != layout.cols) stop("heights must be a number of a vector of numbers of same size as layout.rows")
-      widths_vec <- widths.val
-      heights_vec <- heights.val
+    if(length(heights.val) != layout.cols) stop("heights must be a number of a vector of numbers of same size as layout.rows")
+    heights_vec <- heights.val
   }
-    
+  
   top.vp <- viewport(layout=grid.layout(layout.rows, layout.cols,
                                         widths=unit(widths_vec, 
                                                     rep("null", layout.cols)),
