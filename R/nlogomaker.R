@@ -199,6 +199,8 @@ nlogomaker <- function(table,
                           lowrange = 0, uprange = 0,
                           negbins = 3, posbins = 3,
                           size_port = 0,
+                          npc_units_main = 1,
+                          lines_units_main = 0.8,
                           viewport.margin.bottom = NULL,
                           viewport.margin.left = NULL,
                           viewport.margin.top = NULL,
@@ -612,16 +614,16 @@ nlogomaker <- function(table,
   if(is.null(pop_name)){
     if(ic){
       grid::grid.text(paste0("EDLogo plot: (",score,"-ic",  ")"), 
-                      y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
+                      y = grid::unit(control$npc_units_main, "npc") + grid::unit(control$lines_units_main, "lines"),
                       gp = grid::gpar(fontsize = main_fontsize))
     }else{
       grid::grid.text(paste0("EDLogo plot: (",score, ")"), 
-                      y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
+                      y = grid::unit(control$npc_units_main, "npc") + grid::unit(control$lines_units_main, "lines"),
                       gp = grid::gpar(fontsize = main_fontsize))
     }
   }else{
     grid::grid.text(paste0(pop_name),
-                    y = grid::unit(1, "npc") + grid::unit(0.8, "lines"),
+                    y = grid::unit(control$npc_units_main, "npc") + grid::unit(control$lines_units_main, "lines"),
                     gp = grid::gpar(fontsize = main_fontsize))
   }
 
