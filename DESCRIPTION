@@ -20,7 +20,7 @@ URL: https://github.com/kkdey/Logolas
 BugReports: http://github.com/kkdey/Logolas/issues
 LazyData: TRUE
 NeedsCompilation: no
-Depends: R (>= 3.5)
+Depends: R (>= 3.4)
 Imports:
     grid,
     SQUAREM,
