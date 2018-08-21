@@ -406,7 +406,7 @@ logomaker <- function(data,
                                  "col" = col_vector)
          }
        }else{
-         if (length(colors) < dim(pfm_scaled)[1]){
+         if (length(colors) < dim(data_scaled)[1]){
            stop("For per_row color type, the colors vector must be as large
                 as number of rows in the matrix for PFM/PWM input, or 
                 number of distinct characters in
@@ -475,7 +475,7 @@ logomaker <- function(data,
          }
          
        }else{
-         if (length(colors) < dim(pfm_scaled)[2]){
+         if (length(colors) < dim(data_scaled)[2]){
            stop("For per_column color type, the colors vector must be as
                 large as number of columns in the matrix for PFM/PWM input, 
                 or number of characters in each aligned
