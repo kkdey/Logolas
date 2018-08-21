@@ -6,7 +6,7 @@
 (weight) matrix}
 \usage{
 logomaker(data, type = c("Logo", "EDLogo"), use_dash = TRUE, bg = NULL,
-  color_type = NULL, colors = NULL, color_seed = 2030,
+  color_type = NULL, colors = NULL, color_seed = NULL,
   return_heights = FALSE, logo_control = list(), dash_control = list())
 }
 \arguments{
