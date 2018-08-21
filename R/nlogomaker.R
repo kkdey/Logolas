@@ -114,6 +114,7 @@
 #'
 #' @examples
 #'
+#' library(seqLogo)
 #' mFile <- system.file("Exfiles/pwm1", package="seqLogo")
 #' m <- read.table(mFile)
 #' p <- seqLogo::makePWM(m)
@@ -236,7 +237,7 @@ nlogomaker <- function(table,
   chars <- as.character(rownames(table))
   npos <- ncol(table)
 
-  table <- apply(table+0.0001,2,normalize3)
+  table <- apply(table+0.001*min(table, na.rm=TRUE),2,normalize3)
 
   control_heights <- list(alpha = control$alpha, epsilon = control$epsilon,
                           opt = control$opt, hist = control$hist,

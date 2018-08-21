@@ -30,6 +30,9 @@ Imports:
     utils,
     ggplot2,
     gridBase,
+    seqinr,
+    ape,
+    seqLogo,
     Biostrings
 Suggests:
     knitr,
@@ -40,7 +43,6 @@ Suggests:
     xtable,
     gridExtra, 
     RColorBrewer,
-    seqLogo,
     ggseqlogo
 biocViews:
     SequenceMatching,

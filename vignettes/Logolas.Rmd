@@ -247,7 +247,7 @@ One can input a PWM or PFM matrix with A, C, G and T as row names in the **GetCo
 ```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
 sequence <- c("CTATTGT", "CTCTTAT", "CTATTAA", "CTATTTA", "CTATTAT", "CTTGAAT",
               "CTTAGAT", "CTATTAA", "CTATTTA", "CTATTAT")
-Logolas::get_viewport_logo(1, 2, heights_1 = 20)
+Logolas::get_viewport_logo(1, 2, heights.val = 20)
 library(grid)
 seekViewport(paste0("plotlogo", 1))
 logomaker(sequence, type = "Logo", logo_control = list(newpage = FALSE))

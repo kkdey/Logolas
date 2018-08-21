@@ -131,6 +131,7 @@ stacks logos created by the \code{makemylogo} function
 }
 \examples{
 
+library(seqLogo)
 mFile <- system.file("Exfiles/pwm1", package="seqLogo")
 m <- read.table(mFile)
 p <- seqLogo::makePWM(m)

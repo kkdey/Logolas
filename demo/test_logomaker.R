@@ -22,7 +22,7 @@ rownames(counts_mat) <- c("MAN", "MAIL", "LAWN", "CAR")
 logomaker(counts_mat, type = "Logo")
 logomaker(counts_mat, type = "EDLogo")
 
-p <- get(load(system.file("extdata", "seqlogo_example.Rdata", package = "Logolas")))
+p <- data("seqlogo_example")
 logomaker(p, type = "Logo", return_heights = TRUE)
 logomaker(p, type = "EDLogo", return_heights = TRUE)
 

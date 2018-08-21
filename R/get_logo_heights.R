@@ -118,8 +118,8 @@ get_logo_heights <- function (table,
     bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
   }
 
-  table <- apply(table+0.0001,2,normalize4)
-  bgmat <- apply(bgmat+0.0001,2,normalize4)
+  table <- apply(table+0.001*min(table, na.rm=TRUE),2,normalize4)
+  bgmat <- apply(bgmat+0.001*min(bgmat, na.rm=TRUE),2,normalize4)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -655,13 +655,13 @@ get_logo_heights <- function (table,
 
     for(j in 1:dim(table_mat_neg_norm)[2]){
       if(sum(table_mat_neg_norm[,j]) == 0){
-        table_mat_neg_norm[,j] <- normalize4(table_mat_neg_norm[,j]+1e-3)
+        table_mat_neg_norm[,j] <- normalize4(table_mat_neg_norm[,j]+1e-3*min(table_mat_neg_norm[,j], na.rm=TRUE))
       }
     }
 
     for(j in 1:dim(table_mat_pos_norm)[2]){
       if(sum(table_mat_pos_norm[,j]) == 0){
-        table_mat_pos_norm[,j] <- normalize4(table_mat_pos_norm[,j]+1e-3)
+        table_mat_pos_norm[,j] <- normalize4(table_mat_pos_norm[,j]+1e-3*min(table_mat_pos_norm[,j], na.rm=TRUE))
       }
     }
 
@@ -739,7 +739,7 @@ ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
     bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
   }
 
-  bgmat <- apply(bgmat+0.1,2,normalize4)
+  bgmat <- apply(bgmat+0.001*min(bgmat, na.rm=TRUE),2,normalize4)
 
   if(!hist){
     mat <- apply(mat, 2, function(x) return(x/sum(x[!is.na(x)])))

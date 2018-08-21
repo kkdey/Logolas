@@ -168,7 +168,7 @@ plogomaker <- function( table,
                        addlogos_text = NULL,
                        newpage = TRUE,
                        control = list()){
-  table <- apply(table+0.0001,2,normalize2)
+  table <- apply(table+0.001*min(table, na.rm = TRUE),2,normalize2)
 
   control.default <- list(hist = FALSE, alpha = 1, scale0=0.01,
                           scale1=0.99, tofill = TRUE, lwd = 2,
