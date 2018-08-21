@@ -399,7 +399,7 @@ logomaker <- function(data,
          if(!is.null(color_seed)){
            set.seed(color_seed)
            color_profile <- list("type" = color_type,
-                                 "col" = sample(col_vector, dim(pfm_scaled)[1],
+                                 "col" = sample(col_vector, dim(data_scaled)[1],
                                                 replace = FALSE))
          }else{
            color_profile <- list("type" = color_type,
@@ -415,7 +415,7 @@ logomaker <- function(data,
          if(!is.null(color_seed)){
            set.seed(color_seed)
            color_profile <- list("type" = color_type,
-                                 "col" = sample(colors, dim(pfm_scaled)[1], 
+                                 "col" = sample(colors, dim(data_scaled)[1], 
                                                 replace = FALSE))
          }else{
            color_profile <- list("type" = color_type,
@@ -451,7 +451,8 @@ logomaker <- function(data,
            set.seed(color_seed)
            color_profile <- list("type" = color_type,
                                  "col" = sample(colors, 
-                                                length(logo_control$total_chars), replace=FALSE))
+                                                length(logo_control$total_chars), 
+                                                replace=FALSE))
          }else{
            color_profile <- list("type" = color_type,
                                  "col" = colors)
@@ -466,7 +467,7 @@ logomaker <- function(data,
          if(!is.null(color_seed)){
            set.seed(color_seed)
            color_profile <- list("type" = color_type,
-                                 "col" = sample(col_vector, dim(pfm_scaled)[2],
+                                 "col" = sample(col_vector, dim(data_scaled)[2],
                                                 replace = FALSE))
          }else{
            color_profile <- list("type" = color_type,
@@ -483,7 +484,7 @@ logomaker <- function(data,
          if(!is.null(color_seed)){
            set.seed(color_seed)
            color_profile <- list("type" = color_type,
-                                 "col" = sample(colors, dim(pfm_scaled)[2], 
+                                 "col" = sample(colors, dim(data_scaled)[2], 
                                                 replace = FALSE))
          }else{
            color_profile <- list("type" = color_type,
