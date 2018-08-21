@@ -331,8 +331,8 @@ logomaker <- function(data,
                                                    bg = bg),
                                       logo_control))
         }
-
    }
+   
 
    if(!is.character(data)){
 
@@ -385,7 +385,7 @@ logomaker <- function(data,
      }else{
        data_scaled <- data
      }
-
+     
      if(is.null(color_type)){
        message("color_type not provided, so switching to per_row option for
                color_type")
@@ -396,44 +396,66 @@ logomaker <- function(data,
          cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
          col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors,
                                     rownames(cols)))
-         set.seed(color_seed)
-         color_profile <- list("type" = color_type,
-                               "col" = sample(col_vector, dim(data_scaled)[1],
-                                              replace = FALSE))
+         if(!is.null(color_seed)){
+           set.seed(color_seed)
+           color_profile <- list("type" = color_type,
+                                 "col" = sample(col_vector, dim(pfm_scaled)[1],
+                                                replace = FALSE))
+         }else{
+           color_profile <- list("type" = color_type,
+                                 "col" = col_vector)
+         }
        }else{
-         if (length(colors) < dim(data_scaled)[1]){
+         if (length(colors) < dim(pfm_scaled)[1]){
            stop("For per_row color type, the colors vector must be as large
-                 as number of rows in the matrix for PFM/PWM input, or number
-                 of distinct characters in each aligned sequence for sequence 
-                 data")
+                as number of rows in the matrix for PFM/PWM input, or 
+                number of distinct characters in
+                each aligned sequence for sequence data")
          }
-         set.seed(color_seed)
-         color_profile <- list("type" = color_type,
-                               "col" = sample(colors, dim(data_scaled)[1], 
-                                              replace = FALSE))
+         if(!is.null(color_seed)){
+           set.seed(color_seed)
+           color_profile <- list("type" = color_type,
+                                 "col" = sample(colors, dim(pfm_scaled)[1], 
+                                                replace = FALSE))
+         }else{
+           color_profile <- list("type" = color_type,
+                                 "col" = colors)
          }
-       }
+         
+         }
+     }
      if(color_type == "per_symbol"){
        if(is.null(colors)){
          cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
-         col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, 
+         col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors,
                                     rownames(cols)))
-         set.seed(color_seed)
-         color_profile <- list("type" = color_type,
-                               "col" = sample(col_vector, 
-                                              length(logo_control$total_chars),
-                                              replace=FALSE))
+         if(!is.null(color_seed)){
+           set.seed(color_seed)
+           color_profile <- list("type" = color_type,
+                                 "col" = sample(col_vector, 
+                                                length(logo_control$total_chars), 
+                                                replace=FALSE))
+         }else{
+           set.seed(color_seed)
+           color_profile <- list("type" = color_type,
+                                 "col" = col_vector)
+         }
        }else{
          if (length(colors) < length(logo_control$total_chars)){
-           stop("For per_symbol color type, the colors vector must be as
-                 large as number of symbols in total_chars argument in 
-                logo_control() : which is 50 by default ")
+           stop("For per_symbol color type, the colors vector must be 
+                as large as number of
+                symbols in total_chars argument in logo_control() :
+                which is 50 by default ")
          }
-         set.seed(color_seed)
-         color_profile <- list("type" = color_type,
-                               "col" = sample(colors, 
-                                              length(logo_control$total_chars), 
-                                              replace=FALSE))
+         if(!is.null(color_seed)){
+           set.seed(color_seed)
+           color_profile <- list("type" = color_type,
+                                 "col" = sample(colors, 
+                                                length(logo_control$total_chars), replace=FALSE))
+         }else{
+           color_profile <- list("type" = color_type,
+                                 "col" = colors)
+         }
          }
      }
      if(color_type == "per_column"){
@@ -441,24 +463,36 @@ logomaker <- function(data,
          cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
          col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors,
                                     rownames(cols)))
-         set.seed(color_seed)
-         color_profile <- list("type" = color_type,
-                               "col" = sample(col_vector, dim(data_scaled)[2],
-                                              replace = FALSE))
+         if(!is.null(color_seed)){
+           set.seed(color_seed)
+           color_profile <- list("type" = color_type,
+                                 "col" = sample(col_vector, dim(pfm_scaled)[2],
+                                                replace = FALSE))
+         }else{
+           color_profile <- list("type" = color_type,
+                                 "col" = col_vector)
+         }
+         
        }else{
-         if (length(colors) < dim(data_scaled)[2]){
-           stop("For per_column color type, the colors vector must be as large 
-                as number of columns in the matrix for PFM/PWM input, or
-                number of characters in each aligned
+         if (length(colors) < dim(pfm_scaled)[2]){
+           stop("For per_column color type, the colors vector must be as
+                large as number of columns in the matrix for PFM/PWM input, 
+                or number of characters in each aligned
                 sequence for sequence data")
          }
-         set.seed(color_seed)
-         color_profile <- list("type" = color_type,
-                               "col" = sample(colors, dim(data_scaled)[2], 
-                                              replace = FALSE))
+         if(!is.null(color_seed)){
+           set.seed(color_seed)
+           color_profile <- list("type" = color_type,
+                                 "col" = sample(colors, dim(pfm_scaled)[2], 
+                                                replace = FALSE))
+         }else{
+           color_profile <- list("type" = color_type,
+                                 "col" = colors)
          }
-       }
+         }
+     }
 
+    
 
      if(type == "Logo"){
        out <- do.call(plogomaker, append (list(table = data_scaled,
