@@ -655,13 +655,13 @@ get_logo_heights <- function (table,
 
     for(j in 1:dim(table_mat_neg_norm)[2]){
       if(sum(table_mat_neg_norm[,j]) == 0){
-        table_mat_neg_norm[,j] <- normalize4(table_mat_neg_norm[,j]+1e-3*min(table_mat_neg_norm[,j], na.rm=TRUE))
+        table_mat_neg_norm[,j] <- normalize4(table_mat_neg_norm[,j]+1e-10)
       }
     }
 
     for(j in 1:dim(table_mat_pos_norm)[2]){
       if(sum(table_mat_pos_norm[,j]) == 0){
-        table_mat_pos_norm[,j] <- normalize4(table_mat_pos_norm[,j]+1e-3*min(table_mat_pos_norm[,j], na.rm=TRUE))
+        table_mat_pos_norm[,j] <- normalize4(table_mat_pos_norm[,j]+1e-10)
       }
     }
 
@@ -692,8 +692,8 @@ get_logo_heights <- function (table,
       }
     })
 
-    tab_pos[tab_pos == 0] <- 1e-3
-    tab_neg[tab_neg == 0] <- 1e-3
+    tab_pos[tab_pos == 0] <- 1e-10
+    tab_neg[tab_neg == 0] <- 1e-10
 
     pos_neg_scaling <- apply(rbind(tab_pos, tab_neg), 2,
                              function(x) return(x/sum(x)))
