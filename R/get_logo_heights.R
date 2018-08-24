@@ -775,7 +775,7 @@ ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
       }
       else if(alpha == Inf){
         tmp <- mat[!is.na(mat[,i]), i]
-        ic[i] <- log(length(which(tmp!=0.00)), base=2) + log(max(tmp))
+        ic[i] <- log(length(which(tmp!=0.00)), base=2) + log(max(tmp), base=2)
       }
       else if(alpha <= 0){
         stop("alpha value must be greater than 0")
