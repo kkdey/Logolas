@@ -5,13 +5,18 @@
 #'
 "EBF1_disc1"
 
-#' Consensus and eIF1 initiation contexts in seven different species. 
+#' Consensus initiation contexts in seven different organisms. 
 #' The consensus of initiation in different species was obtained from the Transterm
 #' database. The data has been fetched from Ivanov et al 2012.
-#' @format A matrix with 4 rows and 15 columns
+#' @format A list of matrices, each matrix with 4 rows and 15 columns
 #'
-"ELF1_PWM"
+"consensus_PWM_codons"
 
+#' ELF1 initiation contexts in metazoa, fungi and plants. 
+#' The data has been fetched from Ivanov et al 2012.
+#' @format A list of 3 matrices, each matrix with 4 rows and 15 columns
+#'
+"ELF1"
 
 #' An example of the position weight matrix taken from seqLogo package
 #' A dataset of composition probabilities of A, C, G and T in 8 positions of 
