@@ -214,6 +214,8 @@ logomaker <- function(data,
         }else{
           pfm_scaled <- pfm
         }
+        
+        pfm_scaled <- zero_augment(pfm_scaled)
 
         if(is.null(color_type)){
           message("color_type not provided, so switching to per_row option for
@@ -225,6 +227,7 @@ logomaker <- function(data,
             cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
             col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors,
                                        rownames(cols)))
+            col_vector = col_vector[-c(4,5)]
             if(!is.null(color_seed)){
               set.seed(color_seed)
               color_profile <- list("type" = color_type,
@@ -232,7 +235,7 @@ logomaker <- function(data,
                                                    replace = FALSE))
             }else{
               color_profile <- list("type" = color_type,
-                                    "col" = col_vector)
+                                    "col" = col_vector[1:dim(pfm_scaled)[1]])
             }
           }else{
             if (length(colors) < dim(pfm_scaled)[1]){
@@ -248,7 +251,7 @@ logomaker <- function(data,
                                                    replace = FALSE))
             }else{
               color_profile <- list("type" = color_type,
-                                    "col" = colors)
+                                    "col" = colors[1:dim(pfm_scaled)[1]])
             }
             
           }
@@ -258,6 +261,7 @@ logomaker <- function(data,
             cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
             col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors,
                                        rownames(cols)))
+            col_vector = col_vector[-c(4,5)]
             if(!is.null(color_seed)){
               set.seed(color_seed)
               color_profile <- list("type" = color_type,
@@ -267,7 +271,7 @@ logomaker <- function(data,
             }else{
               set.seed(color_seed)
               color_profile <- list("type" = color_type,
-                                    "col" = col_vector)
+                                    "col" = col_vector[1:length(logo_control$total_chars)])
             }
           }else{
             if (length(colors) < length(logo_control$total_chars)){
@@ -283,7 +287,7 @@ logomaker <- function(data,
                          length(logo_control$total_chars), replace=FALSE))
             }else{
               color_profile <- list("type" = color_type,
-                                    "col" = colors)
+                                    "col" = colors[1:length(logo_control$total_chars)])
             }
           }
         }
@@ -292,6 +296,7 @@ logomaker <- function(data,
             cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
             col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors,
                                        rownames(cols)))
+            col_vector = col_vector[-c(4,5)]
             if(!is.null(color_seed)){
               set.seed(color_seed)
               color_profile <- list("type" = color_type,
@@ -299,7 +304,7 @@ logomaker <- function(data,
                                                    replace = FALSE))
             }else{
               color_profile <- list("type" = color_type,
-                                    "col" = col_vector)
+                                    "col" = col_vector[1:dim(pfm_scaled)[2]])
             }
             
           }else{
@@ -316,7 +321,7 @@ logomaker <- function(data,
                                                    replace = FALSE))
             }else{
               color_profile <- list("type" = color_type,
-                                    "col" = colors)
+                                    "col" = colors[1:dim(pfm_scaled)[2]])
             }
           }
         }
@@ -386,6 +391,8 @@ logomaker <- function(data,
        data_scaled <- data
      }
      
+     data_scaled <- zero_augment(data_scaled)
+     
      if(is.null(color_type)){
        message("color_type not provided, so switching to per_row option for
                color_type")
@@ -396,6 +403,7 @@ logomaker <- function(data,
          cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
          col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors,
                                     rownames(cols)))
+         col_vector = col_vector[-c(4,5)]
          if(!is.null(color_seed)){
            set.seed(color_seed)
            color_profile <- list("type" = color_type,
@@ -403,7 +411,7 @@ logomaker <- function(data,
                                                 replace = FALSE))
          }else{
            color_profile <- list("type" = color_type,
-                                 "col" = col_vector)
+                                 "col" = col_vector[1:dim(data_scaled)[1]])
          }
        }else{
          if (length(colors) < dim(data_scaled)[1]){
@@ -419,7 +427,7 @@ logomaker <- function(data,
                                                 replace = FALSE))
          }else{
            color_profile <- list("type" = color_type,
-                                 "col" = colors)
+                                 "col" = colors[1:dim(data_scaled)[1]])
          }
          
          }
@@ -429,6 +437,7 @@ logomaker <- function(data,
          cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
          col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors,
                                     rownames(cols)))
+         col_vector = col_vector[-c(4,5)]
          if(!is.null(color_seed)){
            set.seed(color_seed)
            color_profile <- list("type" = color_type,
@@ -438,7 +447,7 @@ logomaker <- function(data,
          }else{
            set.seed(color_seed)
            color_profile <- list("type" = color_type,
-                                 "col" = col_vector)
+                                 "col" = col_vector[1:length(logo_control$total_chars)])
          }
        }else{
          if (length(colors) < length(logo_control$total_chars)){
@@ -455,7 +464,7 @@ logomaker <- function(data,
                                                 replace=FALSE))
          }else{
            color_profile <- list("type" = color_type,
-                                 "col" = colors)
+                                 "col" = colors[1:length(logo_control$total_chars)])
          }
          }
      }
@@ -464,6 +473,7 @@ logomaker <- function(data,
          cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
          col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors,
                                     rownames(cols)))
+         col_vector = col_vector[-c(4,5)]
          if(!is.null(color_seed)){
            set.seed(color_seed)
            color_profile <- list("type" = color_type,
@@ -471,7 +481,7 @@ logomaker <- function(data,
                                                 replace = FALSE))
          }else{
            color_profile <- list("type" = color_type,
-                                 "col" = col_vector)
+                                 "col" = col_vector[1:dim(data_scaled)[2]])
          }
          
        }else{
@@ -488,7 +498,7 @@ logomaker <- function(data,
                                                 replace = FALSE))
          }else{
            color_profile <- list("type" = color_type,
-                                 "col" = colors)
+                                 "col" = colors[1:dim(data_scaled)[2]])
          }
          }
      }

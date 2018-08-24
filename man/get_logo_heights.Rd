@@ -5,7 +5,7 @@
 \title{Get heights of logos in nlogomaker() under different scoring schemes}
 \usage{
 get_logo_heights(table, ic = FALSE, score = c("diff", "log", "log-odds",
-  "probKL", "ratio", "unscaled_log", "wKL"), bg = NULL, epsilon = 0.01,
+  "probKL", "ratio", "unscaled_log", "wKL"), bg = NULL, epsilon = 0,
   opt = 1, symm = TRUE, alpha = 1, hist = FALSE, quant = 0.5)
 }
 \arguments{

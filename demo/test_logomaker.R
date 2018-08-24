@@ -28,3 +28,46 @@ logomaker(p, type = "EDLogo", return_heights = TRUE)
 
 logomaker(p, color_type = "per_row", colors = c("#7FC97F", "#BEAED4", "#FDC086", "#386CB0"), type = "Logo")
 logomaker(p, color_type = "per_row", colors = c("#7FC97F", "#BEAED4", "#FDC086", "#386CB0"), type = "EDLogo")
+
+
+##################  ELF1 data  ###############################
+
+data("ELF1_PWM")
+Logolas::get_viewport_logo(4, 2, heights.val = 15)
+library(grid)
+names <- c("Homo sapiens",
+           "Drosophila melanogaster",
+           "Neurospora crassa",
+           "Toxoplasma gondii",
+           "Oryza sativa",
+           "Ustilago maydis",
+           "Saccharomyces cerevisiae")
+for(m in 1:length(ELF1_PWM)){
+  seekViewport(paste0("plotlogo", m))
+  Logolas::logomaker(ELF1_PWM[[m]], type = "EDLogo", 
+            color_type = "per_row", colors = c("#7FC97F", "#BEAED4", "#FDC086", "#386CB0"),
+            logo_control = list(newpage = FALSE,
+                                pop_name = paste0(names[m]),
+                                control = list(negbins = 2, posbins = 3),
+                                xlab = ""))
+}
+
+Logolas::get_viewport_logo(4, 2, heights.val = 15)
+for(m in 1:length(ELF1_PWM)){
+  seekViewport(paste0("plotlogo", m))
+  Logolas::logomaker(ELF1_PWM[[m]], type = "Logo", 
+                     color_type = "per_row", colors = c("#7FC97F", "#BEAED4", "#FDC086", "#386CB0"),
+                     logo_control = list(newpage = FALSE,
+                                         pop_name = paste0(names[m]),
+                                         control = list(totbins = 3),
+                                         xlab = ""))
+}
+
+
+
+
+###############  save this image as 13 by 13 pdf   #######################
+
+
+
+

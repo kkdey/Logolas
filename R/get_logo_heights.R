@@ -73,7 +73,7 @@ get_logo_heights <- function (table,
                               ic = FALSE,
                               score = c("diff", "log", "log-odds", "probKL",
                                         "ratio", "unscaled_log", "wKL"),
-                              bg = NULL, epsilon = 0.01, opt=1, symm = TRUE,
+                              bg = NULL, epsilon = 0, opt=1, symm = TRUE,
                               alpha = 1, hist=FALSE, quant = 0.5){
 
   if(ic & score == "unscaled_log"){
@@ -118,8 +118,14 @@ get_logo_heights <- function (table,
     bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
   }
 
-  table <- apply(table+0.001*min(table, na.rm=TRUE),2,normalize4)
-  bgmat <- apply(bgmat+0.001*min(bgmat, na.rm=TRUE),2,normalize4)
+  if(length(which(table == 0)) > 0){
+    table <- zero_augment(table)
+  }
+  table <- apply(table,2,normalize4)
+  if(length(which(bgmat == 0)) > 0){
+    bgmat <- zero_augment(bgmat)
+  }
+  bgmat <- apply(bgmat,2,normalize4)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -739,7 +745,10 @@ ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
     bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
   }
 
-  bgmat <- apply(bgmat+0.001*min(bgmat, na.rm=TRUE),2,normalize4)
+  if(length(which(bgmat == 0)) > 0){
+    bgmat <- zero_augment(bgmat)
+  }
+  bgmat <- apply(bgmat,2,normalize4)
 
   if(!hist){
     mat <- apply(mat, 2, function(x) return(x/sum(x[!is.na(x)])))

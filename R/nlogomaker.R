@@ -237,7 +237,10 @@ nlogomaker <- function(table,
   chars <- as.character(rownames(table))
   npos <- ncol(table)
 
-  table <- apply(table+0.001*min(table, na.rm=TRUE),2,normalize3)
+  if(length(which(table == 0)) > 0){
+    table <- zero_augment(table)
+  }
+  table <- apply(table,2,normalize3)
 
   control_heights <- list(alpha = control$alpha, epsilon = control$epsilon,
                           opt = control$opt, hist = control$hist,
