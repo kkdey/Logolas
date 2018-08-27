@@ -123,11 +123,11 @@ get_logo_heights <- function (table,
   }
 
   if(length(which(table == 0)) > 0){
-    table <- zero_augment(table, pseudocount)
+    table <- pseudocount_adjust(table, pseudocount)
   }
   table <- apply(table,2,normalize4)
   if(length(which(bgmat == 0)) > 0){
-    bgmat <- zero_augment(bgmat, pseudocount)
+    bgmat <- pseudocount_adjust(bgmat, pseudocount)
   }
   bgmat <- apply(bgmat,2,normalize4)
 
@@ -750,7 +750,7 @@ ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
   }
 
   if(length(which(bgmat == 0)) > 0){
-    bgmat <- zero_augment(bgmat)
+    bgmat <- pseudocount_adjust(bgmat, pseudocount)
   }
   bgmat <- apply(bgmat,2,normalize4)
 

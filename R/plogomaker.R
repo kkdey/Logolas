@@ -176,7 +176,7 @@ plogomaker <- function( table,
                        control = list()){
   
   if(length(which(table == 0)) > 0){
-    table <- zero_augment(table, pseudocount)
+    table <- pseudocount_adjust(table, pseudocount)
   }
   table <- apply(table,2,normalize2)
 
