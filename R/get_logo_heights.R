@@ -28,8 +28,12 @@
 #' whose each cell specifies the background probability of the symbols 
 #' for each position.
 #'
-#' @param epsilon An additive constant added to the PWM before scaling to 
-#' eliminate log (0) type errors.
+#' @param pseudocount A small pseudocount to be added mainly to bypass 0 entries. 
+#'                     Default is NULL. If \code{table} is a counts matrix, 
+#'                     the default changes to 0.5, if \code{table} is a 
+#'                     positional weight matrix, the default becomes 0.001 times
+#'                     the minimum non-zero value of the table.
+#'
 #'
 #' @param opt Option parameter - taking values 1 and 2 - depending on whether
 #' median adjustment is done based on background corrected proportions or 
@@ -73,7 +77,7 @@ get_logo_heights <- function (table,
                               ic = FALSE,
                               score = c("diff", "log", "log-odds", "probKL",
                                         "ratio", "unscaled_log", "wKL"),
-                              bg = NULL, epsilon = 0, opt=1, symm = TRUE,
+                              bg = NULL, pseudocount = NULL, opt=1, symm = TRUE,
                               alpha = 1, hist=FALSE, quant = 0.5){
 
   if(ic & score == "unscaled_log"){
@@ -119,11 +123,11 @@ get_logo_heights <- function (table,
   }
 
   if(length(which(table == 0)) > 0){
-    table <- zero_augment(table)
+    table <- zero_augment(table, pseudocount)
   }
   table <- apply(table,2,normalize4)
   if(length(which(bgmat == 0)) > 0){
-    bgmat <- zero_augment(bgmat)
+    bgmat <- zero_augment(bgmat, pseudocount)
   }
   bgmat <- apply(bgmat,2,normalize4)
 

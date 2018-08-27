@@ -5,7 +5,7 @@
 \title{Get heights of logos in nlogomaker() under different scoring schemes}
 \usage{
 get_logo_heights(table, ic = FALSE, score = c("diff", "log", "log-odds",
-  "probKL", "ratio", "unscaled_log", "wKL"), bg = NULL, epsilon = 0,
+  "probKL", "ratio", "unscaled_log", "wKL"), bg = NULL, pseudocount = NULL,
   opt = 1, symm = TRUE, alpha = 1, hist = FALSE, quant = 0.5)
 }
 \arguments{
@@ -30,8 +30,11 @@ probability to be the same across the columns (sites), or a matrix,
 whose each cell specifies the background probability of the symbols 
 for each position.}
 
-\item{epsilon}{An additive constant added to the PWM before scaling to 
-eliminate log (0) type errors.}
+\item{pseudocount}{A small pseudocount to be added mainly to bypass 0 entries. 
+Default is NULL. If \code{table} is a counts matrix, 
+the default changes to 0.5, if \code{table} is a 
+positional weight matrix, the default becomes 0.001 times
+the minimum non-zero value of the table.}
 
 \item{opt}{Option parameter - taking values 1 and 2 - depending on whether
 median adjustment is done based on background corrected proportions or 

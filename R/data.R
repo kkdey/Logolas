@@ -18,6 +18,13 @@
 #'
 "ELF1"
 
+#' Amino acid sequences from UniProt database that constitute N-glycosylation sites.
+#' The data has been fetched from UniProt website.
+#' @format A vector of sequences, with the glycosylation site at the center (usually N),
+#' and 5 bases on either side of it.
+#'
+"N_Glycosyl_sequences"
+
 #' An example of the position weight matrix taken from seqLogo package
 #' A dataset of composition probabilities of A, C, G and T in 8 positions of 
 #' the motif.

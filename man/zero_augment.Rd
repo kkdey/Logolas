@@ -4,19 +4,20 @@
 \alias{zero_augment}
 \title{PFM/PWM Table Zero Augmentation}
 \usage{
-zero_augment(table, eps = NULL)
+zero_augment(table, pseudocount = NULL)
 }
 \arguments{
 \item{table}{A table (PFM/PWM) with the symbols along the rows and the logo stack
 positions along the columns, possibly containing 0 values.}
+
+\item{pseudocount}{A small pseudocount to be added mainly to bypass 0 entries. 
+Default is NULL. If \code{table} is a counts matrix, 
+the default changes to 0.5, if \code{table} is a 
+positional weight matrix, the default becomes 0.001 times
+the minimum non-zero value of the table.}
 }
 \value{
 Returns a new table that augments the zeros in the input \code{table}.
-
-eps A small pertutbation value to be added to 0. Default is NULL.
-            If \code{table} is a counts matrix, the default changes to 0.5, 
-            if \code{table} is a positional weight matrix, the default becomes
-            0.001.
 }
 \description{
 Building the zero-augmented positional weight matrix from a PWM

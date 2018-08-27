@@ -39,7 +39,7 @@ get_viewport_logo <- function(layout.rows, layout.cols,
                                         widths=unit(widths_vec, 
                                                     rep("null", layout.cols)),
                                         heights=unit(heights_vec,
-                                                rep("lines", layout.rows))))
+                                                rep("null", layout.rows))))
 
   plot_reg <- vpList()
   l <- 1

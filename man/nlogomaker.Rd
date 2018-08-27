@@ -10,10 +10,11 @@ nlogomaker(table, ic = FALSE, score = c("diff", "log", "log-odds", "probKL",
   "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two", "three",
   "four", "five", "six", "seven", "eight", "nine", "dot", "comma", "dash",
   "colon", "semicolon", "leftarrow", "rightarrow"), bg = NULL,
-  frame_width = NULL, yscale_change = TRUE, pop_name = NULL,
-  addlogos = NULL, addlogos_text = NULL, newpage = TRUE, yrange = NULL,
-  xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
-  y_fontsize = 15, main_fontsize = 16, start = 0.001, xlab = "X",
+  pseudocount = NULL, frame_width = NULL, yscale_change = TRUE,
+  pop_name = NULL, addlogos = NULL, addlogos_text = NULL,
+  newpage = TRUE, yrange = NULL, xaxis = TRUE, yaxis = TRUE,
+  xaxis_fontsize = 10, xlab_fontsize = 15, y_fontsize = 15,
+  main_fontsize = 16, start = 0.001, xlab = "X",
   ylab = "Enrichment Score", col_line_split = "grey80", control = list())
 }
 \arguments{
@@ -55,6 +56,12 @@ symbols) which specifies the background probability for each symbol
 and assumes this background probability to be the same across the 
 columns (sites), or a matrix, whose each cell specifies
 the background probability of the symbols for each position.}
+
+\item{pseudocount}{A small pseudocount to be added mainly to bypass 0 entries. 
+Default is NULL. If \code{table} is a counts matrix, 
+the default changes to 0.5, if \code{table} is a 
+positional weight matrix, the default becomes 0.001 times
+the minimum non-zero value of the table.}
 
 \item{frame_width}{The width of the frames for individual 
 site/postion/column in the logo plot. As default, all the 

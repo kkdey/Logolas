@@ -34,6 +34,11 @@
 #' to be the same across the columns (sites), or a matrix, whose each cell 
 #' specifies the background probability of the symbols for each position.
 #'
+#' @param pseudocount A small pseudocount to be added mainly to bypass 0 entries. 
+#'                     Default is NULL. If \code{table} is a counts matrix, 
+#'                     the default changes to 0.5, if \code{table} is a 
+#'                     positional weight matrix, the default becomes 0.001 times
+#'                     the minimum non-zero value of the table.
 #'
 #' @param frame_width The width of the frames for individual site/postion/column
 #' in the logo plot. As default, all the columns have same width, equal to 1.
@@ -150,6 +155,7 @@ plogomaker <- function( table,
                                        "dash", "colon", "semicolon",
                                        "leftarrow", "rightarrow"),
                        bg = NULL,
+                       pseudocount = NULL,
                        frame_width=NULL,
                        ic.scale=TRUE,
                        xaxis=TRUE,
@@ -170,7 +176,7 @@ plogomaker <- function( table,
                        control = list()){
   
   if(length(which(table == 0)) > 0){
-    table <- zero_augment(table)
+    table <- zero_augment(table, pseudocount)
   }
   table <- apply(table,2,normalize2)
 
