@@ -95,14 +95,12 @@
 #'
 #' @param control control parameters fixing whether the height of the 
 #' logos is detrmined by IC or histogram proportions (\code{hist}),
-#' the scales for the plot (\code{scale0}, \code{scale1}), the 
-#' additive factor epsilon added to log transform to avoid log(0) 
-#' errors (\code{epsilon}), the quantile adjustment (\code{quant}), 
-#' whether to use symmetric KL for scaling (\code{symm}),
-#' whether the symbols should be filled with color or border colored
-#' (\code{tofill_pos, tofill_neg}), the Renyi alpha parameter for the 
-#' entropy calculation (\code{alpha}), the gap between ylabel and 
-#' y-axis and xlabel and x-axis texts (\code{gap_ylab}, \code{gap_xlab}),
+#' the scales for the plot (\code{scale0}, \code{scale1}), the quantile 
+#' adjustment (\code{quant}), whether to use symmetric KL for scaling 
+#' (\code{symm}), whether the symbols should be filled with color or 
+#' border colored (\code{tofill_pos, tofill_neg}), the Renyi 
+#' alpha parameter for the entropy calculation (\code{alpha}), the gap between
+#' ylabel and y-axis and xlabel and x-axis texts (\code{gap_ylab}, \code{gap_xlab}),
 #' the viewport configuration details for the plot 
 #' (\code{viewport.margin.bottom},\code{viewport.margin.left},
 #'  \code{viewport.margin.top}, \code{viewport.margin.right}),
@@ -200,7 +198,7 @@ nlogomaker <- function(table,
 
   control.default <- list(hist = FALSE, alpha = 1, opt = 1, scale0=0.01,
                           scale1=0.99, tofill_pos = TRUE, tofill_neg = TRUE,
-                          lwd = 2, epsilon = 0.01,
+                          lwd = 2, 
                           quant = 0.5, symm = TRUE,
                           gap_xlab = 3, gap_ylab = 3.5,
                           minbins = 2, round_off = 1,
@@ -249,7 +247,7 @@ nlogomaker <- function(table,
   }
   table <- apply(table,2,normalize3)
 
-  control_heights <- list(alpha = control$alpha, epsilon = control$epsilon,
+  control_heights <- list(alpha = control$alpha, 
                           opt = control$opt, hist = control$hist,
                           quant = control$quant, symm = control$symm)
   ll <- do.call(get_logo_heights, append(list(table = table,

@@ -145,7 +145,7 @@ get_logo_heights <- function (table,
 
   if(!ic){
     if (score == "diff"){
-      table_mat_adj <- apply((table_mat_norm+epsilon) - (bgmat+epsilon), 
+      table_mat_adj <- apply((table_mat_norm) - (bgmat), 
                              2, function(x)
       {
         indices <- which(is.na(x))
@@ -173,7 +173,7 @@ get_logo_heights <- function (table,
         }
       })
     }else if (score == "log") {
-      table_mat_adj <- apply(log((table_mat_norm+epsilon)/(bgmat+epsilon), 
+      table_mat_adj <- apply(log((table_mat_norm)/(bgmat), 
                                  base=2), 2, function(x)
       {
         indices <- which(is.na(x))
@@ -203,7 +203,7 @@ get_logo_heights <- function (table,
     }else if (score == "log-odds"){
 
       if(opt == 1){
-        table_mat_adj <- apply((table_mat_norm + epsilon)/(bgmat + epsilon), 
+        table_mat_adj <- apply((table_mat_norm)/(bgmat), 
                                2, function(x)
         {
           indices <- which(is.na(x))
@@ -234,7 +234,7 @@ get_logo_heights <- function (table,
           }
         })
       }else{
-        table_mat_adj <- apply((table_mat_norm + epsilon), 2, function(x)
+        table_mat_adj <- apply((table_mat_norm), 2, function(x)
         {
           indices <- which(is.na(x))
           if(length(indices) == 0){
@@ -255,7 +255,7 @@ get_logo_heights <- function (table,
         })
       }
     }else if (score == "probKL"){
-      table_mat_adj <- apply((table_mat_norm+epsilon) * log((table_mat_norm+epsilon)/(bgmat+epsilon), base=2), 2, function(x)
+      table_mat_adj <- apply((table_mat_norm) * log((table_mat_norm)/(bgmat), base=2), 2, function(x)
       {
         indices <- which(is.na(x))
         if(length(indices) == 0){
@@ -282,7 +282,7 @@ get_logo_heights <- function (table,
         }
       })
     }else if (score == "ratio"){
-      table_mat_adj <- apply((table_mat_norm+epsilon)/(bgmat+epsilon), 
+      table_mat_adj <- apply((table_mat_norm)/(bgmat), 
                              2, function(x)
       {
         indices <- which(is.na(x))
@@ -310,7 +310,7 @@ get_logo_heights <- function (table,
         }
       })
     }else if (score == "unscaled_log"){
-      table_mat_adj <- apply(log((table_mat_norm+epsilon)/(bgmat+epsilon), 
+      table_mat_adj <- apply(log((table_mat_norm)/(bgmat), 
                                  base=2), 
                              2, function(x)
       {
@@ -339,7 +339,7 @@ get_logo_heights <- function (table,
         }
       })
     }else if (score == "wKL"){
-      table_mat_adj <- apply(log((table_mat_norm+epsilon)/(bgmat+epsilon), 
+      table_mat_adj <- apply(log((table_mat_norm)/(bgmat), 
                                  base=2),
                                2, function(x)
       {
@@ -375,7 +375,7 @@ get_logo_heights <- function (table,
   }else{
     if(score == "diff"){
       if(opt == 1){
-        table_mat_adj <- apply((table_mat_norm+epsilon) - (bgmat+epsilon), 
+        table_mat_adj <- apply((table_mat_norm) - (bgmat), 
                                2, function(x)
         {
           indices <- which(is.na(x))
@@ -403,7 +403,7 @@ get_logo_heights <- function (table,
           }
         })
       }else{
-        table_mat_adj <- apply(table_mat_norm+epsilon, 2, function(x)
+        table_mat_adj <- apply(table_mat_norm, 2, function(x)
         {
           indices <- which(is.na(x))
           if(length(indices) == 0){
@@ -422,7 +422,7 @@ get_logo_heights <- function (table,
       }
     }else if(score == "log"){
       if(opt == 1){
-        table_mat_adj <- apply(log((table_mat_norm+epsilon)/(bgmat+epsilon),
+        table_mat_adj <- apply(log((table_mat_norm)/(bgmat),
                                    base=2), 2, function(x)
         {
           indices <- which(is.na(x))
@@ -450,7 +450,7 @@ get_logo_heights <- function (table,
           }
         })
       }else{
-        table_mat_adj <- apply(log(table_mat_norm+epsilon, base=2), 
+        table_mat_adj <- apply(log(table_mat_norm, base=2), 
                                2, function(x)
         {
           indices <- which(is.na(x))
@@ -470,7 +470,7 @@ get_logo_heights <- function (table,
       }
     }else if (score == "log-odds"){
       if(opt == 1){
-        table_mat_adj <- apply((table_mat_norm + epsilon)/(bgmat + epsilon), 
+        table_mat_adj <- apply((table_mat_norm)/(bgmat), 
                                2, function(x)
         {
           indices <- which(is.na(x))
@@ -501,7 +501,7 @@ get_logo_heights <- function (table,
           }
         })
       }else{
-        table_mat_adj <- apply((table_mat_norm + epsilon), 2, function(x)
+        table_mat_adj <- apply((table_mat_norm), 2, function(x)
         {
           indices <- which(is.na(x))
           if(length(indices) == 0){
@@ -525,7 +525,7 @@ get_logo_heights <- function (table,
 
     }else if (score == "probKL"){
       if(opt == 1){
-        table_mat_adj <- apply((table_mat_norm+epsilon)*log((table_mat_norm+epsilon)/(bgmat+epsilon), base=2), 2, function(x)
+        table_mat_adj <- apply((table_mat_norm)*log((table_mat_norm)/(bgmat), base=2), 2, function(x)
         {
           indices <- which(is.na(x))
           if(length(indices) == 0){
@@ -552,7 +552,7 @@ get_logo_heights <- function (table,
           }
         })
       }else{
-        table_mat_adj <- apply((table_mat_norm+epsilon)*log(table_mat_norm+epsilon, 
+        table_mat_adj <- apply((table_mat_norm)*log(table_mat_norm, 
                                                 base=2), 2, function(x)
         {
           indices <- which(is.na(x))
@@ -573,7 +573,7 @@ get_logo_heights <- function (table,
 
     }else if (score == "ratio"){
       if(opt == 1){
-        table_mat_adj <- apply((table_mat_norm+epsilon)/(bgmat+epsilon), 
+        table_mat_adj <- apply((table_mat_norm)/(bgmat), 
                                2, function(x)
         {
           indices <- which(is.na(x))
