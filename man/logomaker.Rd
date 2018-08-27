@@ -6,8 +6,9 @@
 (weight) matrix}
 \usage{
 logomaker(data, type = c("Logo", "EDLogo"), use_dash = TRUE, bg = NULL,
-  color_type = NULL, colors = NULL, color_seed = NULL,
-  return_heights = FALSE, logo_control = list(), dash_control = list())
+  pseudocount = NULL, color_type = NULL, colors = NULL,
+  color_seed = NULL, return_heights = FALSE, logo_control = list(),
+  dash_control = list())
 }
 \arguments{
 \item{data}{The input data may be a vector of character sequences - 
@@ -33,6 +34,12 @@ symbols) which specifies the background probability for each symbol
  and assumes this background probability to be the same across the 
  columns (sites), or a matrix, whose each cell specifies the 
  background probability of the symbols for each position.}
+
+\item{pseudocount}{A small pseudocount to be added mainly to bypass 0 entries. 
+Default is NULL. If \code{table} is a counts matrix, 
+the default changes to 0.5, if \code{table} is a 
+positional weight matrix, the default becomes 0.001 times
+the minimum non-zero value of the table.}
 
 \item{color_type}{A list specifying the coloring scheme. Defaults to NULL,
 for which, based on \code{color_seed}, a specific 

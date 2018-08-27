@@ -29,6 +29,11 @@
 #'            and assumes this background probability to be the same across the 
 #'            columns (sites), or a matrix, whose each cell specifies the 
 #'            background probability of the symbols for each position.
+#' @param pseudocount A small pseudocount to be added mainly to bypass 0 entries. 
+#'                     Default is NULL. If \code{table} is a counts matrix, 
+#'                     the default changes to 0.5, if \code{table} is a 
+#'                     positional weight matrix, the default becomes 0.001 times
+#'                     the minimum non-zero value of the table.
 #'
 #' @param color_type A list specifying the coloring scheme. Defaults to NULL,
 #'                  for which, based on \code{color_seed}, a specific 
@@ -107,6 +112,7 @@ logomaker <- function(data,
                       type = c("Logo", "EDLogo"),
                       use_dash = TRUE,
                       bg = NULL,
+                      pseudocount = NULL,
                       color_type = NULL,
                       colors = NULL,
                   #    color_seed = 2030,
@@ -215,7 +221,7 @@ logomaker <- function(data,
           pfm_scaled <- pfm
         }
         
-        pfm_scaled <- zero_augment(pfm_scaled)
+        pfm_scaled <- pseudocount_adjust(pfm_scaled, pseudocount)
 
         if(is.null(color_type)){
           message("color_type not provided, so switching to per_row option for
@@ -328,12 +334,14 @@ logomaker <- function(data,
         if(type ==  "Logo"){
           out <- do.call(plogomaker, append (list(table = pfm_scaled,
                                                   color_profile = color_profile,
-                                                   bg = bg),
+                                                  bg = bg,
+                                                  pseudocount = pseudocount),
                                      logo_control))
         }else if (type == "EDLogo"){
           out <- do.call(nlogomaker, append (list(table = pfm_scaled,
                                                   color_profile = color_profile,
-                                                   bg = bg),
+                                                  bg = bg,
+                                                  pseudocount = pseudocount),
                                       logo_control))
         }
    }
@@ -391,7 +399,7 @@ logomaker <- function(data,
        data_scaled <- data
      }
      
-     data_scaled <- zero_augment(data_scaled)
+     data_scaled <- pseudocount_adjust(data_scaled, pseudocount = pseudocount)
      
      if(is.null(color_type)){
        message("color_type not provided, so switching to per_row option for
