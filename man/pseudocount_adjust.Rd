@@ -25,5 +25,5 @@ Building a pseudo-count adjusted matrix from a PWM
 }
 \examples{
 data("mutation_sig")
-zero_augment(mutation_sig)
+pseudocount_adjust(mutation_sig)
 }

@@ -13,19 +13,19 @@
 #' @return Returns a new table that pseudo-count adjusts the 0 values.
 #' @examples 
 #' data("mutation_sig")
-#' zero_augment(mutation_sig)
+#' pseudocount_adjust(mutation_sig)
 #' @export 
 
 pseudocount_adjust <- function(table, pseudocount = NULL){
   fl_table <- floor(table)
   diff <- table[!is.na(table)] - fl_table[!is.na(fl_table)]
-  min_tab <- min(table[table > 0])
+  min_tab <- min(abs(table[table > 1e-05]), na.rm = TRUE)
   if(sum(abs(diff)) == 0){
     message("The table contains counts")
-    if(is.null(eps)){pseudocount <- 0.5}
+    if(is.null(pseudocount)){pseudocount <- 0.5}
     table1 <- table + pseudocount
   }else{
-    if(is.null(eps)){pseudocount <- 1e-03*min_tab}
+    if(is.null(pseudocount)){pseudocount <- 1e-03*min_tab}
     table1 <- table + pseudocount
   }
   return(table1)
