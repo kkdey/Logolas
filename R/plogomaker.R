@@ -174,11 +174,6 @@ plogomaker <- function( table,
                        addlogos_text = NULL,
                        newpage = TRUE,
                        control = list()){
-  
-  if(length(which(table == 0)) > 0){
-    table <- pseudocount_adjust(table, pseudocount)
-  }
-  table <- apply(table,2,normalize2)
 
   control.default <- list(hist = FALSE, alpha = 1, scale0=0.01,
                           scale1=0.99, tofill = TRUE, lwd = 2,
@@ -240,9 +235,9 @@ plogomaker <- function( table,
 
   if(is.null(ic)){
     if(hist==FALSE){
-      ic <- ic_computer(table_mat_norm, alpha, hist=hist, bg = bg)
+      ic <- ic_computer(table_mat_norm, alpha, pseudocount = pseudocount, hist=hist, bg = bg)
     }else{
-      ic <- ic_computer(table, alpha, hist=hist, bg = bg)
+      ic <- ic_computer(table, alpha, pseudocount = pseudocount, hist=hist, bg = bg)
     }
   }
 

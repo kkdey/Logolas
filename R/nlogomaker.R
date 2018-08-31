@@ -199,7 +199,8 @@ nlogomaker <- function(table,
   control.default <- list(hist = FALSE, alpha = 1, opt = 1, scale0=0.01,
                           scale1=0.99, tofill_pos = TRUE, tofill_neg = TRUE,
                           lwd = 2, 
-                          quant = 0.5, symm = TRUE,
+                          quant = 0.5, quant_strategy = "center",
+                          symm = TRUE,
                           gap_xlab = 3, gap_ylab = 3.5,
                           minbins = 2, round_off = 1,
                           lowrange = 0, uprange = 0,
@@ -241,113 +242,18 @@ nlogomaker <- function(table,
   }
   chars <- as.character(rownames(table))
   npos <- ncol(table)
-
-  if(length(which(table == 0)) > 0){
-    table <- pseudocount_adjust(table, pseudocount)
-  }
-  table <- apply(table,2,normalize3)
-
+  
   control_heights <- list(alpha = control$alpha, 
                           opt = control$opt, hist = control$hist,
-                          quant = control$quant, symm = control$symm)
+                          quant = control$quant, 
+                          quant_strategy = control$quant_strategy,
+                          symm = control$symm)
   ll <- do.call(get_logo_heights, append(list(table = table,
                                               ic = ic,
                                               bg = bg,
+                                              pseudocount = pseudocount,
                                               score = score),
                                        control_heights))
-
-
-  # if(ic & score == "ratio"){
-  #   ll <- get_logo_heights_ic_ratio(table, alpha = control$alpha,
-  #                             epsilon = control$epsilon,
-  #                             bg = bg,
-  #                             opt = control$opt,
-  #                             hist = control$hist,
-  #                             quant = control$quant,
-  #                             symm = control$symm)
-  # } else if (ic & score == "diff"){
-  #   table <- apply(table+0.0001,2,normalize3)
-  #   ll <- get_logo_heights_ic_diff(table, alpha = control$alpha,
-  #                                   epsilon = control$epsilon,
-  #                                   bg = bg,
-  #                                   opt = control$opt,
-  #                                   hist = control$hist,
-  #                                   quant = control$quant,
-  #                                   symm = control$symm)
-  # }else if (logoheight == "ic_log"){
-  #   table <- apply(table+0.0001,2,normalize3)
-  #   ll <- get_logo_heights_ic_log(table, alpha = control$alpha,
-  #                                  epsilon = control$epsilon,
-  #                                  bg = bg,
-  #                                  opt = control$opt,
-  #                                  hist = control$hist,
-  #                                  quant = control$quant,
-  #                                  symm = control$symm)
-  # }else if (logoheight == "ic_log_odds"){
-  #   table <- apply(table+0.0001,2,normalize3)
-  #   ll <- get_logo_heights_ic_log_odds(table, alpha = control$alpha,
-  #                                 epsilon = control$epsilon,
-  #                                 bg = bg,
-  #                                 opt = control$opt,
-  #                                 hist = control$hist,
-  #                                 quant = control$quant,
-  #                                 symm = control$symm)
-  # }else if (logoheight == "log"){
-  #   table <- apply(table+0.0001,2,normalize3)
-  #   ll <- get_logo_heights_log(table, epsilon = control$epsilon,
-  #                              bg = bg,
-  #                              alpha = control$alpha, hist = control$hist,
-  #                              quant = control$quant)
-  # } else if (logoheight == "log_odds"){
-  #   table <- apply(table+0.0001,2,normalize3)
-  #   ll <- get_logo_heights_log_odds(table, epsilon = control$epsilon,
-  #                                   bg = bg,
-  #                                   alpha = control$alpha, hist = control$hist,
-  #                                   quant = control$quant)
-  # }else if (logoheight == "diff"){
-  #   table <- apply(table+0.0001,2,normalize3)
-  #   ll <- get_logo_heights_diff(table, epsilon = control$epsilon,
-  #                               bg = bg,
-  #                               alpha = control$alpha, hist = control$hist,
-  #                               quant = control$quant)
-  # }else if (logoheight == "ratio"){
-  #   table <- apply(table+0.0001,2,normalize3)
-  #   ll <- get_logo_heights_ratio(table, epsilon = control$epsilon,
-  #                               bg = bg,
-  #                               alpha = control$alpha, hist = control$hist,
-  #                               quant = control$quant)
-  # }else if (logoheight == "probKL"){
-  #   table <- apply(table+0.0001,2,normalize3)
-  #   ll <- get_logo_heights_probKL(table, epsilon = control$epsilon,
-  #                                bg = bg,
-  #                                alpha = control$alpha, hist = control$hist,
-  #                                quant = control$quant)
-  # }else if (logoheight == "ic_probKL"){
-  #   table <- apply(table+0.0001,2,normalize3)
-  #   ll <- get_logo_heights_ic_probKL(table, alpha = control$alpha,
-  #                                 epsilon = control$epsilon,
-  #                                 bg = bg,
-  #                                 opt = control$opt,
-  #                                 hist = control$hist,
-  #                                 quant = control$quant,
-  #                                 symm = control$symm)
-  # }else if (logoheight == "wKL"){
-  #   table <- apply(table+0.0001,2,normalize3)
-  #   ll <- get_logo_heights_wKL(table, epsilon = control$epsilon,
-  #                                 bg = bg,
-  #                                 alpha = control$alpha, hist = control$hist,
-  #                                 quant = control$quant)
-  # }else if (logoheight == "unscaled_log"){
-  #   ll <- get_logo_heights_unscaled_log(table, epsilon = control$epsilon,
-  #                              bg = bg,
-  #                              alpha = control$alpha, hist = control$hist,
-  #                              quant = control$quant)
-  # }else{
-  #   stop("logoheight option must be one of log, ratio, diff, probKL,
-  #         wKL, log_odds, ic_log, ic_diff, ic_ratio, ic_log_odds,
-  #         ic_probKL, unscaled_log")
-  # }
-
   pos_ic <- ll$pos_ic
   neg_ic <- ll$neg_ic
   table_mat_pos_norm <- ll$table_mat_pos_norm
@@ -380,8 +286,6 @@ nlogomaker <- function(table,
 
 #####################  positive component study  ###########################
 
- # print(pos_ic)
- # print(neg_ic)
   letters <- list(x=NULL,y=NULL,id=NULL,fill=NULL)
   facs <- pos_ic
 

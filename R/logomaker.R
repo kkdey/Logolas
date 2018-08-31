@@ -221,7 +221,6 @@ logomaker <- function(data,
           pfm_scaled <- pfm
         }
         
-        pfm_scaled <- pseudocount_adjust(pfm_scaled, pseudocount)
 
         if(is.null(color_type)){
           message("color_type not provided, so switching to per_row option for
@@ -398,8 +397,6 @@ logomaker <- function(data,
      }else{
        data_scaled <- data
      }
-     
-     data_scaled <- pseudocount_adjust(data_scaled, pseudocount = pseudocount)
      
      if(is.null(color_type)){
        message("color_type not provided, so switching to per_row option for

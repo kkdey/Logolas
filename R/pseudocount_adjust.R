@@ -19,13 +19,13 @@
 pseudocount_adjust <- function(table, pseudocount = NULL){
   fl_table <- floor(table)
   diff <- table[!is.na(table)] - fl_table[!is.na(fl_table)]
-  min_tab <- min(abs(table[table > 1e-05]), na.rm = TRUE)
+  max_tab <- max(abs(table[table > 1e-10]), na.rm = TRUE)
   if(sum(abs(diff)) == 0){
     message("The table contains counts")
-    if(is.null(pseudocount)){pseudocount <- 0.5}
+    if(is.null(pseudocount)){pseudocount <- 5e-01*max_tab}
     table1 <- table + pseudocount
   }else{
-    if(is.null(pseudocount)){pseudocount <- 1e-03*min_tab}
+    if(is.null(pseudocount)){pseudocount <- 5e-01*max_tab}
     table1 <- table + pseudocount
   }
   return(table1)

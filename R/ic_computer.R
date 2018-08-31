@@ -42,7 +42,7 @@
 # rownames(counts_mat) <- c("P1", "P2", "P3", "P4")
 # ic_computer(counts_mat, alpha=2)
 
-ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
+ic_computer <-function(mat, alpha, pseudocount=NULL, hist=FALSE, bg = NULL) {
 
   if (is.vector(bg)==TRUE){
     if(length(bg) != dim(mat)[1]){
@@ -71,7 +71,12 @@ ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
     bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
   }
 
-  bgmat <- apply(bgmat+0.1,2,normalize_ic_computer)
+  if(is.null(pseudocount)){pseudocount <- 0.1}
+  pseudocount2 <- pseudocount*max(max(abs(mat), na.rm=TRUE), max(abs(bgmat), na.rm=TRUE))
+  mat <- pseudocount_adjust(mat, pseudocount2)
+  mat <- apply(mat,2,normalize_ic_computer)
+  bgmat <- pseudocount_adjust(bgmat, pseudocount2)
+  bgmat <- apply(bgmat,2,normalize_ic_computer)
 
   if(!hist){
     mat <- apply(mat, 2, function(x) return(x/sum(x[!is.na(x)])))

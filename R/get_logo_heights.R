@@ -19,7 +19,8 @@
 #' \code{unscaled_log},
 #' \code{wKL}. Each option corresponds to a different scoring scheme. The most
 #  recommended option is \code{log}.
-#'
+#' @param preclog_control Teh control parameters for preclog method, including
+#'        the solver type used and the tolerance.
 #' @param bg The background probability, which defaults to NULL, in which case
 #' equal probability is assigned to each symbol. The user can however specify a
 #' vector (equal to in length to the number of symbols) which specifies the
@@ -51,6 +52,13 @@
 #'
 #' @param quant The quantile to be adjusted for in computing enrichment and
 #' depletion scores. Defaults to 0.5, which corresponds to the median.
+#' 
+#' @param quant_strategy Strategy used for quantile computation. For the default,
+#' \code{quant_strategy = "center"}, the normal quantile is taken, which would
+#' correspond to the middle point of the quantile interval. If  
+#' \code{quant_strategy = "lower"}, the lower limit of the quantile interval is
+#' taken and if  \code{quant_strategy = "upper"}, the upper limit of the quantile
+#' interval is considered. 
 #'
 #' @importFrom  stats quantile
 #'
@@ -67,18 +75,24 @@
 #' rownames(m) = c("A", "C", "G", "T")
 #' colnames(m) = 1:12
 #' m=m/8
+#' get_logo_heights(m, score = "preclog")
 #' get_logo_heights(m, score = "log")
 #' get_logo_heights(m, score = "log", ic = TRUE)
 #' get_logo_heights(m, score = "wKL")
 #' get_logo_heights(m, score = "probKL", ic = TRUE)
+#' 
+#' @import CVXR
 #' @export
 
 get_logo_heights <- function (table,
                               ic = FALSE,
                               score = c("diff", "log", "log-odds", "probKL",
-                                        "ratio", "unscaled_log", "wKL"),
+                                        "ratio", "unscaled_log", "wKL",
+                                        "preclog"),
+                              preclog_control = list(),
                               bg = NULL, pseudocount = NULL, opt=1, symm = TRUE,
-                              alpha = 1, hist=FALSE, quant = 0.5){
+                              alpha = 1, hist=FALSE, quant = 0.5,
+                              quant_strategy = "center"){
 
   if(ic & score == "unscaled_log"){
     warning("ic = TRUE not compatible with score = `unscaled-log`: switching to
@@ -91,8 +105,12 @@ get_logo_heights <- function (table,
     ic = FALSE
   }
   if(length(score) != 1){
-    stop("score can be wither diff, log, log-odds, probKL, ratio, 
+    stop("score can be either diff, log, log-odds, probKL, ratio, 
          unscaled_log or wKL")
+  }
+  if(score == "preclog"){
+    preclog_control_default <- list(solver = "SCS", tol = 1e-04)
+    preclog_control <- modifyList(preclog_control_default, preclog_control)
   }
 
   if (is.vector(bg)==TRUE){
@@ -122,13 +140,12 @@ get_logo_heights <- function (table,
     bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
   }
 
-  if(length(which(table == 0)) > 0){
-    table <- pseudocount_adjust(table, pseudocount)
-  }
   table <- apply(table,2,normalize4)
-  if(length(which(bgmat == 0)) > 0){
-    bgmat <- pseudocount_adjust(bgmat, pseudocount)
-  }
+  if(is.null(pseudocount)) {pseudocount <- 0.1}
+  pseudocount2 <- pseudocount*min(min(abs(table[table > 0]), na.rm=TRUE), min(abs(bgmat[bgmat > 0]), na.rm=TRUE))
+  table <- pseudocount_adjust(table, pseudocount2)
+  table <- apply(table,2,normalize4)
+  bgmat <- pseudocount_adjust(bgmat, pseudocount2)
   bgmat <- apply(bgmat,2,normalize4)
 
   if (class(table) == "data.frame"){
@@ -152,7 +169,7 @@ get_logo_heights <- function (table,
         if(length(indices) == 0){
           y = x
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -161,7 +178,7 @@ get_logo_heights <- function (table,
         }else{
           y <- x[!is.na(x)]
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -180,7 +197,7 @@ get_logo_heights <- function (table,
         if(length(indices) == 0){
           y = x
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -189,7 +206,7 @@ get_logo_heights <- function (table,
         }else{
           y <- x[!is.na(x)]
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -200,6 +217,50 @@ get_logo_heights <- function (table,
           return(zext)
         }
       })
+    }else if (score == "preclog"){
+      
+      library(CVXR)
+      llambda_mat <- matrix(0, nrow(table_mat_norm), ncol(table_mat_norm))
+      
+      for(m in 1:ncol(table_mat_norm)){
+        pp <- table_mat_norm[,m]
+        qq <- bgmat[,m]
+        kldiv <- sum(pp*log(pp/qq)) 
+        tol <- preclog_control$tol
+        llambda <- Variable(length(pp))
+        objective <- Minimize(sum(p_norm(llambda,1)))
+        constraint1 <- sum(pp*llambda) - kldiv - log_sum_exp(llambda + log(qq)) + tol > 0
+        problem <- Problem(objective, constraints = list(constraint1))
+        result <- solve(problem, solver=preclog_control$solver)
+        llambda_mat[,m] <- result$getValue(llambda)
+      }
+      
+      table_mat_adj <- apply(llambda_mat, 2, function(x)
+     {
+       indices <- which(is.na(x))
+       if(length(indices) == 0){
+         y = x
+         if(quant != 0){
+           qq <- quantile2(y, quant, quant_strategy)
+         }else{
+           qq <- 0
+         }
+         z <- y - qq
+         return(z)
+       }else{
+         y <- x[!is.na(x)]
+         if(quant != 0){
+           qq <- quantile2(y, quant, quant_strategy)
+         }else{
+           qq <- 0
+         }
+         z <- y - qq
+         zext <- array(0, length(x))
+         zext[indices] <- 0
+         zext[-indices] <- z
+         return(zext)
+       }
+     })
     }else if (score == "log-odds"){
 
       if(opt == 1){
@@ -211,7 +272,7 @@ get_logo_heights <- function (table,
             # x <- x
             y = log(x/(sum(x)-x), base=2)
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -222,7 +283,7 @@ get_logo_heights <- function (table,
             #w <- w + scale
             y <- log(w/(sum(w)-w), base=2)
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -240,13 +301,13 @@ get_logo_heights <- function (table,
           if(length(indices) == 0){
             # x <- x
             y = log(x/(sum(x)-x), base=2)
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             return(z)
           }else{
             w <- x[!is.na(x)]
             #w <- w + scale
             y <- log(w/(sum(w)-w), base=2)
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             zext <- array(0, length(x))
             zext[indices] <- 0
             zext[-indices] <- z
@@ -261,7 +322,7 @@ get_logo_heights <- function (table,
         if(length(indices) == 0){
           y = x
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -270,7 +331,7 @@ get_logo_heights <- function (table,
         }else{
           y <- x[!is.na(x)]
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -289,7 +350,7 @@ get_logo_heights <- function (table,
         if(length(indices) == 0){
           y = x
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -298,7 +359,7 @@ get_logo_heights <- function (table,
         }else{
           y <- x[!is.na(x)]
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -318,7 +379,7 @@ get_logo_heights <- function (table,
         if(length(indices) == 0){
           y = x
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -327,7 +388,7 @@ get_logo_heights <- function (table,
         }else{
           y <- x[!is.na(x)]
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -347,7 +408,7 @@ get_logo_heights <- function (table,
         if(length(indices) == 0){
           y = x
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -356,7 +417,7 @@ get_logo_heights <- function (table,
         }else{
           y <- x[!is.na(x)]
           if(quant != 0){
-            qq <- quantile(y, quant)
+            qq <- quantile2(y, quant, quant_strategy)
           }else{
             qq <- 0
           }
@@ -382,7 +443,7 @@ get_logo_heights <- function (table,
           if(length(indices) == 0){
             y = x
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -391,7 +452,7 @@ get_logo_heights <- function (table,
           }else{
             y <- x[!is.na(x)]
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -408,11 +469,11 @@ get_logo_heights <- function (table,
           indices <- which(is.na(x))
           if(length(indices) == 0){
             y = x
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             return(z)
           }else{
             y <- x[!is.na(x)]
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             zext <- array(0, length(x))
             zext[indices] <- 0
             zext[-indices] <- z
@@ -429,7 +490,7 @@ get_logo_heights <- function (table,
           if(length(indices) == 0){
             y = x
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -438,7 +499,7 @@ get_logo_heights <- function (table,
           }else{
             y <- x[!is.na(x)]
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -456,11 +517,11 @@ get_logo_heights <- function (table,
           indices <- which(is.na(x))
           if(length(indices) == 0){
             y = x
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             return(z)
           }else{
             y <- x[!is.na(x)]
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             zext <- array(0, length(x))
             zext[indices] <- 0
             zext[-indices] <- z
@@ -478,7 +539,7 @@ get_logo_heights <- function (table,
             # x <- x
             y = log(x/(sum(x)-x), base=2)
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -489,7 +550,7 @@ get_logo_heights <- function (table,
             #w <- w + scale
             y <- log(w/(sum(w)-w), base=2)
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -507,13 +568,13 @@ get_logo_heights <- function (table,
           if(length(indices) == 0){
             # x <- x
             y = log(x/(sum(x)-x), base=2)
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             return(z)
           }else{
             w <- x[!is.na(x)]
             #w <- w + scale
             y <- log(w/(sum(w)-w), base=2)
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             zext <- array(0, length(x))
             zext[indices] <- 0
             zext[-indices] <- z
@@ -531,7 +592,7 @@ get_logo_heights <- function (table,
           if(length(indices) == 0){
             y = x
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -540,7 +601,7 @@ get_logo_heights <- function (table,
           }else{
             y <- x[!is.na(x)]
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -558,11 +619,11 @@ get_logo_heights <- function (table,
           indices <- which(is.na(x))
           if(length(indices) == 0){
             y = x
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             return(z)
           }else{
             y <- x[!is.na(x)]
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             zext <- array(0, length(x))
             zext[indices] <- 0
             zext[-indices] <- z
@@ -580,7 +641,7 @@ get_logo_heights <- function (table,
           if(length(indices) == 0){
             y = x
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -589,7 +650,7 @@ get_logo_heights <- function (table,
           }else{
             y <- x[!is.na(x)]
             if(quant != 0){
-              qq <- quantile(y, quant)
+              qq <- quantile2(y, quant, quant_strategy)
             }else{
               qq <- 0
             }
@@ -606,11 +667,11 @@ get_logo_heights <- function (table,
           indices <- which(is.na(x))
           if(length(indices) == 0){
             y = x
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             return(z)
           }else{
             y <- x[!is.na(x)]
-            z <- y - quantile(y, quant)
+            z <- y - quantile2(y, quant, quant_strategy)
             zext <- array(0, length(x))
             zext[indices] <- 0
             zext[-indices] <- z
@@ -677,11 +738,14 @@ get_logo_heights <- function (table,
 
     if(symm==TRUE){
       table_mat_norm[which(is.na(table))] <- NA
-      ic <- 0.5*(ic_computer(table_mat_norm, alpha, hist=hist, bg = bgmat) 
-                 + ic_computer(bgmat, alpha, hist=hist, bg = table_mat_norm))
+      ic <- 0.5*(ic_computer(table_mat_norm, alpha, pseudocount = pseudocount, 
+                             hist=hist, bg = bgmat) 
+                 + ic_computer(bgmat, alpha, pseudocount = pseudocount, 
+                               hist=hist, bg = table_mat_norm))
     }else{
       table_mat_norm[which(is.na(table))] <- NA
-      ic <- ic_computer(table_mat_norm, alpha, hist=hist, bg = bgmat)
+      ic <- ic_computer(table_mat_norm, alpha, pseudocount = pseudocount,
+                        hist=hist, bg = bgmat)
     }
 
     tab_neg <- apply(table_mat_adj, 2, function(x) {
@@ -720,93 +784,16 @@ get_logo_heights <- function (table,
   return(ll)
 }
 
-ic_computer <-function(mat, alpha, hist=FALSE, bg = NULL) {
-
-  if (is.vector(bg)==TRUE){
-    if(length(bg) != dim(mat)[1]){
-      stop("If background prob (bg) is a vector, the length of bg 
-           must equal the number of symbols for the logo plot")
-    }else if(length(which(is.na(mat))) > 0){
-      stop("For NA in table, a vector bg is not allowed")
-    }else{
-      bgmat <- bg %*% t(rep(1, dim(mat)[2]))
-      bgmat[which(is.na(mat))] <- NA
-      bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
-    }
-  }else if (is.matrix(bg)==TRUE){
-    if(dim(bg)[1] != dim(mat)[1] | dim(bg)[2] != dim(mat)[2]){
-      stop("If background prob (bg) is a matrix, its dimensions must match
-           that of the table")
-    }else{
-      bgmat <- bg
-      bgmat[which(is.na(mat))] <- NA
-      bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
-    }
-  }else {
-    message ("using a background with equal probability for all symbols")
-    bgmat <- matrix(1/dim(mat)[1], dim(mat)[1], dim(mat)[2])
-    bgmat[which(is.na(mat))] <- NA
-    bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
-  }
-
-  if(length(which(bgmat == 0)) > 0){
-    bgmat <- pseudocount_adjust(bgmat, pseudocount)
-  }
-  bgmat <- apply(bgmat,2,normalize4)
-
-  if(!hist){
-    mat <- apply(mat, 2, function(x) return(x/sum(x[!is.na(x)])))
-    npos<-ncol(mat)
-    ic <-numeric(length=npos)
-    for (i in 1:npos) {
-      if(alpha == 1){
-        if(is.null(bg)){
-          tmp <- mat[,i]
-          tmp <- tmp[!is.na(tmp)]
-          ic[i] <- log(length(which(tmp!=0.00)), base=2) + 
-              sum(sapply(tmp, function(x) {
-            if (x > 0) { x*log2(x) } else { 0 }
-          }))
-        }else{
-          tmp <- mat[!is.na(mat[,i]), i]
-          bgtmp <- bgmat[!is.na(mat[,i]), i]
-          ic[i] <- sum(sapply(1:length(tmp), function(x) {
-            if (x > 0) { tmp[x]*log2(tmp[x]) } else { 0 }
-          })) - sum(sapply(1:length(tmp), function(x) {
-            if (x > 0) { tmp[x]*log2(bgtmp[x]) } else { 0 }
-          }))
-        }
-      }
-      else if(alpha == Inf){
-        tmp <- mat[!is.na(mat[,i]), i]
-        ic[i] <- log(length(which(tmp!=0.00)), base=2) + log(max(tmp), base=2)
-      }
-      else if(alpha <= 0){
-        stop("alpha value must be greater than 0")
-      }
-      else{
-        if(is.null(bg)){
-          tmp <- mat[!is.na(mat[,i]), i]
-          ic[i] <- log(length(which(tmp !=0.00)), base=2) - 
-              (1/(1-alpha))* log (sum(tmp^{alpha}), base=2)
-        }else{
-          tmp <- mat[!is.na(mat[,i]), i]
-          bgtmp <- bgmat[!is.na(mat[,i]), i]
-          ic[i] <- abs((log(length(which(tmp !=0.00)), base=2) - 
-                            (1/(1-alpha))* log2(sum(tmp^{alpha}))) -
-                         (log(length(which(tmp !=0.00)), base=2) -
-                              (1/(1-alpha))* log2(sum(bgtmp^{alpha}))))
-        }
-      }
-    }
-    return(ic)
-  }else{
-    mat <- mat/sum(mat[!is.na(mat)])
-    ic <- colSums(mat, na.rm = TRUE)
-    return(ic)
-  }
-}
-
-
 normalize4 = function(x){return(x/sum(x[!is.na(x)]))}
 
+quantile2 = function(x, quant, quant_strategy){
+  if(quant_strategy == "center"){
+    return(quantile(x, quant))
+  }
+  if(quant_strategy == "lower"){
+    return(quantile(x[-which.min(x)], quant))
+  }
+  if(quant_strategy == "upper"){
+    return(quantile(x[-which.max(x)], quant))
+  }
+}

@@ -5,8 +5,10 @@
 \title{Get heights of logos in nlogomaker() under different scoring schemes}
 \usage{
 get_logo_heights(table, ic = FALSE, score = c("diff", "log", "log-odds",
-  "probKL", "ratio", "unscaled_log", "wKL"), bg = NULL, pseudocount = NULL,
-  opt = 1, symm = TRUE, alpha = 1, hist = FALSE, quant = 0.5)
+  "probKL", "ratio", "unscaled_log", "wKL", "preclog"),
+  preclog_control = list(), bg = NULL, pseudocount = NULL, opt = 1,
+  symm = TRUE, alpha = 1, hist = FALSE, quant = 0.5,
+  quant_strategy = "center")
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of compositional counts
@@ -21,6 +23,9 @@ on top of the scoring scheme used or not. Default is FALSE}
 \code{log}, \code{log-odds}, \code{probKL}, \code{ratio}, 
 \code{unscaled_log},
 \code{wKL}. Each option corresponds to a different scoring scheme. The most}
+
+\item{preclog_control}{Teh control parameters for preclog method, including
+the solver type used and the tolerance.}
 
 \item{bg}{The background probability, which defaults to NULL, in which case
 equal probability is assigned to each symbol. The user can however specify a
@@ -52,6 +57,13 @@ method to determine the heights of the logos.}
 
 \item{quant}{The quantile to be adjusted for in computing enrichment and
 depletion scores. Defaults to 0.5, which corresponds to the median.}
+
+\item{quant_strategy}{Strategy used for quantile computation. For the default,
+\code{quant_strategy = "center"}, the normal quantile is taken, which would
+correspond to the middle point of the quantile interval. If  
+\code{quant_strategy = "lower"}, the lower limit of the quantile interval is
+taken and if  \code{quant_strategy = "upper"}, the upper limit of the quantile
+interval is considered.}
 }
 \value{
 Returns the heights of enrichment and depletion for
@@ -74,8 +86,10 @@ m[4,] = c(4,2,2.5,0,8,7,0,8,8,2,6,1)
 rownames(m) = c("A", "C", "G", "T")
 colnames(m) = 1:12
 m=m/8
+get_logo_heights(m, score = "preclog")
 get_logo_heights(m, score = "log")
 get_logo_heights(m, score = "log", ic = TRUE)
 get_logo_heights(m, score = "wKL")
 get_logo_heights(m, score = "probKL", ic = TRUE)
+
 }
