@@ -220,11 +220,14 @@ get_logo_heights <- function (table,
     }else if (score == "preclog"){
       
       library(CVXR)
-      llambda_mat <- matrix(0, nrow(table_mat_norm), ncol(table_mat_norm))
+      llambda_mat <- matrix(NA, nrow(table_mat_norm), ncol(table_mat_norm))
       
       for(m in 1:ncol(table_mat_norm)){
         pp <- table_mat_norm[,m]
         qq <- bgmat[,m]
+        noNA_indices <- which(!is.na(pp))
+        pp <- pp[!is.na(pp)]
+        qq <- qq[!is.na(qq)]
         kldiv <- sum(pp*log(pp/qq)) 
         tol <- preclog_control$tol
         llambda <- Variable(length(pp))
@@ -232,7 +235,7 @@ get_logo_heights <- function (table,
         constraint1 <- sum(pp*llambda) - kldiv - log_sum_exp(llambda + log(qq)) + tol > 0
         problem <- Problem(objective, constraints = list(constraint1))
         result <- solve(problem, solver=preclog_control$solver)
-        llambda_mat[,m] <- result$getValue(llambda)
+        llambda_mat[noNA_indices,m] <- result$getValue(llambda)
       }
       
       table_mat_adj <- apply(llambda_mat, 2, function(x)
