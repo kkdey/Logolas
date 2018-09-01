@@ -213,6 +213,10 @@ logomaker <- function(data,
 
         dash_control <- modifyList(dash_control_default, dash_control)
         logo_control <- modifyList(logo_control_default, logo_control)
+        if(logo_control$score == "ash" && use_dash==TRUE){
+          message("ash option for scoring automatically converts use_dash to FALSE")
+          use_dash = FALSE
+        }
 
         if(use_dash){
           pfm_scaled <- do.call(dash, append(list(comp_data = pfm),
@@ -389,7 +393,10 @@ logomaker <- function(data,
 
      dash_control <- modifyList(dash_control_default, dash_control)
      logo_control <- modifyList(logo_control_default, logo_control)
-
+     if(logo_control$score == "ash" && use_dash==TRUE){
+       message("ash option for scoring automatically converts use_dash to FALSE")
+       use_dash = FALSE
+     }
 
      if(use_dash){
        data_scaled <- do.call(dash, append(list(comp_data = data),

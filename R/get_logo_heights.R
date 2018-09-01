@@ -88,12 +88,14 @@ get_logo_heights <- function (table,
                               ic = FALSE,
                               score = c("diff", "log", "log-odds", "probKL",
                                         "ratio", "unscaled_log", "wKL",
-                                        "preclog"),
+                                        "preclog", "ash"),
                               preclog_control = list(),
+                              ash_control = list(),
                               bg = NULL, pseudocount = NULL, opt=1, symm = TRUE,
                               alpha = 1, hist=FALSE, quant = 0.5,
                               quant_strategy = "center"){
 
+  table_pre <- table
   if(ic & score == "unscaled_log"){
     warning("ic = TRUE not compatible with score = `unscaled-log`: switching to
             ic = FALSE")
@@ -112,6 +114,10 @@ get_logo_heights <- function (table,
     preclog_control_default <- list(solver = "SCS", tol = 1e-04)
     preclog_control <- modifyList(preclog_control_default, preclog_control)
   }
+  if(score == "ash"){
+    ash_control_default <- list(nP = 10^5, nQ = 10^5)
+    ash_control <- modifyList(ash_control_default, ash_control)
+  }
 
   if (is.vector(bg)==TRUE){
     if(length(bg) != dim(table)[1]){
@@ -121,6 +127,7 @@ get_logo_heights <- function (table,
       stop("For NA in table, a vector bg is not allowed")
     }else{
       bgmat <- bg %*% t(rep(1, dim(table)[2]))
+      bgmat_pre <- bgmat
       bgmat[which(is.na(table))] <- NA
       bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
     }
@@ -131,15 +138,16 @@ get_logo_heights <- function (table,
     }else{
       bgmat <- bg
       bgmat[which(is.na(table))] <- NA
+      bgmat_pre <- bgmat
       bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
     }
   }else {
     message ("using a background with equal probability for all symbols")
     bgmat <- matrix(1/dim(table)[1], dim(table)[1], dim(table)[2])
     bgmat[which(is.na(table))] <- NA
+    bgmat_pre <- bgmat
     bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
   }
-
   table <- apply(table,2,normalize4)
   if(is.null(pseudocount)) {pseudocount <- 0.1}
   pseudocount2 <- pseudocount*min(min(abs(table[table > 0]), na.rm=TRUE), min(abs(bgmat[bgmat > 0]), na.rm=TRUE))
@@ -264,6 +272,88 @@ get_logo_heights <- function (table,
          return(zext)
        }
      })
+    }else if (score == "ash"){
+      
+      if(sum(abs(table_pre[!is.na(table_pre)] - floor(table_pre[!is.na(table_pre)])))!=0){
+        message("Table provided is not a counts matrix, using entries as 
+                relative proportions with total number of mapped sequences 1e05")
+        table_pre <- apply(table_pre,2,normalize4)
+        tab <- floor(ash_control$nP*table_pre)
+        n_p <- ash_control$nP
+      }else{
+        tab <- table_pre
+        n_p <- min(colSums(tab, na.rm = TRUE))
+      }
+      if(sum(abs(bgmat_pre[!is.na(bgmat_pre)] - floor(bgmat_pre[!is.na(bgmat_pre)])))!=0){
+        message("Background matrix provided is not a counts matrix, using entries as 
+                relative proportions with total number of mapped sequences 1e05")
+        bgmat_pre <-  apply(bgmat_pre,2,normalize4)
+        bgmat_counts <- floor(ash_control$nQ*bgmat_pre)
+        n_q <- ash_control$nQ
+      }else{
+        bgmat_counts <- bgmat_pre
+        n_q <- min(colSums(bgmat_counts, na.rm = TRUE))
+      }
+
+      llambda_mat <- matrix(NA, nrow(tab), ncol(tab))
+      for(m in 1:ncol(tab)){
+        successes <- tab[,m]
+        failures <- bgmat_counts[,m]
+        noNA_indices = which(!is.na(successes))
+        
+        ss <- successes[noNA_indices]
+        ff <- failures[noNA_indices]
+        tot <- ss+ff
+        
+        logit_vec <- array(0, length(ss))
+        
+        zero_ids <- which(ss == 0)
+        full_ids <- which((tot - ss) == 0)
+        normal_ids <- setdiff(1:length(ss), union(zero_ids, full_ids))
+        if(length(zero_ids) > 0){
+          logit_vec[zero_ids] <- log((ss[zero_ids] + 0.5)/ (ff[zero_ids] + 0.5), base=2) - 0.5
+        }
+        if(length(full_ids) > 0){
+          logit_vec[full_ids] <- log((ss[full_ids] + 0.5)/ (ff[full_ids] + 0.5), base=2) + 0.5
+        }
+        if(length(normal_ids) > 0){
+          logit_vec[normal_ids] <- log(ss[normal_ids]/ff[normal_ids], base=2)
+        }
+        Vthree <- (tot+1)/(tot) * (1/(ss+1) + 1/(ff+1))
+        Vstar <- Vthree *  (1 - (2/tot) + Vthree/2)
+        se_logit_vec <- sqrt(Vstar - 0.5*Vthree^2*(Vthree - (4/tot)))
+        fit <- ashr::ash(logit_vec, se_logit_vec, mode = "estimate",
+                                   mixcompdist = "normal")
+        ash_logit_vec <- fit$result$PosteriorMean
+        llambda_mat[noNA_indices, m] <- ash_logit_vec - log(n_p/n_q, base=2)
+      }
+      
+      table_mat_adj <- apply(llambda_mat, 2, function(x)
+      {
+        indices <- which(is.na(x))
+        if(length(indices) == 0){
+          y = x
+          if(quant != 0){
+            qq <- quantile2(y, quant, quant_strategy)
+          }else{
+            qq <- 0
+          }
+          z <- y - qq
+          return(z)
+        }else{
+          y <- x[!is.na(x)]
+          if(quant != 0){
+            qq <- quantile2(y, quant, quant_strategy)
+          }else{
+            qq <- 0
+          }
+          z <- y - qq
+          zext <- array(0, length(x))
+          zext[indices] <- 0
+          zext[-indices] <- z
+          return(zext)
+        }
+      })
     }else if (score == "log-odds"){
 
       if(opt == 1){
