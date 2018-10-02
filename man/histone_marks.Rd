@@ -7,7 +7,7 @@
  background information
 A list containing two matrices storing composition of 5 histone marks
  (H3K4ME1, H3K4ME2, H3K4ME3, H3AC, H4AC)
-in 5 regions of the genome}
+in 5 regions of the genome. Data obtaind from Koch et al 2007.}
 \format{A list with 2 matrices - each with 5 rows (histone marks) and 
 5 columns (regions of genome). One is the
 actual matrix (mat), the other is the background matrix (bgmat)}
@@ -19,6 +19,6 @@ Compositional data of histone marks in different regions of genome along with
  background information
 A list containing two matrices storing composition of 5 histone marks
  (H3K4ME1, H3K4ME2, H3K4ME3, H3AC, H4AC)
-in 5 regions of the genome
+in 5 regions of the genome. Data obtaind from Koch et al 2007.
 }
 \keyword{datasets}

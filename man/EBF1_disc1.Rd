@@ -5,7 +5,7 @@
 \alias{EBF1_disc1}
 \title{EBF1_disc1 transcription factor position weight matrix
 A dataset of composition probabilities of A, C, G and T in 10 positions of 
-the motif.}
+the motif. Data from Kheradpour and Kellis 2013.}
 \format{A matrix with 4 rows and 10 columns}
 \usage{
 EBF1_disc1
@@ -13,6 +13,6 @@ EBF1_disc1
 \description{
 EBF1_disc1 transcription factor position weight matrix
 A dataset of composition probabilities of A, C, G and T in 10 positions of 
-the motif.
+the motif. Data from Kheradpour and Kellis 2013.
 }
 \keyword{datasets}

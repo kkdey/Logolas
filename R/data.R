@@ -1,9 +1,50 @@
 #' EBF1_disc1 transcription factor position weight matrix
 #' A dataset of composition probabilities of A, C, G and T in 10 positions of 
-#' the motif.
+#' the motif. Data from Kheradpour and Kellis 2013. 
 #' @format A matrix with 4 rows and 10 columns
 #'
 "EBF1_disc1"
+
+#' Amino acid sequences from UniProt database that constitute N-glycosylation sites.
+#' The data has been fetched from UniProt website.
+#' @format A vector of sequences, with the glycosylation site at the center (usually N),
+#' and 5 bases on either side of it.
+#'
+"N_Glycosyl_sequences"
+
+#' Compositional mutational signature data, with mismatch and flanking base
+#' frequencies reported
+#' A dataset of compositional weights for mismatches in the "0"the position 
+#' (center of signature) and
+#' that of the bases A, C, G, T for two left flanking bases (-1, -2) and two 
+#' right flanking bases (1, 2). The data here corresponds to the 12th 
+#' mutational signature profile from Shiraishi et al 2015 paper. 
+#' @format A matrix with 10 rows (4 bases and 6 types of mismatches) and 
+#' 5 columns (center - 0, flanking bases
+#' 1,2 on the left and flanking bases 1, 2 on the right of the center)
+#'
+"mutation_sig"
+
+#' Compositional data of histone marks in different regions of genome along with
+#'  background information
+#' A list containing two matrices storing composition of 5 histone marks
+#'  (H3K4ME1, H3K4ME2, H3K4ME3, H3AC, H4AC)
+#' in 5 regions of the genome. Data obtaind from Koch et al 2007.
+#' @format A list with 2 matrices - each with 5 rows (histone marks) and 
+#' 5 columns (regions of genome). One is the
+#' actual matrix (mat), the other is the background matrix (bgmat)
+#'
+"histone_marks"
+
+
+#' Position specific scoring matrix data
+#' A dataset of position specific sores of various amino acids for the binding
+#' motif of the protein IPR006139 (Motif2, Start=257, Length=11).
+#' @format A matrix with 20 rows (amino acids) and 11 columns
+#'
+"pssm"
+
+
 
 #' Consensus initiation contexts in seven different organisms. 
 #' The consensus of initiation in different species was obtained from the Transterm
@@ -18,12 +59,7 @@
 #'
 "ELF1"
 
-#' Amino acid sequences from UniProt database that constitute N-glycosylation sites.
-#' The data has been fetched from UniProt website.
-#' @format A vector of sequences, with the glycosylation site at the center (usually N),
-#' and 5 bases on either side of it.
-#'
-"N_Glycosyl_sequences"
+
 
 #' An example of the position weight matrix taken from seqLogo package
 #' A dataset of composition probabilities of A, C, G and T in 8 positions of 
@@ -32,36 +68,9 @@
 #'
 "seqlogo_example"
 
-#' Compositional data of histone marks in different regions of genome along with
-#'  background information
-#' A list containing two matrices storing composition of 5 histone marks
-#'  (H3K4ME1, H3K4ME2, H3K4ME3, H3AC, H4AC)
-#' in 5 regions of the genome
-#' @format A list with 2 matrices - each with 5 rows (histone marks) and 
-#' 5 columns (regions of genome). One is the
-#' actual matrix (mat), the other is the background matrix (bgmat)
-#'
-"histone_marks"
 
 
-#' Position specific scoring matrix data
-#' A dataset of position specific sores of various amino acids in 9 positions
-#' binding domain.
-#' @format A matrix with 20 rows (aminoa acids) and 9 columns
-#'
-"pssm"
 
-#' Compositional mutational signature data, with mismatch and flanking base
-#' frequencies reported
-#' A dataset of compositional weights for mismatches in the "0"the position 
-#' (center of signature) and
-#' that of the bases A, C, G, T for two left flanking bases (-1, -2) and two 
-#' right flanking bases (1, 2).
-#' @format A matrix with 10 rows (4 bases and 6 types of mismatches) and 
-#' 5 columns (center - 0, flanking bases
-#' 1,2 on the left and flanking bases 1, 2 on the right of the center)
-#'
-"mutation_sig"
 
 
 #' An example of the position weight matrix of the bases in the first 30 

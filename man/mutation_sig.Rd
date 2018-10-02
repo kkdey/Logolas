@@ -8,7 +8,8 @@ frequencies reported
 A dataset of compositional weights for mismatches in the "0"the position 
 (center of signature) and
 that of the bases A, C, G, T for two left flanking bases (-1, -2) and two 
-right flanking bases (1, 2).}
+right flanking bases (1, 2). The data here corresponds to the 12th 
+mutational signature profile from Shiraishi et al 2015 paper.}
 \format{A matrix with 10 rows (4 bases and 6 types of mismatches) and 
 5 columns (center - 0, flanking bases
 1,2 on the left and flanking bases 1, 2 on the right of the center)}
@@ -21,6 +22,7 @@ frequencies reported
 A dataset of compositional weights for mismatches in the "0"the position 
 (center of signature) and
 that of the bases A, C, G, T for two left flanking bases (-1, -2) and two 
-right flanking bases (1, 2).
+right flanking bases (1, 2). The data here corresponds to the 12th 
+mutational signature profile from Shiraishi et al 2015 paper.
 }
 \keyword{datasets}
