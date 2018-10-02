@@ -19,8 +19,6 @@
 #' \code{unscaled_log},
 #' \code{wKL}. Each option corresponds to a different scoring scheme. The most
 #  recommended option is \code{log}.
-#' @param preclog_control Teh control parameters for preclog method, including
-#'        the solver type used and the tolerance.
 #' @param bg The background probability, which defaults to NULL, in which case
 #' equal probability is assigned to each symbol. The user can however specify a
 #' vector (equal to in length to the number of symbols) which specifies the
@@ -28,13 +26,12 @@
 #' probability to be the same across the columns (sites), or a matrix, 
 #' whose each cell specifies the background probability of the symbols 
 #' for each position.
-#'
-#' @param pseudocount A small pseudocount to be added mainly to bypass 0 entries. 
-#'                     Default is NULL. If \code{table} is a counts matrix, 
-#'                     the default changes to 0.5, if \code{table} is a 
-#'                     positional weight matrix, the default becomes 0.001 times
-#'                     the minimum non-zero value of the table.
-#'
+#' 
+#' @param llambda The log lambda matrix computed after stabilization step (if
+#'                used in \code{logomaker} function). Used for computing the
+#'                heights when not NULL.
+#' @param tol The tolerance for the KL-divergence of the positional weight 
+#'            data and background probabilities.
 #'
 #' @param opt Option parameter - taking values 1 and 2 - depending on whether
 #' median adjustment is done based on background corrected proportions or 
@@ -75,11 +72,7 @@
 #' rownames(m) = c("A", "C", "G", "T")
 #' colnames(m) = 1:12
 #' m=m/8
-#' get_logo_heights(m, score = "preclog")
 #' get_logo_heights(m, score = "log")
-#' get_logo_heights(m, score = "log", ic = TRUE)
-#' get_logo_heights(m, score = "wKL")
-#' get_logo_heights(m, score = "probKL", ic = TRUE)
 #' 
 #' @import CVXR
 #' @export
@@ -88,14 +81,17 @@ get_logo_heights <- function (table,
                               ic = FALSE,
                               score = c("diff", "log", "log-odds", "probKL",
                                         "ratio", "unscaled_log", "wKL",
-                                        "preclog", "ash"),
-                              preclog_control = list(),
-                              ash_control = list(),
-                              bg = NULL, pseudocount = NULL, opt=1, symm = TRUE,
+                                        "preclog"),
+                              llambda=NULL,
+                              bg = NULL, tol = 0,
+                              opt=1, symm = TRUE,
                               alpha = 1, hist=FALSE, quant = 0.5,
-                              quant_strategy = "center"){
+                              quant_strategy = "lower"){
+  
 
   table_pre <- table
+  table_pre <- apply(table_pre, 2, normalize4)
+  
   if(ic & score == "unscaled_log"){
     warning("ic = TRUE not compatible with score = `unscaled-log`: switching to
             ic = FALSE")
@@ -111,12 +107,8 @@ get_logo_heights <- function (table,
          unscaled_log or wKL")
   }
   if(score == "preclog"){
-    preclog_control_default <- list(solver = "SCS", tol = 1e-04)
-    preclog_control <- modifyList(preclog_control_default, preclog_control)
-  }
-  if(score == "ash"){
-    ash_control_default <- list(nP = 10^5, nQ = 10^5)
-    ash_control <- modifyList(ash_control_default, ash_control)
+    if(tol == 0){tol = 0.0001}
+    preclog_control <- list(solver = "SCS", tol = tol)
   }
 
   if (is.vector(bg)==TRUE){
@@ -148,13 +140,6 @@ get_logo_heights <- function (table,
     bgmat_pre <- bgmat
     bgmat <- apply(bgmat, 2, function(x) return(x/sum(x[!is.na(x)])))
   }
-  table <- apply(table,2,normalize4)
-  if(is.null(pseudocount)) {pseudocount <- 0.1}
-  pseudocount2 <- pseudocount*min(min(abs(table[table > 0]), na.rm=TRUE), min(abs(bgmat[bgmat > 0]), na.rm=TRUE))
-  table <- pseudocount_adjust(table, pseudocount2)
-  table <- apply(table,2,normalize4)
-  bgmat <- pseudocount_adjust(bgmat, pseudocount2)
-  bgmat <- apply(bgmat,2,normalize4)
 
   if (class(table) == "data.frame"){
     table <- as.matrix(table)
@@ -198,8 +183,10 @@ get_logo_heights <- function (table,
         }
       })
     }else if (score == "log") {
-      table_mat_adj <- apply(log((table_mat_norm)/(bgmat), 
-                                 base=2), 2, function(x)
+      if(is.null(llambda)){score_arg = log((table_mat_norm)/(bgmat), base = 2)}else{
+        score_arg = llambda
+      }
+      table_mat_adj <- apply(score_arg, 2, function(x)
       {
         indices <- which(is.na(x))
         if(length(indices) == 0){
@@ -227,7 +214,11 @@ get_logo_heights <- function (table,
       })
     }else if (score == "preclog"){
       
-      library(CVXR)
+      if(!is.null(llambda)){
+        table_mat_norm <- exp(llambda)*bgmat
+        table_mat_norm <- apply(table_mat_norm,2,normalize4)
+      }
+      
       llambda_mat <- matrix(NA, nrow(table_mat_norm), ncol(table_mat_norm))
       
       for(m in 1:ncol(table_mat_norm)){
@@ -238,10 +229,10 @@ get_logo_heights <- function (table,
         qq <- qq[!is.na(qq)]
         kldiv <- sum(pp*log(pp/qq)) 
         tol <- preclog_control$tol
-        llambda <- Variable(length(pp))
-        objective <- Minimize(sum(p_norm(llambda,1)))
-        constraint1 <- sum(pp*llambda) - kldiv - log_sum_exp(llambda + log(qq)) + tol > 0
-        problem <- Problem(objective, constraints = list(constraint1))
+        llambda <- CVXR::Variable(length(pp))
+        objective <- CVXR::Minimize(sum(CVXR::p_norm(llambda,1)))
+        constraint1 <- sum(pp*llambda) - kldiv - CVXR::log_sum_exp(llambda + log(qq)) + tol > 0
+        problem <- CVXR::Problem(objective, constraints = list(constraint1))
         result <- solve(problem, solver=preclog_control$solver)
         llambda_mat[noNA_indices,m] <- result$getValue(llambda)
       }
@@ -272,88 +263,6 @@ get_logo_heights <- function (table,
          return(zext)
        }
      })
-    }else if (score == "ash"){
-      
-      if(sum(abs(table_pre[!is.na(table_pre)] - floor(table_pre[!is.na(table_pre)])))!=0){
-        message("Table provided is not a counts matrix, using entries as 
-                relative proportions with total number of mapped sequences 1e05")
-        table_pre <- apply(table_pre,2,normalize4)
-        tab <- floor(ash_control$nP*table_pre)
-        n_p <- ash_control$nP
-      }else{
-        tab <- table_pre
-        n_p <- min(colSums(tab, na.rm = TRUE))
-      }
-      if(sum(abs(bgmat_pre[!is.na(bgmat_pre)] - floor(bgmat_pre[!is.na(bgmat_pre)])))!=0){
-        message("Background matrix provided is not a counts matrix, using entries as 
-                relative proportions with total number of mapped sequences 1e05")
-        bgmat_pre <-  apply(bgmat_pre,2,normalize4)
-        bgmat_counts <- floor(ash_control$nQ*bgmat_pre)
-        n_q <- ash_control$nQ
-      }else{
-        bgmat_counts <- bgmat_pre
-        n_q <- min(colSums(bgmat_counts, na.rm = TRUE))
-      }
-
-      llambda_mat <- matrix(NA, nrow(tab), ncol(tab))
-      for(m in 1:ncol(tab)){
-        successes <- tab[,m]
-        failures <- bgmat_counts[,m]
-        noNA_indices = which(!is.na(successes))
-        
-        ss <- successes[noNA_indices]
-        ff <- failures[noNA_indices]
-        tot <- ss+ff
-        
-        logit_vec <- array(0, length(ss))
-        
-        zero_ids <- which(ss == 0)
-        full_ids <- which((tot - ss) == 0)
-        normal_ids <- setdiff(1:length(ss), union(zero_ids, full_ids))
-        if(length(zero_ids) > 0){
-          logit_vec[zero_ids] <- log((ss[zero_ids] + 0.5)/ (ff[zero_ids] + 0.5), base=2) - 0.5
-        }
-        if(length(full_ids) > 0){
-          logit_vec[full_ids] <- log((ss[full_ids] + 0.5)/ (ff[full_ids] + 0.5), base=2) + 0.5
-        }
-        if(length(normal_ids) > 0){
-          logit_vec[normal_ids] <- log(ss[normal_ids]/ff[normal_ids], base=2)
-        }
-        Vthree <- (tot+1)/(tot) * (1/(ss+1) + 1/(ff+1))
-        Vstar <- Vthree *  (1 - (2/tot) + Vthree/2)
-        se_logit_vec <- sqrt(Vstar - 0.5*Vthree^2*(Vthree - (4/tot)))
-        fit <- ashr::ash(logit_vec, se_logit_vec, mode = "estimate",
-                                   mixcompdist = "normal")
-        ash_logit_vec <- fit$result$PosteriorMean
-        llambda_mat[noNA_indices, m] <- ash_logit_vec - log(n_p/n_q, base=2)
-      }
-      
-      table_mat_adj <- apply(llambda_mat, 2, function(x)
-      {
-        indices <- which(is.na(x))
-        if(length(indices) == 0){
-          y = x
-          if(quant != 0){
-            qq <- quantile2(y, quant, quant_strategy)
-          }else{
-            qq <- 0
-          }
-          z <- y - qq
-          return(z)
-        }else{
-          y <- x[!is.na(x)]
-          if(quant != 0){
-            qq <- quantile2(y, quant, quant_strategy)
-          }else{
-            qq <- 0
-          }
-          z <- y - qq
-          zext <- array(0, length(x))
-          zext[indices] <- 0
-          zext[-indices] <- z
-          return(zext)
-        }
-      })
     }else if (score == "log-odds"){
 
       if(opt == 1){
@@ -575,9 +484,11 @@ get_logo_heights <- function (table,
         })
       }
     }else if(score == "log"){
+      if(is.null(llambda)){score_arg = log((table_mat_norm)/(bgmat), base = 2)}else{
+        score_arg = llambda
+      }
       if(opt == 1){
-        table_mat_adj <- apply(log((table_mat_norm)/(bgmat),
-                                   base=2), 2, function(x)
+        table_mat_adj <- apply(score_arg, 2, function(x)
         {
           indices <- which(is.na(x))
           if(length(indices) == 0){
@@ -622,6 +533,57 @@ get_logo_heights <- function (table,
           }
         })
       }
+    }else if (score == "preclog"){
+      
+      if(!is.null(llambda)){
+        table_mat_norm <- exp(llambda)*bgmat
+        table_mat_norm <- apply(table_mat_norm,2,normalize4)
+      }
+      
+      llambda_mat <- matrix(NA, nrow(table_mat_norm), ncol(table_mat_norm))
+      
+      for(m in 1:ncol(table_mat_norm)){
+        pp <- table_mat_norm[,m]
+        qq <- bgmat[,m]
+        noNA_indices <- which(!is.na(pp))
+        pp <- pp[!is.na(pp)]
+        qq <- qq[!is.na(qq)]
+        kldiv <- sum(pp*log(pp/qq)) 
+        tol <- preclog_control$tol
+        llambda <- CVXR::Variable(length(pp))
+        objective <- CVXR::Minimize(sum(CVXR::p_norm(llambda,1)))
+        constraint1 <- sum(pp*llambda) - kldiv - CVXR::log_sum_exp(llambda + log(qq)) + tol > 0
+        problem <- CVXR::Problem(objective, constraints = list(constraint1))
+        result <- solve(problem, solver=preclog_control$solver)
+        llambda_mat[noNA_indices,m] <- result$getValue(llambda)
+      }
+      
+      table_mat_adj <- apply(llambda_mat, 2, function(x)
+      {
+        indices <- which(is.na(x))
+        if(length(indices) == 0){
+          y = x
+          if(quant != 0){
+            qq <- quantile2(y, quant, quant_strategy)
+          }else{
+            qq <- 0
+          }
+          z <- y - qq
+          return(z)
+        }else{
+          y <- x[!is.na(x)]
+          if(quant != 0){
+            qq <- quantile2(y, quant, quant_strategy)
+          }else{
+            qq <- 0
+          }
+          z <- y - qq
+          zext <- array(0, length(x))
+          zext[indices] <- 0
+          zext[-indices] <- z
+          return(zext)
+        }
+      })
     }else if (score == "log-odds"){
       if(opt == 1){
         table_mat_adj <- apply((table_mat_norm)/(bgmat), 
@@ -831,13 +793,13 @@ get_logo_heights <- function (table,
 
     if(symm==TRUE){
       table_mat_norm[which(is.na(table))] <- NA
-      ic <- 0.5*(ic_computer(table_mat_norm, alpha, pseudocount = pseudocount, 
+      ic <- 0.5*(ic_computer(table_mat_norm, alpha,  
                              hist=hist, bg = bgmat) 
-                 + ic_computer(bgmat, alpha, pseudocount = pseudocount, 
+                 + ic_computer(bgmat, alpha, 
                                hist=hist, bg = table_mat_norm))
     }else{
       table_mat_norm[which(is.na(table))] <- NA
-      ic <- ic_computer(table_mat_norm, alpha, pseudocount = pseudocount,
+      ic <- ic_computer(table_mat_norm, alpha,
                         hist=hist, bg = bgmat)
     }
 
@@ -883,10 +845,10 @@ quantile2 = function(x, quant, quant_strategy){
   if(quant_strategy == "center"){
     return(quantile(x, quant))
   }
-  if(quant_strategy == "lower"){
+  if(quant_strategy == "upper"){
     return(quantile(x[-which.min(x)], quant))
   }
-  if(quant_strategy == "upper"){
+  if(quant_strategy == "lower"){
     return(quantile(x[-which.max(x)], quant))
   }
 }

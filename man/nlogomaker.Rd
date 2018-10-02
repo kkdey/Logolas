@@ -4,13 +4,13 @@
 \alias{nlogomaker}
 \title{Main workhorse function that builds negative logo plots}
 \usage{
-nlogomaker(table, ic = FALSE, score = c("diff", "log", "log-odds", "probKL",
-  "ratio", "unscaled_log", "wKL", "preclog", "ash"), color_profile,
+nlogomaker(table = NULL, ic = FALSE, score = c("diff", "log", "log-odds",
+  "probKL", "ratio", "unscaled_log", "wKL", "preclog"), color_profile,
   total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
   "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero",
   "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",
   "comma", "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
-  bg = NULL, pseudocount = NULL, frame_width = NULL,
+  bg = NULL, llambda = NULL, tol = 0, frame_width = NULL,
   yscale_change = TRUE, pop_name = NULL, addlogos = NULL,
   addlogos_text = NULL, newpage = TRUE, yrange = NULL, xaxis = TRUE,
   yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
@@ -57,11 +57,12 @@ and assumes this background probability to be the same across the
 columns (sites), or a matrix, whose each cell specifies
 the background probability of the symbols for each position.}
 
-\item{pseudocount}{A small pseudocount to be added mainly to bypass 0 entries. 
-Default is NULL. If \code{table} is a counts matrix, 
-the default changes to 0.5, if \code{table} is a 
-positional weight matrix, the default becomes 0.001 times
-the minimum non-zero value of the table.}
+\item{llambda}{The log lambda matrix computed after stabilization step (if
+used in \code{logomaker} function). Used for computing the
+heights when not NULL.}
+
+\item{tol}{The tolerance for the KL-divergence of the positional weight 
+data and background probabilities (for preclog).}
 
 \item{frame_width}{The width of the frames for individual 
 site/postion/column in the logo plot. As default, all the 
@@ -133,45 +134,4 @@ for which logos are plotted
 \description{
 stacks logos created by the \code{makemylogo} function
  on top of each other to build the logo plot.
-}
-\examples{
-
-library(seqLogo)
-mFile <- system.file("Exfiles/pwm1", package="seqLogo")
-m <- read.table(mFile)
-p <- seqLogo::makePWM(m)
-pwm_mat <- slot(p,name = "pwm")
-pwm_mat[,4] <- c(0.3, 0.3, 0.35, 0.05)
-mat1 <- cbind(pwm_mat[,c(3,4)], rep(NA,4), pwm_mat[,c(5,6)]);
-colnames(mat1) <- c("-2", "-1", "0", "1", "2")
-mat2 <- cbind(rep(NA,6), rep(NA,6),
-             c(0.8, 0.10, 0.03, 0.03, 0.0, 0),
-             rep(NA,6), rep(NA,6))
-rownames(mat2) <- c("C>T", "C>A", "C>G",
-                    "T>A", "T>C", "T>G")
-
-table <- rbind(mat1, mat2)
-
-cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
-col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, 
-                   rownames(cols)))
-
-total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", 
-                "K", "L", "M", "N", "O",
-               "P", "Q", "R", "S", "T", "U", "V", 
-               "W", "X", "Y", "Z", "zero", "one", "two",
-               "three", "four", "five", "six", "seven", 
-               "eight", "nine", "dot", "comma",
-               "dash", "colon", "semicolon", "leftarrow", "rightarrow")
-
-set.seed(20)
-col_vector[c(1,3,7, 20, 43)] <- c("red", "blue", 
-                              "orange", "green", "gray")
-color_profile <- list("type" = "per_symbol",
-                     "col" = col_vector)
-
-nlogomaker(table,
-           color_profile = color_profile,
-           yrange = 1.2)
-
 }

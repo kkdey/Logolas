@@ -33,7 +33,9 @@ Imports:
     seqinr,
     ape,
     seqLogo,
-    Biostrings
+    Biostrings,
+    CVXR,
+    ashr
 Suggests:
     knitr,
     rmarkdown,

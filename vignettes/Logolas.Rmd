@@ -174,22 +174,6 @@ Second example with `bg` as a matrix.
 logomaker(seqlogo_example, bg=(seqlogo_example+1e-02), type = "EDLogo")
 ```
 
-### Adaptive scaling of logos (dash)
-
-**Logolas** allows the user to perform adaptive scaling of the stack heights in a logo plot based on the
-number of aligned sequences, using the `use_dash` argument. This scaling is performed
-only when the data input into the **logomaker()** function is a vector of sequences or a position frequency (PFM) matrix. We show an example with and without the `use_dash` argument.
-
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
-sequence <- c("CTATTGT", "CTCTTAT", "CTATTAA", "CTATTTA", "CTATTAT", "CTTGAAT",
-              "CTTAGAT", "CTATTAA", "CTATTTA", "CTATTAT")
-logomaker(sequence, use_dash = FALSE, type = "Logo",
-          logo_control = list(pop_name = "use_dash = FALSE"))
-logomaker(sequence, type = "Logo", logo_control = list(pop_name = "use_dash = TRUE"))
-```
-
-The adaptive scaling is performed by the Dirichlet Adaptive Shrinkage method, the details of which can be viewed at our [dashr](https://github.com/kkdey/dashr) package.
-
 ### String symbols
 
 **Logolas** allows the user to plot symbols not just for characters as
@@ -221,26 +205,24 @@ logomaker(mutation_sig, type = "Logo", color_type = "per_symbol",  color_seed = 
 The corresponding EDLogo
 
 ```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
-logomaker(mutation_sig, type = "EDLogo", color_type = "per_symbol",  color_seed = 2300)
+logomaker(mutation_sig, type = "EDLogo", color_type = "per_symbol",  color_seed = 2300, n_data = 70000)
 ```
 
 
 ## Extras
 
-### Consensus Sequence
+<!-- **Logolas** provides a new nomenclature to geneerate consensus sequence from a positional frequency (weight) matrix or from a vector of aligned sequences. This is performed by the  **GetConsensusSeq()** function.
 
-**Logolas** provides a new nomenclature to geneerate consensus sequence from a positional frequency (weight) matrix or from a vector of aligned sequences. This is performed by the  **GetConsensusSeq()** function.
-
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+```{r echo=FALSE, eval=FALSE, message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
 sequence <- c("CTATTGT", "CTCTTAT", "CTATTAA", "CTATTTA", "CTATTAT", "CTTGAAT",
               "CTTAGAT", "CTATTAA", "CTATTTA", "CTATTAT")
 GetConsensusSeq(sequence)
 ```
 
 In the sequence, a position represented by (Ag) would mean enrichment in A and depletion in G at that position.
-One can input a PWM or PFM matrix with A, C, G and T as row names in the **GetConsensusSeq()** function as well.
+One can input a PWM or PFM matrix with A, C, G and T as row names in the **GetConsensusSeq()** function as well. -->
 
-### Multiple panels plots}
+### Multiple panels plots
 
 **Logolas** plots can be plotted in multiple panels, as depicted below.
 

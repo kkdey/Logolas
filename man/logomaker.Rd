@@ -5,10 +5,10 @@
 \title{Create logo plots from aligned sequences or positional frequency 
 (weight) matrix}
 \usage{
-logomaker(data, type = c("Logo", "EDLogo"), use_dash = TRUE, bg = NULL,
-  pseudocount = NULL, color_type = NULL, colors = NULL,
-  color_seed = NULL, return_heights = FALSE, logo_control = list(),
-  dash_control = list())
+logomaker(data, type = c("Logo", "EDLogo"), bg = NULL, n_data = NULL,
+  n_bg = NULL, tol = 0, shrink = TRUE, pseudocount = NULL,
+  color_type = NULL, colors = NULL, color_seed = NULL,
+  return_heights = FALSE, logo_control = list())
 }
 \arguments{
 \item{data}{The input data may be a vector of character sequences - 
@@ -21,12 +21,6 @@ columns.}
 \item{type}{can either be "Logo" or "EDLogo" depending on if user wants to
 plot the standard Logo or the Enrichment Depletion Logo.}
 
-\item{use_dash}{Boolean. If TRUE, performs adaptive scaling of the consensus
-matrix from sequences or the positional frequency matrix
-based on the number of underlying seqeunces. Step 
-automatically skipped if the user provides a positional
-weight matrix.}
-
 \item{bg}{The background probability, which defaults to NULL, in which case
 equal probability is assigned to each symbol. The user can 
 however specify a vector (equal to in length to the number of 
@@ -34,6 +28,17 @@ symbols) which specifies the background probability for each symbol
  and assumes this background probability to be the same across the 
  columns (sites), or a matrix, whose each cell specifies the 
  background probability of the symbols for each position.}
+
+\item{n_data}{The number of sequences used to build the positional weight
+matrix (table).}
+
+\item{n_bg}{The number of sequences used for the background probabilities.}
+
+\item{tol}{The tolerance for the KL-divergence of the positional weight 
+data and background probabilities.}
+
+\item{shrink}{A Boolean indicating whether to use the \code{ash} shrinkage
+on the positional weights or not.}
 
 \item{pseudocount}{A small pseudocount to be added mainly to bypass 0 entries. 
 Default is NULL. If \code{table} is a counts matrix, 
@@ -76,10 +81,6 @@ heights for the logo plot.For standard Logo
 \item{logo_control}{Control parameters for the logo plot. Check the
 input arguments from the \code{plogomaker} and
 \code{nlogomaker} functions.}
-
-\item{dash_control}{Control parameters for the adaptive scaling \code{dash}
-function. Check the input arguments to the \code{dash}
-function in this package.}
 }
 \value{
 Returns a standard or EDLogo plot of the sequence of the positional

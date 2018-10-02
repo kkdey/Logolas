@@ -5,10 +5,9 @@
 \title{Get heights of logos in nlogomaker() under different scoring schemes}
 \usage{
 get_logo_heights(table, ic = FALSE, score = c("diff", "log", "log-odds",
-  "probKL", "ratio", "unscaled_log", "wKL", "preclog", "ash"),
-  preclog_control = list(), ash_control = list(), bg = NULL,
-  pseudocount = NULL, opt = 1, symm = TRUE, alpha = 1, hist = FALSE,
-  quant = 0.5, quant_strategy = "center")
+  "probKL", "ratio", "unscaled_log", "wKL", "preclog"), llambda = NULL,
+  bg = NULL, tol = 0, opt = 1, symm = TRUE, alpha = 1, hist = FALSE,
+  quant = 0.5, quant_strategy = "lower")
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of compositional counts
@@ -24,8 +23,9 @@ on top of the scoring scheme used or not. Default is FALSE}
 \code{unscaled_log},
 \code{wKL}. Each option corresponds to a different scoring scheme. The most}
 
-\item{preclog_control}{Teh control parameters for preclog method, including
-the solver type used and the tolerance.}
+\item{llambda}{The log lambda matrix computed after stabilization step (if
+used in \code{logomaker} function). Used for computing the
+heights when not NULL.}
 
 \item{bg}{The background probability, which defaults to NULL, in which case
 equal probability is assigned to each symbol. The user can however specify a
@@ -35,11 +35,8 @@ probability to be the same across the columns (sites), or a matrix,
 whose each cell specifies the background probability of the symbols 
 for each position.}
 
-\item{pseudocount}{A small pseudocount to be added mainly to bypass 0 entries. 
-Default is NULL. If \code{table} is a counts matrix, 
-the default changes to 0.5, if \code{table} is a 
-positional weight matrix, the default becomes 0.001 times
-the minimum non-zero value of the table.}
+\item{tol}{The tolerance for the KL-divergence of the positional weight 
+data and background probabilities.}
 
 \item{opt}{Option parameter - taking values 1 and 2 - depending on whether
 median adjustment is done based on background corrected proportions or 
@@ -86,10 +83,6 @@ m[4,] = c(4,2,2.5,0,8,7,0,8,8,2,6,1)
 rownames(m) = c("A", "C", "G", "T")
 colnames(m) = 1:12
 m=m/8
-get_logo_heights(m, score = "preclog")
 get_logo_heights(m, score = "log")
-get_logo_heights(m, score = "log", ic = TRUE)
-get_logo_heights(m, score = "wKL")
-get_logo_heights(m, score = "probKL", ic = TRUE)
 
 }

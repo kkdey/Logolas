@@ -42,12 +42,12 @@
 #' columns (sites), or a matrix, whose each cell specifies
 #' the background probability of the symbols for each position.
 #' 
-#' @param pseudocount A small pseudocount to be added mainly to bypass 0 entries. 
-#'                     Default is NULL. If \code{table} is a counts matrix, 
-#'                     the default changes to 0.5, if \code{table} is a 
-#'                     positional weight matrix, the default becomes 0.001 times
-#'                     the minimum non-zero value of the table.
-#'
+#' @param llambda The log lambda matrix computed after stabilization step (if
+#'                used in \code{logomaker} function). Used for computing the
+#'                heights when not NULL.
+#' @param tol The tolerance for the KL-divergence of the positional weight 
+#'            data and background probabilities (for preclog).
+#'            
 #' @param frame_width The width of the frames for individual 
 #' site/postion/column in the logo plot. As default, all the 
 #' columns have same width, equal to 1.
@@ -115,57 +115,15 @@
 #' @import grid
 #' @importFrom graphics par
 #' @importFrom  utils  modifyList
-#'
-#' @examples
-#'
-#' library(seqLogo)
-#' mFile <- system.file("Exfiles/pwm1", package="seqLogo")
-#' m <- read.table(mFile)
-#' p <- seqLogo::makePWM(m)
-#' pwm_mat <- slot(p,name = "pwm")
-#' pwm_mat[,4] <- c(0.3, 0.3, 0.35, 0.05)
-#' mat1 <- cbind(pwm_mat[,c(3,4)], rep(NA,4), pwm_mat[,c(5,6)]);
-#' colnames(mat1) <- c("-2", "-1", "0", "1", "2")
-#' mat2 <- cbind(rep(NA,6), rep(NA,6),
-#'              c(0.8, 0.10, 0.03, 0.03, 0.0, 0),
-#'              rep(NA,6), rep(NA,6))
-#' rownames(mat2) <- c("C>T", "C>A", "C>G",
-#'                     "T>A", "T>C", "T>G")
-#'
-#' table <- rbind(mat1, mat2)
-#'
-#' cols = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
-#' col_vector = unlist(mapply(RColorBrewer::brewer.pal, cols$maxcolors, 
-#'                    rownames(cols)))
-#'
-#' total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", 
-#'                 "K", "L", "M", "N", "O",
-#'                "P", "Q", "R", "S", "T", "U", "V", 
-#'                "W", "X", "Y", "Z", "zero", "one", "two",
-#'                "three", "four", "five", "six", "seven", 
-#'                "eight", "nine", "dot", "comma",
-#'                "dash", "colon", "semicolon", "leftarrow", "rightarrow")
-#'
-#' set.seed(20)
-#' col_vector[c(1,3,7, 20, 43)] <- c("red", "blue", 
-#'                               "orange", "green", "gray")
-#' color_profile <- list("type" = "per_symbol",
-#'                      "col" = col_vector)
-#'
-#' nlogomaker(table,
-#'            color_profile = color_profile,
-#'            yrange = 1.2)
-#'
 #' @importFrom stats median
 #' @import ggplot2
 #' @import gridBase
 #' @export
 
-nlogomaker <- function(table,
+nlogomaker <- function(table=NULL,
                        ic = FALSE,
                        score = c("diff", "log", "log-odds", "probKL", 
-                                 "ratio", "unscaled_log", "wKL", "preclog",
-                                 "ash"),
+                                 "ratio", "unscaled_log", "wKL", "preclog"),
                        color_profile,
                        total_chars = c("A", "B", "C", "D", "E", "F",
                                        "G", "H", "I", "J", "K", "L", "M",
@@ -177,7 +135,8 @@ nlogomaker <- function(table,
                                        "dash", "colon", "semicolon",
                                        "leftarrow", "rightarrow"),
                        bg = NULL,
-                       pseudocount = NULL,
+                       llambda = NULL,
+                       tol = 0,
                        frame_width=NULL,
                        yscale_change=TRUE,
                        pop_name = NULL,
@@ -196,13 +155,15 @@ nlogomaker <- function(table,
                        ylab = "Enrichment Score",
                        col_line_split="grey80",
                        control = list()){
-
+  
+  if(is.null(table) && is.null(llambda)){
+    stop("Table and llambda (log lambda) matrix cannot both be NULL")
+  }
   control.default <- list(hist = FALSE, alpha = 1, opt = 1, scale0=0.01,
                           scale1=0.99, tofill_pos = TRUE, tofill_neg = TRUE,
                           lwd = 2, 
-                          quant = 0.5, quant_strategy = "center",
+                          quant = 0.5, quant_strategy = "lower",
                           preclog_control=list(),
-                          ash_control = list(),
                           symm = TRUE,
                           gap_xlab = 3, gap_ylab = 3.5,
                           minbins = 2, round_off = 1,
@@ -216,6 +177,12 @@ nlogomaker <- function(table,
                           viewport.margin.top = NULL,
                           viewport.margin.right = NULL,
                           use_seqLogo_heights = FALSE)
+  
+  if(nrow(table) %%2 == 0){
+    control.default$quant_strategy = "lower"
+  }else{
+    control.default$quant_strategy = "center"
+  }
 
   # viewport margins usually c(3, 5, 3, 3)
 
@@ -250,13 +217,12 @@ nlogomaker <- function(table,
                           opt = control$opt, hist = control$hist,
                           quant = control$quant, 
                           quant_strategy = control$quant_strategy,
-                          symm = control$symm,
-                          preclog_control = control$preclog_control,
-                          ash_control = control$ash_control)
+                          symm = control$symm)
   ll <- do.call(get_logo_heights, append(list(table = table,
                                               ic = ic,
                                               bg = bg,
-                                              pseudocount = pseudocount,
+                                              llambda = llambda,
+                                              tol = tol,
                                               score = score),
                                        control_heights))
   pos_ic <- ll$pos_ic
@@ -435,7 +401,7 @@ nlogomaker <- function(table,
     negbins <- control$negbins
     posbins <- control$posbins
 
-
+   
    ic_lim_scale <- c(seq(0, y1, length.out = negbins),
                     seq(y1, ylim, length.out = posbins))
  # print(ic_lim_scale)
