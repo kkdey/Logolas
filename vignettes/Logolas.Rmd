@@ -12,8 +12,7 @@ vignette: >
 ---
 
 We present an elaborate guided tutorial of how to use the **Logolas**
-R package. A pdf version of this vignette can be found
-[here](https://github.com/kkdey/Logolas/blob/master/vignettes/logolas.pdf).
+R package. 
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(dpi = 90,dev = "png")
@@ -21,46 +20,47 @@ knitr::opts_chunk$set(dpi = 90,dev = "png")
 
 ## Features of Logolas 
 
-Compared to the existing packages for plotting sequence logos
-(*seqLogo*, *seq2Logo*, *motifStack* etc), **Logolas** offers several
-new features that makes logo visualization a more generic tool with
+**Logolas** offers two new features that  makes logo visualization a more generic tool with
 potential applications in a much wider scope of problems.
 
-- **Enrichment Depletion Logo (EDLogo)** : General logo plotting softwares highlight only enrichment of certain symbols, but Logolas allows the user to highlight both enrichment and depletion of symbols at any position, leading to more parsimonious and visually appealing representation.
+- **Enrichment Depletion Logo (EDLogo)** : General logo plotting softwares (*seqLogo*) 
+primarily highlight only enrichment of symbols at each position of the logo, but 
+**Logolas** allows the user to highlight both enrichment and depletion of symbols
+at any position, leading to more parsimonious and visually appealing representation.
 
-- **String symbols** : General logo building softwares have limited library of symbols usually restricted to English alphabets. Logolas allows the user to plot symbols for any alphanumeric string, comprising of English alphabets, numbers, punctuation marks, arrows etc. It also provides an easy interface for the user to create her own logo and add to the library of symbols that can be plotted.
+- **String symbols** : General logo plot softwares have limited library of symbols, typically
+restricted to English alphabets. **Logolas** allows the user to plot symbols for 
+any alphanumeric string, and also allows for combination of strings and charcaters.
 
-- **Dirichlet Adaptive Shrinkage** : Logolas provides a statistical approach to adaptively scale the heights of the logos based on the number of aligned sequences.
-
-- **Better customizations** : Logolas offers several new color palettes, fill and border styles, several options for determining heights of the logos etc. Also, they can be plotted in multiple panels and combined with ggplot2 graphics.
 
 ## Installation
 
-**Logolas** loads as dependencies the following CRAN-R package : `grid`, `gridExtra`, `SQUAREM`,  `LaplacesDemon`, `Matrix`, `RColorBrewer`. To run this vignette, the user also would be required to install the 
-`ggseqlogo` package. 
-
-The Bioc version of **Logolas** can be installed as follows
+The most recent version of Logolas is available from Github using [devtools](http://www.r-pkg.org/pkg/devtools) R package.First, you would 
+require to install the following Bioconductor packages.
 
 ```{r install_logolas_bio, eval=FALSE}
-source("http://bioconductor.org/biocLite.R")
-biocLite("Logolas")
+source("https://bioconductor.org/biocLite.R")
+biocLite(c("Biostrings","BiocStyle","Biobase","seqLogo","ggseqlogo"))
 ```
+Then install Logolas as follows 
 
-For installing the developmental version of **Logolas** from Github, the user is required to have the `devtools` package and then run the following command.
-
-```{r install_logolas_git, eval=FALSE}
-devtools::install_github('kkdey/Logolas')
+```{r install_logolas, eval=FALSE}
+library(devtools)
+install_github("kkdey/Logolas",build_vignettes = TRUE)
 ```
+Once you have installed the package, load the package in R by entering
 
-Load the Logolas package.
-
-```{r load, eval=TRUE}
+```{r load_logolas_bio, eval=TRUE}
 library(Logolas)
 ```
 
-## Accepted Data Types
+To get an overview of the package, enter
 
-### Data Format
+```{r help_logolas, eval=FALSE}
+help(package = "Logolas")
+```
+
+## Accepted Data Types
 
 **Logolas** accepts two data formats as input
 
@@ -68,7 +68,9 @@ library(Logolas)
 
 - a positional frequency (weight) matrix, termed PFM (PWM), with the symbols to be plotted along the rows and the positions of aligned sequences, from which the matrix is generated, along the columns. (see Example 2)
 
-### String Data example
+## Illustration of Logolas
+
+### String set input 
 
 Consider aligned strings of characters
 
@@ -81,17 +83,22 @@ sequence <- c("CTATTGT", "CTCTTAT", "CTATTAA", "CTATTTA", "CTATTAT", "CTTGAAT",
 
 ```
 
-The logo plots (both standard and Enrichment Depletion Logo) can be plotted using the
-\textbf{logomaker()} function.
+The standard logo plot, akin to **seqLogo** R package can be plotted using the 
+\textbf{logomaker()} function with `type=Logo`.
 
-```{r message = FALSE, warning = FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+```{r message = FALSE, warning = FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 logomaker(sequence, type = "Logo")
+```
+
+To plot the EDLogo plot for the same example, use the `type=EDLogo` option instead.
+
+```{r message = FALSE, warning = FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 logomaker(sequence, type = "EDLogo")
 ```
 
 Instead of DNA.RNA sequence as above, one can also use amino acid character sequences.
 
-```{r message = FALSE, warning = FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+```{r message = FALSE, warning = FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 library(ggseqlogo)
 data(ggseqlogo_sample)
 sequence <- seqs_aa$AKT1
@@ -109,7 +116,7 @@ seqlogo_example
 
 We plot the logo plots for this PWM matrix.
 
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 logomaker(seqlogo_example, type = "Logo", return_heights = TRUE)
 logomaker(seqlogo_example, type = "EDLogo", return_heights = TRUE)
 ```
@@ -117,36 +124,46 @@ logomaker(seqlogo_example, type = "EDLogo", return_heights = TRUE)
 The `r return_heights = TRUE ` outputs the information content at each position for the standard logo plot (type = "Logo") and the heights of the stacks along the positive and negative Y axis, along
 with the breakdown of the height due to different characters for the EDLogo plot (type = "EDLogo").
 
-## Configuring Logos
-
 ### Coloring schemes
 
-The **logomaker()** function provides three arguments to set the colors for the logos, a **color_type** specifying the scheme of coloring used, **colors** denoting the cohort of colors used and a **color_seed** argument determining how sampling is done from this cohort.
+The **logomaker()** function provides three arguments to set the colors for the logos, a **color_type** specifying the scheme of coloring used, 
 
-The **color_type** argument can be of three types, `per_row`, `per_column` and `per_symbol`. `colors` element is a cohort of colors (chosen suitably large) from which distinct colors are chosen based on distinct `color_type`. The number of colors chosen is of same length as number of rows in table for `per_row` (assigning a color to each string), of same length as number of columns in table for `per_column` (assuming a color for each column), or a distinct color for a distinct symbol in `per_symbol`. The length of **colors** should be as large as the number of colors to be chosen in each scenario.
-%
-The default **color_type** is `per-row` and default **colors** comprises of a large cohort of nearly 70 distinct colors from which colors are sampled using the **color_seed** argument.
+**colors** denoting the cohort of colors used and a **color_seed** argument determining how sampling is done from this cohort.
 
+The **color_type** argument can be of three types, `per_row`, `per_column` and `per_symbol`.
 
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+`colors` element is a cohort/library of colors (chosen suitably large) from which distinct colors are chosen based on distinct `color_type`. The number of colors chosen is of same length as number of rows in table for `per_row` (assigning a color to each string), of same length as number of columns in table for `per_column` (assuming a color for each column), or a distinct color for a distinct symbol in `per_symbol`. The length of `colors` must be as large as the number of colors to be chosen in each scenario.
+
+The default `color_type` is `per-row` and default `colors` comprises of a large cohort of nearly 70 distinct colors from which colors are sampled using the `color_seed` argument. The user can ignore the `colors` option unless he is not happy with the set of colors used, and play around with the `color_seed` instead and choose the one that presents a set of colors of his liking.
+
+An example of using default `colors` and just specifying `color_seed`.
+
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
+logomaker(seqlogo_example, type = "EDLogo", color_seed = 2000)
+```
+
+An alternative example of using an user-specified `colors`.
+
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 logomaker(seqlogo_example, color_type = "per_row",
           colors = c("#7FC97F", "#BEAED4", "#FDC086", "#386CB0"),
           type = "EDLogo")
-logomaker(seqlogo_example, type = "EDLogo", color_seed = 1500)
 ```
 
 ### Styles of symbols
 
-Besides the default style with filled symbols for each character, one can also use characters with border styles. For the standard logo plot, this is accomplished by the `tofill` control argument.
+Besides the default style with filled symbols for each character, one can also use
+characters with border styles. For the standard logo plot, this is accomplished by the 
+`tofill` control argument.
 
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 logomaker(seqlogo_example, type = "Logo",
           logo_control = list(control = list(tofill= FALSE)), color_seed = 4000)
 ```
 
 For an EDLogo plot, the arguments `tofill_pos` and `tofill_neg` represent the coloring scheme for the positive and the negative axes in an EDLogo plot.
 
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 logomaker(seqlogo_example, type = "EDLogo",
           logo_control = list(control = list(tofill_pos = TRUE,
                                              tofill_neg = FALSE)))
@@ -154,58 +171,57 @@ logomaker(seqlogo_example, type = "EDLogo",
 
 ### Background Info
 
-**Logolas** allows the user to scale the data based on a specified background information. The background information can be incorporated in the argument `bg`. The default value is NULL,
-in which case equal probability is assigned to each symbol. The user can however specify a
-vector (equal to in length to the number of symbols) which specifies the background probability
-for each symbol and assumes this background probability to be the same across the columns (sites),
-or a matrix, whose each cell specifies the background probability of the symbols for each position.
+**Logolas** allows the user to scale the data based on a specified background information - specified
+through the input `bg`. The default value is NULL, in which case equal probability is assigned to each symbol. 
 
-First example with `bg` as a vector.
+Alternatively, the user can specify a vector (equal to in length to the number of symbols) which specifies the background probability for each symbol and assumes this same background probability 
+for each position (column of PWM matrix). See examplw below.
 
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 bg <- c(0.05, 0.90, 0.03, 0.05)
 names(bg) <- c("A", "C", "G", "T")
 logomaker(seqlogo_example, bg=bg, type = "EDLogo")
 ```
 
-Second example with `bg` as a matrix.
+As a second alternative, the user can specify `bg` as a matrix of same dimension as the positional
+freuqncy matrix underlying the input data, which is flexible in having separate background
+probabilities for each position.
 
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 logomaker(seqlogo_example, bg=(seqlogo_example+1e-02), type = "EDLogo")
 ```
 
 ### String symbols
 
-**Logolas** allows the user to plot symbols not just for characters as
-  we saw in previous examples, but for any alphanumeric string. We
-  present two examples - one for representing mutation signature and
-  another for representing histone marks composition.
+**Logolas** allows the user to plot symbols not just for characters as in previous examples,
+but for any alphanumeric string. We present two such examples below.
 
-Histone marks string symbols example
+In the first example, demonstrating the relative frequencies of different mutation
+signatures (mismatch type at the center and bases flanking it), we see how Logolas
+handles data with a mix of strings and characters, with flanking positions being purely
+characters and the center position being purely string based (data from [Shiraishi et al 2015](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1005657)).
 
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
+data("mutation_sig")
+logomaker(mutation_sig, type = "Logo", color_seed = 2000)
+```
+
+The user may want to have distinct colors for distinct symbols.characters in this case
+than a string. This is where we make use of the `per_symbol` option for  **color_type**.
+
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
+logomaker(mutation_sig, type = "EDLogo", color_type = "per_symbol",  color_seed = 2000)
+```
+
+
+
+In the second example, we use EDLogo plots to highlight enrichment and depletion of
+histone marks in different regions of the genome, with respect to a specific 
+background `bg`(data from [Koch et al 2007](https://www.ncbi.nlm.nih.gov/pubmed/17567990)).
+
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 data("histone_marks")
 logomaker(histone_marks$mat, bg=histone_marks$bgmat, type = "EDLogo")
-```
-
-Mutation signature string and character mix example.
-
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
-data("mutation_sig")
-logomaker(mutation_sig, type = "Logo", color_seed = 3000)
-```
-
-The user may want to have distinct colors for distinct symbols. This is where we use the `per_symbol`
-option for  **color_type**.
-
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
-logomaker(mutation_sig, type = "Logo", color_type = "per_symbol",  color_seed = 2300)
-```
-
-The corresponding EDLogo
-
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
-logomaker(mutation_sig, type = "EDLogo", color_type = "per_symbol",  color_seed = 2300, n_data = 70000)
 ```
 
 
@@ -226,7 +242,7 @@ One can input a PWM or PFM matrix with A, C, G and T as row names in the **GetCo
 
 **Logolas** plots can be plotted in multiple panels, as depicted below.
 
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 sequence <- c("CTATTGT", "CTCTTAT", "CTATTAA", "CTATTTA", "CTATTAT", "CTTGAAT",
               "CTTAGAT", "CTATTAA", "CTATTTA", "CTATTAT")
 Logolas::get_viewport_logo(1, 2, heights.val = 20)
@@ -244,7 +260,7 @@ In the same way, ggplot2 graphics can also be combined with **Logolas** plots.
 
 While **logomaker()** takes a PFM, PWM or a set of aligned sequences as input, sometimes, some position specific scores are only available to the user. In this case, one can use the **logo_pssm()** in **Logolas** to plot the scoring matrix.
 
-```{r message = FALSE, warning=FALSE, fig.height=5, fig.width= 6, fig.align='center'}
+```{r message = FALSE, warning=FALSE, fig.height=4, fig.width= 8, fig.align='center'}
 data(pssm)
 logo_pssm(pssm, control = list(round_off = 0))
 ```
