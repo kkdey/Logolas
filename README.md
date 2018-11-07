@@ -81,6 +81,7 @@ visually clear in the standard logo plot.
 ```R
 logomaker(sequence, type = "EDLogo")
 ```
+<img src="utils/figures/fig1.png" alt="misc" height="200" width="400" align = "middle">
 
 One can also apply EDLogo for amino acid motifs, marked by alphabets beyond A, C, G and T as in
 DNA motifs.
