@@ -11,7 +11,7 @@ If you find a bug, please create an
 
 This code has been tested in ...
 
-<img src="utils/figures/misc2.pdf" alt="misc"
+<img src="utils/figures/misc2.png" alt="misc"
   height="400" width="700" align = "middle">
 
 ## License
@@ -73,7 +73,7 @@ sequence <- c("CTATTGT","CTCTTAT","CTATTAA","CTATTTA", "CTATTAT","CTTGAAT",
 logomaker(sequence,type = "Logo")
 ```
              
-<img src="utils/figures/fig0.pdf" alt="misc" height="200" width="400" align = "middle">
+<img src="utils/figures/fig0.png" alt="misc" height="200" width="400" align = "middle">
 
 The corresponding EDLogo plot highlights the depletion of T in the middle, not 
 visually clear in the standard logo plot.
@@ -96,7 +96,7 @@ bg <- bg/sum(bg)
 logomaker(N_Glycosyl_sequences, type = "EDLogo", bg=bg)
 ```
 
-<img src="utils/figures/fig2.pdf" alt="misc" height="200" width="400" align = "middle">
+<img src="utils/figures/fig2.png" alt="misc" height="200" width="400" align = "middle">
 
 EDLogo highlights the motif Asn (N) -X- Ser (S)/Thr (T) -X motif at the center where X is depleted for the amino acid Pro (P).
 
@@ -109,7 +109,7 @@ data(mutation_sig)
 logomaker(mutation_sig, type = "EDLogo", color_type = "per_symbol",  color_seed = 2000)
 ```
 
-<img src="utils/figures/fig3.pdf" alt="misc" height="200" width="400" align = "middle">
+<img src="utils/figures/fig3.png" alt="misc" height="200" width="400" align = "middle">
 
 EDLogo plot for the enrichment and depletion of histone marks in different parts of the genome (data from [Koch et al 2007](https://www.ncbi.nlm.nih.gov/pubmed/17567990)).
 
@@ -118,7 +118,7 @@ data(histone_marks)
 logomaker(histone_marks$mat, bg = histone_marks$bgmat, type = "EDLogo")
 ```
 
-<img src="utils/figures/fig4.pdf" alt="misc" height="200"
+<img src="utils/figures/fig4.png" alt="misc" height="200"
 width="400" align = "middle">
 
 Finally, please walk through some more detailed examples in the
