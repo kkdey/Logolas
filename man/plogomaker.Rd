@@ -4,17 +4,17 @@
 \alias{plogomaker}
 \title{Main workhorse function that builds the positive logo plots}
 \usage{
-plogomaker(table, ic = NULL, color_profile, total_chars = c("A", "B", "C",
-  "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-  "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two", "three", "four",
-  "five", "six", "seven", "eight", "nine", "dot", "comma", "dash", "colon",
-  "semicolon", "leftarrow", "rightarrow"), bg = NULL, frame_width = NULL,
-  ic.scale = TRUE, xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10,
-  xlab_fontsize = 15, y_fontsize = 15, main_fontsize = 16,
-  start = 0.001, yscale_change = TRUE, pop_name = NULL, xlab = "X",
-  ylab = "Information content", col_line_split = "grey80",
-  addlogos = NULL, addlogos_text = NULL, newpage = TRUE,
-  control = list())
+plogomaker(table, ic = NULL, color_profile, total_chars = c("A", "B",
+  "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
+  "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero", "one", "two",
+  "three", "four", "five", "six", "seven", "eight", "nine", "dot", "comma",
+  "dash", "colon", "semicolon", "leftarrow", "rightarrow"), bg = NULL,
+  frame_width = NULL, ic.scale = TRUE, xaxis = TRUE, yaxis = TRUE,
+  xaxis_fontsize = 10, xlab_fontsize = 15, y_fontsize = 15,
+  main_fontsize = 16, start = 0.001, yscale_change = TRUE,
+  pop_name = NULL, xlab = "X", ylab = "Information content",
+  col_line_split = "grey80", addlogos = NULL, addlogos_text = NULL,
+  newpage = TRUE, control = list())
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts across different

@@ -5,8 +5,8 @@
 \title{Format conversion from FASTA, Genbank, CLustalW. PhyLIP formats to 
 vector of aligned sequences for logomaker}
 \usage{
-logomaker_format_input(filename = NULL, accession = NULL, lower_base = 1,
-  upper_base = Inf)
+logomaker_format_input(filename = NULL, accession = NULL,
+  lower_base = 1, upper_base = Inf)
 }
 \arguments{
 \item{filename}{Name of the file with stored aligned sequences - may be of

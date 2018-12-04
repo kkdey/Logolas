@@ -1,70 +1,70 @@
-#' @title Create logo plots from aligned sequences or positional frequency 
+#' @title Create logo plots from aligned sequences or positional frequency
 #' (weight) matrix
 #'
-#' @description Takes as input a vector of character sequences 
-#' (aligned to have the ) same length or a positional frequency or weight 
-#' matrix and plots the standard logo or the Enrichment Depletion (ED) Logo 
+#' @description Takes as input a vector of character sequences
+#' (aligned to have the ) same length or a positional frequency or weight
+#' matrix and plots the standard logo or the Enrichment Depletion (ED) Logo
 #' plots.
 #'
-#' @param data The input data may be a vector of character sequences - 
-#'             representing aligned sequences of DNA, RNA or amino acids, 
-#'             or a matrix/ data frame with symbols of characters or strings 
-#'             of characters along the rows of the matrix/data frame and 
-#'             the positions or sites of the aligned sequences along the 
+#' @param data The input data may be a vector of character sequences -
+#'             representing aligned sequences of DNA, RNA or amino acids,
+#'             or a matrix/ data frame with symbols of characters or strings
+#'             of characters along the rows of the matrix/data frame and
+#'             the positions or sites of the aligned sequences along the
 #'             columns.
 #'
 #' @param type can either be "Logo" or "EDLogo" depending on if user wants to
 #'                 plot the standard Logo or the Enrichment Depletion Logo.
 #'
 #' @param bg The background probability, which defaults to NULL, in which case
-#'           equal probability is assigned to each symbol. The user can 
-#'           however specify a vector (equal to in length to the number of 
+#'           equal probability is assigned to each symbol. The user can
+#'           however specify a vector (equal to in length to the number of
 #'           symbols) which specifies the background probability for each symbol
-#'            and assumes this background probability to be the same across the 
-#'            columns (sites), or a matrix, whose each cell specifies the 
+#'            and assumes this background probability to be the same across the
+#'            columns (sites), or a matrix, whose each cell specifies the
 #'            background probability of the symbols for each position.
 #' @param n_data The number of sequences used to build the positional weight
 #'               matrix (table).
 #' @param n_bg The number of sequences used for the background probabilities.
-#' @param tol The tolerance for the KL-divergence of the positional weight 
-#'            data and background probabilities.  
+#' @param tol The tolerance for the KL-divergence of the positional weight
+#'            data and background probabilities.
 #' @param shrink A Boolean indicating whether to use the \code{ash} shrinkage
-#'               on the positional weights or not.         
-#' @param pseudocount A small pseudocount to be added mainly to bypass 0 entries. 
-#'                     Default is NULL. If \code{table} is a counts matrix, 
-#'                     the default changes to 0.5, if \code{table} is a 
+#'               on the positional weights or not.
+#' @param pseudocount A small pseudocount to be added mainly to bypass 0 entries.
+#'                     Default is NULL. If \code{table} is a counts matrix,
+#'                     the default changes to 0.5, if \code{table} is a
 #'                     positional weight matrix, the default becomes 0.001 times
 #'                     the minimum non-zero value of the table.
 #'
 #' @param color_type A list specifying the coloring scheme. Defaults to NULL,
-#'                  for which, based on \code{color_seed}, a specific 
-#'                  coloring scheme is chosen. The list contains 
-#'                  two elements - \code{type} and \code{col}.The \code{type} 
+#'                  for which, based on \code{color_seed}, a specific
+#'                  coloring scheme is chosen. The list contains
+#'                  two elements - \code{type} and \code{col}.The \code{type}
 #'                  can be of three types - "per-row", "per-column" and
 #'                  "per-symbol". The \code{col} element is a vector of colors,
 #'                   of same length as number of rows in table for "per-row"
 #'                   (assigning a color to each string), of same length
-#'                  as number of columns in table for "per-column" 
-#'                  (assuming a color for each column), or a distinct color 
-#'                  for a distinct symbol in "per-symbol". For "per-symbol", 
+#'                  as number of columns in table for "per-column"
+#'                  (assuming a color for each column), or a distinct color
+#'                  for a distinct symbol in "per-symbol". For "per-symbol",
 #'                  the length of the \code{color_profile$col} should be same
-#'                  as library size of the logos, but if the vector of colors 
+#'                  as library size of the logos, but if the vector of colors
 #'                  provided is more or less, we can downsample or upsample
-#'                  the colors as required. The colors are matched with the 
+#'                  the colors as required. The colors are matched with the
 #'                  symbols in the \code{total_chars}.
 #'
 #' @param colors Add description here.
-#' 
-#' @param color_seed A seed for choosing among multiple available coloring 
+#'
+#' @param color_seed A seed for choosing among multiple available coloring
 #'                   schemes in \code{color_profile}.
-#'                   The default choice is 2030. But the user can use any seed 
+#'                   The default choice is 2030. But the user can use any seed
 #'                   of her choice.
 #'
-#' @param return_heights Boolean. If TRUE, the function returns the stack 
-#'                      heights for the logo plot.For standard Logo 
+#' @param return_heights Boolean. If TRUE, the function returns the stack
+#'                      heights for the logo plot.For standard Logo
 #'                      (type = "Logo"), it returns the information content.
 #'                       For tyep = "EDLogo", it returns the total stack height
-#'                       along positive and negative axis, as well as the 
+#'                       along positive and negative axis, as well as the
 #'                       breakdown of the heights along different symbols
 #'                       along the two axis. Defaults to FALSE.
 #'
@@ -72,17 +72,17 @@
 #'                     input arguments from the \code{plogomaker} and
 #'                     \code{nlogomaker} functions.
 #'
-#'                     
+#'
 #' @return Returns a standard or EDLogo plot of the sequence of the positional
 #'         frequency matrix based on the \code{type} is equal to Logo or EDLogo.
 #'
 #' @examples
-#' sequence <- c("CTATTGT", "CTCTTAT", "CTATTAA", "CTATTTA", "CTATTAT", 
+#' sequence <- c("CTATTGT", "CTCTTAT", "CTATTAA", "CTATTTA", "CTATTAT",
 #'               "CTTGAAT", "CTTAGAT", "CTATTAA", "CTATTTA", "CTATTAT",
-#'               "CTTTTAT", "CTATAGT", "CTATTTT", "CTTATAT", "CTATATT", 
-#'               "CTCATTT", "CTTATTT", "CAATAGT", "CATTTGA", "CTCTTAT", 
+#'               "CTTTTAT", "CTATAGT", "CTATTTT", "CTTATAT", "CTATATT",
+#'               "CTCATTT", "CTTATTT", "CAATAGT", "CATTTGA", "CTCTTAT",
 #'               "CTATTAT", "CTTTTAT", "CTATAAT", "CTTAGGT",
-#'               "CTATTGT", "CTCATGT", "CTATAGT", "CTCGTTA", 
+#'               "CTATTGT", "CTCATGT", "CTATAGT", "CTCGTTA",
 #'               "CTAGAAT", "CAATGGT")
 #'
 #' logomaker(sequence, type = "Logo")
@@ -120,19 +120,23 @@ logomaker <- function(data,
                       color_seed = NULL,
                       return_heights = FALSE,
                       logo_control = list()){
-  
+
   ##################  Control Options for Logo/EDLogo plots  ###############
+
+  if(!(type %in% c("Logo", "EDLogo"))){
+    stop("type must be either 'Logo' for standard plot or 'EDLogo' for Enrichment Depletion plot")
+  }
 
   if(type == "Logo"){
     logo_control_default <- list(ic=NULL,
-                                 total_chars = c("A", "B", "C", "D", "E", "F", 
+                                 total_chars = c("A", "B", "C", "D", "E", "F",
                                                  "G", "H", "I", "J", "K", "L",
                                                  "M", "N", "O",
-                                                 "P", "Q", "R", "S", "T", "U", 
-                                                 "V", "W", "X", "Y", "Z", 
+                                                 "P", "Q", "R", "S", "T", "U",
+                                                 "V", "W", "X", "Y", "Z",
                                                  "zero", "one", "two",
                                                  "three", "four", "five", "six",
-                                                 "seven", "eight", "nine", 
+                                                 "seven", "eight", "nine",
                                                  "dot", "comma",
                                                  "dash", "colon", "semicolon",
                                                  "leftarrow", "rightarrow"),
@@ -152,10 +156,10 @@ logomaker <- function(data,
                                                  "G", "H", "I", "J", "K", "L",
                                                  "M", "N", "O",
                                                  "P", "Q", "R", "S", "T", "U",
-                                                 "V", "W", "X", "Y", "Z", 
+                                                 "V", "W", "X", "Y", "Z",
                                                  "zero", "one", "two",
                                                  "three", "four", "five", "six",
-                                                 "seven", "eight", "nine", 
+                                                 "seven", "eight", "nine",
                                                  "dot", "comma",
                                                  "dash", "colon", "semicolon",
                                                  "leftarrow", "rightarrow"),
@@ -170,51 +174,51 @@ logomaker <- function(data,
                                  col_line_split="white",
                                  control = list())
   }
-  
+
   #################  Reading Data (sequences / matrix)  #####################
-  
+
   if(is.character(data)){
-    
+
     if(length(data) == 1){
-      stop("Just one character sequence provided, user needs to enter 
+      stop("Just one character sequence provided, user needs to enter
            multiple such aligned sequences")
     }
-    
+
     numchars <- sapply(data, function(x) return (nchar(x)))
     if(!(isTRUE(all.equal( max(numchars) ,min(numchars)) ))){
-      stop("character sequences entered are not all of same length : so 
+      stop("character sequences entered are not all of same length : so
            cannot be aligned")
     }
-    
+
     pfm <- Biostrings::consensusMatrix(data)
     colnames(pfm) <- 1:dim(pfm)[2]
   }else if(!is.character(data)){
-    
+
     if(!is.matrix(data) & !is.data.frame(data)){
-      stop("if not a character sequence, data must be either a matrix 
+      stop("if not a character sequence, data must be either a matrix
            or a data frame")
     }
-    
+
     if(is.null(rownames(data))){
-      stop("row names of the  data matrix should be symbols to be plotted 
+      stop("row names of the  data matrix should be symbols to be plotted
            in the logo plot ")
     }
-    
+
     if(is.null(colnames(data))){
       colnames(data) <- 1:dim(data)[2]
     }
-    
+
     if(min(data[!is.na(data)]) < 0){
       stop("negative values in data matrix not permitted : try logo_pssm ()
            function for plotting position specific scores")
     }
-    
+
     pfm <- data
   }
-  
-  
+
+
 ##########################  Reference probabilities  ##########################
-  
+
   if (is.vector(bg)==TRUE){
     if(length(bg) != dim(pfm)[1]){
       stop("If background prob (bg) is a vector, the length of bg must
@@ -240,10 +244,10 @@ logomaker <- function(data,
     bgmat[which(is.na(pfm))] <- NA
     bgmat_pre <- bgmat
   }
-  
-  
+
+
   ####################  Modifying the Logo score  ########################
-  
+
   numchars <- sapply(rownames(pfm), function(x) return (nchar(x)))
   if(max(numchars) == 1){
     logo_control_default$col_line_split <- "white"
@@ -252,17 +256,17 @@ logomaker <- function(data,
   }
   logo_control_default$pop_name = ""
   logo_control_default$xlab = "position"
-  
-  
+
+
   if(type == "EDLogo"){
-    
+
     if(!is.null(n_data) && n_data == Inf){shrink = FALSE}
     colsums_pfm <- colSums(pfm, na.rm = TRUE)
-    
+
     if(shrink == TRUE){
-      
+
       if(min(colsums_pfm) <= 1.01 && max(colsums_pfm) <= 1.01){
-        message("The input is a positional weight matrix 
+        message("The input is a positional weight matrix
                 (entries are probabilities)")
         if(is.null(n_data)){n_data <- 10^3}
       }else if(max((pfm - floor(pfm)), na.rm = TRUE) == 0){
@@ -275,7 +279,7 @@ logomaker <- function(data,
         }
       }
       if(is.null(n_bg)){n_bg <- n_data}else if(is.infinite(n_bg)){n_bg <- n_data}
-      
+
       table_pre <- apply(pfm,2,normalize0)
       tab <- floor(n_data*table_pre)
 
@@ -287,13 +291,13 @@ logomaker <- function(data,
         successes <- tab[,m]
         failures <- bgmat_counts[,m]
         noNA_indices = which(!is.na(successes))
-        
+
         ss <- successes[noNA_indices]
         ff <- failures[noNA_indices]
         tot <- ss+ff
-        
+
         logit_vec <- array(0, length(ss))
-        
+
         zero_ids <- which(ss == 0)
         full_ids <- which((tot - ss) == 0)
         normal_ids <- setdiff(1:length(ss), union(zero_ids, full_ids))
@@ -320,11 +324,11 @@ logomaker <- function(data,
       }
       if(min(abs(llambda_mat), na.rm = TRUE) == 0){
            se <- 1e-15
-          llambda_mat = llambda_mat + matrix(rnorm(nrow(llambda_mat)*ncol(llambda_mat), 
+          llambda_mat = llambda_mat + matrix(rnorm(nrow(llambda_mat)*ncol(llambda_mat),
                                0, se), nrow(llambda_mat), ncol(llambda_mat))
       }
     }
-    
+
     if(shrink == FALSE){
         fl_pfm <- floor(pfm)
         diff <- pfm[!is.na(pfm)] - fl_pfm[!is.na(fl_pfm)]
@@ -339,7 +343,7 @@ logomaker <- function(data,
           pfm <- pfm + pseudocount
         }
     }
-    
+
     if(tol == 0) {
       logo_control_default$score <- "log"
     }else if (tol > 0){
@@ -347,15 +351,15 @@ logomaker <- function(data,
     }else{
       stop("Tolerance must be a positive quantity")
     }
-    
+
     logo_control <- modifyList(logo_control_default, logo_control)
-    
+
     if(tol > 0){
       logo_control$score <- "preclog"
     }
-    
+
   }
-  
+
   if(type == "Logo"){
     fl_pfm <- floor(pfm)
     diff <- pfm[!is.na(pfm)] - fl_pfm[!is.na(fl_pfm)]
@@ -369,14 +373,14 @@ logomaker <- function(data,
       }
       pfm <- pfm + pseudocount
     }
-    
+
     logo_control <- modifyList(logo_control_default, logo_control)
   }
 
   pfm_scaled <- pfm
-  
+
   ##############  Coloring choices for the logo plot ################
-  
+
   if(is.null(color_type)){
     message("color_type not provided, so switching to per_row option for
             color_type")
@@ -400,20 +404,20 @@ logomaker <- function(data,
     }else{
       if (length(colors) < dim(pfm_scaled)[1]){
         stop("For per_row color type, the colors vector must be as large
-             as number of rows in the matrix for PFM/PWM input, or 
+             as number of rows in the matrix for PFM/PWM input, or
              number of distinct characters in
              each aligned sequence for sequence data")
       }
       if(!is.null(color_seed)){
         set.seed(color_seed)
         color_profile <- list("type" = color_type,
-                              "col" = sample(colors, dim(pfm_scaled)[1], 
+                              "col" = sample(colors, dim(pfm_scaled)[1],
                                              replace = FALSE))
       }else{
         color_profile <- list("type" = color_type,
                               "col" = colors[1:dim(pfm_scaled)[1]])
       }
-      
+
       }
   }
   if(color_type == "per_symbol"){
@@ -425,8 +429,8 @@ logomaker <- function(data,
       if(!is.null(color_seed)){
         set.seed(color_seed)
         color_profile <- list("type" = color_type,
-                              "col" = sample(col_vector, 
-                                             length(logo_control$total_chars), 
+                              "col" = sample(col_vector,
+                                             length(logo_control$total_chars),
                                              replace=FALSE))
       }else{
         set.seed(color_seed)
@@ -435,7 +439,7 @@ logomaker <- function(data,
       }
     }else{
       if (length(colors) < length(logo_control$total_chars)){
-        stop("For per_symbol color type, the colors vector must be 
+        stop("For per_symbol color type, the colors vector must be
              as large as number of
              symbols in total_chars argument in logo_control() :
              which is 50 by default ")
@@ -443,7 +447,7 @@ logomaker <- function(data,
       if(!is.null(color_seed)){
         set.seed(color_seed)
         color_profile <- list("type" = color_type,
-                              "col" = sample(colors, 
+                              "col" = sample(colors,
                                              length(logo_control$total_chars), replace=FALSE))
       }else{
         color_profile <- list("type" = color_type,
@@ -466,18 +470,18 @@ logomaker <- function(data,
         color_profile <- list("type" = color_type,
                               "col" = col_vector[1:dim(pfm_scaled)[2]])
       }
-      
+
     }else{
       if (length(colors) < dim(pfm_scaled)[2]){
         stop("For per_column color type, the colors vector must be as
-             large as number of columns in the matrix for PFM/PWM input, 
+             large as number of columns in the matrix for PFM/PWM input,
              or number of characters in each aligned
              sequence for sequence data")
       }
       if(!is.null(color_seed)){
         set.seed(color_seed)
         color_profile <- list("type" = color_type,
-                              "col" = sample(colors, dim(pfm_scaled)[2], 
+                              "col" = sample(colors, dim(pfm_scaled)[2],
                                              replace = FALSE))
       }else{
         color_profile <- list("type" = color_type,
@@ -485,10 +489,10 @@ logomaker <- function(data,
       }
       }
   }
-  
-  
+
+
   #################### Plotting the Logo/EDLogo plots  ####################
-  
+
   if(type ==  "Logo"){
     out <- do.call(plogomaker, append (list(table = pfm_scaled,
                                             color_profile = color_profile,

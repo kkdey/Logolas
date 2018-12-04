@@ -4,18 +4,19 @@
 \alias{nlogomaker}
 \title{Main workhorse function that builds negative logo plots}
 \usage{
-nlogomaker(table = NULL, ic = FALSE, score = c("diff", "log", "log-odds",
-  "probKL", "ratio", "unscaled_log", "wKL", "preclog"), color_profile,
-  total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
-  "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero",
-  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",
-  "comma", "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
-  bg = NULL, llambda = NULL, tol = 0, frame_width = NULL,
-  yscale_change = TRUE, pop_name = NULL, addlogos = NULL,
-  addlogos_text = NULL, newpage = TRUE, yrange = NULL, xaxis = TRUE,
-  yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
-  y_fontsize = 15, main_fontsize = 16, start = 0.001, xlab = "X",
-  ylab = "Enrichment Score", col_line_split = "grey80", control = list())
+nlogomaker(table = NULL, ic = FALSE, score = c("diff", "log",
+  "log-odds", "probKL", "ratio", "unscaled_log", "wKL", "preclog"),
+  color_profile, total_chars = c("A", "B", "C", "D", "E", "F", "G", "H",
+  "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+  "W", "X", "Y", "Z", "zero", "one", "two", "three", "four", "five", "six",
+  "seven", "eight", "nine", "dot", "comma", "dash", "colon", "semicolon",
+  "leftarrow", "rightarrow"), bg = NULL, llambda = NULL, tol = 0,
+  frame_width = NULL, yscale_change = TRUE, pop_name = NULL,
+  addlogos = NULL, addlogos_text = NULL, newpage = TRUE,
+  yrange = NULL, xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10,
+  xlab_fontsize = 15, y_fontsize = 15, main_fontsize = 16,
+  start = 0.001, xlab = "X", ylab = "Enrichment Score",
+  col_line_split = "grey80", control = list())
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of counts

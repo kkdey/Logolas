@@ -2,7 +2,7 @@
 % Please edit documentation in R/logomaker.R
 \name{logomaker}
 \alias{logomaker}
-\title{Create logo plots from aligned sequences or positional frequency 
+\title{Create logo plots from aligned sequences or positional frequency
 (weight) matrix}
 \usage{
 logomaker(data, type = c("Logo", "EDLogo"), bg = NULL, n_data = NULL,
@@ -11,22 +11,22 @@ logomaker(data, type = c("Logo", "EDLogo"), bg = NULL, n_data = NULL,
   return_heights = FALSE, logo_control = list())
 }
 \arguments{
-\item{data}{The input data may be a vector of character sequences - 
-representing aligned sequences of DNA, RNA or amino acids, 
-or a matrix/ data frame with symbols of characters or strings 
-of characters along the rows of the matrix/data frame and 
-the positions or sites of the aligned sequences along the 
+\item{data}{The input data may be a vector of character sequences -
+representing aligned sequences of DNA, RNA or amino acids,
+or a matrix/ data frame with symbols of characters or strings
+of characters along the rows of the matrix/data frame and
+the positions or sites of the aligned sequences along the
 columns.}
 
 \item{type}{can either be "Logo" or "EDLogo" depending on if user wants to
 plot the standard Logo or the Enrichment Depletion Logo.}
 
 \item{bg}{The background probability, which defaults to NULL, in which case
-equal probability is assigned to each symbol. The user can 
-however specify a vector (equal to in length to the number of 
+equal probability is assigned to each symbol. The user can
+however specify a vector (equal to in length to the number of
 symbols) which specifies the background probability for each symbol
- and assumes this background probability to be the same across the 
- columns (sites), or a matrix, whose each cell specifies the 
+ and assumes this background probability to be the same across the
+ columns (sites), or a matrix, whose each cell specifies the
  background probability of the symbols for each position.}
 
 \item{n_data}{The number of sequences used to build the positional weight
@@ -34,47 +34,47 @@ matrix (table).}
 
 \item{n_bg}{The number of sequences used for the background probabilities.}
 
-\item{tol}{The tolerance for the KL-divergence of the positional weight 
+\item{tol}{The tolerance for the KL-divergence of the positional weight
 data and background probabilities.}
 
 \item{shrink}{A Boolean indicating whether to use the \code{ash} shrinkage
 on the positional weights or not.}
 
-\item{pseudocount}{A small pseudocount to be added mainly to bypass 0 entries. 
-Default is NULL. If \code{table} is a counts matrix, 
-the default changes to 0.5, if \code{table} is a 
+\item{pseudocount}{A small pseudocount to be added mainly to bypass 0 entries.
+Default is NULL. If \code{table} is a counts matrix,
+the default changes to 0.5, if \code{table} is a
 positional weight matrix, the default becomes 0.001 times
 the minimum non-zero value of the table.}
 
 \item{color_type}{A list specifying the coloring scheme. Defaults to NULL,
-for which, based on \code{color_seed}, a specific 
-coloring scheme is chosen. The list contains 
-two elements - \code{type} and \code{col}.The \code{type} 
+for which, based on \code{color_seed}, a specific
+coloring scheme is chosen. The list contains
+two elements - \code{type} and \code{col}.The \code{type}
 can be of three types - "per-row", "per-column" and
 "per-symbol". The \code{col} element is a vector of colors,
  of same length as number of rows in table for "per-row"
  (assigning a color to each string), of same length
-as number of columns in table for "per-column" 
-(assuming a color for each column), or a distinct color 
-for a distinct symbol in "per-symbol". For "per-symbol", 
+as number of columns in table for "per-column"
+(assuming a color for each column), or a distinct color
+for a distinct symbol in "per-symbol". For "per-symbol",
 the length of the \code{color_profile$col} should be same
-as library size of the logos, but if the vector of colors 
+as library size of the logos, but if the vector of colors
 provided is more or less, we can downsample or upsample
-the colors as required. The colors are matched with the 
+the colors as required. The colors are matched with the
 symbols in the \code{total_chars}.}
 
 \item{colors}{Add description here.}
 
-\item{color_seed}{A seed for choosing among multiple available coloring 
+\item{color_seed}{A seed for choosing among multiple available coloring
 schemes in \code{color_profile}.
-The default choice is 2030. But the user can use any seed 
+The default choice is 2030. But the user can use any seed
 of her choice.}
 
-\item{return_heights}{Boolean. If TRUE, the function returns the stack 
-heights for the logo plot.For standard Logo 
+\item{return_heights}{Boolean. If TRUE, the function returns the stack
+heights for the logo plot.For standard Logo
 (type = "Logo"), it returns the information content.
  For tyep = "EDLogo", it returns the total stack height
- along positive and negative axis, as well as the 
+ along positive and negative axis, as well as the
  breakdown of the heights along different symbols
  along the two axis. Defaults to FALSE.}
 
@@ -87,18 +87,18 @@ Returns a standard or EDLogo plot of the sequence of the positional
         frequency matrix based on the \code{type} is equal to Logo or EDLogo.
 }
 \description{
-Takes as input a vector of character sequences 
-(aligned to have the ) same length or a positional frequency or weight 
-matrix and plots the standard logo or the Enrichment Depletion (ED) Logo 
+Takes as input a vector of character sequences
+(aligned to have the ) same length or a positional frequency or weight
+matrix and plots the standard logo or the Enrichment Depletion (ED) Logo
 plots.
 }
 \examples{
-sequence <- c("CTATTGT", "CTCTTAT", "CTATTAA", "CTATTTA", "CTATTAT", 
+sequence <- c("CTATTGT", "CTCTTAT", "CTATTAA", "CTATTTA", "CTATTAT",
               "CTTGAAT", "CTTAGAT", "CTATTAA", "CTATTTA", "CTATTAT",
-              "CTTTTAT", "CTATAGT", "CTATTTT", "CTTATAT", "CTATATT", 
-              "CTCATTT", "CTTATTT", "CAATAGT", "CATTTGA", "CTCTTAT", 
+              "CTTTTAT", "CTATAGT", "CTATTTT", "CTTATAT", "CTATATT",
+              "CTCATTT", "CTTATTT", "CAATAGT", "CATTTGA", "CTCTTAT",
               "CTATTAT", "CTTTTAT", "CTATAAT", "CTTAGGT",
-              "CTATTGT", "CTCATGT", "CTATAGT", "CTCGTTA", 
+              "CTATTGT", "CTCATGT", "CTATAGT", "CTCGTTA",
               "CTAGAAT", "CAATGGT")
 
 logomaker(sequence, type = "Logo")

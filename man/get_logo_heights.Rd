@@ -4,10 +4,10 @@
 \alias{get_logo_heights}
 \title{Get heights of logos in nlogomaker() under different scoring schemes}
 \usage{
-get_logo_heights(table, ic = FALSE, score = c("diff", "log", "log-odds",
-  "probKL", "ratio", "unscaled_log", "wKL", "preclog"), llambda = NULL,
-  bg = NULL, tol = 0, opt = 1, symm = TRUE, alpha = 1, hist = FALSE,
-  quant = 0.5, quant_strategy = "lower")
+get_logo_heights(table, ic = FALSE, score = c("diff", "log",
+  "log-odds", "probKL", "ratio", "unscaled_log", "wKL", "preclog"),
+  llambda = NULL, bg = NULL, tol = 0, opt = 1, symm = TRUE,
+  alpha = 1, hist = FALSE, quant = 0.5, quant_strategy = "lower")
 }
 \arguments{
 \item{table}{The input table (data frame or matrix) of compositional counts

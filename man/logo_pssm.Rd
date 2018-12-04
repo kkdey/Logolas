@@ -5,14 +5,15 @@
 \title{Function to plot PSSM logo plot visualization.}
 \usage{
 logo_pssm(table, color_type = NULL, colors = NULL, color_seed = 2030,
-  total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
-  "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "zero",
-  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "dot",
-  "comma", "dash", "colon", "semicolon", "leftarrow", "rightarrow"),
-  frame_width = NULL, yscale_change = TRUE, pop_name = NULL,
-  addlogos = NULL, addlogos_text = NULL, newpage = TRUE, ylimit = NULL,
-  xaxis = TRUE, yaxis = TRUE, xaxis_fontsize = 10, xlab_fontsize = 15,
-  y_fontsize = 15, main_fontsize = 16, start = 0.001, xlab = "X",
+  total_chars = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
+  "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y",
+  "Z", "zero", "one", "two", "three", "four", "five", "six", "seven",
+  "eight", "nine", "dot", "comma", "dash", "colon", "semicolon",
+  "leftarrow", "rightarrow"), frame_width = NULL, yscale_change = TRUE,
+  pop_name = NULL, addlogos = NULL, addlogos_text = NULL,
+  newpage = TRUE, ylimit = NULL, xaxis = TRUE, yaxis = TRUE,
+  xaxis_fontsize = 10, xlab_fontsize = 15, y_fontsize = 15,
+  main_fontsize = 16, start = 0.001, xlab = "X",
   ylab = "PSSM  Score", col_line_split = "grey80", control = list())
 }
 \arguments{
