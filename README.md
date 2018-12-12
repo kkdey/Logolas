@@ -26,11 +26,11 @@ License](http://www.gnu.org/licenses/gpl.html). See the
 ## Citing this work
 
 If you find that this R package is useful for your work, please cite
-our paper:
+our paper which is out on BMC Bioinformatics:
 
-> Dey, K.K., Xie, D. and Stephens, M., 2017. *A new sequence logo plot
-to highlight enrichment and depletion.* bioRxiv
-[doi:10.1101/226597](https://doi.org/10.1101/226597).
+> Dey, K.K., Xie, D. and Stephens, M., 2018. A new sequence logo plot
+to highlight enrichment and depletion. *BMC Bioinformatics*. 19:473
+[https://doi.org/10.1186/s12859-018-2489-3](https://doi.org/10.1186/s12859-018-2489-3).
 
 ## Quick Start
 
